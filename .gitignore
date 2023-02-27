@@ -83,7 +83,11 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/
+vendor/**
+
+# un-ignore myth auth
+!/vendor/**/
+!vendor/myth/auth/**
 
 #-------------------------
 # IDE / Development Files
