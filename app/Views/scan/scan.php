@@ -1,4 +1,4 @@
- <?= $this->extend('templates/starting_page'); ?>
+ <?= $this->extend('templates/starting_page_layout'); ?>
 
  <?= $this->section('content'); ?>
  <div class="main-panel">
@@ -6,10 +6,10 @@
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
        <div class="container-fluid">
           <div class="navbar-wrapper">
-             <a class="navbar-brand" href="#">Scan QR</a>
+             <p class="navbar-brand" href="#"><b>Absensi SMK ICB Cinta Niaga</b></p>
           </div>
           <div class="collapse navbar-collapse justify-content-end">
-             <a href="/login" class="btn btn-primary pull-right">Login petugas
+             <a href="/admin" class="btn btn-primary pull-right">Dashboard Petugas
              </a>
           </div>
        </div>
@@ -19,13 +19,13 @@
     <div class="content">
        <div class="container-fluid">
           <div class="row">
-             <div class="col m-auto">
+             <div class="mw-50 mx-auto">
                 <div class="card">
-                   <div class="col-md-6 mx-auto card-header card-header-primary">
+                   <div class="col-md-10 mx-auto card-header card-header-primary">
                       <h4 class="card-title">Absen <?= $waktu; ?></h4>
                       <p class="card-category">Silahkan tunjukkan QR Code anda</p>
                    </div>
-                   <div class="card-body m-auto">
+                   <div class="card-body my-auto px-5">
                       <h4>Pilih kamera</h4>
 
                       <select id="pilihKamera" class="form-select" aria-label="Default select example">
@@ -108,7 +108,12 @@
 
                    if (codeReader) {
                       codeReader.reset();
-                      //  initScanner();
+
+                      // delay 2,5 detik setelah berhasil meng-scan
+                      setTimeout(() => {
+                         initScanner();
+                         //  clear_data();
+                      }, 2500);
                    }
                 })
                 .catch(err => console.error(err));
@@ -125,7 +130,7 @@
 
     async function cek_data(code) {
        jQuery.ajax({
-          url: '<?= base_url('/cek'); ?>',
+          url: "<?= base_url('/cek'); ?>",
           type: 'post',
           data: {
              'unique_code': code
@@ -137,8 +142,13 @@
           },
           error: function(xhr, status, thrown) {
              console.log(thrown);
+             $('#hasilScan').html(thrown);
           }
        });
+    }
+
+    function clear_data() {
+       $('#hasilScan').html('');
     }
  </script>
 
