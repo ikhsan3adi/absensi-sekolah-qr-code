@@ -2,18 +2,27 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\I18n\Time;
 use App\Models\GuruModel;
 use App\Models\SiswaModel;
+use App\Models\PresensiGuruModel;
+use App\Models\PresensiSiswaModel;
+use App\Models\TipeUser;
 
 class Scan extends BaseController
 {
     protected SiswaModel $siswaModel;
     protected GuruModel $guruModel;
 
+    protected PresensiSiswaModel $presensiSiswaModel;
+    protected PresensiGuruModel $presensiGuruModel;
+
     public function __construct()
     {
         $this->siswaModel = new SiswaModel();
         $this->guruModel = new GuruModel();
+        $this->presensiSiswaModel = new PresensiSiswaModel();
+        $this->presensiGuruModel = new PresensiGuruModel();
     }
 
     public function index($t = 'Masuk')
@@ -25,7 +34,7 @@ class Scan extends BaseController
     public function cek_kode()
     {
         $status = false;
-        $type = 'siswa';
+        $type = TipeUser::Siswa;
 
         $unique_code = $this->request->getVar('unique_code');
 
@@ -36,7 +45,8 @@ class Scan extends BaseController
 
             if (!empty($result)) {
                 $status = true;
-                $type = 'guru';
+
+                $type = TipeUser::Guru;
             } else {
                 $status = false;
 
@@ -46,35 +56,58 @@ class Scan extends BaseController
             $status = true;
         }
 
-        if ($status) { // data ditemukan
-            $data = ['data' => $result];
-            return $type == 'siswa'
-                ? view('scan/scan-result-card-siswa', $data)
-                : view('scan/scan-result-card-guru', $data);
+        if (!$status) { // data tidak ditemukan
+            $this->show_error_view('Data tidak ditemukan');
         }
 
-        $data = ['data' => $result, 'msg' => 'Data tidak ditemukan'];
+        // data ditemukan
+        $data = ['data' => $result];
 
-        return view('scan/error-scan-result', $data);
+        // absen masuk
+        switch ($type) {
+            case TipeUser::Guru:
+                $id =  $result['id_guru'];
 
-        // $this->response->setJSON([
-        //     'status' => $status,
-        //     'data' => $result
-        // ]);
+                $sudahAbsen = $this->presensiGuruModel->cek_absen($id, Time::today()->toDateString());
+
+                if ($sudahAbsen) {
+                    return $this->show_error_view('Anda sudah absen hari ini', [
+                        'Nama : ' => $result['nama_guru']
+                    ]);
+                }
+
+                $this->presensiGuruModel->absen_masuk($id);
+                return view('scan/scan-result-card-guru', $data);
+
+            case TipeUser::Siswa:
+
+                $id =  $result['id_siswa'];
+
+                $sudahAbsen = $this->presensiSiswaModel->cek_absen($id, Time::today()->toDateString());
+
+                if ($sudahAbsen) {
+                    return $this->show_error_view('Anda sudah absen hari ini', [
+                        'Nama : ' => $result['nama_siswa'],
+                        'Nis : ' => $result['nis'],
+                        'Kelas : ' => $result['kelas']
+                    ]);
+                }
+
+                $this->presensiSiswaModel->absen_masuk($id);
+                return view('scan/scan-result-card-siswa', $data);
+
+            default:
+                $this->show_error_view('Tipe tidak valid');
+        }
     }
 
-    public function cek_kehadiran(string $unique_code)
+    public function show_error_view(string $msg = 'no error message', $data = NULL)
     {
-        # code...
-    }
+        $errdata = [
+            'data' => $data,
+            'msg' => $msg
+        ];
 
-    public function absen_masuk(string $unique_code)
-    {
-        # code...
-    }
-
-    public function absen_keluar(string $unique_code)
-    {
-        # code...
+        return view('scan/error-scan-result', $errdata);
     }
 }
