@@ -55,7 +55,7 @@ class AuthController extends Controller
         // Set a return URL if none is specified
         $_SESSION['redirect_url'] = session('redirect_url') ?? previous_url() ?? site_url('/');
 
-        return $this->_render($this->config->views['login'], ['config' => $this->config]);
+        return $this->_render($this->config->views['login'], ['config' => $this->config, 'title' => 'Login']);
     }
 
     /**
@@ -130,7 +130,7 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
         }
 
-        return $this->_render($this->config->views['register'], ['config' => $this->config]);
+        return $this->_render($this->config->views['register'], ['config' => $this->config, 'title' => 'Register']);
     }
 
     /**

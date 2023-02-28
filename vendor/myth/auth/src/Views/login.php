@@ -1,21 +1,13 @@
  <?= $this->extend('templates/starting_page_layout'); ?>
 
+ <?= $this->section('navaction') ?>
+ <a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right">
+    Scan QR
+ </a>
+ <?= $this->endSection() ?>
+
  <?= $this->section('content'); ?>
  <div class="main-panel">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-       <div class="container-fluid">
-          <div class="navbar-wrapper">
-             <a class="navbar-brand" href="#">Login</a>
-          </div>
-          <div class="collapse navbar-collapse justify-content-end">
-             <a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right">Scan QR
-             </a>
-          </div>
-       </div>
-    </nav>
-    <!-- End Navbar -->
-
     <div class="content">
        <div class="container-fluid">
           <div class="row">
@@ -26,7 +18,8 @@
                       <p class="card-category">Silahkan masukkan username dan password anda</p>
                    </div>
 
-                   <div class="card-body mx-5 my-3"><?= view('Myth\Auth\Views\_message_block') ?>
+                   <div class="card-body mx-5 my-3">
+                      <?= view('Myth\Auth\Views\_message_block') ?>
                       <form action="<?= url_to('login') ?>" method="post">
                          <?= csrf_field() ?>
                          <div class="row">

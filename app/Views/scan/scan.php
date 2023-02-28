@@ -1,21 +1,13 @@
  <?= $this->extend('templates/starting_page_layout'); ?>
 
+ <?= $this->section('navaction') ?>
+ <a href="<?= base_url('/admin'); ?> " class="btn btn-primary pull-right">
+    Dashboard Petugas
+ </a>
+ <?= $this->endSection() ?>
+
  <?= $this->section('content'); ?>
  <div class="main-panel">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-       <div class="container-fluid">
-          <div class="navbar-wrapper">
-             <p class="navbar-brand" href="#"><b>Absensi SMK ICB Cinta Niaga</b></p>
-          </div>
-          <div class="collapse navbar-collapse justify-content-end">
-             <a href="/admin" class="btn btn-primary pull-right">Dashboard Petugas
-             </a>
-          </div>
-       </div>
-    </nav>
-    <!-- End Navbar -->
-
     <div class="content">
        <div class="container-fluid">
           <div class="row">
@@ -52,11 +44,11 @@
     </div>
  </div>
 
- <script type="text/javascript" src="<?= base_url('assets/js/plugins/zxing/zxing.min.js') ?>"></script>
- <script src="<?= base_url('assets/js/plugins/jquery/jquery-3.5.1.min.js') ?>"></script>
+ <script type="text/javascript" src="<?= base_url('public/assets/js/plugins/zxing/zxing.min.js') ?>"></script>
+ <script src="<?= base_url('public/assets/js/plugins/jquery/jquery-3.5.1.min.js') ?>"></script>
  <script type="text/javascript">
     let selectedDeviceId = null;
-    let audio = new Audio("assets/audio/beep.mp3");
+    let audio = new Audio("public/assets/audio/beep.mp3");
     const codeReader = new ZXing.BrowserMultiFormatReader();
     const sourceSelect = $('#pilihKamera');
 

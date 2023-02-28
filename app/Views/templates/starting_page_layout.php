@@ -8,10 +8,10 @@
    <?= $this->include('templates/css'); ?>
    <title>Absensi QR Code</title>
    <style>
-      /* body { */
-      /* background-image: url(<?= base_url('assets/img/bgicb.png'); ?>); */
-      /* background-size: cover; */
-      /* } */
+      body {
+         background-image: url(<?= base_url('public/assets/img/bg2.jpg'); ?>);
+         background-size: cover;
+      }
 
       .navbar-brand>b {
          color: white;
@@ -40,6 +40,18 @@
 </head>
 
 <body>
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div class="container-fluid">
+         <div class="navbar-wrapper">
+            <p class="navbar-brand"><b><?= $title; ?></b></p>
+         </div>
+         <div class="collapse navbar-collapse justify-content-end">
+            <?= $this->renderSection('navaction') ?>
+         </div>
+      </div>
+   </nav>
+   <!-- End Navbar -->
    <?= $this->renderSection('content') ?>
    <?= $this->include('templates/js'); ?>
 </body>

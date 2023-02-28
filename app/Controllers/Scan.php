@@ -27,7 +27,7 @@ class Scan extends BaseController
 
     public function index($t = 'Masuk')
     {
-        $data = ['waktu' => $t];
+        $data = ['waktu' => $t, 'title' => 'Absensi SMK ICB Cinta Niaga'];
         return view('scan/scan', $data);
     }
 

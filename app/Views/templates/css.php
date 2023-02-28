@@ -3,7 +3,7 @@
 
 <!-- CSS Files -->
 <link href="<?= base_url('public/assets/fonts/fonts.css'); ?>" rel="stylesheet" />
-<link href="<?= base_url('public/assets/css/material-dashboard.css?v=2.1.2'); ?>" rel="stylesheet" />
+<link href="<?= base_url('public/assets/css/material-dashboard.css'); ?>" rel="stylesheet" />
 <link href="<?= base_url('public/assets/css/fontawesome.min.css'); ?>" rel="stylesheet">
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
