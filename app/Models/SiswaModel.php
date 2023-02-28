@@ -24,4 +24,14 @@ class SiswaModel extends Model
         );
         return $this->where(['unique_code' => $unique_code])->first();
     }
+
+    public function allSiswaWithKelas()
+    {
+        $this->join(
+            'tb_kelas',
+            'tb_kelas.id_kelas = tb_siswa.id_kelas',
+            'LEFT'
+        );
+        return $this->findAll();
+    }
 }
