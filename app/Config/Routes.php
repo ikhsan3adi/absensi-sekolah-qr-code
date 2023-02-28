@@ -29,13 +29,18 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-// $routes->get('/', 'Login::index');
+
 $routes->get('/', 'Scan::index');
+$routes->get('/scan', 'Scan::index');
 $routes->get('/scan/masuk', 'Scan::index/Masuk');
 $routes->get('/scan/pulang', 'Scan::index/Pulang');
+
 $routes->post('/cek', 'Scan::cek_kode');
-// $routes->get('/login', 'Login::index');
+
 $routes->get('/admin', 'Admin\Dashboard::index');
+$routes->get('/admin/dashboard', 'Admin\Dashboard::index');
+$routes->get('/admin/data-siswa', 'Admin\LihatData::lihat_data_siswa');
+$routes->get('/admin/data-guru', 'Admin\LihatData::lihat_data_guru');
 
 /*
  * --------------------------------------------------------------------

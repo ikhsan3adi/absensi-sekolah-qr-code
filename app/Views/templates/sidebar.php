@@ -12,20 +12,20 @@
    <div class="sidebar-wrapper">
       <ul class="nav">
          <li class="nav-item active">
-            <a class="nav-link" href="./dashboard.html">
+            <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
                <i class="material-icons">dashboard</i>
                <p>Dashboard</p>
             </a>
          </li>
          <li class="nav-item ">
-            <a class="nav-link" href="./user.html">
+            <a class="nav-link" href="<?= base_url('admin/data-siswa'); ?>">
                <i class="material-icons">person</i>
                <p>Data Siswa</p>
             </a>
          </li>
          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
                <i class="material-icons">content_paste</i>
+            <a class="nav-link" href="<?= base_url('admin/data-guru'); ?>">
                <p>Data Guru</p>
             </a>
          </li>

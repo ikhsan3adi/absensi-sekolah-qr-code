@@ -9,7 +9,7 @@
              <a class="navbar-brand" href="#">Login</a>
           </div>
           <div class="collapse navbar-collapse justify-content-end">
-             <a href="/" class="btn btn-primary pull-right">Scan QR
+             <a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right">Scan QR
              </a>
           </div>
        </div>
