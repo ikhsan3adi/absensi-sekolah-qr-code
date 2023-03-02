@@ -17,10 +17,16 @@
                <p>Dashboard</p>
             </a>
          </li>
-         <li class="nav-item <?= isset($ctx) && $ctx == 'absen' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/absen'); ?>">
+         <li class="nav-item <?= isset($ctx) && $ctx == 'absen-siswa' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/absen-siswa'); ?>">
                <i class="material-icons">checklist</i>
-               <p>Data Absensi</p>
+               <p>Absensi Siswa</p>
+            </a>
+         </li>
+         <li class="nav-item <?= isset($ctx) && $ctx == 'absen-guru' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/absen-guru'); ?>">
+               <i class="material-icons">checklist</i>
+               <p>Absensi Guru</p>
             </a>
          </li>
          <li class="nav-item <?= isset($ctx) && $ctx == 'siswa' ? 'active' : ''; ?>">

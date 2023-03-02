@@ -34,4 +34,9 @@ class SiswaModel extends Model
         );
         return $this->findAll();
     }
+
+    public function get_siswa_byKelas($id_kelas)
+    {
+        return $this->where(['id_kelas' => $id_kelas])->findAll();
+    }
 }
