@@ -27,8 +27,8 @@
 
       #previewKamera {
          background-color: grey;
-         /* min-width: 200px; */
-         min-height: 200px;
+         min-width: 300px;
+         min-height: 300px;
          max-width: 500px;
          max-height: 500px;
       }

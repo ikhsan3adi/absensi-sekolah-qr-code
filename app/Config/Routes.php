@@ -39,8 +39,15 @@ $routes->post('/cek', 'Scan::cek_kode');
 
 $routes->get('/admin', 'Admin\Dashboard::index');
 $routes->get('/admin/dashboard', 'Admin\Dashboard::index');
+
 $routes->get('/admin/data-siswa', 'Admin\LihatData::lihat_data_siswa');
 $routes->get('/admin/data-guru', 'Admin\LihatData::lihat_data_guru');
+
+$routes->get('/admin/absen-siswa', 'Admin\LihatDataAbsen::data_kelas');
+// $routes->get('/admin/absen-guru', 'Admin\LihatDataAbsen::index');
+
+$routes->post('/admin/absen-siswa', 'Admin\LihatDataAbsen::ambil_siswa');
+
 
 /*
  * --------------------------------------------------------------------

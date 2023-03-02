@@ -7,6 +7,11 @@
  <?= $this->endSection() ?>
 
  <?= $this->section('content'); ?>
+ <?php
+   $oppBtn = '';
+
+   $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
+   ?>
  <div class="main-panel">
     <div class="content">
        <div class="container-fluid">
@@ -14,8 +19,17 @@
              <div class="mw-50 mx-auto">
                 <div class="card">
                    <div class="col-md-10 mx-auto card-header card-header-primary">
-                      <h4 class="card-title">Absen <?= $waktu; ?></h4>
-                      <p class="card-category">Silahkan tunjukkan QR Code anda</p>
+                      <div class="row">
+                         <div class="col">
+                            <h4 class="card-title">Absen <?= $waktu; ?></h4>
+                            <p class="card-category">Silahkan tunjukkan QR Code anda</p>
+                         </div>
+                         <div class="col-md-auto">
+                            <a href="<?= base_url("scan/$oppBtn"); ?>" class="btn btn-<?= $oppBtn == 'masuk' ? 'success' : 'warning'; ?>">
+                               Absen <?= $oppBtn; ?>
+                            </a>
+                         </div>
+                      </div>
                    </div>
                    <div class="card-body my-auto px-5">
                       <h4>Pilih kamera</h4>
@@ -24,8 +38,8 @@
                          <option selected>Select camera devices</option>
                       </select>
 
-                      <br>
-                      <br>
+                      <br><br>
+
                       <div class="row">
                          <div class="col">
                             <video id="previewKamera"></video>
@@ -48,7 +62,7 @@
  <script src="<?= base_url('public/assets/js/plugins/jquery/jquery-3.5.1.min.js') ?>"></script>
  <script type="text/javascript">
     let selectedDeviceId = null;
-    let audio = new Audio("public/assets/audio/beep.mp3");
+    let audio = new Audio("<?= base_url('public/assets/audio/beep.mp3'); ?>");
     const codeReader = new ZXing.BrowserMultiFormatReader();
     const sourceSelect = $('#pilihKamera');
 
@@ -125,7 +139,8 @@
           url: "<?= base_url('/cek'); ?>",
           type: 'post',
           data: {
-             'unique_code': code
+             'unique_code': code,
+             'waktu': <?= strtolower($waktu); ?>
           },
           success: function(response, status, xhr) {
              audio.play();
