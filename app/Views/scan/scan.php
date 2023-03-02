@@ -62,7 +62,7 @@
  <script src="<?= base_url('public/assets/js/plugins/jquery/jquery-3.5.1.min.js') ?>"></script>
  <script type="text/javascript">
     let selectedDeviceId = null;
-    let audio = new Audio("public/assets/audio/beep.mp3");
+    let audio = new Audio("<?= base_url('public/assets/audio/beep.mp3'); ?>");
     const codeReader = new ZXing.BrowserMultiFormatReader();
     const sourceSelect = $('#pilihKamera');
 
