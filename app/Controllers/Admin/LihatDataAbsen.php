@@ -8,6 +8,7 @@ use App\Models\GuruModel;
 use App\Models\SiswaModel;
 
 use App\Controllers\BaseController;
+use App\Models\LihatAbsensiSiswa;
 use CodeIgniter\I18n\Time;
 
 class LihatDataAbsen extends BaseController
@@ -16,6 +17,8 @@ class LihatDataAbsen extends BaseController
 
     protected SiswaModel $siswaModel;
     protected GuruModel $guruModel;
+
+    protected LihatAbsensiSiswa $absenSiswa;
 
     protected string $currentDate;
 
@@ -26,6 +29,8 @@ class LihatDataAbsen extends BaseController
         $this->siswaModel = new SiswaModel();
         $this->guruModel = new GuruModel();
         $this->kelasModel = new KelasModel();
+
+        $this->absenSiswa = new LihatAbsensiSiswa();
     }
 
     public function data_kelas()
@@ -44,11 +49,14 @@ class LihatDataAbsen extends BaseController
     public function ambil_siswa()
     {
         // ambil variabel POST
+        $kelas = $this->request->getVar('kelas');
         $id_kelas = $this->request->getVar('id_kelas');
+        $tanggal = $this->request->getVar('tanggal');
 
-        $result = $this->siswaModel->get_siswa_byKelas($id_kelas);
+        $result = $this->absenSiswa->get_presensi_byKelasTanggal($id_kelas, $tanggal);
 
         $data = [
+            'kelas' => $kelas,
             'data' => $result
         ];
 
