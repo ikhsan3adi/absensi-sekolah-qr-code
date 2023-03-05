@@ -25,6 +25,11 @@ class SiswaModel extends Model
         return $this->where(['unique_code' => $unique_code])->first();
     }
 
+    public function getSiswaById($id)
+    {
+        return $this->where([$this->primaryKey => $id])->first();
+    }
+
     public function allSiswaWithKelas()
     {
         $this->join(
