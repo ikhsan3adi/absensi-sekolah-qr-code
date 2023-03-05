@@ -37,16 +37,22 @@ $routes->get('/scan/pulang', 'Scan::index/Pulang');
 
 $routes->post('/cek', 'Scan::cek_kode');
 
+// admin dashboard
 $routes->get('/admin', 'Admin\Dashboard::index');
 $routes->get('/admin/dashboard', 'Admin\Dashboard::index');
 
+// admin lihat data siswa & guru
 $routes->get('/admin/data-siswa', 'Admin\LihatData::lihat_data_siswa');
 $routes->get('/admin/data-guru', 'Admin\LihatData::lihat_data_guru');
 
-$routes->get('/admin/absen-siswa', 'Admin\LihatDataAbsen::data_kelas');
-// $routes->get('/admin/absen-guru', 'Admin\LihatDataAbsen::index');
+// admin lihat data absen siswa
+$routes->get('/admin/absen-siswa', 'Admin\LihatDataAbsenSiswa::index');
+$routes->post('/admin/absen-siswa', 'Admin\LihatDataAbsenSiswa::ambil_siswa'); // ambil siswa berdasarkan kelas dan tanggal
+$routes->post('/admin/absen-siswa/edit', 'Admin\LihatDataAbsenSiswa::ubah_kehadiran'); // ubah kehadiran siswa
 
-$routes->post('/admin/absen-siswa', 'Admin\LihatDataAbsen::ambil_siswa');
+// admin lihat data absen siswa
+$routes->get('/admin/absen-guru', 'Admin\LihatDataAbsenGuru::index');
+$routes->post('/admin/absen-guru', 'Admin\LihatDataAbsenGuru::ambil_guru'); // ambil guru berdasarkan tanggal
 
 
 /*
