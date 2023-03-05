@@ -24,8 +24,6 @@ interface PresensiInterface
     public function cek_absen(string|int $id, string|Time $date);
     public function absen_masuk(string $id, $date, $time);
     public function absen_keluar(string $id, $time);
-    public function get_presensi($id, $date);
-    public function get_presensi_byId($id_presensi);
 }
 
 class PresensiBaseModel extends Model
