@@ -47,13 +47,31 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
         ]);
     }
 
-    public function get_presensi($id, $date)
+    public function get_presensi($id_guru, $date)
     {
-        return $this->where(['id_guru' => $id, 'tanggal' => $date])->first();
+        return $this->where(['id_guru' => $id_guru, 'tanggal' => $date])->first();
     }
 
     public function get_presensi_byId($id_presensi)
     {
         return $this->where([$this->primaryKey => $id_presensi])->first();
+    }
+
+    public function get_presensi_byTanggal($tanggal)
+    {
+        return $this->setTable('tb_guru')
+            ->select('*')
+            ->join(
+                "(SELECT id_presensi, id_guru AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
+                "{$this->table}.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
+                'left'
+            )
+            ->join(
+                'tb_kehadiran',
+                'tb_presensi_guru.id_kehadiran = tb_kehadiran.id_kehadiran',
+                'left'
+            )
+            ->orderBy("nama_guru")
+            ->findAll();
     }
 }
