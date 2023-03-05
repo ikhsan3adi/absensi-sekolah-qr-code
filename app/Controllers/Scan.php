@@ -61,21 +61,21 @@ class Scan extends BaseController
         }
 
         if (!$status) { // data tidak ditemukan
-            $this->show_error_view('Data tidak ditemukan');
+            return $this->show_error_view('Data tidak ditemukan');
         }
 
         // jika data ditemukan
         switch ($waktu_absen) {
             case 'masuk':
-                $this->absen_masuk($type, $result);
+                return $this->absen_masuk($type, $result);
                 break;
 
             case 'pulang':
-                $this->absen_pulang($type, $result);
+                return $this->absen_pulang($type, $result);
                 break;
 
             default:
-                $this->show_error_view('Data tidak valid');
+                return $this->show_error_view('Data tidak valid');
                 break;
         }
     }
@@ -93,14 +93,14 @@ class Scan extends BaseController
         switch ($type) {
             case TipeUser::Guru:
                 $id =  $result['id_guru'];
+                $data['type'] = TipeUser::Guru;
 
                 $sudahAbsen = $this->presensiGuruModel->cek_absen($id, $date);
 
                 if ($sudahAbsen != false) {
-                    return $this->show_error_view('Anda sudah absen hari ini', $result);
+                    $data['presensi'] = $this->presensiGuruModel->get_presensi_byId($sudahAbsen);
+                    return $this->show_error_view('Anda sudah absen hari ini', $data);
                 }
-
-                $data['type'] = TipeUser::Guru;
 
                 $this->presensiGuruModel->absen_masuk($id, $date, $time);
 
@@ -110,23 +110,24 @@ class Scan extends BaseController
 
             case TipeUser::Siswa:
                 $id =  $result['id_siswa'];
+                $id_kelas =  $result['id_kelas'];
+                $data['type'] = TipeUser::Siswa;
 
                 $sudahAbsen = $this->presensiSiswaModel->cek_absen($id, Time::today()->toDateString());
 
                 if ($sudahAbsen != false) {
-                    return $this->show_error_view('Anda sudah absen hari ini', $result);
+                    $data['presensi'] = $this->presensiSiswaModel->get_presensi_byId($sudahAbsen);
+                    return $this->show_error_view('Anda sudah absen hari ini', $data);
                 }
 
-                $data['type'] = TipeUser::Siswa;
-
-                $this->presensiSiswaModel->absen_masuk($id, $date, $time);
+                $this->presensiSiswaModel->absen_masuk($id, $date, $time, $id_kelas);
 
                 $data['presensi'] = $this->presensiSiswaModel->get_presensi($id, $date);
 
                 return view('scan/scan-result', $data);
 
             default:
-                $this->show_error_view('Tipe tidak valid');
+                return $this->show_error_view('Tipe tidak valid');
         }
     }
 
@@ -143,14 +144,13 @@ class Scan extends BaseController
         switch ($type) {
             case TipeUser::Guru:
                 $id =  $result['id_guru'];
+                $data['type'] = TipeUser::Guru;
 
                 $sudahAbsen = $this->presensiGuruModel->cek_absen($id, $date);
 
                 if ($sudahAbsen == false) {
-                    return $this->show_error_view('Anda belum absen hari ini', $result);
+                    return $this->show_error_view('Anda belum absen hari ini', $data);
                 }
-
-                $data['type'] = TipeUser::Guru;
 
                 $this->presensiGuruModel->absen_keluar($sudahAbsen, $time);
 
@@ -160,14 +160,13 @@ class Scan extends BaseController
 
             case TipeUser::Siswa:
                 $id =  $result['id_siswa'];
+                $data['type'] = TipeUser::Siswa;
 
                 $sudahAbsen = $this->presensiSiswaModel->cek_absen($id, $date);
 
                 if ($sudahAbsen == false) {
-                    return $this->show_error_view('Anda belum absen hari ini', $result);
+                    return $this->show_error_view('Anda belum absen hari ini', $data);
                 }
-
-                $data['type'] = TipeUser::Siswa;
 
                 $this->presensiSiswaModel->absen_keluar($sudahAbsen, $time);
 
@@ -175,16 +174,14 @@ class Scan extends BaseController
 
                 return view('scan/scan-result', $data);
             default:
-                $this->show_error_view('Tipe tidak valid');
+                return $this->show_error_view('Tipe tidak valid');
         }
     }
 
     public function show_error_view(string $msg = 'no error message', $data = NULL)
     {
-        $errdata = [
-            'data' => $data,
-            'msg' => $msg
-        ];
+        $errdata = $data ?? [];
+        $errdata['msg'] = $msg;
 
         return view('scan/error-scan-result', $errdata);
     }

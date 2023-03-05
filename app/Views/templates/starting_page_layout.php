@@ -9,7 +9,7 @@
    <title>Absensi QR Code</title>
    <style>
       body {
-         background-image: url(<?= base_url('public/assets/img/bg2.jpg'); ?>);
+         background: url(<?= base_url('public/assets/img/bg2.jpg'); ?>) no-repeat;
          background-size: cover;
       }
 
@@ -25,12 +25,21 @@
          transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
       }
 
-      #previewKamera {
-         background-color: grey;
-         min-width: 300px;
+      video#previewKamera {
+         max-width: 480px;
          min-height: 300px;
-         max-width: 500px;
-         max-height: 500px;
+         max-height: 300px;
+      }
+
+      #previewParent {
+         width: 480px;
+         height: 300px;
+         line-height: 300px;
+      }
+
+      .unpreview {
+         background-color: aquamarine;
+         text-align: center;
       }
 
       .form-select {

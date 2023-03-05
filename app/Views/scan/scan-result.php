@@ -6,12 +6,17 @@ switch ($type) {
    case TipeUser::Siswa:
 ?>
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
-      <p><b>Nama : </b><?= $data['nama_siswa']; ?></p>
-      <p><b>NIS : </b><?= $data['nis']; ?></p>
-      <p><b>Kelas : </b><?= $data['kelas']; ?></p>
-      <p><b>Jurusan : </b><?= $data['jurusan']; ?></p>
+      <div class="row w-100">
+         <div class="col">
+            <p><b>Nama : </b><?= $data['nama_siswa']; ?></p>
+            <p><b>NIS : </b><?= $data['nis']; ?></p>
+            <p><b>Kelas : </b><?= $data['kelas']  . ' ' . $data['jurusan']; ?></p>
+         </div>
+         <div class="col">
+            <?= jam($presensi); ?>
+         </div>
+      </div>
    <?php
-      jam($presensi);
       break;
 
    case TipeUser::Guru:
@@ -32,8 +37,8 @@ switch ($type) {
 function jam($presensi)
 {
    ?>
-   <p><b>Jam masuk : </b><?= $presensi['jam_masuk']; ?></p>
-   <p><b>Jam pulang : </b><?= $presensi['jam_keluar']; ?></p>
+   <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
+   <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
 <?php
 }
 

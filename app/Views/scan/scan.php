@@ -21,7 +21,7 @@
                    <div class="col-md-10 mx-auto card-header card-header-primary">
                       <div class="row">
                          <div class="col">
-                            <h4 class="card-title">Absen <?= $waktu; ?></h4>
+                            <h4 class="card-title"><b>Absen <?= $waktu; ?></b></h4>
                             <p class="card-category">Silahkan tunjukkan QR Code anda</p>
                          </div>
                          <div class="col-md-auto">
@@ -40,15 +40,17 @@
 
                       <br><br>
 
-                      <div class="row">
-                         <div class="col">
-                            <video id="previewKamera"></video>
+                      <div class="row align-items-center w-100">
+                         <div class="col h-100">
+                            <div id="previewParent">
+                               <div class="text-center">
+                                  <h4 class="d-none" id="searching"><b>Mencari...</b></h4>
+                               </div>
+                               <video id="previewKamera"></video>
+                            </div>
                          </div>
                       </div>
-                      <div class="row">
-                         <div class="col" id="hasilScan">
-                         </div>
-                      </div>
+                      <div id="hasilScan"></div>
                       <br>
                    </div>
                 </div>
@@ -73,6 +75,9 @@
           initScanner();
        }
     })
+
+    const previewParent = document.getElementById('previewParent');
+    const preview = document.getElementById('previewKamera');
 
     function initScanner() {
        codeReader.listVideoInputDevices()
@@ -107,10 +112,17 @@
                 })
              }
 
+             $('#previewParent').removeClass('unpreview');
+             $('#previewKamera').removeClass('d-none');
+             $('#searching').addClass('d-none');
+
              codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'previewKamera')
                 .then(result => {
                    console.log(result.text);
                    cek_data(result.text);
+
+                   $('#previewParent').addClass('unpreview');
+                   $('#searching').removeClass('d-none');
 
                    if (codeReader) {
                       codeReader.reset();
@@ -140,7 +152,7 @@
           type: 'post',
           data: {
              'unique_code': code,
-             'waktu': <?= strtolower($waktu); ?>
+             'waktu': '<?= strtolower($waktu); ?>'
           },
           success: function(response, status, xhr) {
              audio.play();
