@@ -1,5 +1,6 @@
 <!--   Core JS Files   -->
 <script src="<?= base_url('public/assets/js/core/jquery.min.js') ?>"></script>
+<script src="<?= base_url('public/assets/js/core/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= base_url('public/assets/js/core/popper.min.js') ?>"></script>
 <script src="<?= base_url('public/assets/js/core/bootstrap-material-design.min.js') ?>"></script>
 <script src="<?= base_url('public/assets/js/plugins/perfect-scrollbar.jquery.min.js') ?>"></script>
@@ -38,6 +39,6 @@
 <!--  Notifications Plugin    -->
 <script src="<?= base_url('public/assets/js/plugins/bootstrap-notify.js') ?>"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="<?= base_url('public/assets/js/material-dashboard.js?v=2.1.2') ?>" type="text/javascript"></script>
+<script src="<?= base_url('public/assets/js/material-dashboard.js') ?>" type="text/javascript"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="<?= base_url('public/assets/demo/demo.js') ?>"></script>
