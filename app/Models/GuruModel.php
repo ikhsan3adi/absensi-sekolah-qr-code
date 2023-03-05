@@ -19,4 +19,9 @@ class GuruModel extends Model
     {
         return $this->where(['unique_code' => $unique_code])->first();
     }
+
+    public function allGuru()
+    {
+        return $this->findAll();
+    }
 }
