@@ -88,7 +88,7 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
             'id_kelas' => $id_kelas,
             'tanggal' => $tanggal,
             'id_kehadiran' => $id_kehadiran,
-            'keterangan' => $keterangan ?? $presensi['keterangan']
+            'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''
         ];
 
         if ($id_presensi != null) {

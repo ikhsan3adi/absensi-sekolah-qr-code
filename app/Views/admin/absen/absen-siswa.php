@@ -104,40 +104,5 @@
             }
         }
     }
-
-    function ubahKehadiran(idKehadiran, idSiswa, idKelas, jam_masuk = '') {
-        if (!confirm("Apakah yakin untuk mengubah kehadiran?")) {
-            return;
-        }
-
-        var tanggal = $('#tanggal').val();
-
-        jQuery.ajax({
-            url: "<?= base_url('/admin/absen-siswa/edit'); ?>",
-            type: 'post',
-            data: {
-                'id_kehadiran': idKehadiran,
-                'id_siswa': idSiswa,
-                'id_kelas': idKelas,
-                'tanggal': tanggal,
-                'jam_masuk': jam_masuk
-            },
-            success: function(response, status, xhr) {
-                // console.log(status);
-
-                if (response['status']) {
-                    alert('Berhasil ubah kehadiran : ' + response['nama_siswa']);
-                } else {
-                    alert('Gagal ubah kehadiran : ' + response['nama_siswa']);
-                }
-
-                get_siswa(lastIdKelas, lastKelas);
-            },
-            error: function(xhr, status, thrown) {
-                console.log(thrown);
-                alert('Gagal ubah kehadiran\n' + thrown);
-            }
-        });
-    }
 </script>
 <?= $this->endSection() ?>
