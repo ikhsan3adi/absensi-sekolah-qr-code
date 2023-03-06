@@ -63,31 +63,33 @@
                                                 <input type="hidden" name="id_kelas" value="<?= $value['id_kelas']; ?>">
                                                 <?php foreach ($listKehadiran as $value2) : ?>
                                                     <li class="px-3">
-                                                        <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
-                                                        <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
-                                                            <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
-                                                            <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
-                                                                <?= $value2['kehadiran']; ?>
-                                                            </label>
-                                                        <?php else : ?>
-                                                            <?php if ($value2['id_kehadiran'] == 1) : ?>
-                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                        <div class="form-control">
+                                                            <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
+                                                            <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
+                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
                                                                 <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
                                                                     <?= $value2['kehadiran']; ?>
                                                                 </label>
                                                             <?php else : ?>
-                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
-                                                                <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
-                                                                    <?= $value2['kehadiran']; ?>
-                                                                </label>
+                                                                <?php if ($value2['id_kehadiran'] == 1) : ?>
+                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                        <?= $value2['kehadiran']; ?>
+                                                                    </label>
+                                                                <?php else : ?>
+                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                        <?= $value2['kehadiran']; ?>
+                                                                    </label>
+                                                                <?php endif; ?>
                                                             <?php endif; ?>
-                                                        <?php endif; ?>
+                                                        </div>
                                                     </li>
                                                 <?php endforeach; ?>
                                                 <li>
                                                     <h5 class="dropdown-header pb-0">Keterangan</h5>
-                                                    <div class="px-3 pb-3">
-                                                        <textarea class="form-control" name="keterangan"></textarea>
+                                                    <div class="p-3">
+                                                        <textarea name="keterangan"><?= $value['keterangan']; ?></textarea>
                                                     </div>
                                                 </li>
                                             </form>
