@@ -13,12 +13,14 @@
                         <table class="table table-hover">
                             <thead class="text-success">
                                 <th>ID</th>
+                                <th>NUPTK</th>
                                 <th>Nama Guru</th>
                             </thead>
                             <tbody>
                                 <?php foreach ($data as $value) : ?>
                                     <tr>
                                         <td><?= $value['id_guru']; ?></td>
+                                        <td><?= $value['nuptk']; ?></td>
                                         <td><?= $value['nama_guru']; ?></td>
                                     </tr>
                                 <?php endforeach ?>

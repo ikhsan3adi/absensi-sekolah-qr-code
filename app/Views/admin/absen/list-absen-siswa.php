@@ -58,31 +58,48 @@
                                             <li>
                                                 <h5 class="dropdown-header">Ubah kehadiran</h5>
                                             </li>
-                                            <?php foreach ($listKehadiran as $value2) : ?>
-                                                <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
-                                                <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
-                                                    <li class="p-1 mr-2">
-                                                        <button disabled="disabled" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
-                                                            <?= $value2['kehadiran']; ?>
-                                                        </button>
-                                                    </li>
-                                                <?php else : ?>
-                                                    <li class="p-1 mr-2">
-                                                        <?php if ($value2['id_kehadiran'] == 1) : ?>
-                                                            <button onclick="" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
+                                            <form id="formUbah<?= $value['id_siswa']; ?>">
+                                                <input type="hidden" name="id_siswa" value="<?= $value['id_siswa']; ?>">
+                                                <input type="hidden" name="id_kelas" value="<?= $value['id_kelas']; ?>">
+                                                <?php foreach ($listKehadiran as $value2) : ?>
+                                                    <li class="px-3">
+                                                        <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
+                                                        <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
+                                                            <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
+                                                            <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
                                                                 <?= $value2['kehadiran']; ?>
-                                                            </button>
+                                                            </label>
                                                         <?php else : ?>
-                                                            <button onclick="ubahKehadiran(<?= $value2['id_kehadiran']; ?>, <?= $value['id_siswa']; ?>, <?= $value['id_kelas']; ?>)" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
-                                                                <?= $value2['kehadiran']; ?>
-                                                            </button>
+                                                            <?php if ($value2['id_kehadiran'] == 1) : ?>
+                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                    <?= $value2['kehadiran']; ?>
+                                                                </label>
+                                                            <?php else : ?>
+                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                    <?= $value2['kehadiran']; ?>
+                                                                </label>
+                                                            <?php endif; ?>
                                                         <?php endif; ?>
                                                     </li>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                            <li class="p-2">
-                                                <label class="bmd-label-floating">Keterangan</label>
-                                                <input type="text" class="form-control">
+                                                <?php endforeach; ?>
+                                                <li>
+                                                    <h5 class="dropdown-header pb-0">Keterangan</h5>
+                                                    <div class="px-3 pb-3">
+                                                        <textarea class="form-control" name="keterangan"></textarea>
+                                                    </div>
+                                                </li>
+                                            </form>
+                                            <li>
+                                                <div class="px-3 pb-3">
+                                                    <button id="tombolUbah<?= $value['id_siswa']; ?>" class="btn btn-success w-100">Ubah</button>
+                                                </div>
+                                                <script>
+                                                    $('#tombolUbah' + <?= $value['id_siswa']; ?>).click(function(e) {
+                                                        ubahKehadiran(<?= $value['id_siswa']; ?>);
+                                                    });
+                                                </script>
                                             </li>
                                         </ul>
                                     </div>
