@@ -18,7 +18,7 @@
           <div class="row">
              <div class="mw-50 mx-auto">
                 <div class="card">
-                   <div class="col-md-10 mx-auto card-header card-header-primary">
+                   <div class="col-sm-10 mx-auto card-header card-header-primary">
                       <div class="row">
                          <div class="col">
                             <h4 class="card-title"><b>Absen <?= $waktu; ?></b></h4>

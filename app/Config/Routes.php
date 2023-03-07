@@ -43,6 +43,7 @@ $routes->get('/admin/dashboard', 'Admin\Dashboard::index');
 
 // admin lihat data siswa & guru
 $routes->get('/admin/data-siswa', 'Admin\LihatData::lihat_data_siswa');
+$routes->post('/admin/data-siswa', 'Admin\LihatData::ambil_data_siswa');
 $routes->get('/admin/data-guru', 'Admin\LihatData::lihat_data_guru');
 
 // admin lihat data absen siswa

@@ -30,14 +30,23 @@ class SiswaModel extends Model
         return $this->where([$this->primaryKey => $id])->first();
     }
 
-    public function allSiswaWithKelas()
+    public function allSiswaWithKelas($kelas = null, $jurusan = null)
     {
         $this->join(
             'tb_kelas',
             'tb_kelas.id_kelas = tb_siswa.id_kelas',
             'LEFT'
         );
-        return $this->findAll();
+
+        if (!empty($kelas) && !empty($jurusan)) {
+            return $this->where(['kelas' => $kelas, 'jurusan' => $jurusan])->findAll();
+        } else if (empty($kelas) && !empty($jurusan)) {
+            return $this->where(['jurusan' => $jurusan])->findAll();
+        } else if (!empty($kelas) && empty($jurusan)) {
+            return $this->where(['kelas' => $kelas])->findAll();
+        } else {
+            return $this->findAll();
+        }
     }
 
     public function get_siswa_byKelas($id_kelas)

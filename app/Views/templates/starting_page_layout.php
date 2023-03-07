@@ -26,13 +26,13 @@
       }
 
       video#previewKamera {
-         max-width: 480px;
+         max-width: max-content;
          min-height: 300px;
          max-height: 300px;
       }
 
       #previewParent {
-         width: 480px;
+         min-width: max-content;
          height: 300px;
          line-height: 300px;
       }
