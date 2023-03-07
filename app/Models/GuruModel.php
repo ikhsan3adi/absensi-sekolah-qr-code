@@ -22,6 +22,6 @@ class GuruModel extends Model
 
     public function allGuru()
     {
-        return $this->findAll();
+        return $this->orderBy('nama_guru')->findAll();
     }
 }

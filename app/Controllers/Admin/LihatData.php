@@ -10,63 +10,77 @@ use App\Models\KelasModel;
 
 class LihatData extends BaseController
 {
-    protected SiswaModel $siswaModel;
-    protected GuruModel $guruModel;
+   protected SiswaModel $siswaModel;
+   protected GuruModel $guruModel;
 
-    protected KelasModel $kelasModel;
+   protected KelasModel $kelasModel;
 
-    public function __construct()
-    {
-        $this->siswaModel = new SiswaModel();
-        $this->guruModel = new GuruModel();
+   public function __construct()
+   {
+      $this->siswaModel = new SiswaModel();
+      $this->guruModel = new GuruModel();
 
-        $this->kelasModel = new KelasModel();
-    }
+      $this->kelasModel = new KelasModel();
+   }
 
-    public function index()
-    {
-        $data = [
-            'title' => 'Dashboard',
-            'ctx' => ''
-        ];
+   public function index()
+   {
+      $data = [
+         'title' => 'Dashboard',
+         'ctx' => ''
+      ];
 
-        return view('admin/dashboard', $data);
-    }
+      return view('admin/dashboard', $data);
+   }
 
-    public function lihat_data_siswa()
-    {
+   public function lihat_data_siswa()
+   {
+      $data = [
+         'title' => 'Data Siswa',
+         'ctx' => 'siswa',
+         'kelas' => $this->kelasModel->all_kelas()
+      ];
 
+      return view('admin/data/data-siswa', $data);
+   }
 
-        $data = [
-            'title' => 'Data Siswa',
-            'ctx' => 'siswa',
-            'data' => $this->siswaModel->allSiswaWithKelas(),
-            'kelas' => $this->kelasModel->all_kelas()
-        ];
+   public function ambil_data_siswa()
+   {
+      $kelas = $this->request->getVar('kelas') ?? null;
+      $jurusan = $this->request->getVar('jurusan') ?? null;
 
-        return view('admin/data/data-siswa', $data);
-    }
+      $result = $this->siswaModel->allSiswaWithKelas($kelas, $jurusan);
 
-    public function ambil_data_siswa()
-    {
-        $kelas = $this->request->getVar('kelas') ?? null;
-        $jurusan = $this->request->getVar('jurusan') ?? null;
+      $data = [
+         'data' => $result,
+         'empty' => empty($result)
+      ];
 
-        $data = ['data' => $this->siswaModel->allSiswaWithKelas($kelas, $jurusan)];
+      return view('admin/data/list-data-siswa', $data);
+   }
 
-        return view('admin/data/list-data-siswa', $data);
-    }
+   public function lihat_data_guru()
+   {
+      $result = $this->guruModel->findAll();
 
-    public function lihat_data_guru()
-    {
-        $result = $this->guruModel->findAll();
+      $data = [
+         'title' => 'Data Guru',
+         'ctx' => 'guru',
+         'data' => $result
+      ];
 
-        $data = [
-            'title' => 'Data Guru',
-            'ctx' => 'guru',
-            'data' => $result
-        ];
+      return view('admin/data/data-guru', $data);
+   }
 
-        return view('admin/data/data-guru', $data);
-    }
+   public function ambil_data_guru()
+   {
+      $result = $this->guruModel->allGuru();
+
+      $data = [
+         'data' => $result,
+         'empty' => empty($result)
+      ];
+
+      return view('admin/data/list-data-guru', $data);
+   }
 }
