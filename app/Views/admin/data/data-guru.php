@@ -1,35 +1,63 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-success">
-                        <h4 class="card-title">Daftar Guru</h4>
-                        <p class="card-category">Angkatan 2022/2023</p>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover">
-                            <thead class="text-success">
-                                <th>ID</th>
-                                <th>NUPTK</th>
-                                <th>Nama Guru</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($data as $value) : ?>
-                                    <tr>
-                                        <td><?= $value['id_guru']; ?></td>
-                                        <td><?= $value['nuptk']; ?></td>
-                                        <td><?= $value['nama_guru']; ?></td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-lg-12 col-md-12">
+            <div class="card">
+               <div class="card-header card-header-tabs card-header-success">
+                  <div class="nav-tabs-navigation">
+                     <div class="row">
+                        <div class="col">
+                           <h4 class="card-title">Daftar Guru</h4>
+                           <p class="card-category">Angkatan 2022/2023</p>
+                        </div>
+                        <div class="col-auto">
+                           <div class="nav-tabs-wrapper">
+                              <ul class="nav nav-tabs" data-tabs="tabs">
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="refreshBtn" onclick="getDataGuru()" href="#" data-toggle="tab">
+                                       <i class="material-icons">refresh</i> Refresh
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="dataGuru">
+                  <p class="text-center mt-3">Daftar guru muncul disini</p>
+               </div>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
+<script>
+   getDataGuru();
+
+   function getDataGuru() {
+      jQuery.ajax({
+         url: "<?= base_url('/admin/data-guru'); ?>",
+         type: 'post',
+         data: {},
+         success: function(response, status, xhr) {
+            // console.log(status);
+            $('#dataGuru').html(response);
+
+            $('html, body').animate({
+               scrollTop: $("#dataGuru").offset().top
+            }, 500);
+            $('#refreshBtn').removeClass('active show');
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            $('#dataGuru').html(thrown);
+            $('#refreshBtn').removeClass('active show');
+         }
+      });
+   }
+</script>
 <?= $this->endSection() ?>

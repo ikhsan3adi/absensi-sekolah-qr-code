@@ -1,116 +1,116 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-tabs card-header-primary">
-                        <div class="nav-tabs-navigation">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <h4 class="card-title">Daftar Siswa</h4>
-                                    <p class="card-category">Angkatan 2022/2023</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="nav-tabs-wrapper">
-                                        <span class="nav-tabs-title">Kelas:</span>
-                                        <ul class="nav nav-tabs" data-tabs="tabs">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" onclick="kelas = null; trig()" href="#" data-toggle="tab">
-                                                    <i class="material-icons">check</i> Semua
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" onclick="kelas = 'X'; trig();" href="#" data-toggle="tab">
-                                                    <i class="material-icons">school</i> X
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" onclick="kelas = 'XI'; trig();" href="#" data-toggle="tab">
-                                                    <i class="material-icons">school</i> XI
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" onclick="kelas = 'XII'; trig();" href="#" data-toggle="tab">
-                                                    <i class="material-icons">school</i> XII
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="nav-tabs-wrapper">
-                                        <span class="nav-tabs-title">Jurusan:</span>
-                                        <ul class="nav nav-tabs" data-tabs="tabs">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" onclick="jurusan = null; trig()" href="#" data-toggle="tab">
-                                                    <i class="material-icons">check</i> Semua
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                            <?php
-                                            $tempJurusan = [];
-
-                                            foreach ($kelas as $kls) : ?>
-                                                <?php if (!in_array($kls['jurusan'], $tempJurusan)) : ?> <li class="nav-item">
-                                                        <a class="nav-link" onclick="jurusan = '<?= $kls['jurusan']; ?>'; trig();" href="#" data-toggle="tab">
-                                                            <i class="material-icons">work</i> <?= $kls['jurusan']; ?>
-                                                            <div class="ripple-container"></div>
-                                                        </a>
-                                                    </li>
-                                                    <?php array_push($tempJurusan, $kls['jurusan']); ?>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-lg-12 col-md-12">
+            <div class="card">
+               <div class="card-header card-header-tabs card-header-primary">
+                  <div class="nav-tabs-navigation">
+                     <div class="row">
+                        <div class="col-md-2">
+                           <h4 class="card-title">Daftar Siswa</h4>
+                           <p class="card-category">Angkatan 2022/2023</p>
                         </div>
-                    </div>
-                    <div id="dataSiswa">
-                        <p class="text-center mt-3">Daftar siswa muncul disini</p>
-                    </div>
-                </div>
+                        <div class="col-md-4">
+                           <div class="nav-tabs-wrapper">
+                              <span class="nav-tabs-title">Kelas:</span>
+                              <ul class="nav nav-tabs" data-tabs="tabs">
+                                 <li class="nav-item">
+                                    <a class="nav-link active" onclick="kelas = null; trig()" href="#" data-toggle="tab">
+                                       <i class="material-icons">check</i> Semua
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" onclick="kelas = 'X'; trig();" href="#" data-toggle="tab">
+                                       <i class="material-icons">school</i> X
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" onclick="kelas = 'XI'; trig();" href="#" data-toggle="tab">
+                                       <i class="material-icons">school</i> XI
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" onclick="kelas = 'XII'; trig();" href="#" data-toggle="tab">
+                                       <i class="material-icons">school</i> XII
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="nav-tabs-wrapper">
+                              <span class="nav-tabs-title">Jurusan:</span>
+                              <ul class="nav nav-tabs" data-tabs="tabs">
+                                 <li class="nav-item">
+                                    <a class="nav-link active" onclick="jurusan = null; trig()" href="#" data-toggle="tab">
+                                       <i class="material-icons">check</i> Semua
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                                 <?php
+                                 $tempJurusan = [];
+
+                                 foreach ($kelas as $kls) : ?>
+                                    <?php if (!in_array($kls['jurusan'], $tempJurusan)) : ?> <li class="nav-item">
+                                          <a class="nav-link" onclick="jurusan = '<?= $kls['jurusan']; ?>'; trig();" href="#" data-toggle="tab">
+                                             <i class="material-icons">work</i> <?= $kls['jurusan']; ?>
+                                             <div class="ripple-container"></div>
+                                          </a>
+                                       </li>
+                                       <?php array_push($tempJurusan, $kls['jurusan']); ?>
+                                    <?php endif; ?>
+                                 <?php endforeach; ?>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="dataSiswa">
+                  <p class="text-center mt-3">Daftar siswa muncul disini</p>
+               </div>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
 <script>
-    var kelas = null;
-    var jurusan = null;
+   var kelas = null;
+   var jurusan = null;
 
-    getDataSiswa(kelas, jurusan);
+   getDataSiswa(kelas, jurusan);
 
-    function trig() {
-        getDataSiswa(kelas, jurusan);
-    }
+   function trig() {
+      getDataSiswa(kelas, jurusan);
+   }
 
-    function getDataSiswa(_kelas = null, _jurusan = null) {
-        jQuery.ajax({
-            url: "<?= base_url('/admin/data-siswa'); ?>",
-            type: 'post',
-            data: {
-                'kelas': _kelas,
-                'jurusan': _jurusan
-            },
-            success: function(response, status, xhr) {
-                // console.log(status);
-                $('#dataSiswa').html(response);
+   function getDataSiswa(_kelas = null, _jurusan = null) {
+      jQuery.ajax({
+         url: "<?= base_url('/admin/data-siswa'); ?>",
+         type: 'post',
+         data: {
+            'kelas': _kelas,
+            'jurusan': _jurusan
+         },
+         success: function(response, status, xhr) {
+            // console.log(status);
+            $('#dataSiswa').html(response);
 
-                $('html, body').animate({
-                    scrollTop: $("#dataSiswa").offset().top
-                }, 500);
-            },
-            error: function(xhr, status, thrown) {
-                console.log(thrown);
-                $('#dataSiswa').html(thrown);
-            }
-        });
-    }
+            $('html, body').animate({
+               scrollTop: $("#dataSiswa").offset().top
+            }, 500);
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            $('#dataSiswa').html(thrown);
+         }
+      });
+   }
 </script>
 <?= $this->endSection() ?>
