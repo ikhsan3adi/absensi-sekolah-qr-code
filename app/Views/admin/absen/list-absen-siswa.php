@@ -1,10 +1,15 @@
 <div class="card-body">
-    <div class="row justify-content-between">
+    <div class="row">
         <div class="col-auto me-auto">
             <div class="pt-3 pl-3">
                 <h4><b>Absen Siswa</b></h4>
                 <p>Daftar siswa muncul disini</p>
             </div>
+        </div>
+        <div class="col">
+            <a href="#" class="btn btn-primary pl-3 mr-3 mt-3" onclick="kelas = onDateChange()" data-toggle="tab">
+                <i class="material-icons mr-2">refresh</i> Refresh
+            </a>
         </div>
         <div class="col-auto">
             <div class="px-4">
@@ -15,7 +20,7 @@
         </div>
     </div>
 
-    <div id="dataSiswa" class="card-body table-responsive">
+    <div id="dataSiswa" class="card-body table-responsive pb-5">
         <?php if (!empty($data)) : ?>
             <table class="table table-hover">
                 <thead class="text-success">
@@ -54,56 +59,54 @@
                                             <i class="material-icons">edit</i>
                                             Edit
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="<?= $value['nis']; ?>">
-                                            <li>
-                                                <h5 class="dropdown-header">Ubah kehadiran</h5>
-                                            </li>
+                                        <div class="dropdown-menu" aria-labelledby="<?= $value['nis']; ?>">
                                             <form id="formUbah<?= $value['id_siswa']; ?>">
-                                                <input type="hidden" name="id_siswa" value="<?= $value['id_siswa']; ?>">
-                                                <input type="hidden" name="id_kelas" value="<?= $value['id_kelas']; ?>">
-                                                <?php foreach ($listKehadiran as $value2) : ?>
-                                                    <li class="px-3">
-                                                        <div class="form-control">
-                                                            <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
-                                                            <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
-                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
-                                                                <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
-                                                                    <?= $value2['kehadiran']; ?>
-                                                                </label>
-                                                            <?php else : ?>
-                                                                <?php if ($value2['id_kehadiran'] == 1) : ?>
-                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
-                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
-                                                                        <?= $value2['kehadiran']; ?>
-                                                                    </label>
-                                                                <?php else : ?>
-                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
-                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
-                                                                        <?= $value2['kehadiran']; ?>
-                                                                    </label>
-                                                                <?php endif; ?>
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                                <li>
-                                                    <h5 class="dropdown-header pb-0">Keterangan</h5>
-                                                    <div class="p-3">
-                                                        <textarea name="keterangan"><?= $value['keterangan']; ?></textarea>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="dropdown-header">Ubah kehadiran</h5>
+                                                        <input type="hidden" name="id_siswa" value="<?= $value['id_siswa']; ?>">
+                                                        <input type="hidden" name="id_kelas" value="<?= $value['id_kelas']; ?>">
+                                                        <?php foreach ($listKehadiran as $value2) : ?>
+                                                            <div class="px-3">
+                                                                <div class="form-control">
+                                                                    <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
+                                                                    <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
+                                                                        <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
+                                                                        <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                            <?= $value2['kehadiran']; ?>
+                                                                        </label>
+                                                                    <?php elseif ($value2['id_kehadiran'] == 1) : ?>
+                                                                        <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                        <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                            <?= $value2['kehadiran']; ?>
+                                                                        </label>
+                                                                    <?php else : ?>
+                                                                        <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                        <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                            <?= $value2['kehadiran']; ?>
+                                                                        </label>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
                                                     </div>
-                                                </li>
-                                            </form>
-                                            <li>
-                                                <div class="px-3 pb-3">
-                                                    <button id="tombolUbah<?= $value['id_siswa']; ?>" class="btn btn-success w-100">Ubah</button>
+                                                    <div class="col">
+                                                        <h5 class="dropdown-header pb-0 pl-0">Keterangan</h5>
+                                                        <div class="pr-3 py-3">
+                                                            <textarea name="keterangan"><?= trim($value['keterangan']); ?></textarea>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <script>
-                                                    $('#tombolUbah' + <?= $value['id_siswa']; ?>).click(function(e) {
-                                                        ubahKehadiran(<?= $value['id_siswa']; ?>);
-                                                    });
-                                                </script>
-                                            </li>
-                                        </ul>
+                                            </form>
+                                            <div class="p-3">
+                                                <button id="tombolUbah<?= $value['id_siswa']; ?>" class="btn btn-success w-100">Ubah</button>
+                                            </div>
+                                            <script>
+                                                $('#tombolUbah' + <?= $value['id_siswa']; ?>).click(function(e) {
+                                                    ubahKehadiran(<?= $value['id_siswa']; ?>);
+                                                });
+                                            </script>
+                                        </div>
                                     </div>
                                 <?php else : ?>
                                     <button class="btn btn-disabled p-2">No Action</button>
