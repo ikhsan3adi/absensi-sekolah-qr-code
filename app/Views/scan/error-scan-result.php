@@ -16,24 +16,27 @@ if (empty($type)) {
                <p>Kelas : <b><?= $data['kelas'] . ' ' . $data['jurusan']; ?></b></p>
             </div>
             <div class="col">
-               <?= jam($presensi); ?>
+               <?= jam($presensi ?? []); ?>
             </div>
          </div>
-      <?php
-         break;
+      <?php break;
 
-      case TipeUser::Guru:
-      ?>
-         <p>Nama : <b><?= $data['nama_guru']; ?></b></p>
-      <?php
-         jam($presensi);
-         break;
+      case TipeUser::Guru: ?>
+         <div class="row w-100">
+            <div class="col">
+               <p>Nama : <b><?= $data['nama_guru']; ?></b></p>
+               <p>NUPTK : <b><?= $data['nuptk']; ?></b></p>
+               <p>No HP : <b><?= $data['no_hp']; ?></b></p>
+            </div>
+            <div class="col">
+               <?= jam($presensi ?? []); ?>
+            </div>
+         </div>
+      <?php break;
 
-      default:
-      ?>
+      default: ?>
          <p class="text-danger">Tipe tidak valid</p>
-   <?php
-         break;
+   <?php break;
    }
 }
 

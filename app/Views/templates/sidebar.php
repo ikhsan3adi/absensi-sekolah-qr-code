@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="azure" data-background-color="white" data-image="<?= base_url('public/assets/img/sidebar/sidebar-1.jpg'); ?>">
+<div class="sidebar" data-color="azure" data-background-color="black" data-image="<?= base_url('public/assets/img/sidebar/sidebar-1.jpg'); ?>">
    <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 

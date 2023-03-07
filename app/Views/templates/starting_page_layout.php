@@ -8,9 +8,14 @@
    <?= $this->include('templates/css'); ?>
    <title>Absensi QR Code</title>
    <style>
-      body {
-         background: url(<?= base_url('public/assets/img/bg2.jpg'); ?>);
+      .bg {
+         background: url(<?= base_url('public/assets/img/bg2.jpg'); ?>) center;
          background-size: cover;
+         height: 100vh;
+         width: 100%;
+         position: absolute;
+         left: 0;
+         top: 0;
       }
 
       .navbar-brand>b {
@@ -26,13 +31,13 @@
       }
 
       video#previewKamera {
-         max-width: max-content;
+         max-width: 500px;
          min-height: 300px;
          max-height: 300px;
       }
 
       #previewParent {
-         min-width: max-content;
+         width: 500px;
          height: 300px;
          line-height: 300px;
       }
@@ -49,6 +54,7 @@
 </head>
 
 <body>
+   <div class="bg bg-image"></div>
    <!-- Navbar -->
    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
       <div class="container-fluid">

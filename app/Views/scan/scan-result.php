@@ -8,24 +8,30 @@ switch ($type) {
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
       <div class="row w-100">
          <div class="col">
-            <p><b>Nama : </b><?= $data['nama_siswa']; ?></p>
-            <p><b>NIS : </b><?= $data['nis']; ?></p>
-            <p><b>Kelas : </b><?= $data['kelas']  . ' ' . $data['jurusan']; ?></p>
+            <p>Nama : <b><?= $data['nama_siswa']; ?></b></p>
+            <p>NIS : <b><?= $data['nis']; ?></b></p>
+            <p>Kelas : <b><?= $data['kelas']  . ' ' . $data['jurusan']; ?></b></p>
          </div>
          <div class="col">
             <?= jam($presensi); ?>
          </div>
       </div>
-   <?php
-      break;
+   <?php break;
 
    case TipeUser::Guru:
    ?>
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
-      <p><b>Nama : </b><?= $data['nama_guru']; ?></p>
-   <?php
-      jam($presensi);
-      break;
+      <div class="row w-100">
+         <div class="col">
+            <p>Nama : <b><?= $data['nama_guru']; ?></b></p>
+            <p>NUPTK : <b><?= $data['nuptk']; ?></b></p>
+            <p>No HP : <b><?= $data['no_hp']; ?></b></p>
+         </div>
+         <div class="col">
+            <?= jam($presensi); ?>
+         </div>
+      </div>
+   <?php break;
 
    default:
    ?>
