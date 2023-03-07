@@ -58,31 +58,50 @@
                                             <li>
                                                 <h5 class="dropdown-header">Ubah kehadiran</h5>
                                             </li>
-                                            <?php foreach ($listKehadiran as $value2) : ?>
-                                                <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
-                                                <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
-                                                    <li class="p-1 mr-2">
-                                                        <button disabled="disabled" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
-                                                            <?= $value2['kehadiran']; ?>
-                                                        </button>
+                                            <form id="formUbah<?= $value['id_siswa']; ?>">
+                                                <input type="hidden" name="id_siswa" value="<?= $value['id_siswa']; ?>">
+                                                <input type="hidden" name="id_kelas" value="<?= $value['id_kelas']; ?>">
+                                                <?php foreach ($listKehadiran as $value2) : ?>
+                                                    <li class="px-3">
+                                                        <div class="form-control">
+                                                            <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
+                                                            <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
+                                                                <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
+                                                                <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                    <?= $value2['kehadiran']; ?>
+                                                                </label>
+                                                            <?php else : ?>
+                                                                <?php if ($value2['id_kehadiran'] == 1) : ?>
+                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                        <?= $value2['kehadiran']; ?>
+                                                                    </label>
+                                                                <?php else : ?>
+                                                                    <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>">
+                                                                    <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
+                                                                        <?= $value2['kehadiran']; ?>
+                                                                    </label>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     </li>
-                                                <?php else : ?>
-                                                    <li class="p-1 mr-2">
-                                                        <?php if ($value2['id_kehadiran'] == 1) : ?>
-                                                            <button onclick="" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
-                                                                <?= $value2['kehadiran']; ?>
-                                                            </button>
-                                                        <?php else : ?>
-                                                            <button onclick="ubahKehadiran(<?= $value2['id_kehadiran']; ?>, <?= $value['id_siswa']; ?>, <?= $value['id_kelas']; ?>)" class="w-100 dropdown-item text-white btn btn-<?= $color; ?>">
-                                                                <?= $value2['kehadiran']; ?>
-                                                            </button>
-                                                        <?php endif; ?>
-                                                    </li>
-                                                <?php endif; ?>
-                                            <?php endforeach; ?>
-                                            <li class="p-2">
-                                                <label class="bmd-label-floating">Keterangan</label>
-                                                <input type="text" class="form-control">
+                                                <?php endforeach; ?>
+                                                <li>
+                                                    <h5 class="dropdown-header pb-0">Keterangan</h5>
+                                                    <div class="p-3">
+                                                        <textarea name="keterangan"><?= $value['keterangan']; ?></textarea>
+                                                    </div>
+                                                </li>
+                                            </form>
+                                            <li>
+                                                <div class="px-3 pb-3">
+                                                    <button id="tombolUbah<?= $value['id_siswa']; ?>" class="btn btn-success w-100">Ubah</button>
+                                                </div>
+                                                <script>
+                                                    $('#tombolUbah' + <?= $value['id_siswa']; ?>).click(function(e) {
+                                                        ubahKehadiran(<?= $value['id_siswa']; ?>);
+                                                    });
+                                                </script>
                                             </li>
                                         </ul>
                                     </div>
@@ -107,44 +126,6 @@
         endif; ?>
     </div>
 </div>
-<script>
-    function ubahKehadiran(formId) {
-        if (!confirm("Apakah yakin untuk mengubah kehadiran?")) {
-            return;
-        }
-
-        var tanggal = $('#tanggal').val();
-
-        var form = $('#formUbah' + formId).serializeArray();
-
-        form.push({
-            name: 'tanggal',
-            value: tanggal
-        });
-
-        console.log(form);
-
-        jQuery.ajax({
-            url: "<?= base_url('/admin/absen-siswa/edit'); ?>",
-            type: 'post',
-            data: form,
-            success: function(response, status, xhr) {
-                // console.log(status);
-
-                if (response['status']) {
-                    get_siswa(lastIdKelas, lastKelas);
-                    alert('Berhasil ubah kehadiran : ' + response['nama_siswa']);
-                } else {
-                    alert('Gagal ubah kehadiran : ' + response['nama_siswa']);
-                }
-            },
-            error: function(xhr, status, thrown) {
-                console.log(thrown);
-                alert('Gagal ubah kehadiran\n' + thrown);
-            }
-        });
-    }
-</script>
 
 <?php
 function kehadiran($kehadiran): array
