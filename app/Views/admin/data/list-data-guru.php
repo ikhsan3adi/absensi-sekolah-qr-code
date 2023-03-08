@@ -25,6 +25,14 @@
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
+                     <form action="<?= base_url('admin/data-guru/delete/' . $value['id_guru']); ?>" method="post" class="d-inline">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nuptk']; ?>">
+                           <i class="material-icons">delete_forever</i>
+                           Delete
+                        </button>
+                     </form>
                   </td>
                </tr>
             <?php $i++;
