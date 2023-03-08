@@ -16,7 +16,7 @@
 
                      <div class="form-group mt-4">
                         <label for="nis">NIS</label>
-                        <input type="text" id="nis" class="form-control <?php if (session('errors.nis')) : ?>is-invalid<?php endif ?>" name="nis" placeholder="1234" value="<?= old('nis') ?>">
+                        <input type="text" id="nis" class="form-control <?php if (session('errors.nis')) : ?>is-invalid<?php endif ?>" name="nis" placeholder="1234" value="<?= old('nis') ?? $data['nis'] ?>">
                         <div class="invalid-feedback">
                            <?= session('errors.nis') ?>
                         </div>
@@ -24,7 +24,7 @@
 
                      <div class="form-group mt-4">
                         <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" class="form-control <?php if (session('errors.nama')) : ?>is-invalid<?php endif ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?>">
+                        <input type="text" id="nama" class="form-control <?php if (session('errors.nama')) : ?>is-invalid<?php endif ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?? $data['nama_siswa'] ?>">
                         <div class="invalid-feedback">
                            <?= session('errors.nama') ?>
                         </div>
@@ -33,9 +33,11 @@
                         <div class="col-md-6">
                            <label for="kelas">Kelas</label>
                            <select class="form-control pt-0" id="kelas">
-                              <option selected>--Pilih kelas--</option>
+                              <option>--Pilih kelas--</option>
                               <?php foreach ($kelas as $value) : ?>
-                                 <option value="<?= $value['id_kelas']; ?>"><?= $value['kelas'] . ' ' . $value['jurusan']; ?></option>
+                                 <option value="<?= $value['id_kelas']; ?>" <?= $value['id_kelas'] == $data['id_kelas'] ? 'selected' : ''; ?>>
+                                    <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
+                                 </option>
                               <?php endforeach; ?>
                            </select>
                            <div class="invalid-feedback">
@@ -44,12 +46,16 @@
                         </div>
                         <div class="col-md-6">
                            <label for="jk">Jenis Kelamin</label>
+                           <?php
+                           $l = (old('jk') ?? $data['jenis_kelamin']) == 'Perempuan' ? '' : 'checked';
+                           $p = (old('jk') ?? $data['jenis_kelamin']) == 'Perempuan' ? 'checked' : '';
+                           ?>
                            <div class="form-check my-1" id="jk">
                               <div class="row">
                                  <div class="col-auto">
                                     <div class="row">
                                        <div class="col-auto pr-1">
-                                          <input class="form-check" type="radio" name="jk" id="laki">
+                                          <input class="form-check" type="radio" name="jk" id="laki" <?= $l; ?>>
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="laki">
@@ -61,7 +67,7 @@
                                  <div class="col">
                                     <div class="row">
                                        <div class="col-auto pr-1">
-                                          <input class="form-check" type="radio" name="jk" id="perempuan">
+                                          <input class="form-check" type="radio" name="jk" id="perempuan" <?= $p; ?>>
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="perempuan">
@@ -80,13 +86,13 @@
 
                      <div class="form-group mt-5">
                         <label for="hp">No HP</label>
-                        <input type="number" id="hp" name="no_hp" class="form-control <?php if (session('errors.jk')) : ?>is-invalid<?php endif ?>">
+                        <input type="number" id="hp" name="no_hp" class="form-control <?php if (session('errors.jk')) : ?>is-invalid<?php endif ?>" value="<?= old('no_hp') ?? $data['no_hp'] ?>">
                         <div class="invalid-feedback">
                            <?= session('errors.no_hp') ?>
                         </div>
                      </div>
 
-                     <button type="submit" class="btn btn-success btn-block">Simpan</button>
+                     <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                   </form>
 
                   <hr>
