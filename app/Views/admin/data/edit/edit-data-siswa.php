@@ -11,8 +11,6 @@
                </div>
                <div class="card-body mx-5 my-3">
 
-                  <?= view('Myth\Auth\Views\_message_block') ?>
-
                   <form action="" method="post">
                      <?= csrf_field() ?>
 
@@ -55,7 +53,7 @@
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="laki">
-                                             <h6>Laki-laki</h5>
+                                             <h6 class="text-dark">Laki-laki</h6>
                                           </label>
                                        </div>
                                     </div>
@@ -67,7 +65,7 @@
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="perempuan">
-                                             <h6>Perempuan</h6>
+                                             <h6 class="text-dark">Perempuan</h6>
                                           </label>
                                        </div>
                                     </div>

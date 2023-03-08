@@ -21,7 +21,7 @@
                   <td><?= $value['no_hp']; ?></td>
                   <td><?= $value['alamat']; ?></td>
                   <td>
-                     <a href="#" type="button" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
+                     <a href="<?= base_url('admin/data-guru/edit/' . $value['id_guru']); ?>" type="button" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
