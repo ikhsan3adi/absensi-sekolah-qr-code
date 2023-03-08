@@ -59,6 +59,22 @@ class LihatData extends BaseController
       return view('admin/data/list-data-siswa', $data);
    }
 
+   public function form_edit_siswa($id)
+   {
+      $siswa = $this->siswaModel->getSiswaById($id);
+      $kelas = $this->kelasModel->all_kelas();
+
+      $data = [
+         'data' => $siswa,
+         'kelas' => $kelas,
+         'ctx' => 'siswa',
+         'title' => 'Edit Siswa',
+         'empty' => empty($result)
+      ];
+
+      return view('admin/data/edit/edit-data-siswa', $data);
+   }
+
    public function lihat_data_guru()
    {
       $result = $this->guruModel->findAll();

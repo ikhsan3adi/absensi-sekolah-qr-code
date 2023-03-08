@@ -1,7 +1,7 @@
 <div class="card-body table-responsive">
    <?php if (!$empty) : ?>
       <table class="table table-hover">
-         <thead class="text-success">
+         <thead class="text-primary">
             <th>No</th>
             <th>NIS</th>
             <th>Nama Siswa</th>
@@ -9,6 +9,7 @@
             <th>Kelas</th>
             <th>Jurusan</th>
             <th>No HP</th>
+            <th>Aksi</th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -21,6 +22,12 @@
                   <td><?= $value['kelas']; ?></td>
                   <td><?= $value['jurusan']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
+                  <td>
+                     <a href="<?= base_url('admin/data-siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
+                        <i class="material-icons">edit</i>
+                        Edit
+                     </a>
+                  </td>
                </tr>
             <?php $i++;
             endforeach; ?>
