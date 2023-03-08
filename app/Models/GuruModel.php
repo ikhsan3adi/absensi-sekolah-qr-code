@@ -24,4 +24,9 @@ class GuruModel extends Model
     {
         return $this->orderBy('nama_guru')->findAll();
     }
+
+    public function getGuruById($id)
+    {
+        return $this->where([$this->primaryKey => $id])->first();
+    }
 }
