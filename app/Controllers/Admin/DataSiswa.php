@@ -44,6 +44,16 @@ class DataSiswa extends BaseController
       return view('admin/data/list-data-siswa', $data);
    }
 
+   public function formTambahSiswa($id)
+   {
+      $data = [
+         'ctx' => 'siswa',
+         'title' => 'Tambah Data Siswa'
+      ];
+
+      return view('admin/data/create/create-data-siswa', $data);
+   }
+
    public function formEditSiswa($id)
    {
       $siswa = $this->siswaModel->getSiswaById($id);
@@ -58,5 +68,29 @@ class DataSiswa extends BaseController
       ];
 
       return view('admin/data/edit/edit-data-siswa', $data);
+   }
+
+   public function updateSiswa()
+   {
+      # code...
+   }
+
+   public function delete($id)
+   {
+      $result = $this->siswaModel->delete($id);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Data berhasil dihapus',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/data-siswa');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal menghapus data',
+         'error' => true
+      ]);
+      return redirect()->to('/admin/data-siswa');
    }
 }

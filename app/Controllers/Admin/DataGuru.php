@@ -37,6 +37,16 @@ class DataGuru extends BaseController
       return view('admin/data/list-data-guru', $data);
    }
 
+   public function formTambahGuru($id)
+   {
+      $data = [
+         'ctx' => 'guru',
+         'title' => 'Tambah Data Guru'
+      ];
+
+      return view('admin/data/create/create-data-guru', $data);
+   }
+
    public function formEditGuru($id)
    {
       $guru = $this->guruModel->getGuruById($id);
@@ -49,5 +59,31 @@ class DataGuru extends BaseController
       ];
 
       return view('admin/data/edit/edit-data-guru', $data);
+   }
+
+   public function updateGuru()
+   {
+      $result = $this->request->getVar();
+
+      dd($result);
+   }
+
+   public function delete($id)
+   {
+      $result = $this->guruModel->delete($id);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Data berhasil dihapus',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/data-guru');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal menghapus data',
+         'error' => true
+      ]);
+      return redirect()->to('/admin/data-guru');
    }
 }
