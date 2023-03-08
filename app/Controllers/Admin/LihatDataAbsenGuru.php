@@ -13,17 +13,15 @@ class LihatDataAbsenGuru extends BaseController
 {
     protected GuruModel $guruModel;
 
-    protected PresensiGuruModel $presensiGuruModel;
+    protected PresensiGuruModel $presensiGuru;
 
     protected KehadiranModel $kehadiranModel;
 
     public function __construct()
     {
-        $this->currentDate = Time::today()->toDateString();
-
         $this->guruModel = new GuruModel();
 
-        $this->presensiGuruModel = new PresensiGuruModel();
+        $this->presensiGuru = new PresensiGuruModel();
 
         $this->kehadiranModel = new KehadiranModel();
     }
@@ -46,7 +44,7 @@ class LihatDataAbsenGuru extends BaseController
 
         $lewat = Time::parse($tanggal)->isAfter(Time::today());
 
-        $result = $this->presensiGuruModel->get_presensi_byTanggal($tanggal);
+        $result = $this->presensiGuru->get_presensi_byTanggal($tanggal);
 
         $data = [
             'data' => $result,
@@ -55,5 +53,36 @@ class LihatDataAbsenGuru extends BaseController
         ];
 
         return view('admin/absen/list-absen-guru', $data);
+    }
+
+    public function ubah_kehadiran()
+    {
+        // ambil variabel POST
+        $id_kehadiran = $this->request->getVar('id_kehadiran');
+        $id_guru = $this->request->getVar('id_guru');
+        $tanggal = $this->request->getVar('tanggal');
+        $jam_masuk = $this->request->getVar('jam_masuk');
+        $keterangan = $this->request->getVar('keterangan');
+
+        $cek = $this->presensiGuru->cek_absen($id_guru, $tanggal);
+
+        $result = $this->presensiGuru->update_presensi(
+            $cek == false ? NULL : $cek,
+            $id_guru,
+            $tanggal,
+            $id_kehadiran,
+            $jam_masuk ?? NULL,
+            $keterangan
+        );
+
+        $response['nama_guru'] = $this->guruModel->getGuruById($id_guru)['nama_guru'];
+
+        if ($result) {
+            $response['status'] = TRUE;
+        } else {
+            $response['status'] = FALSE;
+        }
+
+        return $this->response->setJSON($response);
     }
 }

@@ -74,4 +74,26 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
             ->orderBy("nama_guru")
             ->findAll();
     }
+
+    public function update_presensi($id_presensi = NULL, $id_guru, $tanggal, $id_kehadiran, $jam_masuk = NULL, $keterangan = NULL)
+    {
+        $presensi = $this->get_presensi($id_guru, $tanggal);
+
+        $data = [
+            'id_guru' => $id_guru,
+            'tanggal' => $tanggal,
+            'id_kehadiran' => $id_kehadiran,
+            'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''
+        ];
+
+        if ($id_presensi != null) {
+            $data[$this->primaryKey] = $id_presensi;
+        }
+
+        if ($jam_masuk != null) {
+            $data['jam_masuk'] = $jam_masuk;
+        }
+
+        return $this->save($data);
+    }
 }
