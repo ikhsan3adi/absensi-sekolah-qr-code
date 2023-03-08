@@ -12,7 +12,7 @@ use Myth\Auth\Entities\User;
  */
 class UserModel extends Model
 {
-    protected $table          = 'users';
+    protected $table          = 'tb_petugas';
     protected $primaryKey     = 'id';
     protected $returnType     = User::class;
     protected $useSoftDeletes = true;

@@ -8,7 +8,7 @@ class CreateAuthTables extends Migration
 {
     public function up()
     {
-        // Users
+        // Petugas
         $this->forge->addField([
             'id'               => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'email'            => ['type' => 'varchar', 'constraint' => 255],
@@ -31,7 +31,7 @@ class CreateAuthTables extends Migration
         $this->forge->addUniqueKey('email');
         $this->forge->addUniqueKey('username');
 
-        $this->forge->createTable('users', true);
+        $this->forge->createTable('tb_petugas', true);
 
         // Auth Login Attempts
         $this->forge->addField([
@@ -161,7 +161,7 @@ class CreateAuthTables extends Migration
             $this->forge->dropForeignKey('auth_users_permissions', 'auth_users_permissions_permission_id_foreign');
         }
 
-        $this->forge->dropTable('users', true);
+        $this->forge->dropTable('tb_petugas', true);
         $this->forge->dropTable('auth_logins', true);
         $this->forge->dropTable('auth_tokens', true);
         $this->forge->dropTable('auth_reset_attempts', true);
