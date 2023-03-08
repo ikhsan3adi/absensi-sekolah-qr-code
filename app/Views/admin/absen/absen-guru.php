@@ -6,7 +6,7 @@
          <div class="card-body">
             <div class="pt-3 pl-3 w-25 pb-2">
                <h4><b>Tanggal</b></h4>
-               <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="get_guru()">
+               <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="getGuru()">
             </div>
          </div>
       </div>
@@ -20,7 +20,7 @@
                   </div>
                </div>
                <div class="col-sm-auto">
-                  <a href="#" class="btn btn-success pl-3 mr-3 mt-3" onclick="kelas = get_guru()" data-toggle="tab">
+                  <a href="#" class="btn btn-success pl-3 mr-3 mt-3" onclick="kelas = getGuru()" data-toggle="tab">
                      <i class="material-icons mr-2">refresh</i> Refresh
                   </a>
                </div>
@@ -34,9 +34,9 @@
    </div>
 </div>
 <script>
-   get_guru();
+   getGuru();
 
-   function get_guru() {
+   function getGuru() {
       var tanggal = $('#tanggal').val();
 
       jQuery.ajax({

@@ -15,7 +15,7 @@ class SiswaModel extends Model
 
     protected $primaryKey = 'id_siswa';
 
-    public function cek_siswa(string $unique_code)
+    public function cekSiswa(string $unique_code)
     {
         $this->join(
             'tb_kelas',
@@ -30,7 +30,7 @@ class SiswaModel extends Model
         return $this->where([$this->primaryKey => $id])->first();
     }
 
-    public function allSiswaWithKelas($kelas = null, $jurusan = null)
+    public function getAllSiswaWithKelas($kelas = null, $jurusan = null)
     {
         $query = $this->join(
             'tb_kelas',

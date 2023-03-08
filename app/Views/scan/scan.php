@@ -120,7 +120,7 @@
              codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'previewKamera')
                 .then(result => {
                    console.log(result.text);
-                   cek_data(result.text);
+                   cekData(result.text);
 
                    $('#previewParent').addClass('unpreview');
                    $('#searching').removeClass('d-none');
@@ -131,7 +131,6 @@
                       // delay 2,5 detik setelah berhasil meng-scan
                       setTimeout(() => {
                          initScanner();
-                         //  clear_data();
                       }, 2500);
                    }
                 })
@@ -147,7 +146,7 @@
        alert('Cannot access camera.');
     }
 
-    async function cek_data(code) {
+    async function cekData(code) {
        jQuery.ajax({
           url: "<?= base_url('/cek'); ?>",
           type: 'post',
@@ -167,7 +166,7 @@
        });
     }
 
-    function clear_data() {
+    function clearData() {
        $('#hasilScan').html('');
     }
  </script>

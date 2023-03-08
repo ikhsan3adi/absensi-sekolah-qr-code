@@ -37,8 +37,8 @@
                     <?php $no = 1; ?>
                     <?php foreach ($data as $value) : ?>
                         <?php
-                        $id_kehadiran = intval($value['id_kehadiran'] ?? ($lewat ? 5 : 4));
-                        $kehadiran = kehadiran($id_kehadiran);
+                        $idKehadiran = intval($value['id_kehadiran'] ?? ($lewat ? 5 : 4));
+                        $kehadiran = kehadiran($idKehadiran);
                         ?>
                         <tr>
                             <td><?= $no; ?></td>
@@ -70,7 +70,7 @@
                                                             <div class="px-3">
                                                                 <div class="form-control">
                                                                     <?php $color = kehadiran($value2['id_kehadiran'])['color'] ?>
-                                                                    <?php if ($value2['id_kehadiran'] == $id_kehadiran) : ?>
+                                                                    <?php if ($value2['id_kehadiran'] == $idKehadiran) : ?>
                                                                         <input type="radio" name="id_kehadiran" id="<?= $value2['id_kehadiran']; ?>" value="<?= $value2['id_kehadiran']; ?>" checked>
                                                                         <label class="form-check-label text-<?= $color; ?>" for="<?= $value2['id_kehadiran']; ?>">
                                                                             <?= $value2['kehadiran']; ?>

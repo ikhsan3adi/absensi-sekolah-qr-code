@@ -38,7 +38,7 @@ class LihatDataAbsenSiswa extends BaseController
 
     public function index()
     {
-        $result = $this->kelasModel->all_kelas();
+        $result = $this->kelasModel->getAllKelas();
 
         $data = [
             'title' => 'Data Absen Siswa',
@@ -49,50 +49,50 @@ class LihatDataAbsenSiswa extends BaseController
         return view('admin/absen/absen-siswa', $data);
     }
 
-    public function ambil_siswa()
+    public function ambilDataSiswa()
     {
         // ambil variabel POST
         $kelas = $this->request->getVar('kelas');
-        $id_kelas = $this->request->getVar('id_kelas');
+        $idKelas = $this->request->getVar('id_kelas');
         $tanggal = $this->request->getVar('tanggal');
 
         $lewat = Time::parse($tanggal)->isAfter(Time::today());
 
-        $result = $this->presensiSiswa->get_presensi_byKelasTanggal($id_kelas, $tanggal);
+        $result = $this->presensiSiswa->getPresensiByKelasTanggal($idKelas, $tanggal);
 
         $data = [
             'kelas' => $kelas,
             'data' => $result,
-            'listKehadiran' => $this->kehadiranModel->get_kehadiran(),
+            'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
             'lewat' => $lewat
         ];
 
         return view('admin/absen/list-absen-siswa', $data);
     }
 
-    public function ubah_kehadiran()
+    public function ubahKehadiran()
     {
         // ambil variabel POST
-        $id_kehadiran = $this->request->getVar('id_kehadiran');
-        $id_siswa = $this->request->getVar('id_siswa');
-        $id_kelas = $this->request->getVar('id_kelas');
+        $idKehadiran = $this->request->getVar('id_kehadiran');
+        $idSiswa = $this->request->getVar('id_siswa');
+        $idKelas = $this->request->getVar('id_kelas');
         $tanggal = $this->request->getVar('tanggal');
-        $jam_masuk = $this->request->getVar('jam_masuk');
+        $jamMasuk = $this->request->getVar('jam_masuk');
         $keterangan = $this->request->getVar('keterangan');
 
-        $cek = $this->presensiSiswa->cek_absen($id_siswa, $tanggal);
+        $cek = $this->presensiSiswa->cekAbsen($idSiswa, $tanggal);
 
-        $result = $this->presensiSiswa->update_presensi(
+        $result = $this->presensiSiswa->updatePresensi(
             $cek == false ? NULL : $cek,
-            $id_siswa,
-            $id_kelas,
+            $idSiswa,
+            $idKelas,
             $tanggal,
-            $id_kehadiran,
-            $jam_masuk ?? NULL,
+            $idKehadiran,
+            $jamMasuk ?? NULL,
             $keterangan
         );
 
-        $response['nama_siswa'] = $this->siswaModel->getSiswaById($id_siswa)['nama_siswa'];
+        $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
 
         if ($result) {
             $response['status'] = TRUE;

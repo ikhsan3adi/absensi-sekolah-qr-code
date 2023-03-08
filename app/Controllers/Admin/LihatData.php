@@ -33,23 +33,23 @@ class LihatData extends BaseController
       return view('admin/dashboard', $data);
    }
 
-   public function lihat_data_siswa()
+   public function lihatDataSiswa()
    {
       $data = [
          'title' => 'Data Siswa',
          'ctx' => 'siswa',
-         'kelas' => $this->kelasModel->all_kelas()
+         'kelas' => $this->kelasModel->getAllKelas()
       ];
 
       return view('admin/data/data-siswa', $data);
    }
 
-   public function ambil_data_siswa()
+   public function ambilDataSiswa()
    {
       $kelas = $this->request->getVar('kelas') ?? null;
       $jurusan = $this->request->getVar('jurusan') ?? null;
 
-      $result = $this->siswaModel->allSiswaWithKelas($kelas, $jurusan);
+      $result = $this->siswaModel->getAllSiswaWithKelas($kelas, $jurusan);
 
       $data = [
          'data' => $result,
@@ -59,10 +59,10 @@ class LihatData extends BaseController
       return view('admin/data/list-data-siswa', $data);
    }
 
-   public function form_edit_siswa($id)
+   public function formEditSiswa($id)
    {
       $siswa = $this->siswaModel->getSiswaById($id);
-      $kelas = $this->kelasModel->all_kelas();
+      $kelas = $this->kelasModel->getAllKelas();
 
       $data = [
          'data' => $siswa,
@@ -75,22 +75,22 @@ class LihatData extends BaseController
       return view('admin/data/edit/edit-data-siswa', $data);
    }
 
-   public function lihat_data_guru()
-   {
-      $result = $this->guruModel->findAll();
+   // === === === === === === === === === === === === === === === //
+   // === === === === === === === === === === === === === === === //
 
+   public function lihatDataGuru()
+   {
       $data = [
          'title' => 'Data Guru',
          'ctx' => 'guru',
-         'data' => $result
       ];
 
       return view('admin/data/data-guru', $data);
    }
 
-   public function ambil_data_guru()
+   public function ambilDataGuru()
    {
-      $result = $this->guruModel->allGuru();
+      $result = $this->guruModel->getAllGuru();
 
       $data = [
          'data' => $result,

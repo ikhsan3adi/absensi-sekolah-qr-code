@@ -15,11 +15,11 @@
                      <div class="row">
                         <?php foreach ($data as $value) : ?>
                            <?php
-                           $id_kelas = $value['id_kelas'];
+                           $idKelas = $value['id_kelas'];
                            $kelas =  $value['kelas'] . ' ' . $value['jurusan'];
                            ?>
                            <div class="col-md-3">
-                              <button id="kelas-<?= $id_kelas; ?>" onclick="get_siswa(<?= $id_kelas; ?>, '<?= $kelas; ?>')" class="btn btn-primary w-100">
+                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $kelas; ?>')" class="btn btn-primary w-100">
                                  <?= $kelas; ?>
                               </button>
                            </div>
@@ -58,20 +58,20 @@
    var lastKelas;
 
    function onDateChange() {
-      if (lastIdKelas != null && lastKelas != null) get_siswa(lastIdKelas, lastKelas);
+      if (lastIdKelas != null && lastKelas != null) getSiswa(lastIdKelas, lastKelas);
    }
 
-   function get_siswa(id_kelas, kelas) {
+   function getSiswa(idKelas, kelas) {
       var tanggal = $('#tanggal').val();
 
-      updateBtn(id_kelas);
+      updateBtn(idKelas);
 
       jQuery.ajax({
          url: "<?= base_url('/admin/absen-siswa'); ?>",
          type: 'post',
          data: {
             'kelas': kelas,
-            'id_kelas': id_kelas,
+            'id_kelas': idKelas,
             'tanggal': tanggal
          },
          success: function(response, status, xhr) {
@@ -88,7 +88,7 @@
          }
       });
 
-      lastIdKelas = id_kelas;
+      lastIdKelas = idKelas;
       lastKelas = kelas;
    }
 

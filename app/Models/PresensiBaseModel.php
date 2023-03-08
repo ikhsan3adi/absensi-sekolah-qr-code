@@ -21,9 +21,9 @@ enum TipeUser: string
 
 interface PresensiInterface
 {
-    public function cek_absen(string|int $id, string|Time $date);
-    public function absen_masuk(string $id, $date, $time);
-    public function absen_keluar(string $id, $time);
+    public function cekAbsen(string|int $id, string|Time $date);
+    public function absenMasuk(string $id, $date, $time);
+    public function absenKeluar(string $id, $time);
 }
 
 class PresensiBaseModel extends Model

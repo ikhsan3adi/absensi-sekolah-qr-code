@@ -15,7 +15,7 @@ class KelasModel extends Model
 
     protected $primaryKey = 'id_kelas';
 
-    public function all_kelas()
+    public function getAllKelas()
     {
         return $this->findAll();
     }

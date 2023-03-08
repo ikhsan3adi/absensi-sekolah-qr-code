@@ -31,51 +31,50 @@ class LihatDataAbsenGuru extends BaseController
         $data = [
             'title' => 'Data Absen Guru',
             'ctx' => 'absen-guru',
-            'data' => $this->guruModel->allGuru()
         ];
 
         return view('admin/absen/absen-guru', $data);
     }
 
-    public function ambil_guru()
+    public function ambilDataGuru()
     {
         // ambil variabel POST
         $tanggal = $this->request->getVar('tanggal');
 
         $lewat = Time::parse($tanggal)->isAfter(Time::today());
 
-        $result = $this->presensiGuru->get_presensi_byTanggal($tanggal);
+        $result = $this->presensiGuru->getPresensiByTanggal($tanggal);
 
         $data = [
             'data' => $result,
-            'listKehadiran' => $this->kehadiranModel->get_kehadiran(),
+            'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
             'lewat' => $lewat
         ];
 
         return view('admin/absen/list-absen-guru', $data);
     }
 
-    public function ubah_kehadiran()
+    public function ubahKehadiran()
     {
         // ambil variabel POST
-        $id_kehadiran = $this->request->getVar('id_kehadiran');
-        $id_guru = $this->request->getVar('id_guru');
+        $idKehadiran = $this->request->getVar('id_kehadiran');
+        $idGuru = $this->request->getVar('id_guru');
         $tanggal = $this->request->getVar('tanggal');
-        $jam_masuk = $this->request->getVar('jam_masuk');
+        $jamMasuk = $this->request->getVar('jam_masuk');
         $keterangan = $this->request->getVar('keterangan');
 
-        $cek = $this->presensiGuru->cek_absen($id_guru, $tanggal);
+        $cek = $this->presensiGuru->cekAbsen($idGuru, $tanggal);
 
-        $result = $this->presensiGuru->update_presensi(
+        $result = $this->presensiGuru->updatePresensi(
             $cek == false ? NULL : $cek,
-            $id_guru,
+            $idGuru,
             $tanggal,
-            $id_kehadiran,
-            $jam_masuk ?? NULL,
+            $idKehadiran,
+            $jamMasuk ?? NULL,
             $keterangan
         );
 
-        $response['nama_guru'] = $this->guruModel->getGuruById($id_guru)['nama_guru'];
+        $response['nama_guru'] = $this->guruModel->getGuruById($idGuru)['nama_guru'];
 
         if ($result) {
             $response['status'] = TRUE;

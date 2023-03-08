@@ -15,7 +15,7 @@ class PetugasModel extends Model
 
     protected $primaryKey = 'id_petugas';
 
-    public function cek_petugas(string $unique_code)
+    public function cekPetugas()
     {
     }
 }

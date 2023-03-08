@@ -15,12 +15,12 @@ class GuruModel extends Model
 
     protected $primaryKey = 'id_guru';
 
-    public function cek_guru(string $unique_code)
+    public function cekGuru(string $unique_code)
     {
         return $this->where(['unique_code' => $unique_code])->first();
     }
 
-    public function allGuru()
+    public function getAllGuru()
     {
         return $this->orderBy('nama_guru')->findAll();
     }

@@ -30,36 +30,39 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+// Scan
 $routes->get('/', 'Scan::index');
 $routes->get('/scan', 'Scan::index');
 $routes->get('/scan/masuk', 'Scan::index/Masuk');
 $routes->get('/scan/pulang', 'Scan::index/Pulang');
 
-$routes->post('/cek', 'Scan::cek_kode');
+$routes->post('/cek', 'Scan::cekKode');
 
-// admin dashboard
 $routes->get('/admin', 'Admin\Dashboard::index');
-$routes->get('/admin/dashboard', 'Admin\Dashboard::index');
 
 // Admin
 $routes->group('admin', function ($routes) {
-    // admin lihat data siswa & guru
-    $routes->get('data-siswa', 'Admin\LihatData::lihat_data_siswa');
-    $routes->post('data-siswa', 'Admin\LihatData::ambil_data_siswa');
-    $routes->get('data-siswa/edit/(:any)', 'Admin\LihatData::form_edit_siswa/$1');
+   // Admin dashboard
+   $routes->get('/admin/dashboard', 'Admin\Dashboard::index');
 
-    $routes->get('data-guru', 'Admin\LihatData::lihat_data_guru');
-    $routes->post('data-guru', 'Admin\LihatData::ambil_data_guru');
+   // admin lihat data siswa
+   $routes->get('data-siswa', 'Admin\LihatData::lihatDataSiswa');
+   $routes->post('data-siswa', 'Admin\LihatData::ambilDataSiswa');
+   $routes->get('data-siswa/edit/(:any)', 'Admin\LihatData::formEditSiswa/$1');
 
-    // admin lihat data absen siswa
-    $routes->get('absen-siswa', 'Admin\LihatDataAbsenSiswa::index');
-    $routes->post('absen-siswa', 'Admin\LihatDataAbsenSiswa::ambil_siswa'); // ambil siswa berdasarkan kelas dan tanggal
-    $routes->post('absen-siswa/edit', 'Admin\LihatDataAbsenSiswa::ubah_kehadiran'); // ubah kehadiran siswa
+   // admin lihat data guru
+   $routes->get('data-guru', 'Admin\LihatData::lihatDataGuru');
+   $routes->post('data-guru', 'Admin\LihatData::ambilDataGuru');
 
-    // admin lihat data absen siswa
-    $routes->get('absen-guru', 'Admin\LihatDataAbsenGuru::index');
-    $routes->post('absen-guru', 'Admin\LihatDataAbsenGuru::ambil_guru'); // ambil guru berdasarkan tanggal
-    $routes->post('absen-guru/edit', 'Admin\LihatDataAbsenGuru::ubah_kehadiran'); // ambil guru berdasarkan tanggal
+   // admin lihat data absen siswa
+   $routes->get('absen-siswa', 'Admin\LihatDataAbsenSiswa::index');
+   $routes->post('absen-siswa', 'Admin\LihatDataAbsenSiswa::ambilDataSiswa'); // ambil siswa berdasarkan kelas dan tanggal
+   $routes->post('absen-siswa/edit', 'Admin\LihatDataAbsenSiswa::ubahKehadiran'); // ubah kehadiran siswa
+
+   // admin lihat data absen guru
+   $routes->get('absen-guru', 'Admin\LihatDataAbsenGuru::index');
+   $routes->post('absen-guru', 'Admin\LihatDataAbsenGuru::ambilDataGuru'); // ambil guru berdasarkan tanggal
+   $routes->post('absen-guru/edit', 'Admin\LihatDataAbsenGuru::ubahKehadiran'); // ubah kehadiran guru
 });
 
 
@@ -77,5 +80,5 @@ $routes->group('admin', function ($routes) {
  * needing to reload it.
  */
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
-    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+   require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

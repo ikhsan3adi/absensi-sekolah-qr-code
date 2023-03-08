@@ -20,7 +20,7 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
 
     protected $table = 'tb_presensi_siswa';
 
-    public function cek_absen(string|int $id, string|Time $date)
+    public function cekAbsen(string|int $id, string|Time $date)
     {
         $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
 
@@ -29,11 +29,11 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
         return $result[$this->primaryKey];
     }
 
-    public function absen_masuk(string $id,  $date, $time, $id_kelas = '')
+    public function absenMasuk(string $id,  $date, $time, $idKelas = '')
     {
         $this->save([
             'id_siswa' => $id,
-            'id_kelas' => $id_kelas,
+            'id_kelas' => $idKelas,
             'tanggal' => $date,
             'jam_masuk' => $time,
             // 'jam_keluar' => '',
@@ -42,7 +42,7 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
         ]);
     }
 
-    public function absen_keluar(string $id, $time)
+    public function absenKeluar(string $id, $time)
     {
         $this->update($id, [
             'jam_keluar' => $time,
@@ -50,17 +50,17 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
         ]);
     }
 
-    public function get_presensi($id_siswa, $date)
+    public function getPresensiByIdSiswaTanggal($idSiswa, $date)
     {
-        return $this->where(['id_siswa' => $id_siswa, 'tanggal' => $date])->first();
+        return $this->where(['id_siswa' => $idSiswa, 'tanggal' => $date])->first();
     }
 
-    public function get_presensi_byId($id_presensi)
+    public function getPresensiById($idPresensi)
     {
-        return $this->where([$this->primaryKey => $id_presensi])->first();
+        return $this->where([$this->primaryKey => $idPresensi])->first();
     }
 
-    public function get_presensi_byKelasTanggal($id_kelas, $tanggal)
+    public function getPresensiByKelasTanggal($idKelas, $tanggal)
     {
         return $this->setTable('tb_siswa')
             ->select('*')
@@ -74,29 +74,29 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
                 'tb_presensi_siswa.id_kehadiran = tb_kehadiran.id_kehadiran',
                 'left'
             )
-            ->where("{$this->table}.id_kelas = $id_kelas")
+            ->where("{$this->table}.id_kelas = $idKelas")
             ->orderBy("nama_siswa")
             ->findAll();
     }
 
-    public function update_presensi($id_presensi = NULL, $id_siswa, $id_kelas, $tanggal, $id_kehadiran, $jam_masuk = NULL, $keterangan = NULL)
+    public function updatePresensi($idPresensi = NULL, $idSiswa, $idKelas, $tanggal, $idKehadiran, $jamMasuk = NULL, $keterangan = NULL)
     {
-        $presensi = $this->get_presensi($id_siswa, $tanggal);
+        $presensi = $this->getPresensiByIdSiswaTanggal($idSiswa, $tanggal);
 
         $data = [
-            'id_siswa' => $id_siswa,
-            'id_kelas' => $id_kelas,
+            'id_siswa' => $idSiswa,
+            'id_kelas' => $idKelas,
             'tanggal' => $tanggal,
-            'id_kehadiran' => $id_kehadiran,
+            'id_kehadiran' => $idKehadiran,
             'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''
         ];
 
-        if ($id_presensi != null) {
-            $data[$this->primaryKey] = $id_presensi;
+        if ($idPresensi != null) {
+            $data[$this->primaryKey] = $idPresensi;
         }
 
-        if ($jam_masuk != null) {
-            $data['jam_masuk'] = $jam_masuk;
+        if ($jamMasuk != null) {
+            $data['jam_masuk'] = $jamMasuk;
         }
 
         return $this->save($data);
