@@ -8,6 +8,7 @@
             <th>Jenis Kelamin</th>
             <th>No HP</th>
             <th>Alamat</th>
+            <th>Aksi</th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -19,6 +20,12 @@
                   <td><?= $value['jenis_kelamin']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td><?= $value['alamat']; ?></td>
+                  <td>
+                     <a href="#" type="button" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
+                        <i class="material-icons">edit</i>
+                        Edit
+                     </a>
+                  </td>
                </tr>
             <?php $i++;
             endforeach; ?>

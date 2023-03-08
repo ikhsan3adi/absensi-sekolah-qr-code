@@ -23,7 +23,7 @@
     <div id="dataSiswa" class="card-body table-responsive pb-5">
         <?php if (!empty($data)) : ?>
             <table class="table table-hover">
-                <thead class="text-success">
+                <thead class="text-primary">
                     <th>No.</th>
                     <th>NIS</th>
                     <th>Nama Siswa</th>

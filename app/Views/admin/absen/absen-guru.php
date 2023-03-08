@@ -20,7 +20,7 @@
                   </div>
                </div>
                <div class="col-sm-auto">
-                  <a href="#" class="btn btn-primary pl-3 mr-3 mt-3" onclick="kelas = get_guru()" data-toggle="tab">
+                  <a href="#" class="btn btn-success pl-3 mr-3 mt-3" onclick="kelas = get_guru()" data-toggle="tab">
                      <i class="material-icons mr-2">refresh</i> Refresh
                   </a>
                </div>
@@ -87,7 +87,7 @@
                alert('Gagal ubah kehadiran : ' + response['nama_guru']);
             }
 
-            get_siswa(lastIdKelas, lastKelas);
+            get_guru();
          },
          error: function(xhr, status, thrown) {
             console.log(thrown);
