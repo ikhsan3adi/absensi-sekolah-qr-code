@@ -11,178 +11,178 @@ use App\Models\TipeUser;
 
 class Scan extends BaseController
 {
-    protected SiswaModel $siswaModel;
-    protected GuruModel $guruModel;
+   protected SiswaModel $siswaModel;
+   protected GuruModel $guruModel;
 
-    protected PresensiSiswaModel $presensiSiswaModel;
-    protected PresensiGuruModel $presensiGuruModel;
+   protected PresensiSiswaModel $presensiSiswaModel;
+   protected PresensiGuruModel $presensiGuruModel;
 
-    public function __construct()
-    {
-        $this->siswaModel = new SiswaModel();
-        $this->guruModel = new GuruModel();
-        $this->presensiSiswaModel = new PresensiSiswaModel();
-        $this->presensiGuruModel = new PresensiGuruModel();
-    }
+   public function __construct()
+   {
+      $this->siswaModel = new SiswaModel();
+      $this->guruModel = new GuruModel();
+      $this->presensiSiswaModel = new PresensiSiswaModel();
+      $this->presensiGuruModel = new PresensiGuruModel();
+   }
 
-    public function index($t = 'Masuk')
-    {
-        $data = ['waktu' => $t, 'title' => 'Absensi SMK ICB Cinta Niaga'];
-        return view('scan/scan', $data);
-    }
+   public function index($t = 'Masuk')
+   {
+      $data = ['waktu' => $t, 'title' => 'Absensi SMK ICB Cinta Niaga'];
+      return view('scan/scan', $data);
+   }
 
-    public function cekKode()
-    {
-        // ambil variabel POST
-        $uniqueCode = $this->request->getVar('unique_code');
-        $waktuAbsen = $this->request->getVar('waktu');
+   public function cekKode()
+   {
+      // ambil variabel POST
+      $uniqueCode = $this->request->getVar('unique_code');
+      $waktuAbsen = $this->request->getVar('waktu');
 
-        $status = false;
-        $type = TipeUser::Siswa;
+      $status = false;
+      $type = TipeUser::Siswa;
 
-        // cek data siswa di database
-        $result = $this->siswaModel->cekSiswa($uniqueCode);
+      // cek data siswa di database
+      $result = $this->siswaModel->cekSiswa($uniqueCode);
 
-        if (empty($result)) {
-            // jika cek siswa gagal, cek data guru
-            $result = $this->guruModel->cekGuru($uniqueCode);
+      if (empty($result)) {
+         // jika cek siswa gagal, cek data guru
+         $result = $this->guruModel->cekGuru($uniqueCode);
 
-            if (!empty($result)) {
-                $status = true;
-
-                $type = TipeUser::Guru;
-            } else {
-                $status = false;
-
-                $result = NULL;
-            }
-        } else {
+         if (!empty($result)) {
             $status = true;
-        }
 
-        if (!$status) { // data tidak ditemukan
-            return $this->showErrorView('Data tidak ditemukan');
-        }
+            $type = TipeUser::Guru;
+         } else {
+            $status = false;
 
-        // jika data ditemukan
-        switch ($waktuAbsen) {
-            case 'masuk':
-                return $this->absenMasuk($type, $result);
-                break;
+            $result = NULL;
+         }
+      } else {
+         $status = true;
+      }
 
-            case 'pulang':
-                return $this->absenPulang($type, $result);
-                break;
+      if (!$status) { // data tidak ditemukan
+         return $this->showErrorView('Data tidak ditemukan');
+      }
 
-            default:
-                return $this->showErrorView('Data tidak valid');
-                break;
-        }
-    }
+      // jika data ditemukan
+      switch ($waktuAbsen) {
+         case 'masuk':
+            return $this->absenMasuk($type, $result);
+            break;
 
-    public function absenMasuk($type, $result)
-    {
-        // data ditemukan
-        $data['data'] = $result;
-        $data['waktu'] = 'masuk';
+         case 'pulang':
+            return $this->absenPulang($type, $result);
+            break;
 
-        $date = Time::today()->toDateString();
-        $time = Time::now()->toTimeString();
+         default:
+            return $this->showErrorView('Data tidak valid');
+            break;
+      }
+   }
 
-        // absen masuk
-        switch ($type) {
-            case TipeUser::Guru:
-                $idGuru =  $result['id_guru'];
-                $data['type'] = TipeUser::Guru;
+   public function absenMasuk($type, $result)
+   {
+      // data ditemukan
+      $data['data'] = $result;
+      $data['waktu'] = 'masuk';
 
-                $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
+      $date = Time::today()->toDateString();
+      $time = Time::now()->toTimeString();
 
-                if ($sudahAbsen != false) {
-                    $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
-                    return $this->showErrorView('Anda sudah absen hari ini', $data);
-                }
+      // absen masuk
+      switch ($type) {
+         case TipeUser::Guru:
+            $idGuru =  $result['id_guru'];
+            $data['type'] = TipeUser::Guru;
 
-                $this->presensiGuruModel->absenMasuk($idGuru, $date, $time);
+            $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
 
-                $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($idGuru, $date);
+            if ($sudahAbsen != false) {
+               $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
+               return $this->showErrorView('Anda sudah absen hari ini', $data);
+            }
 
-                return view('scan/scan-result', $data);
+            $this->presensiGuruModel->absenMasuk($idGuru, $date, $time);
 
-            case TipeUser::Siswa:
-                $idSiswa =  $result['id_siswa'];
-                $idKelas =  $result['id_kelas'];
-                $data['type'] = TipeUser::Siswa;
+            $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($idGuru, $date);
 
-                $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, Time::today()->toDateString());
+            return view('scan/scan-result', $data);
 
-                if ($sudahAbsen != false) {
-                    $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
-                    return $this->showErrorView('Anda sudah absen hari ini', $data);
-                }
+         case TipeUser::Siswa:
+            $idSiswa =  $result['id_siswa'];
+            $idKelas =  $result['id_kelas'];
+            $data['type'] = TipeUser::Siswa;
 
-                $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
+            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, Time::today()->toDateString());
 
-                $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
+            if ($sudahAbsen != false) {
+               $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
+               return $this->showErrorView('Anda sudah absen hari ini', $data);
+            }
 
-                return view('scan/scan-result', $data);
+            $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
 
-            default:
-                return $this->showErrorView('Tipe tidak valid');
-        }
-    }
+            $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
 
-    public function absenPulang($type, $result)
-    {
-        // data ditemukan
-        $data['data'] = $result;
-        $data['waktu'] = 'pulang';
+            return view('scan/scan-result', $data);
 
-        $date = Time::today()->toDateString();
-        $time = Time::now()->toTimeString();
+         default:
+            return $this->showErrorView('Tipe tidak valid');
+      }
+   }
 
-        // absen pulang
-        switch ($type) {
-            case TipeUser::Guru:
-                $idGuru =  $result['id_guru'];
-                $data['type'] = TipeUser::Guru;
+   public function absenPulang($type, $result)
+   {
+      // data ditemukan
+      $data['data'] = $result;
+      $data['waktu'] = 'pulang';
 
-                $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
+      $date = Time::today()->toDateString();
+      $time = Time::now()->toTimeString();
 
-                if ($sudahAbsen == false) {
-                    return $this->showErrorView('Anda belum absen hari ini', $data);
-                }
+      // absen pulang
+      switch ($type) {
+         case TipeUser::Guru:
+            $idGuru =  $result['id_guru'];
+            $data['type'] = TipeUser::Guru;
 
-                $this->presensiGuruModel->absenKeluar($sudahAbsen, $time);
+            $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
 
-                $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
+            if ($sudahAbsen == false) {
+               return $this->showErrorView('Anda belum absen hari ini', $data);
+            }
 
-                return view('scan/scan-result', $data);
+            $this->presensiGuruModel->absenKeluar($sudahAbsen, $time);
 
-            case TipeUser::Siswa:
-                $idSiswa =  $result['id_siswa'];
-                $data['type'] = TipeUser::Siswa;
+            $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
 
-                $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, $date);
+            return view('scan/scan-result', $data);
 
-                if ($sudahAbsen == false) {
-                    return $this->showErrorView('Anda belum absen hari ini', $data);
-                }
+         case TipeUser::Siswa:
+            $idSiswa =  $result['id_siswa'];
+            $data['type'] = TipeUser::Siswa;
 
-                $this->presensiSiswaModel->absen_keluar($sudahAbsen, $time);
+            $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, $date);
 
-                $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
+            if ($sudahAbsen == false) {
+               return $this->showErrorView('Anda belum absen hari ini', $data);
+            }
 
-                return view('scan/scan-result', $data);
-            default:
-                return $this->showErrorView('Tipe tidak valid');
-        }
-    }
+            $this->presensiSiswaModel->absen_keluar($sudahAbsen, $time);
 
-    public function showErrorView(string $msg = 'no error message', $data = NULL)
-    {
-        $errdata = $data ?? [];
-        $errdata['msg'] = $msg;
+            $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
 
-        return view('scan/error-scan-result', $errdata);
-    }
+            return view('scan/scan-result', $data);
+         default:
+            return $this->showErrorView('Tipe tidak valid');
+      }
+   }
+
+   public function showErrorView(string $msg = 'no error message', $data = NULL)
+   {
+      $errdata = $data ?? [];
+      $errdata['msg'] = $msg;
+
+      return view('scan/error-scan-result', $errdata);
+   }
 }
