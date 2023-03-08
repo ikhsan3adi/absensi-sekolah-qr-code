@@ -9,7 +9,7 @@ use App\Models\KehadiranModel;
 use App\Models\PresensiGuruModel;
 use CodeIgniter\I18n\Time;
 
-class LihatDataAbsenGuru extends BaseController
+class DataAbsenGuru extends BaseController
 {
    protected GuruModel $guruModel;
 

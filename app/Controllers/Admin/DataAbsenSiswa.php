@@ -11,7 +11,7 @@ use App\Models\KehadiranModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
 
-class LihatDataAbsenSiswa extends BaseController
+class DataAbsenSiswa extends BaseController
 {
    protected KelasModel $kelasModel;
 
