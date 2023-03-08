@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use CodeIgniter\Router\RouteCollection;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -41,7 +43,7 @@ $routes->post('/cek', 'Scan::cekKode');
 $routes->get('/admin', 'Admin\Dashboard::index');
 
 // Admin
-$routes->group('admin', function ($routes) {
+$routes->group('admin', function (RouteCollection $routes) {
    // Admin dashboard
    $routes->get('dashboard', 'Admin\Dashboard::index');
 
@@ -49,11 +51,15 @@ $routes->group('admin', function ($routes) {
    $routes->get('data-siswa', 'Admin\DataSiswa::index');
    $routes->post('data-siswa', 'Admin\DataSiswa::ambilDataSiswa');
    $routes->get('data-siswa/edit/(:any)', 'Admin\DataSiswa::formEditSiswa/$1');
+   $routes->post('data-siswa/edit', 'Admin\DataSiswa::updateSiswa');
+   $routes->delete('data-siswa/delete/(:any)', 'Admin\DataSiswa::delete/$1');
 
    // admin lihat data guru
    $routes->get('data-guru', 'Admin\DataGuru::index');
    $routes->post('data-guru', 'Admin\DataGuru::ambilDataGuru');
    $routes->get('data-guru/edit/(:any)', 'Admin\DataGuru::formEditGuru/$1');
+   $routes->post('data-guru/edit', 'Admin\DataGuru::updateGuru');
+   $routes->delete('data-guru/delete/(:any)', 'Admin\DataGuru::delete/$1');
 
    // admin lihat data absen siswa
    $routes->get('absen-siswa', 'Admin\DataAbsenSiswa::index');
