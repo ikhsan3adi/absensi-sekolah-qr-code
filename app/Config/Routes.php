@@ -41,20 +41,26 @@ $routes->post('/cek', 'Scan::cek_kode');
 $routes->get('/admin', 'Admin\Dashboard::index');
 $routes->get('/admin/dashboard', 'Admin\Dashboard::index');
 
-// admin lihat data siswa & guru
-$routes->get('/admin/data-siswa', 'Admin\LihatData::lihat_data_siswa');
-$routes->post('/admin/data-siswa', 'Admin\LihatData::ambil_data_siswa');
-$routes->get('/admin/data-guru', 'Admin\LihatData::lihat_data_guru');
-$routes->post('/admin/data-guru', 'Admin\LihatData::ambil_data_guru');
+// Admin
+$routes->group('admin', function ($routes) {
+    // admin lihat data siswa & guru
+    $routes->get('data-siswa', 'Admin\LihatData::lihat_data_siswa');
+    $routes->post('data-siswa', 'Admin\LihatData::ambil_data_siswa');
+    $routes->get('data-siswa/edit/(:any)', 'Admin\LihatData::form_edit_siswa/$1');
 
-// admin lihat data absen siswa
-$routes->get('/admin/absen-siswa', 'Admin\LihatDataAbsenSiswa::index');
-$routes->post('/admin/absen-siswa', 'Admin\LihatDataAbsenSiswa::ambil_siswa'); // ambil siswa berdasarkan kelas dan tanggal
-$routes->post('/admin/absen-siswa/edit', 'Admin\LihatDataAbsenSiswa::ubah_kehadiran'); // ubah kehadiran siswa
+    $routes->get('data-guru', 'Admin\LihatData::lihat_data_guru');
+    $routes->post('data-guru', 'Admin\LihatData::ambil_data_guru');
 
-// admin lihat data absen siswa
-$routes->get('/admin/absen-guru', 'Admin\LihatDataAbsenGuru::index');
-$routes->post('/admin/absen-guru', 'Admin\LihatDataAbsenGuru::ambil_guru'); // ambil guru berdasarkan tanggal
+    // admin lihat data absen siswa
+    $routes->get('absen-siswa', 'Admin\LihatDataAbsenSiswa::index');
+    $routes->post('absen-siswa', 'Admin\LihatDataAbsenSiswa::ambil_siswa'); // ambil siswa berdasarkan kelas dan tanggal
+    $routes->post('absen-siswa/edit', 'Admin\LihatDataAbsenSiswa::ubah_kehadiran'); // ubah kehadiran siswa
+
+    // admin lihat data absen siswa
+    $routes->get('absen-guru', 'Admin\LihatDataAbsenGuru::index');
+    $routes->post('absen-guru', 'Admin\LihatDataAbsenGuru::ambil_guru'); // ambil guru berdasarkan tanggal
+    $routes->post('absen-guru/edit', 'Admin\LihatDataAbsenGuru::ubah_kehadiran'); // ambil guru berdasarkan tanggal
+});
 
 
 /*
