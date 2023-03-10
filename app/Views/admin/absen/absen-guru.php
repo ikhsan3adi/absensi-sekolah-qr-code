@@ -87,7 +87,7 @@
                alert('Gagal ubah kehadiran : ' + response['nama_guru']);
             }
 
-            get_guru();
+            getGuru();
          },
          error: function(xhr, status, thrown) {
             console.log(thrown);
