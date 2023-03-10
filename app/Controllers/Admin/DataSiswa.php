@@ -70,14 +70,56 @@ class DataSiswa extends BaseController
       return view('admin/data/list-data-siswa', $data);
    }
 
-   public function formTambahSiswa($id)
+   public function formTambahSiswa()
    {
+      $kelas = $this->kelasModel->getAllKelas();
+
       $data = [
          'ctx' => 'siswa',
+         'kelas' => $kelas,
          'title' => 'Tambah Data Siswa'
       ];
 
       return view('admin/data/create/create-data-siswa', $data);
+   }
+
+   public function saveSiswa()
+   {
+      // validasi
+      if (!$this->validate($this->siswaValidationRules)) {
+         $kelas = $this->kelasModel->getAllKelas();
+
+         $data = [
+            'ctx' => 'siswa',
+            'kelas' => $kelas,
+            'title' => 'Tambah Data Siswa',
+            'validation' => $this->validator,
+            'oldInput' => $this->request->getVar()
+         ];
+         return view('/admin/data/create/create-data-siswa', $data);
+      }
+
+      $nis = $this->request->getVar('nis');
+      $namaSiswa = $this->request->getVar('nama');
+      $idKelas = intval($this->request->getVar('id_kelas'));
+      $jenisKelamin = $this->request->getVar('jk');
+      $noHp = $this->request->getVar('no_hp');
+
+      $result = $this->siswaModel->saveSiswa(NULL, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Tambah data berhasil',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/siswa');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal menambah data',
+         'error' => true
+      ]);
+      return redirect()->to('/admin/siswa/create');
    }
 
    public function formEditSiswa($id)
