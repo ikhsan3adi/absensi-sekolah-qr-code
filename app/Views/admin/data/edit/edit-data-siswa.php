@@ -46,7 +46,7 @@
                      <div class="row">
                         <div class="col-md-6">
                            <label for="kelas">Kelas</label>
-                           <select class="form-control pt-0 <?= $validation->getError('id_kelas') ? 'is-invalid' : ''; ?>" id="kelas" name="id_kelas">
+                           <select class="custom-select <?= $validation->getError('id_kelas') ? 'is-invalid' : ''; ?>" id="kelas" name="id_kelas">
                               <option value="">--Pilih kelas--</option>
                               <?php foreach ($kelas as $value) : ?>
                                  <option value="<?= $value['id_kelas']; ?>" <?= old('id_kelas') ?? $oldInput['id_kelas'] ?? $value['id_kelas'] == $data['id_kelas'] ? 'selected' : ''; ?>>

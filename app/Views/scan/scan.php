@@ -35,7 +35,7 @@
                    <div class="card-body my-auto px-5">
                       <h4>Pilih kamera</h4>
 
-                      <select id="pilihKamera" class="form-select" aria-label="Default select example">
+                      <select id="pilihKamera" class="custom-select" aria-label="Default select example">
                          <option selected>Select camera devices</option>
                       </select>
 
