@@ -23,11 +23,11 @@
                   <td><?= $value['jurusan']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td>
-                     <a href="<?= base_url('admin/data-siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
+                     <a href="<?= base_url('admin/siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
-                     <form action="<?= base_url('admin/data-siswa/delete/' . $value['id_siswa']); ?>" method="post" class="d-inline">
+                     <form action="<?= base_url('admin/siswa/delete/' . $value['id_siswa']); ?>" method="post" class="d-inline">
                         <?= csrf_field(); ?>
                         <input type="hidden" name="_method" value="DELETE">
                         <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nis']; ?>">

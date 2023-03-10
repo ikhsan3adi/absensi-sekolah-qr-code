@@ -84,13 +84,13 @@ class DataSiswa extends BaseController
             'msg' => 'Data berhasil dihapus',
             'error' => false
          ]);
-         return redirect()->to('/admin/data-siswa');
+         return redirect()->to('/admin/siswa');
       }
 
       session()->setFlashdata([
          'msg' => 'Gagal menghapus data',
          'error' => true
       ]);
-      return redirect()->to('/admin/data-siswa');
+      return redirect()->to('/admin/siswa');
    }
 }

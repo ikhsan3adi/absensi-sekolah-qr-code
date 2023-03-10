@@ -40,7 +40,7 @@
 
    function getDataGuru() {
       jQuery.ajax({
-         url: "<?= base_url('/admin/data-guru'); ?>",
+         url: "<?= base_url('/admin/guru'); ?>",
          type: 'post',
          data: {},
          success: function(response, status, xhr) {

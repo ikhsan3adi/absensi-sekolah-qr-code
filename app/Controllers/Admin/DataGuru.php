@@ -77,13 +77,13 @@ class DataGuru extends BaseController
             'msg' => 'Data berhasil dihapus',
             'error' => false
          ]);
-         return redirect()->to('/admin/data-guru');
+         return redirect()->to('/admin/guru');
       }
 
       session()->setFlashdata([
          'msg' => 'Gagal menghapus data',
          'error' => true
       ]);
-      return redirect()->to('/admin/data-guru');
+      return redirect()->to('/admin/guru');
    }
 }

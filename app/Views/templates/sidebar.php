@@ -47,13 +47,13 @@ switch ($context) {
             </a>
          </li>
          <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/data-siswa'); ?>">
+            <a class="nav-link" href="<?= base_url('admin/siswa'); ?>">
                <i class="material-icons">person</i>
                <p>Data Siswa</p>
             </a>
          </li>
          <li class="nav-item <?= $context == 'guru' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/data-guru'); ?>">
+            <a class="nav-link" href="<?= base_url('admin/guru'); ?>">
                <i class="material-icons">person</i>
                <p>Data Guru</p>
             </a>

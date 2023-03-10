@@ -92,7 +92,7 @@
 
    function getDataSiswa(_kelas = null, _jurusan = null) {
       jQuery.ajax({
-         url: "<?= base_url('/admin/data-siswa'); ?>",
+         url: "<?= base_url('/admin/siswa'); ?>",
          type: 'post',
          data: {
             'kelas': _kelas,

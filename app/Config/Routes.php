@@ -48,18 +48,30 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('dashboard', 'Admin\Dashboard::index');
 
    // admin lihat data siswa
-   $routes->get('data-siswa', 'Admin\DataSiswa::index');
-   $routes->post('data-siswa', 'Admin\DataSiswa::ambilDataSiswa');
-   $routes->get('data-siswa/edit/(:any)', 'Admin\DataSiswa::formEditSiswa/$1');
-   $routes->post('data-siswa/edit', 'Admin\DataSiswa::updateSiswa');
-   $routes->delete('data-siswa/delete/(:any)', 'Admin\DataSiswa::delete/$1');
+   $routes->get('siswa', 'Admin\DataSiswa::index');
+   $routes->post('siswa', 'Admin\DataSiswa::ambilDataSiswa');
+   // admin tambah data siswa
+   $routes->get('siswa/create', 'Admin\DataSiswa::formTambahSiswa');
+   $routes->post('siswa/create', 'Admin\DataSiswa::saveSiswa');
+   // admin edit data siswa
+   $routes->get('siswa/edit/(:any)', 'Admin\DataSiswa::formEditSiswa/$1');
+   $routes->post('siswa/edit', 'Admin\DataSiswa::updateSiswa');
+   // admin hapus data siswa
+   $routes->delete('siswa/delete/(:any)', 'Admin\DataSiswa::delete/$1');
+
 
    // admin lihat data guru
-   $routes->get('data-guru', 'Admin\DataGuru::index');
-   $routes->post('data-guru', 'Admin\DataGuru::ambilDataGuru');
-   $routes->get('data-guru/edit/(:any)', 'Admin\DataGuru::formEditGuru/$1');
-   $routes->post('data-guru/edit', 'Admin\DataGuru::updateGuru');
-   $routes->delete('data-guru/delete/(:any)', 'Admin\DataGuru::delete/$1');
+   $routes->get('guru', 'Admin\DataGuru::index');
+   $routes->post('guru', 'Admin\DataGuru::ambilDataGuru');
+   // admin tambah data guru
+   $routes->get('guru/create', 'Admin\DataGuru::formTambahGuru');
+   $routes->post('guru/create', 'Admin\DataGuru::saveGuru');
+   // admin edit data guru
+   $routes->get('guru/edit/(:any)', 'Admin\DataGuru::formEditGuru/$1');
+   $routes->post('guru/edit', 'Admin\DataGuru::updateGuru');
+   // admin hapus data guru
+   $routes->delete('guru/delete/(:any)', 'Admin\DataGuru::delete/$1');
+
 
    // admin lihat data absen siswa
    $routes->get('absen-siswa', 'Admin\DataAbsenSiswa::index');
