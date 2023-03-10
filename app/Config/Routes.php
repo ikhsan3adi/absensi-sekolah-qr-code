@@ -84,6 +84,9 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('absen-guru', 'Admin\DataAbsenGuru::index');
    $routes->post('absen-guru', 'Admin\DataAbsenGuru::ambilDataGuru'); // ambil guru berdasarkan tanggal
    $routes->post('absen-guru/edit', 'Admin\DataAbsenGuru::ubahKehadiran'); // ubah kehadiran guru
+
+   // admin generate QR
+   $routes->get('generate', 'Admin\GenerateQR::index');
 });
 
 

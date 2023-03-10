@@ -10,6 +10,10 @@ switch ($context) {
       $sidebarColor = 'green';
       break;
 
+   case 'qr':
+      $sidebarColor = 'danger';
+      break;
+
    default:
       $sidebarColor = 'azure';
       break;
@@ -54,14 +58,20 @@ switch ($context) {
          </li>
          <li class="nav-item <?= $context == 'guru' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?= base_url('admin/guru'); ?>">
-               <i class="material-icons">person</i>
+               <i class="material-icons">person_4</i>
                <p>Data Guru</p>
             </a>
          </li>
-         <!-- <li class="nav-item active-pro ">
+         <li class="nav-item <?= $context == 'qr' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/generate'); ?>">
+               <i class="material-icons">qr_code</i>
+               <p>Generate QR Code</p>
+            </a>
+         </li>
+         <!-- <li class="nav-item active-pro mb-3">
             <a class="nav-link" href="./upgrade.html">
                <i class="material-icons">unarchive</i>
-               <p>Upgrade to PRO</p>
+               <p>Bottom sidebar</p>
             </a>
          </li> -->
       </ul>
