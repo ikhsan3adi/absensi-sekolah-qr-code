@@ -6,10 +6,17 @@ use CodeIgniter\Model;
 
 class SiswaModel extends Model
 {
-   // protected function initialize()
-   // {
-   //     $this->allowedFields[] = [];
-   // }
+   protected function initialize()
+   {
+      $this->allowedFields = [
+         'nis',
+         'nama_siswa',
+         'id_kelas',
+         'jenis_kelamin',
+         'no_hp',
+         'unique_code'
+      ];
+   }
 
    protected $table = 'tb_siswa';
 
@@ -54,5 +61,18 @@ class SiswaModel extends Model
    public function get_siswa_byKelas($id_kelas)
    {
       return $this->where(['id_kelas' => $id_kelas])->findAll();
+   }
+
+   public function saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp)
+   {
+      return $this->save([
+         $this->primaryKey => $idSiswa,
+         'nis' => $nis,
+         'nama_siswa' => $namaSiswa,
+         'id_kelas' => $idKelas,
+         'jenis_kelamin' => $jenisKelamin,
+         'no_hp' => $noHp,
+         'unique_code' => sha1($namaSiswa . md5($nis . $noHp . $namaSiswa)) . substr(sha1($nis . rand(0, 100)), 0, 24)
+      ]);
    }
 }
