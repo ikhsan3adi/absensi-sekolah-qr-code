@@ -8,6 +8,7 @@
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
         "chillerlan/php-qrcode": "^4.3",
+        "myth/auth": "^1.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
