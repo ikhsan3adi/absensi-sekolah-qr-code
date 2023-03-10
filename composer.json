@@ -7,7 +7,8 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
-        "myth/auth": "^1.2"
+        "myth/auth": "^1.2",
+        "endroid/qr-code": "^4.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
