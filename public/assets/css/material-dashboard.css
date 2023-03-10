@@ -2637,7 +2637,7 @@ select.form-control-lg:not([size]):not([multiple]),
   display: none;
   width: 100%;
   margin-top: 0.25rem;
-  font-size: 80%;
+  font-size: 100%;
   color: #f44336;
 }
 
