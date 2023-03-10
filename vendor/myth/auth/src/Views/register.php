@@ -12,7 +12,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6 offset-sm-3">
+                <div class="col-md-6 mx-auto">
                     <div class="card">
                         <div class="card-header card-header-primary mb-48">
                             <h4 class="card-title"><?= lang('Auth.register') ?></h4>
