@@ -11,51 +11,65 @@
                </div>
                <div class="card-body mx-5 my-3">
 
-                  <form action="" method="post">
+                  <form action="<?= base_url('admin/siswa/edit'); ?>" method="post">
                      <?= csrf_field() ?>
+                     <?php $validation = \Config\Services::validation(); ?>
+
+                     <?php if (session()->getFlashdata('msg')) : ?>
+                        <div class="pb-2">
+                           <div class="alert alert-danger">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                 <i class="material-icons">close</i>
+                              </button>
+                              <?= session()->getFlashdata('msg') ?>
+                           </div>
+                        </div>
+                     <?php endif; ?>
+
+                     <input type="hidden" name="id" value="<?= $data['id_siswa']; ?>">
 
                      <div class="form-group mt-4">
                         <label for="nis">NIS</label>
-                        <input type="text" id="nis" class="form-control <?php if (session('errors.nis')) : ?>is-invalid<?php endif ?>" name="nis" placeholder="1234" value="<?= old('nis') ?? $data['nis'] ?>">
+                        <input type="text" id="nis" class="form-control <?= $validation->getError('nis') ? 'is-invalid' : ''; ?>" name="nis" placeholder="1234" value="<?= old('nis') ?? $oldInput['nis'] ?? $data['nis'] ?>">
                         <div class="invalid-feedback">
-                           <?= session('errors.nis') ?>
+                           <?= $validation->getError('nis'); ?>
                         </div>
                      </div>
 
                      <div class="form-group mt-4">
                         <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" class="form-control <?php if (session('errors.nama')) : ?>is-invalid<?php endif ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?? $data['nama_siswa'] ?>">
+                        <input type="text" id="nama" class="form-control <?= $validation->getError('nama') ? 'is-invalid' : ''; ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?? $oldInput['nama'] ?? $data['nama_siswa'] ?>">
                         <div class="invalid-feedback">
-                           <?= session('errors.nama') ?>
+                           <?= $validation->getError('nama'); ?>
                         </div>
                      </div>
                      <div class="row">
                         <div class="col-md-6">
                            <label for="kelas">Kelas</label>
-                           <select class="form-control pt-0" id="kelas">
-                              <option>--Pilih kelas--</option>
+                           <select class="form-control pt-0 <?= $validation->getError('id_kelas') ? 'is-invalid' : ''; ?>" id="kelas" name="id_kelas">
+                              <option value="">--Pilih kelas--</option>
                               <?php foreach ($kelas as $value) : ?>
-                                 <option value="<?= $value['id_kelas']; ?>" <?= $value['id_kelas'] == $data['id_kelas'] ? 'selected' : ''; ?>>
+                                 <option value="<?= $value['id_kelas']; ?>" <?= old('id_kelas') ?? $oldInput['id_kelas'] ?? $value['id_kelas'] == $data['id_kelas'] ? 'selected' : ''; ?>>
                                     <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
                                  </option>
                               <?php endforeach; ?>
                            </select>
                            <div class="invalid-feedback">
-                              <?= session('errors.kelas') ?>
+                              <?= $validation->getError('id_kelas'); ?>
                            </div>
                         </div>
                         <div class="col-md-6">
                            <label for="jk">Jenis Kelamin</label>
                            <?php
-                           $l = (old('jk') ?? $data['jenis_kelamin']) == 'Perempuan' ? '' : 'checked';
-                           $p = (old('jk') ?? $data['jenis_kelamin']) == 'Perempuan' ? 'checked' : '';
+                           $l = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' ? '' : 'checked';
+                           $p = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' ? 'checked' : '';
                            ?>
-                           <div class="form-check my-1" id="jk">
+                           <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>" id="jk">
                               <div class="row">
                                  <div class="col-auto">
                                     <div class="row">
                                        <div class="col-auto pr-1">
-                                          <input class="form-check" type="radio" name="jk" id="laki" <?= $l; ?>>
+                                          <input class="form-check" type="radio" name="jk" id="laki" value="1" <?= $l; ?>>
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="laki">
@@ -67,7 +81,7 @@
                                  <div class="col">
                                     <div class="row">
                                        <div class="col-auto pr-1">
-                                          <input class="form-check" type="radio" name="jk" id="perempuan" <?= $p; ?>>
+                                          <input class="form-check" type="radio" name="jk" id="perempuan" value="2" <?= $p; ?>>
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="perempuan">
@@ -79,16 +93,16 @@
                               </div>
                            </div>
                            <div class="invalid-feedback">
-                              <?= session('errors.jk') ?>
+                              <?= $validation->getError('jk'); ?>
                            </div>
                         </div>
                      </div>
 
                      <div class="form-group mt-5">
                         <label for="hp">No HP</label>
-                        <input type="number" id="hp" name="no_hp" class="form-control <?php if (session('errors.jk')) : ?>is-invalid<?php endif ?>" value="<?= old('no_hp') ?? $data['no_hp'] ?>">
+                        <input type="number" id="hp" name="no_hp" class="form-control <?= $validation->getError('no_hp') ? 'is-invalid' : ''; ?>" value="<?= old('no_hp') ?? $oldInput['no_hp'] ?? $data['no_hp'] ?>">
                         <div class="invalid-feedback">
-                           <?= session('errors.no_hp') ?>
+                           <?= $validation->getError('no_hp'); ?>
                         </div>
                      </div>
 
