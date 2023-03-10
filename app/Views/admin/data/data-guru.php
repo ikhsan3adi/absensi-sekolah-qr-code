@@ -4,6 +4,16 @@
    <div class="container-fluid">
       <div class="row">
          <div class="col-lg-12 col-md-12">
+            <?php if (session()->getFlashdata('msg')) : ?>
+               <div class="pb-2 px-3">
+                  <div class="alert alert-success">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                     </button>
+                     <?= session()->getFlashdata('msg') ?>
+                  </div>
+               </div>
+            <?php endif; ?>
             <div class="card">
                <div class="card-header card-header-tabs card-header-success">
                   <div class="nav-tabs-navigation">

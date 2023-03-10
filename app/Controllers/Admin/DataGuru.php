@@ -5,10 +5,30 @@ namespace App\Controllers\Admin;
 use App\Models\GuruModel;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class DataGuru extends BaseController
 {
    protected GuruModel $guruModel;
+
+   protected $guruValidationRules = [
+      'nuptk' => [
+         'rules' => 'required|max_length[20]|min_length[16]',
+         'errors' => [
+            'required' => 'NUPTK harus diisi.',
+            'is_unique' => 'NUPTK ini telah terdaftar.',
+            'min_length[16]' => 'Panjang NUPTK minimal 16 karakter'
+         ]
+      ],
+      'nama' => [
+         'rules' => 'required|min_length[3]',
+         'errors' => [
+            'required' => 'Nama harus diisi'
+         ]
+      ],
+      'jk' => ['rules' => 'required', 'errors' => ['required' => 'Jenis kelamin wajib diisi']],
+      'no_hp' => 'required|numeric|max_length[20]|min_length[5]'
+   ];
 
    public function __construct()
    {
@@ -51,11 +71,14 @@ class DataGuru extends BaseController
    {
       $guru = $this->guruModel->getGuruById($id);
 
+      if (empty($guru)) {
+         throw new PageNotFoundException('Data guru dengan id ' . $id . ' tidak ditemukan');
+      }
+
       $data = [
          'data' => $guru,
          'ctx' => 'guru',
          'title' => 'Edit Data Guru',
-         'empty' => empty($result)
       ];
 
       return view('admin/data/edit/edit-data-guru', $data);
@@ -63,9 +86,41 @@ class DataGuru extends BaseController
 
    public function updateGuru()
    {
-      $result = $this->request->getVar();
+      $idGuru = $this->request->getVar('id');
 
-      dd($result);
+      // validasi
+      if (!$this->validate($this->guruValidationRules)) {
+         $data = [
+            'data' => $this->guruModel->getGuruById($idGuru),
+            'ctx' => 'guru',
+            'title' => 'Edit Data Guru',
+            'validation' => $this->validator,
+            'oldInput' => $this->request->getVar()
+         ];
+         return view('/admin/data/edit/edit-data-guru', $data);
+      }
+
+      $nuptk = $this->request->getVar('nuptk');
+      $namaGuru = $this->request->getVar('nama');
+      $jenisKelamin = $this->request->getVar('jk');
+      $alamat = $this->request->getVar('alamat');
+      $noHp = $this->request->getVar('no_hp');
+
+      $result = $this->guruModel->saveGuru($idGuru, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Edit data berhasil',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/guru');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal mengubah data',
+         'error' => true
+      ]);
+      return redirect()->to('/admin/guru/edit/' . $idGuru);
    }
 
    public function delete($id)
