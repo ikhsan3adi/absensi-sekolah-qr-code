@@ -34,17 +34,19 @@ $routes->set404Override();
 
 // Scan
 $routes->get('/', 'Scan::index');
-$routes->get('/scan', 'Scan::index');
-$routes->get('/scan/masuk', 'Scan::index/Masuk');
-$routes->get('/scan/pulang', 'Scan::index/Pulang');
 
-$routes->post('/cek', 'Scan::cekKode');
+$routes->group('scan', function (RouteCollection $routes) {
+   $routes->get('', 'Scan::index');
+   $routes->get('masuk', 'Scan::index/Masuk');
+   $routes->get('pulang', 'Scan::index/Pulang');
 
-$routes->get('/admin', 'Admin\Dashboard::index');
+   $routes->post('cek', 'Scan::cekKode');
+});
 
 // Admin
 $routes->group('admin', function (RouteCollection $routes) {
    // Admin dashboard
+   $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
 
    // admin lihat data siswa

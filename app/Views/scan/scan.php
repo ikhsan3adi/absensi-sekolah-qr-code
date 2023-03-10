@@ -148,7 +148,7 @@
 
     async function cekData(code) {
        jQuery.ajax({
-          url: "<?= base_url('/cek'); ?>",
+          url: "<?= base_url('scan/cek'); ?>",
           type: 'post',
           data: {
              'unique_code': code,
