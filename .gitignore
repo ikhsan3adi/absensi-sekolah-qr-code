@@ -89,6 +89,11 @@ vendor/**
 !/vendor/**/
 !vendor/myth/auth/**
 
+# un-ignore chillerlan/php-qrcode
+!/vendor/**/
+!vendor/chillerlan/php-qrcode/**
+!vendor/chillerlan/php-settings-container/**
+
 #-------------------------
 # IDE / Development Files
 #-------------------------
