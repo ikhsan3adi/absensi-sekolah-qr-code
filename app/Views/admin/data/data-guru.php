@@ -26,6 +26,12 @@
                            <div class="nav-tabs-wrapper">
                               <ul class="nav nav-tabs" data-tabs="tabs">
                                  <li class="nav-item">
+                                    <a class="nav-link" id="tabBtn" onclick="removeHover()" href="<?= base_url('admin/guru/create'); ?>">
+                                       <i class="material-icons">add</i> Tambah data guru
+                                       <div class="ripple-container"></div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
                                     <a class="nav-link" id="refreshBtn" onclick="getDataGuru()" href="#" data-toggle="tab">
                                        <i class="material-icons">refresh</i> Refresh
                                        <div class="ripple-container"></div>
@@ -68,6 +74,12 @@
             $('#refreshBtn').removeClass('active show');
          }
       });
+   }
+
+   function removeHover() {
+      setTimeout(() => {
+         $('#tabBtn').removeClass('active show');
+      }, 250);
    }
 </script>
 <?= $this->endSection() ?>

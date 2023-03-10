@@ -57,7 +57,7 @@ class DataGuru extends BaseController
       return view('admin/data/list-data-guru', $data);
    }
 
-   public function formTambahGuru($id)
+   public function formTambahGuru()
    {
       $data = [
          'ctx' => 'guru',
@@ -65,6 +65,42 @@ class DataGuru extends BaseController
       ];
 
       return view('admin/data/create/create-data-guru', $data);
+   }
+
+   public function saveGuru()
+   {
+      // validasi
+      if (!$this->validate($this->guruValidationRules)) {
+         $data = [
+            'ctx' => 'guru',
+            'title' => 'Tambah Data Guru',
+            'validation' => $this->validator,
+            'oldInput' => $this->request->getVar()
+         ];
+         return view('/admin/data/create/create-data-guru', $data);
+      }
+
+      $nuptk = $this->request->getVar('nuptk');
+      $namaGuru = $this->request->getVar('nama');
+      $jenisKelamin = $this->request->getVar('jk');
+      $alamat = $this->request->getVar('alamat');
+      $noHp = $this->request->getVar('no_hp');
+
+      $result = $this->guruModel->saveGuru(NULL, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Tambah data berhasil',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/guru');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal menambah data',
+         'error' => true
+      ]);
+      return redirect()->to('/admin/guru/create/');
    }
 
    public function formEditGuru($id)
