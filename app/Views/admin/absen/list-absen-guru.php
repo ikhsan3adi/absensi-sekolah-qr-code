@@ -2,14 +2,14 @@
    <?php if (!empty($data)) : ?>
       <table class="table table-hover">
          <thead class="text-success">
-            <th>No.</th>
-            <th>NUPTK</th>
-            <th>Nama Guru</th>
-            <th>Kehadiran</th>
-            <th>Jam masuk</th>
-            <th>Jam pulang</th>
-            <th>Keterangan</th>
-            <th>Aksi</th>
+            <th><b>No.</b></th>
+            <th><b>NUPTK</b></th>
+            <th><b>Nama Guru</b></th>
+            <th><b>Kehadiran</b></th>
+            <th><b>Jam masuk</b></th>
+            <th><b>Jam pulang</b></th>
+            <th><b>Keterangan</b></th>
+            <th><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $no = 1; ?>
@@ -27,8 +27,8 @@
                         <b><?= $kehadiran['text']; ?></b>
                      </p>
                   </td>
-                  <td><?= $value['jam_masuk'] ?? '-'; ?></td>
-                  <td><?= $value['jam_keluar'] ?? '-'; ?></td>
+                  <td><b><?= $value['jam_masuk'] ?? '-'; ?></b></td>
+                  <td><b><?= $value['jam_keluar'] ?? '-'; ?></b></td>
                   <td><?= $value['keterangan'] ?? '-'; ?></td>
                   <td>
                      <?php if (!$lewat) : ?>

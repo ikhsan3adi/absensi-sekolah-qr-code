@@ -6,7 +6,7 @@
          <div class="col-lg-12 col-md-12">
             <div class="card">
                <div class="card-header card-header-danger">
-                  <h4 class="card-title">Generate QR Code</h4>
+                  <h4 class="card-title"><b>Generate QR Code</b></h4>
                   <p class="card-category">Generate QR berdasarkan kode unik data siswa/guru</p>
                </div>
                <div class="card-body"></div>

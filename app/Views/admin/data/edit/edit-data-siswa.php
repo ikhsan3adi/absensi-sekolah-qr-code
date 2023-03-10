@@ -6,7 +6,7 @@
          <div class="col-lg-12 col-md-12">
             <div class="card">
                <div class="card-header card-header-primary">
-                  <h4 class="card-title">Form Edit Siswa</h4>
+                  <h4 class="card-title"><b>Form Edit Siswa</b></h4>
                   <!-- <p class="card-category">Angkatan 2022/2023</p> -->
                </div>
                <div class="card-body mx-5 my-3">

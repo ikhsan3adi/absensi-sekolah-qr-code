@@ -2,14 +2,14 @@
    <?php if (!$empty) : ?>
       <table class="table table-hover">
          <thead class="text-primary">
-            <th>No</th>
-            <th>NIS</th>
-            <th>Nama Siswa</th>
-            <th>Jenis Kelamin</th>
-            <th>Kelas</th>
-            <th>Jurusan</th>
-            <th>No HP</th>
-            <th>Aksi</th>
+            <th><b>No</b></th>
+            <th><b>NIS</b></th>
+            <th><b>Nama Siswa</b></th>
+            <th><b>Jenis Kelamin</b></th>
+            <th><b>Kelas</b></th>
+            <th><b>Jurusan</b></th>
+            <th><b>No HP</b></th>
+            <th><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -17,7 +17,7 @@
                <tr>
                   <td><?= $i; ?></td>
                   <td><?= $value['nis']; ?></td>
-                  <td><?= $value['nama_siswa']; ?></td>
+                  <td><b><?= $value['nama_siswa']; ?></b></td>
                   <td><?= $value['jenis_kelamin']; ?></td>
                   <td><?= $value['kelas']; ?></td>
                   <td><?= $value['jurusan']; ?></td>

@@ -19,7 +19,7 @@
                   <div class="nav-tabs-navigation">
                      <div class="row">
                         <div class="col">
-                           <h4 class="card-title">Daftar Guru</h4>
+                           <h4 class="card-title"><b>Daftar Guru</b></h4>
                            <p class="card-category">Angkatan 2022/2023</p>
                         </div>
                         <div class="col-auto">

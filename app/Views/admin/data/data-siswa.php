@@ -22,7 +22,7 @@
                   <div class="nav-tabs-navigation">
                      <div class="row">
                         <div class="col-md-2">
-                           <h4 class="card-title">Daftar Siswa</h4>
+                           <h4 class="card-title"><b>Daftar Siswa</b></h4>
                            <p class="card-category">Angkatan 2022/2023</p>
                         </div>
                         <div class="col-md-4">

@@ -2,13 +2,13 @@
    <?php if (!$empty) : ?>
       <table class="table table-hover">
          <thead class="text-success">
-            <th>No</th>
-            <th>NUPTK</th>
-            <th>Nama Guru</th>
-            <th>Jenis Kelamin</th>
-            <th>No HP</th>
-            <th>Alamat</th>
-            <th>Aksi</th>
+            <th><b>No</b></th>
+            <th><b>NUPTK</b></th>
+            <th><b>Nama Guru</b></th>
+            <th><b>Jenis Kelamin</b></th>
+            <th><b>No HP</b></th>
+            <th><b>Alamat</b></th>
+            <th><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -16,7 +16,7 @@
                <tr>
                   <td><?= $i; ?></td>
                   <td><?= $value['nuptk']; ?></td>
-                  <td><?= $value['nama_guru']; ?></td>
+                  <td><b><?= $value['nama_guru']; ?></b></td>
                   <td><?= $value['jenis_kelamin']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td><?= $value['alamat']; ?></td>

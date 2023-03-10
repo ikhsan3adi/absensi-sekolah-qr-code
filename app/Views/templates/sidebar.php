@@ -27,7 +27,7 @@ switch ($context) {
     -->
    <div class="logo">
       <a class="simple-text logo-normal">
-         Operator<br>Petugas Absensi
+         <b>Operator<br>Petugas Absensi</b>
       </a>
    </div>
    <div class="sidebar-wrapper">
