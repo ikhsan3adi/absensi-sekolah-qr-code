@@ -26,7 +26,13 @@
                                     </div>
                                     <div class="col">
                                        <h3 class="d-inline">Generate All</h3>
-                                       <div id="progressAllSiswa"></div>
+                                       <div id="progressSiswa" class="d-none">
+                                          <span id="progressTextSiswa"></span>
+                                          <i id="progressSelesaiSiswa" class="material-icons d-none" class="d-none">check</i>
+                                          <div class="progress" style="height: 5px; border-radius: 0px; background-color: rgb(186, 124, 222);">
+                                             <div id="progressBarSiswa" class="progress-bar bg-white" style="width: 0%; height: 10px;" role="progressbar" aria-valuenow="20" aria-valuemin="" aria-valuemax=""></div>
+                                          </div>
+                                       </div>
                                     </div>
                                  </div>
                               </button>
@@ -66,7 +72,15 @@
                                     </div>
                                     <div class="col">
                                        <h3 class="d-inline">Generate All</h3>
-                                       <div id="progressAllGuru"></div>
+                                       <div>
+                                          <div id="progressGuru" class="d-none">
+                                             <span id="progressTextGuru"></span>
+                                             <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
+                                             <div class="progress" style="height: 5px; border-radius: 0px; background-color: rgb(58, 192, 85);">
+                                                <div id="progressBarGuru" class="progress-bar bg-white" style="width: 0%; height: 10px;" role="progressbar" aria-valuenow="20" aria-valuemin="" aria-valuemax=""></div>
+                                             </div>
+                                          </div>
+                                       </div>
                                     </div>
                                  </div>
                               </button>
@@ -74,9 +88,6 @@
                               <br>
                               <p>Untuk generate qr code per masing-masing guru kunjungi <a href="<?= base_url('admin/guru'); ?>">data guru</a></p>
                            </div>
-                        </div>
-                        <div class="progress">
-                           <div id="progress"></div>
                         </div>
                      </div>
                   </div>
@@ -110,6 +121,13 @@
 
    function generateAllQrSiswa() {
       var i = 1;
+      $('#progressSiswa').removeClass('d-none');
+      $('#progressBarSiswa')
+         .attr('aria-valuenow', '0')
+         .attr('aria-valuemin', '0')
+         .attr('aria-valuemax', dataSiswa.length)
+         .attr('style', 'width: 0%;');
+
       dataSiswa.forEach(element => {
          jQuery.ajax({
             url: "<?= base_url('admin/generate/siswa'); ?>",
@@ -121,8 +139,17 @@
                nomor: element['nomor']
             },
             success: function(response) {
-               $('#progressAllSiswa').html('Progress: ' + i + '/' + dataSiswa.length + ' completed');
-               $('#progress').html(i++ + '/' + dataSiswa.length + ' completed');
+               if (i != dataSiswa.length) {
+                  $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length);
+                  i++;
+               } else {
+                  $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length + ' selesai');
+                  $('#progressSelesaiSiswa').removeClass('d-none');
+               }
+
+               $('#progressBarSiswa')
+                  .attr('aria-valuenow', i)
+                  .attr('style', 'width: ' + (i / dataSiswa.length) * 100 + '%;');
             }
          });
       });
@@ -130,6 +157,13 @@
 
    function generateAllQrGuru() {
       var i = 1;
+      $('#progressGuru').removeClass('d-none');
+      $('#progressBarGuru')
+         .attr('aria-valuenow', '0')
+         .attr('aria-valuemin', '0')
+         .attr('aria-valuemax', dataGuru.length)
+         .attr('style', 'width: 0%;');
+
       dataGuru.forEach(element => {
          jQuery.ajax({
             url: "<?= base_url('admin/generate/guru'); ?>",
@@ -140,8 +174,17 @@
                nomor: element['nomor']
             },
             success: function(response) {
-               $('#progressAllGuru').html('Progress: ' + i + '/' + dataGuru.length + ' completed');
-               $('#progress').html(i++ + '/' + dataGuru.length + ' completed');
+               if (i != dataGuru.length) {
+                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
+                  i++;
+               } else {
+                  $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
+                  $('#progressSelesaiGuru').removeClass('d-none');
+               }
+
+               $('#progressBarGuru')
+                  .attr('aria-valuenow', i)
+                  .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
             }
          });
       });
