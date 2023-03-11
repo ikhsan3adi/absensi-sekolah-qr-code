@@ -19,10 +19,17 @@
                                  <br>
                                  <a href="<?= base_url('admin/siswa'); ?>">Lihat data</a>
                               </p>
-                              <a href="#" class="btn btn-primary pl-3 py-4">
-                                 <i class="material-icons mr-2 pb-2" style="font-size: 64px;">qr_code</i>
-                                 <h3 class="d-inline">Generate All</h3>
-                              </a>
+                              <button onclick="generateAllQrSiswa()" class="btn btn-primary pl-3 py-4">
+                                 <div class="row align-items-center">
+                                    <div class="col">
+                                       <i class="material-icons" style="font-size: 64px;">qr_code</i>
+                                    </div>
+                                    <div class="col">
+                                       <h3 class="d-inline">Generate All</h3>
+                                       <div id="progressAllSiswa"></div>
+                                    </div>
+                                 </div>
+                              </button>
                               <hr>
                               <br>
                               <h4 class="text-primary"><b>Generate per kelas</b></h4>
@@ -52,14 +59,24 @@
                                  <br>
                                  <a href="<?= base_url('admin/guru'); ?>">Lihat data</a>
                               </p>
-                              <a href="#" class="btn btn-success pl-3 py-4">
-                                 <i class="material-icons mr-2 pb-2" style="font-size: 64px;">qr_code</i>
-                                 <h3 class="d-inline">Generate All</h3>
-                              </a>
+                              <button onclick="generateAllQrGuru()" class="btn btn-success pl-3 py-4">
+                                 <div class="row align-items-center">
+                                    <div class="col">
+                                       <i class="material-icons" style="font-size: 64px;">qr_code</i>
+                                    </div>
+                                    <div class="col">
+                                       <h3 class="d-inline">Generate All</h3>
+                                       <div id="progressAllGuru"></div>
+                                    </div>
+                                 </div>
+                              </button>
                               <br>
                               <br>
                               <p>Untuk generate qr code per masing-masing guru kunjungi <a href="<?= base_url('admin/guru'); ?>">data guru</a></p>
                            </div>
+                        </div>
+                        <div class="progress">
+                           <div id="progress"></div>
                         </div>
                      </div>
                   </div>
@@ -70,6 +87,64 @@
    </div>
 </div>
 <script>
+   const dataGuru = [
+      <?php foreach ($guru as $value) {
+         echo "{
+                  'nama' : '$value[nama_guru]',
+                  'unique_code' : '$value[unique_code]',
+                  'nomor' :'$value[nuptk]'
+               },";
+      }; ?>
+   ];
 
+   const dataSiswa = [
+      <?php foreach ($siswa as $value) {
+         echo "{
+                  'nama' : '$value[nama_siswa]',
+                  'unique_code' : '$value[unique_code]',
+                  'kelas' : '$value[kelas] $value[jurusan]',
+                  'nomor' :'$value[nis]'
+               },";
+      }; ?>
+   ];
+
+   function generateAllQrSiswa() {
+      var i = 1;
+      dataSiswa.forEach(element => {
+         jQuery.ajax({
+            url: "<?= base_url('admin/generate/siswa'); ?>",
+            type: 'post',
+            data: {
+               nama: element['nama'],
+               unique_code: element['unique_code'],
+               kelas: element['kelas'],
+               nomor: element['nomor']
+            },
+            success: function(response) {
+               $('#progressAllSiswa').html('Progress: ' + i + '/' + dataSiswa.length + ' completed');
+               $('#progress').html(i++ + '/' + dataSiswa.length + ' completed');
+            }
+         });
+      });
+   }
+
+   function generateAllQrGuru() {
+      var i = 1;
+      dataGuru.forEach(element => {
+         jQuery.ajax({
+            url: "<?= base_url('admin/generate/guru'); ?>",
+            type: 'post',
+            data: {
+               nama: element['nama'],
+               unique_code: element['unique_code'],
+               nomor: element['nomor']
+            },
+            success: function(response) {
+               $('#progressAllGuru').html('Progress: ' + i + '/' + dataGuru.length + ' completed');
+               $('#progress').html(i++ + '/' + dataGuru.length + ' completed');
+            }
+         });
+      });
+   }
 </script>
 <?= $this->endSection() ?>

@@ -93,6 +93,9 @@ vendor/**
 !/vendor/**/
 !vendor/endroid/qr-code/**
 
+# uploads
+public/uploads
+
 #-------------------------
 # IDE / Development Files
 #-------------------------

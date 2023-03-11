@@ -39,14 +39,4 @@ class GenerateQR extends BaseController
 
       return view('admin/generate-qr/generate-qr', $data);
    }
-
-   public function generateQrSiswa()
-   {
-      # code...
-   }
-
-   public function generateQrGuru()
-   {
-      # code...
-   }
 }
