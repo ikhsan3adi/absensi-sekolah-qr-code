@@ -10,17 +10,13 @@
    <style>
       .bg {
          background: url(<?= base_url('public/assets/img/bg2.jpg'); ?>) center;
+         opacity: 0.1;
          background-size: cover;
          height: 100vh;
          width: 100%;
          position: absolute;
          left: 0;
          top: 0;
-      }
-
-      .navbar-brand>b {
-         color: white;
-         text-shadow: 2px 2px 2px black;
       }
 
       .main-panel {
@@ -31,16 +27,17 @@
       }
 
       video#previewKamera {
-         min-width: 500px;
-         min-height: 300px;
-         max-height: 30vh;
+         width: 100%;
+         height: 400px;
+         margin: 0;
       }
 
-      #previewParent {
-         min-width: 500px;
-         min-height: 300px;
-         max-height: 30vh;
-         line-height: 300px;
+      .previewParent {
+         width: 450px !important;
+         height: 400px;
+         margin: auto;
+         margin: auto;
+         border: 2px solid grey;
       }
 
       .unpreview {

@@ -49,8 +49,6 @@
                   </p>
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="<?= base_url('/logout'); ?>">Log out</a>
                </div>
             </li>

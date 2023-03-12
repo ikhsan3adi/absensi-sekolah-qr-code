@@ -27,7 +27,7 @@ class Scan extends BaseController
 
    public function index($t = 'Masuk')
    {
-      $data = ['waktu' => $t, 'title' => 'Absensi SMK ICB Cinta Niaga'];
+      $data = ['waktu' => $t, 'title' => 'Absensi Siswa dan Guru Berbasis QR Code'];
       return view('scan/scan', $data);
    }
 
@@ -168,7 +168,7 @@ class Scan extends BaseController
                return $this->showErrorView('Anda belum absen hari ini', $data);
             }
 
-            $this->presensiSiswaModel->absen_keluar($sudahAbsen, $time);
+            $this->presensiSiswaModel->absenKeluar($sudahAbsen, $time);
 
             $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
 
