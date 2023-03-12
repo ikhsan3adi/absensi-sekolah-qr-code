@@ -68,6 +68,12 @@ switch ($context) {
                <p>Generate QR Code</p>
             </a>
          </li>
+         <li class="nav-item <?= $context == 'petugas' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/generate'); ?>">
+               <i class="material-icons">computer</i>
+               <p>Data Petugas</p>
+            </a>
+         </li>
          <!-- <li class="nav-item active-pro mb-3">
             <a class="nav-link" href="./upgrade.html">
                <i class="material-icons">unarchive</i>
