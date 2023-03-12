@@ -4,12 +4,25 @@
    <div class="container-fluid">
       <div class="row">
          <div class="col-lg-12 col-md-12">
+            <?php if (session()->getFlashdata('msg')) : ?>
+               <div class="pb-2 px-3">
+                  <div class="alert alert-success">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                     </button>
+                     <?= session()->getFlashdata('msg') ?>
+                  </div>
+               </div>
+            <?php endif; ?>
+            <a class="btn btn-primary ml-3 pl-3 py-3" href="<?= base_url('admin/siswa/create'); ?>">
+               <i class="material-icons mr-2">add</i> Tambah data siswa
+            </a>
             <div class="card">
                <div class="card-header card-header-tabs card-header-primary">
                   <div class="nav-tabs-navigation">
                      <div class="row">
                         <div class="col-md-2">
-                           <h4 class="card-title">Daftar Siswa</h4>
+                           <h4 class="card-title"><b>Daftar Siswa</b></h4>
                            <p class="card-category">Angkatan 2022/2023</p>
                         </div>
                         <div class="col-md-4">
@@ -92,7 +105,7 @@
 
    function getDataSiswa(_kelas = null, _jurusan = null) {
       jQuery.ajax({
-         url: "<?= base_url('/admin/data-siswa'); ?>",
+         url: "<?= base_url('/admin/siswa'); ?>",
          type: 'post',
          data: {
             'kelas': _kelas,

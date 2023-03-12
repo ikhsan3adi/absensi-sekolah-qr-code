@@ -34,8 +34,6 @@
 <script src="<?= base_url('public/assets/js/plugins/arrive.min.js') ?>"></script>
 <!--  Google Maps Plugin    -->
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-<!-- Chartist JS -->
-<script src="<?= base_url('public/assets/js/plugins/chartist.min.js') ?>"></script>
 <!--  Notifications Plugin    -->
 <script src="<?= base_url('public/assets/js/plugins/bootstrap-notify.js') ?>"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

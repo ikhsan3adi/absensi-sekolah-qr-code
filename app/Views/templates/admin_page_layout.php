@@ -4,23 +4,23 @@
 <?= $this->include('templates/head') ?>
 
 <body>
-    <div class="wrapper ">
-        <?= $this->include('templates/sidebar') ?>
-        <div class="main-panel">
+   <div class="wrapper ">
+      <?= $this->include('templates/sidebar') ?>
+      <div class="main-panel">
 
-            <?= $this->include('templates/navbar') ?>
+         <?= $this->include('templates/navbar') ?>
 
-            <?= $this->renderSection('content') ?>
+         <?= $this->renderSection('content') ?>
 
-            <?= $this->include('templates/footer') ?>
+         <?= $this->include('templates/footer') ?>
 
-            <!-- komentar jika tidak dipakai -->
-            <?php
-            // echo $this->include('templates/fixed_plugin') 
-            ?>
+         <!-- komentar jika tidak dipakai -->
+         <?php
+         // echo $this->include('templates/fixed_plugin') 
+         ?>
 
-        </div>
-    </div>
+      </div>
+   </div>
 </body>
 
 </html>

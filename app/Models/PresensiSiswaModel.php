@@ -8,97 +8,123 @@ use CodeIgniter\I18n\Time;
 
 class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
 {
-    protected $allowedFields = [
-        'id_siswa',
-        'id_kelas',
-        'tanggal',
-        'jam_masuk',
-        'jam_keluar',
-        'id_kehadiran',
-        'keterangan'
-    ];
+   protected $allowedFields = [
+      'id_siswa',
+      'id_kelas',
+      'tanggal',
+      'jam_masuk',
+      'jam_keluar',
+      'id_kehadiran',
+      'keterangan'
+   ];
 
-    protected $table = 'tb_presensi_siswa';
+   protected $table = 'tb_presensi_siswa';
 
-    public function cek_absen(string|int $id, string|Time $date)
-    {
-        $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
+   public function cekAbsen(string|int $id, string|Time $date)
+   {
+      $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
 
-        if (empty($result)) return false;
+      if (empty($result) || empty($result['jam_masuk'])) return false;
 
-        return $result[$this->primaryKey];
-    }
+      return $result[$this->primaryKey];
+   }
 
-    public function absen_masuk(string $id,  $date, $time, $id_kelas = '')
-    {
-        $this->save([
-            'id_siswa' => $id,
-            'id_kelas' => $id_kelas,
-            'tanggal' => $date,
-            'jam_masuk' => $time,
-            // 'jam_keluar' => '',
-            'id_kehadiran' => Kehadiran::Hadir->value,
-            'keterangan' => ''
-        ]);
-    }
+   public function absenMasuk(string $id,  $date, $time, $idKelas = '')
+   {
+      $this->save([
+         'id_siswa' => $id,
+         'id_kelas' => $idKelas,
+         'tanggal' => $date,
+         'jam_masuk' => $time,
+         // 'jam_keluar' => '',
+         'id_kehadiran' => Kehadiran::Hadir->value,
+         'keterangan' => ''
+      ]);
+   }
 
-    public function absen_keluar(string $id, $time)
-    {
-        $this->update($id, [
-            'jam_keluar' => $time,
-            'keterangan' => ''
-        ]);
-    }
+   public function absenKeluar(string $id, $time)
+   {
+      $this->update($id, [
+         'jam_keluar' => $time,
+         'keterangan' => ''
+      ]);
+   }
 
-    public function get_presensi($id_siswa, $date)
-    {
-        return $this->where(['id_siswa' => $id_siswa, 'tanggal' => $date])->first();
-    }
+   public function getPresensiByIdSiswaTanggal($idSiswa, $date)
+   {
+      return $this->where(['id_siswa' => $idSiswa, 'tanggal' => $date])->first();
+   }
 
-    public function get_presensi_byId($id_presensi)
-    {
-        return $this->where([$this->primaryKey => $id_presensi])->first();
-    }
+   public function getPresensiById($idPresensi)
+   {
+      return $this->where([$this->primaryKey => $idPresensi])->first();
+   }
 
-    public function get_presensi_byKelasTanggal($id_kelas, $tanggal)
-    {
-        return $this->setTable('tb_siswa')
-            ->select('*')
-            ->join(
-                "(SELECT id_presensi, id_siswa AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
-                "{$this->table}.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
-                'left'
-            )
-            ->join(
-                'tb_kehadiran',
-                'tb_presensi_siswa.id_kehadiran = tb_kehadiran.id_kehadiran',
-                'left'
-            )
-            ->where("{$this->table}.id_kelas = $id_kelas")
-            ->orderBy("nama_siswa")
-            ->findAll();
-    }
+   public function getPresensiByKelasTanggal($idKelas, $tanggal)
+   {
+      return $this->setTable('tb_siswa')
+         ->select('*')
+         ->join(
+            "(SELECT id_presensi, id_siswa AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
+            "{$this->table}.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
+            'left'
+         )
+         ->join(
+            'tb_kehadiran',
+            'tb_presensi_siswa.id_kehadiran = tb_kehadiran.id_kehadiran',
+            'left'
+         )
+         ->where("{$this->table}.id_kelas = $idKelas")
+         ->orderBy("nama_siswa")
+         ->findAll();
+   }
 
-    public function update_presensi($id_presensi = NULL, $id_siswa, $id_kelas, $tanggal, $id_kehadiran, $jam_masuk = NULL, $keterangan = NULL)
-    {
-        $presensi = $this->get_presensi($id_siswa, $tanggal);
+   public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
+   {
+      $this->join(
+         'tb_siswa',
+         "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = '$tanggal'",
+         'right'
+      );
 
-        $data = [
-            'id_siswa' => $id_siswa,
-            'id_kelas' => $id_kelas,
-            'tanggal' => $tanggal,
-            'id_kehadiran' => $id_kehadiran,
-            'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''
-        ];
+      if ($idKehadiran == '4') {
+         $result = $this->findAll();
 
-        if ($id_presensi != null) {
-            $data[$this->primaryKey] = $id_presensi;
-        }
+         $filteredResult = [];
 
-        if ($jam_masuk != null) {
-            $data['jam_masuk'] = $jam_masuk;
-        }
+         foreach ($result as $value) {
+            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+               array_push($filteredResult, $value);
+            }
+         }
 
-        return $this->save($data);
-    }
+         return $filteredResult;
+      } else {
+         $this->where(['tb_presensi_siswa.id_kehadiran' => $idKehadiran]);
+         return $this->findAll();
+      }
+   }
+
+   public function updatePresensi($idPresensi = NULL, $idSiswa, $idKelas, $tanggal, $idKehadiran, $jamMasuk = NULL, $keterangan = NULL)
+   {
+      $presensi = $this->getPresensiByIdSiswaTanggal($idSiswa, $tanggal);
+
+      $data = [
+         'id_siswa' => $idSiswa,
+         'id_kelas' => $idKelas,
+         'tanggal' => $tanggal,
+         'id_kehadiran' => $idKehadiran,
+         'keterangan' => $keterangan ?? $presensi['keterangan'] ?? ''
+      ];
+
+      if ($idPresensi != null) {
+         $data[$this->primaryKey] = $idPresensi;
+      }
+
+      if ($jamMasuk != null) {
+         $data['jam_masuk'] = $jamMasuk;
+      }
+
+      return $this->save($data);
+   }
 }

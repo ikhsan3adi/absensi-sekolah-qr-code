@@ -15,7 +15,7 @@ class KehadiranModel extends Model
 
    protected $primaryKey = 'id_kehadiran';
 
-   public function get_kehadiran()
+   public function getAllKehadiran()
    {
       return $this->findAll();
    }

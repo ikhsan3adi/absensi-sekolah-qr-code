@@ -2,13 +2,13 @@
    <?php if (!$empty) : ?>
       <table class="table table-hover">
          <thead class="text-success">
-            <th>No</th>
-            <th>NUPTK</th>
-            <th>Nama Guru</th>
-            <th>Jenis Kelamin</th>
-            <th>No HP</th>
-            <th>Alamat</th>
-            <th>Aksi</th>
+            <th><b>No</b></th>
+            <th><b>NUPTK</b></th>
+            <th><b>Nama Guru</b></th>
+            <th><b>Jenis Kelamin</b></th>
+            <th><b>No HP</b></th>
+            <th><b>Alamat</b></th>
+            <th><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -16,15 +16,23 @@
                <tr>
                   <td><?= $i; ?></td>
                   <td><?= $value['nuptk']; ?></td>
-                  <td><?= $value['nama_guru']; ?></td>
+                  <td><b><?= $value['nama_guru']; ?></b></td>
                   <td><?= $value['jenis_kelamin']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td><?= $value['alamat']; ?></td>
                   <td>
-                     <a href="#" type="button" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
+                     <a href="<?= base_url('admin/guru/edit/' . $value['id_guru']); ?>" type="button" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
+                     <form action="<?= base_url('admin/guru/delete/' . $value['id_guru']); ?>" method="post" class="d-inline">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nuptk']; ?>">
+                           <i class="material-icons">delete_forever</i>
+                           Delete
+                        </button>
+                     </form>
                   </td>
                </tr>
             <?php $i++;

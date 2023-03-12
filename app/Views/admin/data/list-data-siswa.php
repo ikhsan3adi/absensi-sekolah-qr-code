@@ -2,14 +2,14 @@
    <?php if (!$empty) : ?>
       <table class="table table-hover">
          <thead class="text-primary">
-            <th>No</th>
-            <th>NIS</th>
-            <th>Nama Siswa</th>
-            <th>Jenis Kelamin</th>
-            <th>Kelas</th>
-            <th>Jurusan</th>
-            <th>No HP</th>
-            <th>Aksi</th>
+            <th><b>No</b></th>
+            <th><b>NIS</b></th>
+            <th><b>Nama Siswa</b></th>
+            <th><b>Jenis Kelamin</b></th>
+            <th><b>Kelas</b></th>
+            <th><b>Jurusan</b></th>
+            <th><b>No HP</b></th>
+            <th><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -17,16 +17,24 @@
                <tr>
                   <td><?= $i; ?></td>
                   <td><?= $value['nis']; ?></td>
-                  <td><?= $value['nama_siswa']; ?></td>
+                  <td><b><?= $value['nama_siswa']; ?></b></td>
                   <td><?= $value['jenis_kelamin']; ?></td>
                   <td><?= $value['kelas']; ?></td>
                   <td><?= $value['jurusan']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td>
-                     <a href="<?= base_url('admin/data-siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
+                     <a href="<?= base_url('admin/siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
                         <i class="material-icons">edit</i>
                         Edit
                      </a>
+                     <form action="<?= base_url('admin/siswa/delete/' . $value['id_siswa']); ?>" method="post" class="d-inline">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nis']; ?>">
+                           <i class="material-icons">delete_forever</i>
+                           Delete
+                        </button>
+                     </form>
                   </td>
                </tr>
             <?php $i++;

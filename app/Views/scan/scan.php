@@ -17,7 +17,18 @@
     <div class="content">
        <div class="container-fluid">
           <div class="row">
-             <div class="mw-50 mx-auto">
+             <div class="mx-auto" style="max-width: 25vw;">
+                <div class="card">
+                   <div class="card-body">
+                      <h3 class="mt-2"><b>Tips</b></h3>
+                      <ul class="pl-3">
+                         <li>Tunjukkan qr code sampai terlihat jelas di kamera</li>
+                         <li>Posisikan qr code tidak terlalu jauh maupun terlalu dekat</li>
+                      </ul>
+                   </div>
+                </div>
+             </div>
+             <div class="mx-auto">
                 <div class="card">
                    <div class="col-sm-10 mx-auto card-header card-header-primary">
                       <div class="row">
@@ -33,19 +44,19 @@
                       </div>
                    </div>
                    <div class="card-body my-auto px-5">
-                      <h4>Pilih kamera</h4>
+                      <!-- <h4 class="d-inline">Pilih kamera</h4>
 
-                      <select id="pilihKamera" class="form-select" aria-label="Default select example">
+                      <select id="pilihKamera" class="custom-select w-50 ml-2" aria-label="Default select example" style="height: 35px;">
                          <option selected>Select camera devices</option>
-                      </select>
+                      </select> -->
 
-                      <br><br>
+                      <br>
 
-                      <div class="row align-items-center w-100">
-                         <div class="col h-100">
-                            <div id="previewParent">
+                      <div class="row">
+                         <div class="col-sm-12 mx-auto">
+                            <div class="previewParent">
                                <div class="text-center">
-                                  <h4 class="d-none" id="searching"><b>Mencari...</b></h4>
+                                  <h4 class="d-none w-100" id="searching"><b>Mencari...</b></h4>
                                </div>
                                <video id="previewKamera"></video>
                             </div>
@@ -53,6 +64,18 @@
                       </div>
                       <div id="hasilScan"></div>
                       <br>
+                   </div>
+                </div>
+             </div>
+             <div class="mx-auto" style="max-width: 25vw;">
+                <div class="card">
+                   <div class="card-body">
+                      <h3 class="mt-2"><b>Penggunaan</b></h3>
+                      <ul class="pl-3">
+                         <li>Jika berhasil scan maka akan muncul data siswa/guru dibawah preview kamera</li>
+                         <li>Untuk melihat data absensi, klik tombol <span class="text-primary"><i class="material-icons" style="font-size: 16px;">dashboard</i> Dashboard Petugas</span></li>
+                         <li>Untuk mengakses halaman petugas anda harus login terlebih dahulu</li>
+                      </ul>
                    </div>
                 </div>
              </div>
@@ -120,8 +143,9 @@
              codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'previewKamera')
                 .then(result => {
                    console.log(result.text);
-                   cek_data(result.text);
+                   cekData(result.text);
 
+                   $('#previewKamera').addClass('d-none');
                    $('#previewParent').addClass('unpreview');
                    $('#searching').removeClass('d-none');
 
@@ -131,7 +155,6 @@
                       // delay 2,5 detik setelah berhasil meng-scan
                       setTimeout(() => {
                          initScanner();
-                         //  clear_data();
                       }, 2500);
                    }
                 })
@@ -147,9 +170,9 @@
        alert('Cannot access camera.');
     }
 
-    async function cek_data(code) {
+    async function cekData(code) {
        jQuery.ajax({
-          url: "<?= base_url('/cek'); ?>",
+          url: "<?= base_url('scan/cek'); ?>",
           type: 'post',
           data: {
              'unique_code': code,
@@ -167,7 +190,7 @@
        });
     }
 
-    function clear_data() {
+    function clearData() {
        $('#hasilScan').html('');
     }
  </script>

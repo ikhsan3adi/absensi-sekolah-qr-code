@@ -89,6 +89,13 @@ vendor/**
 !/vendor/**/
 !vendor/myth/auth/**
 
+# un-ignore endroid/qr-code
+!/vendor/**/
+!vendor/endroid/qr-code/**
+
+# uploads
+public/uploads
+
 #-------------------------
 # IDE / Development Files
 #-------------------------
