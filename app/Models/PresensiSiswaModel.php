@@ -24,7 +24,7 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
    {
       $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
 
-      if (empty($result)) return false;
+      if (empty($result) || empty($result['jam_masuk'])) return false;
 
       return $result[$this->primaryKey];
    }
