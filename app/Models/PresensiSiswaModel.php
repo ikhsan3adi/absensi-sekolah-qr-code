@@ -79,6 +79,32 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
          ->findAll();
    }
 
+   public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
+   {
+      $this->join(
+         'tb_siswa',
+         "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = '$tanggal'",
+         'right'
+      );
+
+      if ($idKehadiran == '4') {
+         $result = $this->findAll();
+
+         $filteredResult = [];
+
+         foreach ($result as $value) {
+            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+               array_push($filteredResult, $value);
+            }
+         }
+
+         return $filteredResult;
+      } else {
+         $this->where(['tb_presensi_siswa.id_kehadiran' => $idKehadiran]);
+         return $this->findAll();
+      }
+   }
+
    public function updatePresensi($idPresensi = NULL, $idSiswa, $idKelas, $tanggal, $idKehadiran, $jamMasuk = NULL, $keterangan = NULL)
    {
       $presensi = $this->getPresensiByIdSiswaTanggal($idSiswa, $tanggal);

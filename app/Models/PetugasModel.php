@@ -15,7 +15,8 @@ class PetugasModel extends Model
 
    protected $primaryKey = 'id_petugas';
 
-   public function cekPetugas()
+   public function getAllPetugas()
    {
+      return $this->findAll();
    }
 }

@@ -75,6 +75,32 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
          ->findAll();
    }
 
+   public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
+   {
+      $this->join(
+         'tb_guru',
+         "tb_presensi_guru.id_guru = tb_guru.id_guru AND tb_presensi_guru.tanggal = '$tanggal'",
+         'right'
+      );
+
+      if ($idKehadiran == '4') {
+         $result = $this->findAll();
+
+         $filteredResult = [];
+
+         foreach ($result as $value) {
+            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+               array_push($filteredResult, $value);
+            }
+         }
+
+         return $filteredResult;
+      } else {
+         $this->where(['tb_presensi_guru.id_kehadiran' => $idKehadiran]);
+         return $this->findAll();
+      }
+   }
+
    public function updatePresensi($idPresensi = NULL, $idGuru, $tanggal, $idKehadiran, $jamMasuk = NULL, $keterangan = NULL)
    {
       $presensi = $this->getPresensiByIdGuruTanggal($idGuru, $tanggal);
