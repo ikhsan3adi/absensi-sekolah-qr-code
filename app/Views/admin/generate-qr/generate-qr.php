@@ -1,5 +1,23 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
+<style>
+   .progress-siswa {
+      height: 5px;
+      border-radius: 0px;
+      background-color: rgb(186, 124, 222);
+   }
+
+   .progress-guru {
+      height: 5px;
+      border-radius: 0px;
+      background-color: rgb(58, 192, 85);
+   }
+
+   .my-progress-bar {
+      height: 5px;
+      border-radius: 0px;
+   }
+</style>
 <div class="content">
    <div class="container-fluid">
       <div class="row">
@@ -29,8 +47,8 @@
                                        <div id="progressSiswa" class="d-none">
                                           <span id="progressTextSiswa"></span>
                                           <i id="progressSelesaiSiswa" class="material-icons d-none" class="d-none">check</i>
-                                          <div class="progress" style="height: 5px; border-radius: 0px; background-color: rgb(186, 124, 222);">
-                                             <div id="progressBarSiswa" class="progress-bar bg-white" style="width: 0%; height: 10px;" role="progressbar" aria-valuenow="20" aria-valuemin="" aria-valuemax=""></div>
+                                          <div class="progress progress-siswa">
+                                             <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
                                           </div>
                                        </div>
                                     </div>
@@ -39,19 +57,35 @@
                               <hr>
                               <br>
                               <h4 class="text-primary"><b>Generate per kelas</b></h4>
-                              <select name="id_kelas" id="kelas" class="custom-select mb-3">
+                              <select name="id_kelas" id="kelasSelect" class="custom-select mb-3">
                                  <option value="">--Pilih kelas--</option>
                                  <?php foreach ($kelas as $value) : ?>
-                                    <option value="<?= $value['id_kelas']; ?>">
+                                    <option id="idKelas<?= $value['id_kelas']; ?>" value="<?= $value['id_kelas']; ?>">
                                        <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
                                     </option>
                                  <?php endforeach; ?>
                               </select>
-                              <a href="#" class="btn btn-primary pl-3">
-                                 <i class="material-icons mr-2 pb-2" style="font-size: 32px;">qr_code</i>
-                                 <h4 class="d-inline">Generate</h4>
-                              </a>
+                              <button onclick="generateQrSiswaByKelas()" class="btn btn-primary pl-3">
+                                 <div class="row align-items-center">
+                                    <div class="col">
+                                       <i class="material-icons" style="font-size: 32px;">qr_code</i>
+                                    </div>
+                                    <div class="col">
+                                       <div class="text-start">
+                                          <h4 class="d-inline">Generate per kelas</h4>
+                                       </div>
+                                       <div id="progressKelas" class="d-none">
+                                          <span id="progressTextKelas"></span>
+                                          <i id="progressSelesaiKelas" class="material-icons d-none" class="d-none">check</i>
+                                          <div class="progress progress-siswa d-none" id="progressBarBgKelas">
+                                             <div id="progressBarKelas" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </button>
                               <br>
+                              <div class="text-danger mt-2" id="textErrorKelas"><b></b></div>
                               <br>
                               <p>Untuk generate qr code per masing-masing siswa kunjungi <a href="<?= base_url('admin/siswa'); ?>">data siswa</a></p>
                            </div>
@@ -76,8 +110,8 @@
                                           <div id="progressGuru" class="d-none">
                                              <span id="progressTextGuru"></span>
                                              <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
-                                             <div class="progress" style="height: 5px; border-radius: 0px; background-color: rgb(58, 192, 85);">
-                                                <div id="progressBarGuru" class="progress-bar bg-white" style="width: 0%; height: 10px;" role="progressbar" aria-valuenow="20" aria-valuemin="" aria-valuemax=""></div>
+                                             <div class="progress progress-guru">
+                                                <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
                                              </div>
                                           </div>
                                        </div>
@@ -119,6 +153,8 @@
       }; ?>
    ];
 
+   var dataSiswaPerKelas = [];
+
    function generateAllQrSiswa() {
       var i = 1;
       $('#progressSiswa').removeClass('d-none');
@@ -141,7 +177,6 @@
             success: function(response) {
                if (i != dataSiswa.length) {
                   $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length);
-                  i++;
                } else {
                   $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length + ' selesai');
                   $('#progressSelesaiSiswa').removeClass('d-none');
@@ -150,8 +185,81 @@
                $('#progressBarSiswa')
                   .attr('aria-valuenow', i)
                   .attr('style', 'width: ' + (i / dataSiswa.length) * 100 + '%;');
+               i++;
             }
          });
+      });
+   }
+
+   function generateQrSiswaByKelas() {
+      var i = 1;
+
+      idKelas = $('#kelasSelect').val();
+
+      if (idKelas == '') {
+         $('#progressKelas').addClass('d-none');
+         $('#textErrorKelas').html('Pilih kelas terlebih dahulu');
+         return;
+      }
+
+      kelas = $('#idKelas' + idKelas).html();
+
+      jQuery.ajax({
+         url: "<?= base_url('admin/generate/siswa-by-kelas'); ?>",
+         type: 'post',
+         data: {
+            idKelas: idKelas
+         },
+         success: function(response) {
+            dataSiswaPerKelas = response;
+
+            if (dataSiswaPerKelas.length < 1) {
+               $('#progressKelas').addClass('d-none');
+               $('#textErrorKelas').html('Data siswa kelas ' + kelas + ' tidak ditemukan');
+               return;
+            }
+
+            $('#textErrorKelas').html('')
+
+            $('#progressKelas').removeClass('d-none');
+            $('#progressBarBgKelas')
+               .removeClass('d-none');
+            $('#progressBarKelas')
+               .removeClass('d-none')
+               .attr('aria-valuenow', '0')
+               .attr('aria-valuemin', '0')
+               .attr('aria-valuemax', dataSiswaPerKelas.length)
+               .attr('style', 'width: 0%;');
+
+            dataSiswaPerKelas.forEach(element => {
+               jQuery.ajax({
+                  url: "<?= base_url('admin/generate/siswa'); ?>",
+                  type: 'post',
+                  data: {
+                     nama: element['nama_siswa'],
+                     unique_code: element['unique_code'],
+                     kelas: element['kelas'] + ' ' + element['jurusan'],
+                     nomor: element['nis']
+                  },
+                  success: function(response) {
+                     if (i != dataSiswaPerKelas.length) {
+                        $('#progressTextKelas').html('Progres: ' + i + '/' + dataSiswaPerKelas.length);
+                     } else {
+                        $('#progressTextKelas').html('Progres: ' + i + '/' + dataSiswaPerKelas.length + ' selesai');
+                        $('#progressSelesaiKelas').removeClass('d-none');
+                     }
+
+                     $('#progressBarKelas')
+                        .attr('aria-valuenow', i)
+                        .attr('style', 'width: ' + (i / dataSiswaPerKelas.length) * 100 + '%;');
+                     i++;
+                  },
+                  error: function(xhr, status, thrown) {
+                     console.log(xhr + status + thrown);
+                  }
+               });
+            });
+         }
       });
    }
 
@@ -176,7 +284,6 @@
             success: function(response) {
                if (i != dataGuru.length) {
                   $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);
-                  i++;
                } else {
                   $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length + ' selesai');
                   $('#progressSelesaiGuru').removeClass('d-none');
@@ -185,6 +292,7 @@
                $('#progressBarGuru')
                   .attr('aria-valuenow', i)
                   .attr('style', 'width: ' + (i / dataGuru.length) * 100 + '%;');
+               i++;
             }
          });
       });

@@ -70,7 +70,7 @@ class QRGenerator extends BaseController
       $this->qrCodeFilePath .= 'qr-siswa/' . $kelas . '/';
 
       if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
-         mkdir($this->relativePath . $this->qrCodeFilePath);
+         mkdir($this->relativePath . $this->qrCodeFilePath, recursive: true);
       }
 
       $this->generate(

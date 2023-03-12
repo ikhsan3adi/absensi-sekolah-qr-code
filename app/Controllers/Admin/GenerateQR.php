@@ -39,4 +39,13 @@ class GenerateQR extends BaseController
 
       return view('admin/generate-qr/generate-qr', $data);
    }
+
+   public function getSiswaByKelas()
+   {
+      $idKelas = $this->request->getVar('idKelas');
+
+      $siswa = $this->siswaModel->getSiswaByKelas($idKelas);
+
+      return $this->response->setJSON($siswa);
+   }
 }

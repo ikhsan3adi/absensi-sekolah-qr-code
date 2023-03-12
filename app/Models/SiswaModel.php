@@ -58,9 +58,13 @@ class SiswaModel extends Model
       return $query->orderBy('nama_siswa')->findAll();
    }
 
-   public function get_siswa_byKelas($id_kelas)
+   public function getSiswaByKelas($id_kelas)
    {
-      return $this->where(['id_kelas' => $id_kelas])->findAll();
+      return $this->join(
+         'tb_kelas',
+         'tb_kelas.id_kelas = tb_siswa.id_kelas',
+         'LEFT'
+      )->where(['tb_siswa.id_kelas' => $id_kelas])->findAll();
    }
 
    public function saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp)

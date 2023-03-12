@@ -87,6 +87,8 @@ $routes->group('admin', function (RouteCollection $routes) {
 
    // admin generate QR
    $routes->get('generate', 'Admin\GenerateQR::index');
+   $routes->post('generate/siswa-by-kelas', 'Admin\GenerateQR::getSiswaByKelas');
+
    $routes->post('generate/siswa', 'Admin\QRGenerator::generateQrSiswa');
    $routes->post('generate/guru', 'Admin\QRGenerator::generateQrGuru');
 });
