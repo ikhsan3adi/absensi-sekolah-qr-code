@@ -123,6 +123,7 @@
                               <p>Untuk generate qr code per masing-masing guru kunjungi <a href="<?= base_url('admin/guru'); ?>">data guru</a></p>
                            </div>
                         </div>
+                        <p class="text-danger"><i class="material-icons" style="font-size: 16px;">warning</i> File image QR Code tersimpan di [folder website]/public/uploads/</p>
                      </div>
                   </div>
                </div>
