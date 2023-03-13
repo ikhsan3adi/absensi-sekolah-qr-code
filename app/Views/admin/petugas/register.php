@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-primary mb-48">
+                    <div class="card-header card-header-info mb-48">
                         <h4 class="card-title"><?= lang('Auth.register') ?></h4>
                         <p class="card-category">Buat akun petugas</p>
                     </div>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.register') ?></button>
+                            <button type="submit" class="btn btn-info btn-block"><?= lang('Auth.register') ?></button>
                         </form>
                     </div>
                 </div>
