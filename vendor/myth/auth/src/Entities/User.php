@@ -289,4 +289,34 @@ class User extends Entity
     {
         throw new RuntimeException('User entity does not support saving permissions directly.');
     }
+
+    /**
+     * Returns Email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return trim(trim($this->attributes['email']));
+    }
+
+    /**
+     * Returns Username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return trim(trim($this->attributes['username']));
+    }
+
+    /**
+     * Returns Role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return trim(trim($this->attributes['superadmin']));
+    }
 }

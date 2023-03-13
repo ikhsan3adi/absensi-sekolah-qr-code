@@ -69,10 +69,6 @@
 
                          <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
 
-                         <?php if ($config->allowRegistration) : ?>
-                            <hr>
-                            <p><a href="<?= url_to('register') ?>"><?= lang('Auth.needAnAccount') ?></a></p>
-                         <?php endif; ?>
                          <?php if ($config->activeResetter) : ?>
                             <p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
                          <?php endif; ?>
