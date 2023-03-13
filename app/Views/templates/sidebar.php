@@ -68,6 +68,12 @@ switch ($context) {
                <p>Generate QR Code</p>
             </a>
          </li>
+         <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/laporan'); ?>">
+               <i class="material-icons">book</i>
+               <p>Generate Laporan</p>
+            </a>
+         </li>
          <?php if (user()->getRole() ?? '0' == '1') : ?>
             <li class="nav-item <?= $context == 'petugas' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/petugas'); ?>">
