@@ -121,7 +121,7 @@ class AuthController extends Controller
     public function register()
     {
         // check if already logged in.
-        if ($this->auth->check()) {
+        if (!$this->auth->check()) {
             return redirect()->back();
         }
 
@@ -193,7 +193,13 @@ class AuthController extends Controller
         }
 
         // Success!
-        return redirect()->route('login')->with('message', lang('Auth.registerSuccess'));
+        // return redirect()->route('login')->with('message', lang('Auth.registerSuccess'));
+        session()->setFlashdata([
+            'msg' => 'Tambah data berhasil',
+            'error' => false
+        ]);
+
+        return redirect()->to('admin/petugas');
     }
 
     //--------------------------------------------------------------------
