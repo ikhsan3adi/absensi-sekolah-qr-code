@@ -47,10 +47,10 @@
                      <label for="role">Role</label>
                      <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>" id="role" name="role">
                         <option value="">--Pilih role--</option>
-                        <option value="0" <?= old('role') ?? $oldInput['role'] ?? $data['superadmin'] == "0" ? 'selected' : ''; ?>>
+                        <option value="0" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] == "0" ? 'selected' : ''; ?>>
                            Petugas
                         </option>
-                        <option value="1" <?= old('role') ?? $oldInput['role'] ?? $data['superadmin'] ?? '' == "1" ? 'selected' : ''; ?>>
+                        <option value="1" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "1" ? 'selected' : ''; ?>>
                            Super Admin
                         </option>
                      </select>

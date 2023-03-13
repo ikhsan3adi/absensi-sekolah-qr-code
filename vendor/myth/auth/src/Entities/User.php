@@ -317,6 +317,6 @@ class User extends Entity
      */
     public function getRole()
     {
-        return trim(trim($this->attributes['superadmin']));
+        return trim(trim($this->attributes['is_superadmin']));
     }
 }

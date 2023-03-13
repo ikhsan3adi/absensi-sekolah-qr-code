@@ -11,7 +11,7 @@ class PetugasModel extends Model
       $this->allowedFields = [
          'email',
          'username',
-         'superadmin'
+         'is_superadmin'
       ];
    }
 
@@ -35,7 +35,7 @@ class PetugasModel extends Model
          $this->primaryKey => $idPetugas,
          'email' => $email,
          'username' => $username,
-         'superadmin' => $role ?? '0',
+         'is_superadmin' => $role ?? '0',
       ]);
    }
 }
