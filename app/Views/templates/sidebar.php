@@ -70,7 +70,7 @@ switch ($context) {
          </li>
          <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
             <a class="nav-link" href="<?= base_url('admin/laporan'); ?>">
-               <i class="material-icons">book</i>
+               <i class="material-icons">print</i>
                <p>Generate Laporan</p>
             </a>
          </li>

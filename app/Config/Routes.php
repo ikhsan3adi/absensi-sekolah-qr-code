@@ -92,6 +92,9 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('generate/siswa', 'Admin\QRGenerator::generateQrSiswa');
    $routes->post('generate/guru', 'Admin\QRGenerator::generateQrGuru');
 
+   // admin buat laporan
+   $routes->get('laporan', 'Admin\GenerateLaporan::index');
+
    // superadmin lihat data petugas
    $routes->get('petugas', 'Admin\DataPetugas::index');
    $routes->post('petugas', 'Admin\DataPetugas::ambilDataPetugas');
