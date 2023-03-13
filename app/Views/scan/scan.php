@@ -182,6 +182,10 @@
              audio.play();
              console.log(response);
              $('#hasilScan').html(response);
+
+             $('html, body').animate({
+                scrollTop: $("#hasilScan").offset().top
+             }, 500);
           },
           error: function(xhr, status, thrown) {
              console.log(thrown);

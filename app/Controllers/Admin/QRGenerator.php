@@ -46,7 +46,7 @@ class QRGenerator extends BaseController
       $this->backgroundColor = new Color(255, 255, 255);
 
       // Create logo
-      $this->logo = Logo::create(base_url('public/assets/img/new_logo.png'))->setResizeToWidth(75);
+      $this->logo = Logo::create(base_url('public/assets/img/icbcn_logo.jpg'))->setResizeToWidth(75);
 
       $this->label = Label::create('')
          ->setFont($this->labelFont)
@@ -85,6 +85,7 @@ class QRGenerator extends BaseController
    public function generateQrGuru()
    {
       $this->qrCode->setForegroundColor($this->foregroundColor2);
+      $this->label->setTextColor($this->foregroundColor2);
 
       $this->qrCodeFilePath .= 'qr-guru/';
 
