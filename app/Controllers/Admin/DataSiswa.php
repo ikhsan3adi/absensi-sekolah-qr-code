@@ -145,6 +145,12 @@ class DataSiswa extends BaseController
    {
       $idSiswa = $this->request->getVar('id');
 
+      $siswaLama = $this->siswaModel->getSiswaById($idSiswa);
+
+      if ($siswaLama['nis'] != $this->request->getVar('nis')) {
+         $this->siswaValidationRules['nis']['rules'] = 'required|max_length[20]|min_length[4]|is_unique[tb_siswa.nis]';
+      }
+
       // validasi
       if (!$this->validate($this->siswaValidationRules)) {
          $siswa = $this->siswaModel->getSiswaById($idSiswa);

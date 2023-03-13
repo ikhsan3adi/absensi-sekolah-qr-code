@@ -91,6 +91,17 @@ $routes->group('admin', function (RouteCollection $routes) {
 
    $routes->post('generate/siswa', 'Admin\QRGenerator::generateQrSiswa');
    $routes->post('generate/guru', 'Admin\QRGenerator::generateQrGuru');
+
+   // superadmin lihat data petugas
+   $routes->get('petugas', 'Admin\DataPetugas::index');
+   $routes->post('petugas', 'Admin\DataPetugas::ambilDataPetugas');
+   // superadmin tambah data petugas
+   $routes->get('petugas/register', 'Admin\DataPetugas::registerPetugas');
+   // superadmin edit data petugas
+   $routes->get('petugas/edit/(:any)', 'Admin\DataPetugas::formEditPetugas/$1');
+   $routes->post('petugas/edit', 'Admin\DataPetugas::updatePetugas');
+   // superadmin hapus data petugas
+   $routes->delete('petugas/delete/(:any)', 'Admin\DataPetugas::delete/$1');
 });
 
 
