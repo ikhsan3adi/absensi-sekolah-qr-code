@@ -6,7 +6,7 @@
          <div class="col-lg-12 col-md-12">
             <?php if (session()->getFlashdata('msg')) : ?>
                <div class="pb-2 px-3">
-                  <div class="alert alert-success">
+                  <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <i class="material-icons">close</i>
                      </button>
@@ -29,7 +29,7 @@
                   <div class="row">
                      <div class="col-md-6">
                         <div class="card h-100">
-                           <div class="card-body">
+                           <form action="<?= base_url('admin/laporan/siswa'); ?>" method="post" class="card-body d-flex flex-column">
                               <h4 class="text-primary"><b>Laporan Absen Siswa</b></h4>
                               <div class="row align-items-center">
                                  <div class="col-auto">
@@ -43,17 +43,19 @@
                                  <option value="">--Pilih kelas--</option>
                                  <?php foreach ($kelas as $value) : ?>
                                     <?php
-                                    $idKelas = $value['id_kelas'] - 1;
-                                    $jumlahSiswa = count($siswaPerKelas[$idKelas]);
+                                    $idKelas = $value['id_kelas'];
+                                    $kelas = "{$value['kelas']} {$value['jurusan']}";
+                                    $jumlahSiswa = count($siswaPerKelas[$idKelas - 1]);
                                     ?>
                                     <option value="<?= $idKelas; ?>">
-                                       <?= "{$value['kelas']} {$value['jurusan']} - {$jumlahSiswa} siswa"; ?>
+                                       <?= "$kelas - {$jumlahSiswa} siswa"; ?>
                                     </option>
                                  <?php endforeach; ?>
                               </select>
-                              <button onclick="generateLaporanSiswa()" class="btn btn-primary pl-3 mt-3">
+                              <div class="errMsg"></div>
+                              <button type="submit" class="btn btn-primary pl-3 mt-auto">
                                  <div class="row align-items-center">
-                                    <div class="col">
+                                    <div class="col-auto">
                                        <i class="material-icons" style="font-size: 32px;">print</i>
                                     </div>
                                     <div class="col">
@@ -63,12 +65,12 @@
                                     </div>
                                  </div>
                               </button>
-                           </div>
+                           </form>
                         </div>
                      </div>
                      <div class="col-md-6">
                         <div class="card h-100">
-                           <div class="card-body">
+                           <form action="<?= base_url('admin/laporan/guru'); ?>" method="post" class="card-body d-flex flex-column">
                               <h4 class="text-success"><b>Laporan Absen Guru</b></h4>
                               <p>Total jumlah guru : <b><?= count($guru); ?></b></p>
                               <div class="row align-items-center">
@@ -79,9 +81,9 @@
                                     <input type="month" name="tanggalGuru" id="tanggalGuru" class="form-control" value="<?= date('Y-m'); ?>">
                                  </div>
                               </div>
-                              <button onclick="generateLaporanGuru()" class="btn btn-success pl-3 mt-3">
+                              <button onclick="generateLaporanGuru()" class="btn btn-success pl-3 mt-auto">
                                  <div class="row align-items-center">
-                                    <div class="col">
+                                    <div class="col-auto">
                                        <i class="material-icons" style="font-size: 32px;">print</i>
                                     </div>
                                     <div class="col">
@@ -91,7 +93,7 @@
                                     </div>
                                  </div>
                               </button>
-                           </div>
+                           </form>
                         </div>
                      </div>
                   </div>
@@ -102,40 +104,4 @@
       </div>
    </div>
 </div>
-<script>
-   var kelas = null;
-   var jurusan = null;
-
-   getDataPetugas();
-
-   function trig() {
-      getDataPetugas();
-   }
-
-   function getDataPetugas() {
-      jQuery.ajax({
-         url: "<?= base_url('/admin/petugas'); ?>",
-         type: 'post',
-         data: {},
-         success: function(response, status, xhr) {
-            // console.log(status);
-            $('#dataPetugas').html(response);
-
-            $('html, body').animate({
-               scrollTop: $("#dataPetugas").offset().top
-            }, 500);
-         },
-         error: function(xhr, status, thrown) {
-            console.log(thrown);
-            $('#dataPetugas').html(thrown);
-         }
-      });
-   }
-
-   function removeHover() {
-      setTimeout(() => {
-         $('#tabBtn').removeClass('active show');
-      }, 250);
-   }
-</script>
 <?= $this->endSection() ?>

@@ -94,6 +94,8 @@ $routes->group('admin', function (RouteCollection $routes) {
 
    // admin buat laporan
    $routes->get('laporan', 'Admin\GenerateLaporan::index');
+   $routes->post('laporan/siswa', 'Admin\GenerateLaporan::generateLaporanSiswa');
+   $routes->post('laporan/guru', 'Admin\GenerateLaporan::generateLaporanGuru');
 
    // superadmin lihat data petugas
    $routes->get('petugas', 'Admin\DataPetugas::index');
