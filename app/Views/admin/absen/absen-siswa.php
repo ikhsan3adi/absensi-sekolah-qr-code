@@ -52,6 +52,25 @@
          </div>
       </div>
    </div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Ubah kehadiran</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body" id="modalFormUbahSiswa"></div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+               <button type="button" onclick="ubahKehadiran()" class="btn btn-primary">Ubah</button>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 <script>
    var lastIdKelas;
@@ -104,14 +123,28 @@
       }
    }
 
-   function ubahKehadiran(formId) {
-      if (!confirm("Apakah yakin untuk mengubah kehadiran?")) {
-         return;
-      }
+   function getDataKehadiran(idPresensi) {
+      jQuery.ajax({
+         url: "<?= base_url('/admin/absen-siswa/kehadiran'); ?>",
+         type: 'post',
+         data: {
+            'id_presensi': idPresensi
+         },
+         success: function(response, status, xhr) {
+            // console.log(status);
+            $('#modalFormUbahSiswa').html(response);
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            $('#modalFormUbahSiswa').html(thrown);
+         }
+      });
+   }
 
+   function ubahKehadiran() {
       var tanggal = $('#tanggal').val();
 
-      var form = $('#formUbah' + formId).serializeArray();
+      var form = $('#formUbah').serializeArray();
 
       form.push({
          name: 'tanggal',
@@ -128,7 +161,7 @@
             // console.log(status);
 
             if (response['status']) {
-               get_siswa(lastIdKelas, lastKelas);
+               getSiswa(lastIdKelas, lastKelas);
                alert('Berhasil ubah kehadiran : ' + response['nama_siswa']);
             } else {
                alert('Gagal ubah kehadiran : ' + response['nama_siswa']);

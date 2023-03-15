@@ -26,7 +26,7 @@
                            <div class="nav-tabs-wrapper">
                               <ul class="nav nav-tabs" data-tabs="tabs">
                                  <li class="nav-item">
-                                    <a class="nav-link" id="tabBtn" onclick="removeHover()" href="<?= base_url('admin/petugas/register'); ?>">
+                                    <a class="nav-link" id="tabBtn" onclick="removeHover();" href="<?= base_url('admin/petugas/register'); ?>">
                                        <i class="material-icons">add</i> Tambah data petugas
                                        <div class="ripple-container"></div>
                                     </a>
@@ -57,10 +57,6 @@
 
    getDataPetugas();
 
-   function trig() {
-      getDataPetugas();
-   }
-
    function getDataPetugas() {
       jQuery.ajax({
          url: "<?= base_url('/admin/petugas'); ?>",
@@ -69,6 +65,7 @@
          success: function(response, status, xhr) {
             // console.log(status);
             $('#dataPetugas').html(response);
+            removeHover();
 
             $('html, body').animate({
                scrollTop: $("#dataPetugas").offset().top
@@ -84,6 +81,7 @@
    function removeHover() {
       setTimeout(() => {
          $('#tabBtn').removeClass('active show');
+         $('#refreshBtn').removeClass('active show');
       }, 250);
    }
 </script>

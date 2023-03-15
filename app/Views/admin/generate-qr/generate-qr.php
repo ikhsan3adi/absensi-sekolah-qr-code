@@ -86,8 +86,8 @@
                               </button>
                               <br>
                               <div class="text-danger mt-2" id="textErrorKelas"><b></b></div>
-                              <br>
-                              <p>Untuk generate qr code per masing-masing siswa kunjungi <a href="<?= base_url('admin/siswa'); ?>">data siswa</a></p>
+                              <!-- <br>
+                              <p>Untuk generate qr code per masing-masing siswa kunjungi <a href="<?= base_url('admin/siswa'); ?>">data siswa</a></p> -->
                            </div>
                         </div>
                      </div>
@@ -120,7 +120,7 @@
                               </button>
                               <br>
                               <br>
-                              <p>Untuk generate qr code per masing-masing guru kunjungi <a href="<?= base_url('admin/guru'); ?>">data guru</a></p>
+                              <!-- <p>Untuk generate qr code per masing-masing guru kunjungi <a href="<?= base_url('admin/guru'); ?>">data guru</a></p> -->
                            </div>
                         </div>
                         <p class="text-danger"><i class="material-icons" style="font-size: 16px;">warning</i> File image QR Code tersimpan di [folder website]/public/uploads/</p>

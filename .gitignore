@@ -136,3 +136,4 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+*.zip

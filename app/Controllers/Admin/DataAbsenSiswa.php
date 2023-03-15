@@ -70,6 +70,18 @@ class DataAbsenSiswa extends BaseController
       return view('admin/absen/list-absen-siswa', $data);
    }
 
+   public function ambilKehadiran()
+   {
+      $idPresensi = $this->request->getVar('id_presensi');
+
+      $data = [
+         'data' => $this->presensiSiswa->getPresensiById($idPresensi),
+         'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
+      ];
+
+      return view('admin/absen/ubah-kehadiran-modal', $data);
+   }
+
    public function ubahKehadiran()
    {
       // ambil variabel POST
