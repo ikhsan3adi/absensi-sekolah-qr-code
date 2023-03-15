@@ -63,11 +63,7 @@
                   <span aria-hidden="true">&times;</span>
                </button>
             </div>
-            <div class="modal-body" id="modalFormUbahSiswa"></div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-               <button type="button" onclick="ubahKehadiran()" class="btn btn-primary">Ubah</button>
-            </div>
+            <div id="modalFormUbahSiswa"></div>
          </div>
       </div>
    </div>
@@ -123,12 +119,13 @@
       }
    }
 
-   function getDataKehadiran(idPresensi) {
+   function getDataKehadiran(idPresensi, idSiswa) {
       jQuery.ajax({
          url: "<?= base_url('/admin/absen-siswa/kehadiran'); ?>",
          type: 'post',
          data: {
-            'id_presensi': idPresensi
+            'id_presensi': idPresensi,
+            'id_siswa': idSiswa
          },
          success: function(response, status, xhr) {
             // console.log(status);
@@ -137,39 +134,6 @@
          error: function(xhr, status, thrown) {
             console.log(thrown);
             $('#modalFormUbahSiswa').html(thrown);
-         }
-      });
-   }
-
-   function ubahKehadiran() {
-      var tanggal = $('#tanggal').val();
-
-      var form = $('#formUbah').serializeArray();
-
-      form.push({
-         name: 'tanggal',
-         value: tanggal
-      });
-
-      console.log(form);
-
-      jQuery.ajax({
-         url: "<?= base_url('/admin/absen-siswa/edit'); ?>",
-         type: 'post',
-         data: form,
-         success: function(response, status, xhr) {
-            // console.log(status);
-
-            if (response['status']) {
-               getSiswa(lastIdKelas, lastKelas);
-               alert('Berhasil ubah kehadiran : ' + response['nama_siswa']);
-            } else {
-               alert('Gagal ubah kehadiran : ' + response['nama_siswa']);
-            }
-         },
-         error: function(xhr, status, thrown) {
-            console.log(thrown);
-            alert('Gagal ubah kehadiran\n' + thrown);
          }
       });
    }

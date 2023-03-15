@@ -73,10 +73,12 @@ class DataAbsenSiswa extends BaseController
    public function ambilKehadiran()
    {
       $idPresensi = $this->request->getVar('id_presensi');
+      $idSiswa = $this->request->getVar('id_siswa');
 
       $data = [
-         'data' => $this->presensiSiswa->getPresensiById($idPresensi),
+         'presensi' => $this->presensiSiswa->getPresensiById($idPresensi),
          'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
+         'data' => $this->siswaModel->getSiswaById($idSiswa)
       ];
 
       return view('admin/absen/ubah-kehadiran-modal', $data);
@@ -90,6 +92,7 @@ class DataAbsenSiswa extends BaseController
       $idKelas = $this->request->getVar('id_kelas');
       $tanggal = $this->request->getVar('tanggal');
       $jamMasuk = $this->request->getVar('jam_masuk');
+      $jamKeluar = $this->request->getVar('jam_keluar');
       $keterangan = $this->request->getVar('keterangan');
 
       $cek = $this->presensiSiswa->cekAbsen($idSiswa, $tanggal);
@@ -101,6 +104,7 @@ class DataAbsenSiswa extends BaseController
          $tanggal,
          $idKehadiran,
          $jamMasuk ?? NULL,
+         $jamKeluar ?? NULL,
          $keterangan
       );
 

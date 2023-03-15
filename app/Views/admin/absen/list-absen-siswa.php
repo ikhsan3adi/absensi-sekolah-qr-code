@@ -54,12 +54,10 @@
                             <td><?= $value['keterangan'] ?? '-'; ?></td>
                             <td>
                                 <?php if (!$lewat) : ?>
-                                    <div class="dropstart">
-                                        <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi']; ?>)" type="button" class="btn btn-info p-2" id="<?= $value['nis']; ?>">
-                                            <i class="material-icons">edit</i>
-                                            Edit
-                                        </button>
-                                    </div>
+                                    <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_siswa']; ?>)" type="button" class="btn btn-info p-2" id="<?= $value['nis']; ?>">
+                                        <i class="material-icons">edit</i>
+                                        Edit
+                                    </button>
                                 <?php else : ?>
                                     <button class="btn btn-disabled p-2">No Action</button>
                                 <?php endif; ?>
