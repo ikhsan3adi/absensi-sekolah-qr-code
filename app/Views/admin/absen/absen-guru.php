@@ -32,6 +32,21 @@
          </div>
       </div>
    </div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="modalUbahKehadiran">Ubah kehadiran</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div id="modalFormUbahGuru"></div>
+         </div>
+      </div>
+   </div>
 </div>
 <script>
    getGuru();
@@ -60,14 +75,10 @@
       });
    }
 
-   function ubahKehadiran(formId) {
-      if (!confirm("Apakah yakin untuk mengubah kehadiran?")) {
-         return;
-      }
-
+   function ubahKehadiran() {
       var tanggal = $('#tanggal').val();
 
-      var form = $('#formUbah' + formId).serializeArray();
+      var form = $('#formUbah').serializeArray();
 
       form.push({
          name: 'tanggal',
@@ -92,6 +103,25 @@
          error: function(xhr, status, thrown) {
             console.log(thrown);
             alert('Gagal ubah kehadiran\n' + thrown);
+         }
+      });
+   }
+
+   function getDataKehadiran(idPresensi, idGuru) {
+      jQuery.ajax({
+         url: "<?= base_url('/admin/absen-guru/kehadiran'); ?>",
+         type: 'post',
+         data: {
+            'id_presensi': idPresensi,
+            'id_guru': idGuru
+         },
+         success: function(response, status, xhr) {
+            // console.log(status);
+            $('#modalFormUbahGuru').html(response);
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            $('#modalFormUbahGuru').html(thrown);
          }
       });
    }

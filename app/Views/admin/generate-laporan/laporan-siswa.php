@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <table>
    <tr>
-      <td><img src="<?= base_url('public/assets/img/icbcn_logo.jpg'); ?>" width="100px"></td>
+      <td><img src="<?= base_url('public/assets/img/icbcn_logo.jpg'); ?>" width="100px" height="100px"></img></td>
       <td width="100%">
          <h2 align="center">DAFTAR HADIR SISWA</h2>
          <h4 align="center">SMK ICB CINTA NIAGA</h4>
@@ -17,18 +17,18 @@
 <span>Bulan : <?= $bulan; ?></span>
 <span style="position: absolute;right: 0;">Kelas : <?= "{$kelas['kelas']} {$kelas['jurusan']}"; ?></span>
 <table align="center" border="1">
-   <thead>
+   <tr>
       <td></td>
       <td></td>
-      <th colspan="<?= count($tanggal); ?>">Hari/Tanggal</th>
-   </thead>
-   <thead>
+      <td colspan="<?= count($tanggal); ?>"><b>Hari/Tanggal</b></td>
+   </tr>
+   <tr>
       <td></td>
       <td></td>
       <?php foreach ($tanggal as $value) : ?>
-         <th align="center"><?= $value->format('D'); ?></th>
+         <td align="center"><b><?= $value->format('D'); ?></b></td>
       <?php endforeach; ?>
-   </thead>
+   </tr>
    <tr>
       <th id="rowSpan3" align="center">No</th>
       <th id="rowSpan3" width="1000px">Nama</th>
@@ -52,7 +52,7 @@
    endforeach; ?>
 
 </table>
-<br>
+<br></br>
 <table>
    <tr>
       <td>Jumlah siswa</td>
@@ -67,9 +67,6 @@
       <td>: <?= $jumlahSiswa['perempuan']; ?></td>
    </tr>
 </table>
-<script>
-   window.print();
-</script>
 <?php
 function kehadiran($kehadiran)
 {

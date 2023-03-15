@@ -53,18 +53,45 @@
                                  <?php endforeach; ?>
                               </select>
                               <div class="errMsg"></div>
-                              <button type="submit" class="btn btn-primary pl-3 mt-auto">
+                              <div class="mt-auto d-flex flex-column">
+                                 <button type="submit" name="type" value="pdf" class="btn btn-danger pl-3">
+                                    <div class="row align-items-center">
+                                       <div class="col-auto">
+                                          <i class="material-icons" style="font-size: 32px;">print</i>
+                                       </div>
+                                       <div class="col">
+                                          <div class="text-start">
+                                             <h4 class="d-inline"><b>Generate pdf</b></h4>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </button>
+                                 <button type="submit" name="type" value="doc" class="btn btn-info pl-3">
+                                    <div class="row align-items-center">
+                                       <div class="col-auto">
+                                          <i class="material-icons" style="font-size: 32px;">description</i>
+                                       </div>
+                                       <div class="col">
+                                          <div class="text-start">
+                                             <h4 class="d-inline"><b>Generate doc</b></h4>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </button>
+                                 <!-- <button type="submit" name="type" value="xls" class="btn btn-success pl-3 mt-auto">
                                  <div class="row align-items-center">
                                     <div class="col-auto">
-                                       <i class="material-icons" style="font-size: 32px;">print</i>
+                                       <i class="material-icons" style="font-size: 32px;">table_view</i>
                                     </div>
                                     <div class="col">
                                        <div class="text-start">
-                                          <h4 class="d-inline"><b>Generate laporan</b></h4>
+                                          <h4 class="d-inline"><b>Generate xls</b></h4>
                                        </div>
                                     </div>
                                  </div>
-                              </button>
+                              </button> -->
+                              </div>
+
                            </form>
                         </div>
                      </div>
@@ -81,18 +108,32 @@
                                     <input type="month" name="tanggalGuru" id="tanggalGuru" class="form-control" value="<?= date('Y-m'); ?>">
                                  </div>
                               </div>
-                              <button onclick="generateLaporanGuru()" class="btn btn-success pl-3 mt-auto">
-                                 <div class="row align-items-center">
-                                    <div class="col-auto">
-                                       <i class="material-icons" style="font-size: 32px;">print</i>
-                                    </div>
-                                    <div class="col">
-                                       <div class="text-start">
-                                          <h4 class="d-inline"><b>Generate laporan</b></h4>
+                              <div class="mt-auto d-flex flex-column">
+                                 <button type="submit" name="type" value="pdf" class="btn btn-danger pl-3">
+                                    <div class="row align-items-center">
+                                       <div class="col-auto">
+                                          <i class="material-icons" style="font-size: 32px;">print</i>
+                                       </div>
+                                       <div class="col">
+                                          <div class="text-start">
+                                             <h4 class="d-inline"><b>Generate pdf</b></h4>
+                                          </div>
                                        </div>
                                     </div>
-                                 </div>
-                              </button>
+                                 </button>
+                                 <button type="submit" name="type" value="doc" class="btn btn-info pl-3">
+                                    <div class="row align-items-center">
+                                       <div class="col-auto">
+                                          <i class="material-icons" style="font-size: 32px;">description</i>
+                                       </div>
+                                       <div class="col">
+                                          <div class="text-start">
+                                             <h4 class="d-inline"><b>Generate doc</b></h4>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </button>
+                              </div>
                            </form>
                         </div>
                      </div>

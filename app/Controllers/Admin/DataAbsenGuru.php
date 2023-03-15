@@ -54,6 +54,20 @@ class DataAbsenGuru extends BaseController
       return view('admin/absen/list-absen-guru', $data);
    }
 
+   public function ambilKehadiran()
+   {
+      $idPresensi = $this->request->getVar('id_presensi');
+      $idGuru = $this->request->getVar('id_guru');
+
+      $data = [
+         'presensi' => $this->presensiGuru->getPresensiById($idPresensi),
+         'listKehadiran' => $this->kehadiranModel->getAllKehadiran(),
+         'data' => $this->guruModel->getGuruById($idGuru)
+      ];
+
+      return view('admin/absen/ubah-kehadiran-modal', $data);
+   }
+
    public function ubahKehadiran()
    {
       // ambil variabel POST
@@ -61,6 +75,7 @@ class DataAbsenGuru extends BaseController
       $idGuru = $this->request->getVar('id_guru');
       $tanggal = $this->request->getVar('tanggal');
       $jamMasuk = $this->request->getVar('jam_masuk');
+      $jamKeluar = $this->request->getVar('jam_keluar');
       $keterangan = $this->request->getVar('keterangan');
 
       $cek = $this->presensiGuru->cekAbsen($idGuru, $tanggal);
@@ -71,6 +86,7 @@ class DataAbsenGuru extends BaseController
          $tanggal,
          $idKehadiran,
          $jamMasuk ?? NULL,
+         $jamKeluar ?? NULL,
          $keterangan
       );
 

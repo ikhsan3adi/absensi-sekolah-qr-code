@@ -3,16 +3,19 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use CodeIgniter\I18n\Time;
 use DateTime;
+use DateInterval;
+use DatePeriod;
 
 use App\Models\GuruModel;
 use App\Models\KelasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
-use CodeIgniter\I18n\Time;
-use DateInterval;
-use DatePeriod;
+
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
 
 class GenerateLaporan extends BaseController
 {
@@ -62,6 +65,7 @@ class GenerateLaporan extends BaseController
    {
       $idKelas = $this->request->getVar('kelas');
       $siswa = $this->siswaModel->getSiswaByKelas($idKelas);
+      $type = $this->request->getVar('type');
 
       if (empty($siswa)) {
          session()->setFlashdata([
@@ -123,12 +127,21 @@ class GenerateLaporan extends BaseController
          'grup' => "kelas " . $kelas['kelas'] . " " . $kelas['jurusan']
       ];
 
-      return view('admin/generate-laporan/laporan-siswa', $data);
+
+      if ($type == 'doc') {
+         $this->response->setHeader('Content-type', 'application/vnd.ms-word');
+         $this->response->setHeader('Content-Disposition', 'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->format('F-Y') . '.doc');
+
+         return view('admin/generate-laporan/laporan-siswa', $data);
+      }
+
+      return view('admin/generate-laporan/laporan-siswa', $data) . view('admin/generate-laporan/topdf');
    }
 
    public function generateLaporanGuru()
    {
       $guru = $this->guruModel->getAllGuru();
+      $type = $this->request->getVar('type');
 
       if (empty($guru)) {
          session()->setFlashdata([
@@ -187,6 +200,13 @@ class GenerateLaporan extends BaseController
          'grup' => 'guru'
       ];
 
-      return view('admin/generate-laporan/laporan-guru', $data);
+      if ($type == 'doc') {
+         $this->response->setHeader('Content-type', 'application/vnd.ms-word');
+         $this->response->setHeader('Content-Disposition', 'attachment;Filename=laporan_absen_guru_' . $begin->format('F-Y') . '.doc');
+
+         return view('admin/generate-laporan/laporan-guru', $data);
+      }
+
+      return view('admin/generate-laporan/laporan-guru', $data) . view('admin/generate-laporan/topdf');
    }
 }

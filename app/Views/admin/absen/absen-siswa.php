@@ -54,11 +54,11 @@
    </div>
 
    <!-- Modal -->
-   <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Ubah kehadiran</h5>
+               <h5 class="modal-title" id="modalUbahKehadiran">Ubah kehadiran</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                </button>
@@ -134,6 +134,39 @@
          error: function(xhr, status, thrown) {
             console.log(thrown);
             $('#modalFormUbahSiswa').html(thrown);
+         }
+      });
+   }
+
+   function ubahKehadiran() {
+      var tanggal = $('#tanggal').val();
+
+      var form = $('#formUbah').serializeArray();
+
+      form.push({
+         name: 'tanggal',
+         value: tanggal
+      });
+
+      console.log(form);
+
+      jQuery.ajax({
+         url: "<?= base_url('/admin/absen-siswa/edit'); ?>",
+         type: 'post',
+         data: form,
+         success: function(response, status, xhr) {
+            // console.log(status);
+
+            if (response['status']) {
+               getSiswa(lastIdKelas, lastKelas);
+               alert('Berhasil ubah kehadiran : ' + response['nama_siswa']);
+            } else {
+               alert('Gagal ubah kehadiran : ' + response['nama_siswa']);
+            }
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            alert('Gagal ubah kehadiran\n' + thrown);
          }
       });
    }

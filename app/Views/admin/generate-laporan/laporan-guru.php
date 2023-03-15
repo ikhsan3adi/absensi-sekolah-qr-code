@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <table>
    <tr>
-      <td><img src="<?= base_url('public/assets/img/icbcn_logo.jpg'); ?>" width="100px"></td>
+      <td><img src="<?= base_url('public/assets/img/icbcn_logo.jpg'); ?>" width="100px" height="100px"></img></td>
       <td width="100%">
          <h2 align="center">DAFTAR HADIR GURU</h2>
          <h4 align="center">SMK ICB CINTA NIAGA</h4>
@@ -51,7 +51,7 @@
    endforeach; ?>
 
 </table>
-<br>
+<br></br>
 <table>
    <tr>
       <td>Jumlah guru</td>
@@ -66,9 +66,6 @@
       <td>: <?= $jumlahGuru['perempuan']; ?></td>
    </tr>
 </table>
-<script>
-   window.print();
-</script>
 <?php
 function kehadiran($kehadiran)
 {

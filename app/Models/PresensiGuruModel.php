@@ -22,7 +22,7 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
    {
       $result = $this->where(['id_guru' => $id, 'tanggal' => $date])->first();
 
-      if (empty($result) || empty($result['jam_masuk'])) return false;
+      if (empty($result)) return false;
 
       return $result[$this->primaryKey];
    }
@@ -101,7 +101,7 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
       }
    }
 
-   public function updatePresensi($idPresensi = NULL, $idGuru, $tanggal, $idKehadiran, $jamMasuk = NULL, $keterangan = NULL)
+   public function updatePresensi($idPresensi = NULL, $idGuru, $tanggal, $idKehadiran, $jamMasuk = NULL, $jamKeluar = NULL, $keterangan = NULL)
    {
       $presensi = $this->getPresensiByIdGuruTanggal($idGuru, $tanggal);
 
@@ -118,6 +118,10 @@ class PresensiGuruModel extends PresensiBaseModel implements PresensiInterface
 
       if ($jamMasuk != null) {
          $data['jam_masuk'] = $jamMasuk;
+      }
+
+      if ($jamKeluar != null) {
+         $data['jam_keluar'] = $jamKeluar;
       }
 
       return $this->save($data);
