@@ -6,21 +6,30 @@
          <div class="col-lg-12 col-md-12">
             <div class="card">
                <div class="card-body">
-                  <div class="pt-3 pl-3">
-                     <h4><b>Daftar Kelas</b></h4>
-                     <p>Silakan pilih kelas</p>
+                  <div class="row justify-content-between">
+                     <div class="col">
+                        <div class="pt-3 pl-3">
+                           <h4><b>Daftar Kelas</b></h4>
+                           <p>Silakan pilih kelas</p>
+                        </div>
+                     </div>
+                     <div class="col-sm-auto">
+                        <button data-toggle="modal" data-target="#tambahKelasModal" class="btn btn-primary pl-3 py-3 mr-3 mt-3">
+                           <i class="material-icons mr-2">add</i> Tambah Data Kelas
+                        </button>
+                     </div>
                   </div>
 
                   <div class="card-body pt-1 px-3">
                      <div class="row">
-                        <?php foreach ($data as $value) : ?>
+                        <?php foreach ($kelas as $value) : ?>
                            <?php
                            $idKelas = $value['id_kelas'];
-                           $kelas =  $value['kelas'] . ' ' . $value['jurusan'];
+                           $namaKelas =  $value['kelas'] . ' ' . $value['jurusan'];
                            ?>
                            <div class="col-md-3">
-                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $kelas; ?>')" class="btn btn-primary w-100">
-                                 <?= $kelas; ?>
+                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
+                                 <?= $namaKelas; ?>
                               </button>
                            </div>
                         <?php endforeach; ?>
@@ -53,7 +62,44 @@
       </div>
    </div>
 
-   <!-- Modal -->
+   <!-- Modal tambah kelas -->
+   <div class="modal fade" id="tambahKelasModal" tabindex="-1" aria-labelledby="tambahKelasModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <form id="formTambahKelas" action="#">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalUbahKehadiran">Tambah Data Kelas</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <div class="container-fluid">
+                     <div class="form-group mt-2">
+                        <label for="kelas">Kelas</label>
+                        <select class="custom-select" id="kelas" name="kelas" required>
+                           <option value="">--Pilih kelas--</option>
+                           <option value="X">X</option>
+                           <option value="XI">XI</option>
+                           <option value="XII">XII</option>
+                        </select>
+                     </div>
+                     <div class="form-group mt-4">
+                        <label for="jurusan">Jurusan</label>
+                        <input type="text" id="jurusan" class="form-control" name="jurusan" placeholder="Nama jurusan" required>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  <button type="submit" onclick="tambahDataKelas()" class="btn btn-primary">Simpan</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <!-- Modal ubah kehadiran -->
    <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
@@ -108,7 +154,7 @@
    }
 
    function updateBtn(id_btn) {
-      for (let index = 1; index <= <?= count($data); ?>; index++) {
+      for (let index = 1; index <= <?= count($kelas); ?>; index++) {
          if (index != id_btn) {
             $('#kelas-' + index).removeClass('btn-success');
             $('#kelas-' + index).addClass('btn-primary');
@@ -167,6 +213,30 @@
          error: function(xhr, status, thrown) {
             console.log(thrown);
             alert('Gagal ubah kehadiran\n' + thrown);
+         }
+      });
+   }
+
+   function tambahDataKelas() {
+      var form = $('#formTambahKelas').serializeArray();
+
+      jQuery.ajax({
+         url: "<?= base_url('/admin/tambah-kelas'); ?>",
+         type: 'post',
+         data: form,
+         success: function(response, status, xhr) {
+            // console.log(status);
+
+            if (response['status']) {
+               getSiswa(lastIdKelas, lastKelas);
+               alert('Berhasil tambah kelas : ' + response['kelas']);
+            } else {
+               alert('Gagal ubah kehadiran : ' + response['kelas']);
+            }
+         },
+         error: function(xhr, status, thrown) {
+            console.log(thrown);
+            alert('Gagal menambah kelas\n' + thrown);
          }
       });
    }

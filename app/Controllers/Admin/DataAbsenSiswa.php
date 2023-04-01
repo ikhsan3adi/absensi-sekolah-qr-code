@@ -10,6 +10,7 @@ use App\Controllers\BaseController;
 use App\Models\KehadiranModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
+use mysqli;
 
 class DataAbsenSiswa extends BaseController
 {
@@ -38,12 +39,12 @@ class DataAbsenSiswa extends BaseController
 
    public function index()
    {
-      $result = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getAllKelas();
 
       $data = [
          'title' => 'Data Absen Siswa',
          'ctx' => 'absen-siswa',
-         'data' => $result
+         'kelas' => $kelas
       ];
 
       return view('admin/absen/absen-siswa', $data);
@@ -109,6 +110,54 @@ class DataAbsenSiswa extends BaseController
       );
 
       $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
+
+      if ($result) {
+         $response['status'] = TRUE;
+      } else {
+         $response['status'] = FALSE;
+      }
+
+      return $this->response->setJSON($response);
+   }
+
+   public function tambahKelas()
+   {
+      // ambil variabel POST
+      $kelas = $this->request->getVar('kelas');
+      $jurusan = $this->request->getVar('jurusan');
+
+      $arrJurusan = $this->kelasModel->getAllKelas();
+
+      $currentJurusan = [];
+
+      foreach ($arrJurusan as $value) {
+         array_push($currentJurusan, $value['jurusan']);
+      }
+
+      if (!in_array($jurusan, $currentJurusan)) {
+         $filteredJurusan = [];
+
+         foreach ($currentJurusan as $value) {
+            if (!in_array($value, $filteredJurusan)) {
+               array_push($filteredJurusan, $value);
+            }
+         }
+
+         array_push($filteredJurusan, $jurusan);
+
+         $this->kelasModel->db->query("ALTER TABLE `tb_kelas` CHANGE `jurusan` `jurusan` ENUM("
+            . array_reduce($filteredJurusan, function ($ax, $dx) {
+               if (empty($ax)) {
+                  return "$ax" . "'$dx'";
+               }
+               return "$ax," . "'$dx'";
+            }) .
+            ") CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;");
+      }
+
+      $result = $this->kelasModel->tambahKelas($kelas, $jurusan);
+
+      $response['kelas'] = "$kelas $jurusan";
 
       if ($result) {
          $response['status'] = TRUE;

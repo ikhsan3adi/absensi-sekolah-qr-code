@@ -6,10 +6,10 @@ use CodeIgniter\Model;
 
 class KelasModel extends Model
 {
-   // protected function initialize()
-   // {
-   //     $this->allowedFields[] = [];
-   // }
+   protected function initialize()
+   {
+      $this->allowedFields[] = ['kelas', 'jurusan'];
+   }
 
    protected $table = 'tb_kelas';
 
@@ -18,5 +18,13 @@ class KelasModel extends Model
    public function getAllKelas()
    {
       return $this->findAll();
+   }
+
+   public function tambahKelas($kelas, $jurusan)
+   {
+      return $this->db->table($this->table)->insert([
+         'kelas' => $kelas,
+         'jurusan' => $jurusan
+      ]);
    }
 }
