@@ -57,12 +57,13 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ### Instalasi
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
 - (Opsional) Konfigurasi file `.env` untuk mengatur parameter seperti koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
-- Jalankan migrasi database untuk membuat struktur tabel yang diperlukan.
+- (Opsional) Jalankan migrasi database untuk membuat struktur tabel yang diperlukan.
 ```shell
 php spark migrate --all
-
 ```
-- Jalankan web server lalu jalankan aplikasi di browser.
+- Jalankan web server.
+- Impor database `sql/db_absensi.sql`.
+- Lalu jalankan aplikasi di browser.
 - Izinkan akses kamera.
 
 ## Kesimpulan
