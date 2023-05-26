@@ -1,8 +1,10 @@
 # Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code
 
-[![PHP Composer](https://github.com/x4nn/ci4-absensi-sekolah-qr/actions/workflows/php.yml/badge.svg)](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/php.yml)
+[![PHP Composer](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/php.yml/badge.svg)](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/php.yml)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=social)
+
+![Dashboard preview](https://github.com/ikhsan3adi/ci4-absensi-sekolah-qr/raw/master/screenshots/hero.png)
 
 Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah menggunakan teknologi QR code. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
@@ -50,19 +52,44 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ## Cara Penggunaan
 ### Persyaratan
-- Composer.
-- PHP dan MySQL atau XAMPP versi 8.0+ dengan mengaktifkan extension `-intl`.
+- [Composer](https://getcomposer.org/).
+- PHP dan MySQL atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.0+ dengan mengaktifkan extension `-intl`.
 - Pastikan perangkat memiliki kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
 
 ### Instalasi
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
 - (Opsional) Konfigurasi file `.env` untuk mengatur parameter seperti koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
-- (Opsional) Jalankan migrasi database untuk membuat struktur tabel yang diperlukan.
+- Penting ⚠️. Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
+```shell
+composer install
+```
+- Penting ⚠️. Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
 ```shell
 php spark migrate --all
 ```
+- Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah baris berikut:
+```php
+public $views = [
+        'login'           => 'Myth\Auth\Views\login', // baris ini
+        'register'        => 'Myth\Auth\Views\register',
+        'forgot'          => 'Myth\Auth\Views\forgot',
+        'reset'           => 'Myth\Auth\Views\reset',
+        'emailForgot'     => 'Myth\Auth\Views\emails\forgot',
+        'emailActivation' => 'Myth\Auth\Views\emails\activation',
+    ];
+```
+menjadi:
+```php
+public $views = [
+        'login'           => '\App\Views\admin\login', // ubah seperti ini agar login bisa diakses
+        'register'        => 'Myth\Auth\Views\register',
+        'forgot'          => 'Myth\Auth\Views\forgot',
+        'reset'           => 'Myth\Auth\Views\reset',
+        'emailForgot'     => 'Myth\Auth\Views\emails\forgot',
+        'emailActivation' => 'Myth\Auth\Views\emails\activation',
+    ];
+```
 - Jalankan web server.
-- Impor database `sql/db_absensi.sql`.
 - Lalu jalankan aplikasi di browser.
 - Izinkan akses kamera.
 
