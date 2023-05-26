@@ -74,7 +74,7 @@ switch ($context) {
                <p>Generate Laporan</p>
             </a>
          </li>
-         <?php if (user()->getRole() ?? '0' == '1') : ?>
+         <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
             <li class="nav-item <?= $context == 'petugas' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/petugas'); ?>">
                   <i class="material-icons">computer</i>

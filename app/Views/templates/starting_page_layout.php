@@ -57,7 +57,7 @@
    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
       <div class="container-fluid">
          <div class="navbar-wrapper">
-            <p class="navbar-brand"><b><?= $title; ?></b></p>
+            <p class="navbar-brand"><b><?= $title ?? 'Login'; ?></b></p>
          </div>
          <div class="collapse navbar-collapse justify-content-end">
             <?= $this->renderSection('navaction') ?>
