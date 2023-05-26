@@ -1,3 +1,0 @@
-parameters:
-    ignoreErrors:
-        - '#\[BC\] SKIPPED: .+ could not be found in the located source#'
