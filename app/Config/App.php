@@ -22,7 +22,7 @@ class App extends BaseConfig
      * explicitly and never rely on auto-guessing, especially in production
      * environments.
      */
-    public string $baseURL = 'http://localhost/ci4-absensi-sekolah-qr/';
+    public string $baseURL = 'http://localhost/absensi-sekolah-qr-code/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
