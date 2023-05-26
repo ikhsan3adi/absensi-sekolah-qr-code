@@ -11,11 +11,12 @@ class PetugasModel extends Model
       $this->allowedFields = [
          'email',
          'username',
+         'password_hash',
          'is_superadmin'
       ];
    }
 
-   protected $table = 'tb_petugas';
+   protected $table = 'users';
 
    protected $primaryKey = 'id';
 
@@ -29,12 +30,13 @@ class PetugasModel extends Model
       return $this->where([$this->primaryKey => $id])->first();
    }
 
-   public function savePetugas($idPetugas, $email, $username, $role)
+   public function savePetugas($idPetugas, $email, $username, $passwordHash, $role)
    {
       return $this->save([
          $this->primaryKey => $idPetugas,
          'email' => $email,
          'username' => $username,
+         'password_hash' => $passwordHash,
          'is_superadmin' => $role ?? '0',
       ]);
    }

@@ -44,6 +44,14 @@
                         </div>
                      </div>
 
+                     <div class="form-group mt-4">
+                        <label for="password">Password baru</label>
+                        <input type="password" id="password" class="form-control <?= $validation->getError('password') ? 'is-invalid' : ''; ?>" name="password">
+                        <div class="invalid-feedback">
+                           <?= $validation->getError('password'); ?>
+                        </div>
+                     </div>
+
                      <label for="role">Role</label>
                      <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>" id="role" name="role">
                         <option value="">--Pilih role--</option>
