@@ -26,6 +26,9 @@ class DataPetugas extends BaseController
             'is_unique' => 'Username ini telah terdaftar.'
          ]
       ],
+      'password' => [
+         'rules' => 'permit_empty|min_length[6]',
+      ],
       'role' => [
          'rules' => 'required',
          'errors' => [
@@ -42,7 +45,7 @@ class DataPetugas extends BaseController
 
    public function index()
    {
-      if (user()->getRole() != '1') {
+      if (user()->toArray()['is_superadmin'] != '1') {
          return redirect()->to('admin');
       }
 
@@ -68,7 +71,7 @@ class DataPetugas extends BaseController
 
    public function registerPetugas()
    {
-      if (user()->getRole() != '1') {
+      if (user()->toArray()['is_superadmin'] != '1') {
          return redirect()->to('admin');
       }
 
@@ -104,11 +107,11 @@ class DataPetugas extends BaseController
       $petugasLama = $this->petugasModel->getPetugasById($idPetugas);
 
       if ($petugasLama['username'] != $this->request->getVar('username')) {
-         $this->petugasValidationRules['username']['rules'] = 'required|is_unique[tb_petugas.username]';
+         $this->petugasValidationRules['username']['rules'] = 'required|is_unique[users.username]';
       }
 
       if ($petugasLama['email'] != $this->request->getVar('email')) {
-         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[tb_petugas.email]';
+         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[users.email]';
       }
 
       // validasi
@@ -123,11 +126,14 @@ class DataPetugas extends BaseController
          return view('admin/petugas/edit-data-petugas', $data);
       }
 
+      $password = $this->request->getVar('password') ?? false;
+
       $email = $this->request->getVar('email');
       $username = $this->request->getVar('username');
+      $passwordHash = $password ? \Myth\Auth\Password::hash($password) : $petugasLama['password_hash'];
       $role = $this->request->getVar('role');
 
-      $result = $this->petugasModel->savePetugas($idPetugas, $email, $username, $role);
+      $result = $this->petugasModel->savePetugas($idPetugas, $email, $username, $passwordHash, $role);
 
       if ($result) {
          session()->setFlashdata([

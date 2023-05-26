@@ -46,7 +46,7 @@ class QRGenerator extends BaseController
       $this->backgroundColor = new Color(255, 255, 255);
 
       // Create logo
-      $this->logo = Logo::create(base_url('public/assets/img/icbcn_logo.jpg'))->setResizeToWidth(75);
+      $this->logo = Logo::create(base_url('public/assets/img/logo_sekolah.jpg'))->setResizeToWidth(75);
 
       $this->label = Label::create('')
          ->setFont($this->labelFont)

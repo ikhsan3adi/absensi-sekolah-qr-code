@@ -54,7 +54,7 @@
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">home</i>
-                            SMK ICB CN
+                            SMK 12369 HONGKONG
                         </div>
                     </div>
                 </div>
