@@ -83,15 +83,7 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/**
-
-# un-ignore myth auth
-!/vendor/**/
-!vendor/myth/auth/**
-
-# un-ignore endroid/qr-code
-!/vendor/**/
-!vendor/endroid/qr-code/**
+vendor/
 
 # uploads
 public/uploads
