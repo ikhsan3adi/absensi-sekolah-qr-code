@@ -99,6 +99,11 @@ public $views = [
 ```
 - Jalankan web server.
 - Lalu jalankan aplikasi di browser.
+- Login menggunakan krendensial superadmin:
+```
+username : superadmin
+password : 1234ikh123
+```
 - Izinkan akses kamera.
 
 ## Kesimpulan
