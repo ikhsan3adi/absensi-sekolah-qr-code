@@ -3,6 +3,7 @@
 [![PHP Composer](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/actions/workflows/php.yml/badge.svg)](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/actions/workflows/php.yml)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
+![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
 
 ![Dashboard preview](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/hero.png)
 
