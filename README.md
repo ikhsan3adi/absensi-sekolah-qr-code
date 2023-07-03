@@ -4,6 +4,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
+![GitHub all releases](https://img.shields.io/github/downloads/ikhsan3adi/Absensi-Sekolah-QR-Code/total?style=social)
 
 ![Preview](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/hero.png)
 
