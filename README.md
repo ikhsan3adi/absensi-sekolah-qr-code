@@ -1,12 +1,12 @@
 # Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code
 
-[![PHP Composer](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/actions/workflows/php.yml/badge.svg)](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/actions/workflows/php.yml)
-![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
-![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/Absensi-Sekolah-QR-Code?style=social)
-![GitHub all releases](https://img.shields.io/github/downloads/ikhsan3adi/Absensi-Sekolah-QR-Code/total?style=social)
+[![PHP Composer](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/php.yml/badge.svg)](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/php.yml)
+![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=social)
+![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=social)
+![GitHub all releases](https://img.shields.io/github/downloads/ikhsan3adi/absensi-sekolah-qr-code/total?style=social)
 
-![Preview](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/hero.png)
+![Preview](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/hero.png)
 
 Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah menggunakan teknologi QR code. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
@@ -34,41 +34,41 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Halaman QR Scanner
 
-![QR Scanner view](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_5_2023_204644.jpeg)
+![QR Scanner view](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_5_2023_204644.jpeg)
 
 ### Tampilan Absen Masuk dan Pulang
 
-![QR Scanner absen](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/absen.jpg)
+![QR Scanner absen](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/absen.jpg)
 
 ### Tampilan Login Petugas
 
-![Login](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_4_2023_20573.jpeg)
+![Login](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_4_2023_20573.jpeg)
 
 ### Tampilan Dashboard Petugas
 
-![Dashboard](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_10_2023_205123.jpeg)
+![Dashboard](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_10_2023_205123.jpeg)
 
 ### Tampilan CRUD Data Absen
 
 | Siswa (Dengan Data Kelas)                                                                                                   |                                                           Guru                                                           |
 | --------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------: |
-| ![CRUD Absen Siswa](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_11_2023_205146.jpeg) | ![CRUD Absen Guru](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_2_2023_20525.jpeg) |
+| ![CRUD Absen Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_11_2023_205146.jpeg) | ![CRUD Absen Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_2_2023_20525.jpeg) |
 
 ### Tampilan Ubah Data Kehadiran
 
-![Kehadiran](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_17_2023_205557.jpeg)
+![Kehadiran](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_17_2023_205557.jpeg)
 
 ### Tampilan CRUD Data Siswa & Guru
 
 | Siswa                                                                                                                      |                                                           Guru                                                            |
 | -------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| ![CRUD Data Siswa](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_12_2023_205221.jpeg) | ![CRUD Data Guru](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_14_2023_205256.jpeg) |
+| ![CRUD Data Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_12_2023_205221.jpeg) | ![CRUD Data Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_14_2023_205256.jpeg) |
 
 ### Tampilan Generate QR Code dan Generate Laporan
 
 | Generate QR                                                                                                          |                                                      Generate Laporan                                                       |
 | -------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------: |
-| ![Generate QR](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_3_2023_20539.jpeg) | ![Generate Laporan](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/screenshots/image_15_2023_205322.jpeg) |
+| ![Generate QR](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_3_2023_20539.jpeg) | ![Generate Laporan](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_15_2023_205322.jpeg) |
 
 ## Cara Penggunaan
 
@@ -149,7 +149,7 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 
 ## Lisensi
 
-[![GitHub license](https://img.shields.io/github/license/ikhsan3adi/Absensi-Sekolah-QR-Code?style=for-the-badge)](https://github.com/ikhsan3adi/Absensi-Sekolah-QR-Code/raw/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge)](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/LICENSE)
 
 ## Authors
 
