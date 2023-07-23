@@ -89,6 +89,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 composer install
 ```
 
+- Buat database `db_absensi` di phpMyAdmin / mysql
 - Penting ⚠️. Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
 
 ```shell
