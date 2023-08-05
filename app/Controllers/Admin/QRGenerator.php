@@ -30,7 +30,7 @@ class QRGenerator extends BaseController
 
    public function __construct()
    {
-      $this->relativePath = __DIR__ . '../../../../';
+      $this->relativePath = ROOTPATH . '/';
       $this->qrCodeFilePath = 'public/uploads/';
 
       if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
