@@ -123,6 +123,22 @@ public $views = [
     ];
 ```
 
+- Masih di file yang sama, ubah kedua baris berikut:
+
+```php
+    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
+
+    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+```
+
+ubah value menjadi `null`:
+
+```php
+    public $requireActivation = null;
+
+    public $activeResetter = null;
+```
+
 - Jalankan web server.
 - Lalu jalankan aplikasi di browser.
 - Login menggunakan krendensial superadmin:
