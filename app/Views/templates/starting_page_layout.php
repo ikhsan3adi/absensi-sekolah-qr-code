@@ -33,8 +33,8 @@
       }
 
       .previewParent {
-         width: 450px !important;
-         height: 400px;
+         width: auto;
+         height: auto;
          margin: auto;
          margin: auto;
          border: 2px solid grey;
@@ -54,13 +54,15 @@
 <body>
    <div class="bg bg-image"></div>
    <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+   <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
       <div class="container-fluid">
-         <div class="navbar-wrapper">
-            <p class="navbar-brand"><b><?= $title ?? 'Login'; ?></b></p>
-         </div>
-         <div class="collapse navbar-collapse justify-content-end">
-            <?= $this->renderSection('navaction') ?>
+         <div class="navbar-wrapper row w-100">
+            <div class="col-6">
+               <p class="navbar-brand"><b><?= $title ?? 'Login'; ?></b></p>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+               <?= $this->renderSection('navaction') ?>
+            </div>
          </div>
       </div>
    </nav>

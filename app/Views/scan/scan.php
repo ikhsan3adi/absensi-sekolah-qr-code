@@ -3,7 +3,7 @@
  <?= $this->section('navaction') ?>
  <a href="<?= base_url('/admin'); ?> " class="btn btn-primary pull-right pl-3">
     <i class="material-icons mr-2">dashboard</i>
-    Dashboard Petugas
+    Dashboard
  </a>
  <?= $this->endSection() ?>
 
@@ -16,8 +16,8 @@
  <div class="main-panel">
     <div class="content">
        <div class="container-fluid">
-          <div class="row">
-             <div class="mx-auto" style="max-width: 25vw;">
+          <div class="row mx-auto">
+             <div class="col-lg-3 col-xl-4">
                 <div class="card">
                    <div class="card-body">
                       <h3 class="mt-2"><b>Tips</b></h3>
@@ -28,9 +28,9 @@
                    </div>
                 </div>
              </div>
-             <div class="mx-auto">
+             <div class="col-lg-6 col-xl-4">
                 <div class="card">
-                   <div class="col-sm-10 mx-auto card-header card-header-primary">
+                   <div class="col-10 mx-auto card-header card-header-primary">
                       <div class="row">
                          <div class="col">
                             <h4 class="card-title"><b>Absen <?= $waktu; ?></b></h4>
@@ -44,11 +44,11 @@
                       </div>
                    </div>
                    <div class="card-body my-auto px-5">
-                      <!-- <h4 class="d-inline">Pilih kamera</h4>
+                      <h4 class="d-inline">Pilih kamera</h4>
 
                       <select id="pilihKamera" class="custom-select w-50 ml-2" aria-label="Default select example" style="height: 35px;">
                          <option selected>Select camera devices</option>
-                      </select> -->
+                      </select>
 
                       <br>
 
@@ -67,7 +67,7 @@
                    </div>
                 </div>
              </div>
-             <div class="mx-auto" style="max-width: 25vw;">
+             <div class="col-lg-3 col-xl-4">
                 <div class="card">
                    <div class="card-body">
                       <h3 class="mt-2"><b>Penggunaan</b></h3>
