@@ -33,8 +33,8 @@
       }
 
       .previewParent {
-         width: 450px !important;
-         height: 400px;
+         width: auto;
+         height: auto;
          margin: auto;
          margin: auto;
          border: 2px solid grey;
