@@ -41,11 +41,11 @@
                               </div>
                               <select name="kelas" class="custom-select mt-3">
                                  <option value="">--Pilih kelas--</option>
-                                 <?php foreach ($kelas as $value) : ?>
+                                 <?php foreach ($kelas as $key => $value) : ?>
                                     <?php
                                     $idKelas = $value['id_kelas'];
                                     $kelas = "{$value['kelas']} {$value['jurusan']}";
-                                    $jumlahSiswa = count($siswaPerKelas[$idKelas - 1]);
+                                    $jumlahSiswa = count($siswaPerKelas[$key]);
                                     ?>
                                     <option value="<?= $idKelas; ?>">
                                        <?= "$kelas - {$jumlahSiswa} siswa"; ?>
