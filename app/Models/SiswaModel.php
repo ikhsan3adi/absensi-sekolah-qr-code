@@ -43,6 +43,10 @@ class SiswaModel extends Model
          'tb_kelas',
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
+      )->join(
+         'tb_jurusan',
+         'tb_kelas.id_jurusan = tb_jurusan.id',
+         'LEFT'
       );
 
       if (!empty($kelas) && !empty($jurusan)) {

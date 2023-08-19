@@ -14,9 +14,6 @@ use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
 
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\IOFactory;
-
 class GenerateLaporan extends BaseController
 {
    protected SiswaModel $siswaModel;
@@ -40,7 +37,6 @@ class GenerateLaporan extends BaseController
 
    public function index()
    {
-      $siswa = $this->siswaModel->getAllSiswaWithKelas();
       $kelas = $this->kelasModel->getAllKelas();
       $guru = $this->guruModel->getAllGuru();
 
