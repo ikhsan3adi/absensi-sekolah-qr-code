@@ -4,7 +4,7 @@
 <?= $this->include('templates/head') ?>
 
 <body>
-   <div class="wrapper ">
+   <div>
       <?= $this->include('templates/sidebar') ?>
       <div class="main-panel">
 
