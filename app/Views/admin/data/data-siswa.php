@@ -35,24 +35,19 @@
                                        <div class="ripple-container"></div>
                                     </a>
                                  </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" onclick="kelas = 'X'; trig();" href="#" data-toggle="tab">
-                                       <i class="material-icons">school</i> X
-                                       <div class="ripple-container"></div>
-                                    </a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" onclick="kelas = 'XI'; trig();" href="#" data-toggle="tab">
-                                       <i class="material-icons">school</i> XI
-                                       <div class="ripple-container"></div>
-                                    </a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" onclick="kelas = 'XII'; trig();" href="#" data-toggle="tab">
-                                       <i class="material-icons">school</i> XII
-                                       <div class="ripple-container"></div>
-                                    </a>
-                                 </li>
+                                 <?php
+                                 $tempKelas = [];
+                                 foreach ($kelas as $value) : ?>
+                                    <?php if (!in_array($value['kelas'], $tempKelas)) : ?>
+                                       <li class="nav-item">
+                                          <a class="nav-link" onclick="kelas = '<?= $value['kelas']; ?>'; trig()" href="#" data-toggle="tab">
+                                             <i class="material-icons">school</i> <?= $value['kelas']; ?>
+                                             <div class="ripple-container"></div>
+                                          </a>
+                                       </li>
+                                       <?php array_push($tempKelas, $value['kelas']) ?>
+                                    <?php endif; ?>
+                                 <?php endforeach; ?>
                               </ul>
                            </div>
                         </div>
@@ -66,18 +61,13 @@
                                        <div class="ripple-container"></div>
                                     </a>
                                  </li>
-                                 <?php
-                                 $tempJurusan = [];
-
-                                 foreach ($kelas as $kls) : ?>
-                                    <?php if (!in_array($kls['jurusan'], $tempJurusan)) : ?> <li class="nav-item">
-                                          <a class="nav-link" onclick="jurusan = '<?= $kls['jurusan']; ?>'; trig();" href="#" data-toggle="tab">
-                                             <i class="material-icons">work</i> <?= $kls['jurusan']; ?>
-                                             <div class="ripple-container"></div>
-                                          </a>
-                                       </li>
-                                       <?php array_push($tempJurusan, $kls['jurusan']); ?>
-                                    <?php endif; ?>
+                                 <?php foreach ($jurusan as $value) : ?>
+                                    <li class="nav-item">
+                                       <a class="nav-link" onclick="jurusan = '<?= $value['jurusan']; ?>'; trig();" href="#" data-toggle="tab">
+                                          <i class="material-icons">work</i> <?= $value['jurusan']; ?>
+                                          <div class="ripple-container"></div>
+                                       </a>
+                                    </li>
                                  <?php endforeach; ?>
                               </ul>
                            </div>

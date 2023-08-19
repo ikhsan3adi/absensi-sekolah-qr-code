@@ -43,6 +43,10 @@ class SiswaModel extends Model
          'tb_kelas',
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
+      )->join(
+         'tb_jurusan',
+         'tb_kelas.id_jurusan = tb_jurusan.id',
+         'LEFT'
       );
 
       if (!empty($kelas) && !empty($jurusan)) {
@@ -64,7 +68,9 @@ class SiswaModel extends Model
          'tb_kelas',
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
-      )->where(['tb_siswa.id_kelas' => $id_kelas])->findAll();
+      )
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
+         ->where(['tb_siswa.id_kelas' => $id_kelas])->findAll();
    }
 
    public function saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp)

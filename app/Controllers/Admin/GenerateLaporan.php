@@ -14,9 +14,6 @@ use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
 
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\IOFactory;
-
 class GenerateLaporan extends BaseController
 {
    protected SiswaModel $siswaModel;
@@ -40,7 +37,6 @@ class GenerateLaporan extends BaseController
 
    public function index()
    {
-      $siswa = $this->siswaModel->getAllSiswaWithKelas();
       $kelas = $this->kelasModel->getAllKelas();
       $guru = $this->guruModel->getAllGuru();
 
@@ -75,7 +71,7 @@ class GenerateLaporan extends BaseController
          return redirect()->to('/admin/laporan');
       }
 
-      $kelas = $this->kelasModel->where(['id_kelas' => $idKelas])->first();
+      $kelas = $this->kelasModel->where(['id_kelas' => $idKelas])->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')->first();
 
       $bulan = $this->request->getVar('tanggalSiswa');
 

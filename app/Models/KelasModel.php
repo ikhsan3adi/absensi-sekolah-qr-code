@@ -6,10 +6,12 @@ use CodeIgniter\Model;
 
 class KelasModel extends Model
 {
-   protected function initialize()
-   {
-      $this->allowedFields[] = ['kelas', 'jurusan'];
-   }
+   protected $DBGroup          = 'default';
+   protected $useAutoIncrement = true;
+   protected $returnType       = 'array';
+   protected $useSoftDeletes   = true;
+   protected $protectFields    = true;
+   protected $allowedFields    = ['kelas', 'id_jurusan'];
 
    protected $table = 'tb_kelas';
 
@@ -17,14 +19,14 @@ class KelasModel extends Model
 
    public function getAllKelas()
    {
-      return $this->findAll();
+      return $this->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')->findAll();
    }
 
-   public function tambahKelas($kelas, $jurusan)
+   public function tambahKelas($kelas, $idJurusan)
    {
       return $this->db->table($this->table)->insert([
          'kelas' => $kelas,
-         'jurusan' => $jurusan
+         'id_jurusan' => $idJurusan
       ]);
    }
 }

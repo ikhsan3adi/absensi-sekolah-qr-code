@@ -3,6 +3,7 @@ $context = $ctx ?? 'dashboard';
 switch ($context) {
    case 'absen-siswa':
    case 'siswa':
+   case 'kelas':
       $sidebarColor = 'purple';
       break;
    case 'absen-guru':
@@ -60,6 +61,12 @@ switch ($context) {
             <a class="nav-link" href="<?= base_url('admin/guru'); ?>">
                <i class="material-icons">person_4</i>
                <p>Data Guru</p>
+            </a>
+         </li>
+         <li class="nav-item <?= $context == 'kelas' ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?= base_url('admin/kelas'); ?>">
+               <i class="material-icons">school</i>
+               <p>Data Kelas & Jurusan</p>
             </a>
          </li>
          <li class="nav-item <?= $context == 'qr' ? 'active' : ''; ?>">

@@ -6,12 +6,14 @@ use App\Models\SiswaModel;
 use App\Models\KelasModel;
 
 use App\Controllers\BaseController;
+use App\Models\JurusanModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class DataSiswa extends BaseController
 {
    protected SiswaModel $siswaModel;
    protected KelasModel $kelasModel;
+   protected JurusanModel $jurusanModel;
 
    protected $siswaValidationRules = [
       'nis' => [
@@ -42,6 +44,7 @@ class DataSiswa extends BaseController
    {
       $this->siswaModel = new SiswaModel();
       $this->kelasModel = new KelasModel();
+      $this->jurusanModel = new JurusanModel();
    }
 
    public function index()
@@ -49,7 +52,8 @@ class DataSiswa extends BaseController
       $data = [
          'title' => 'Data Siswa',
          'ctx' => 'siswa',
-         'kelas' => $this->kelasModel->getAllKelas()
+         'kelas' => $this->kelasModel->getAllKelas(),
+         'jurusan' => $this->jurusanModel->findAll()
       ];
 
       return view('admin/data/data-siswa', $data);

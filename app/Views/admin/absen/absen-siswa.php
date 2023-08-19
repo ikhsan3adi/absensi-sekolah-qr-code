@@ -13,11 +13,6 @@
                            <p>Silakan pilih kelas</p>
                         </div>
                      </div>
-                     <div class="col-sm-auto">
-                        <button data-toggle="modal" data-target="#tambahKelasModal" class="btn btn-primary pl-3 py-3 mr-3 mt-3">
-                           <i class="material-icons mr-2">add</i> Tambah Data Kelas
-                        </button>
-                     </div>
                   </div>
 
                   <div class="card-body pt-1 px-3">

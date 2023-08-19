@@ -49,6 +49,10 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
 
+   // data kelas & jurusan
+   $routes->resource('kelas', ['controller' => 'Admin\KelasController']);
+   $routes->resource('jurusan', ['controller' => 'Admin\JurusanController']);
+
    // admin lihat data siswa
    $routes->get('siswa', 'Admin\DataSiswa::index');
    $routes->post('siswa', 'Admin\DataSiswa::ambilDataSiswa');
