@@ -60,8 +60,8 @@
                            <label for="jk">Jenis Kelamin</label>
                            <?php
                            if (old('jk')) {
-                              $l = (old('jk') ?? $oldInput['jk']) == 'Perempuan' ? '' : 'checked';
-                              $p = (old('jk') ?? $oldInput['jk']) == 'Perempuan' ? 'checked' : '';
+                              $l = (old('jk') ?? $oldInput['jk']) == '1' ? 'checked' : '';
+                              $p = (old('jk') ?? $oldInput['jk']) == '2' ? 'checked' : '';
                            }
                            ?>
                            <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>" id="jk">
