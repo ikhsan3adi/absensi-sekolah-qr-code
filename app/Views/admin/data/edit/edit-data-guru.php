@@ -47,8 +47,8 @@
                      <div class="form-group mt-2">
                         <label for="jk">Jenis Kelamin</label>
                         <?php
-                        $l = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' ? '' : 'checked';
-                        $p = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' ? 'checked' : '';
+                        $l = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Laki-laki' || '1' ? 'checked' : '';
+                        $p = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' || '2' ? 'checked' : '';
                         ?>
                         <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>">
                            <div class="row">
