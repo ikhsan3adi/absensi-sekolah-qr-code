@@ -136,9 +136,9 @@
    const dataGuru = [
       <?php foreach ($guru as $value) {
          echo "{
-                  'nama' : '$value[nama_guru]',
-                  'unique_code' : '$value[unique_code]',
-                  'nomor' :'$value[nuptk]'
+                  'nama' : `$value[nama_guru]`,
+                  'unique_code' : `$value[unique_code]`,
+                  'nomor' : `$value[nuptk]`'
                },";
       }; ?>
    ];
@@ -146,10 +146,10 @@
    const dataSiswa = [
       <?php foreach ($siswa as $value) {
          echo "{
-                  'nama' : '$value[nama_siswa]',
-                  'unique_code' : '$value[unique_code]',
-                  'kelas' : '$value[kelas] $value[jurusan]',
-                  'nomor' :'$value[nis]'
+                  'nama' : `$value[nama_siswa]`,
+                  'unique_code' : `$value[unique_code]`,
+                  'kelas' : `$value[kelas] $value[jurusan]`,
+                  'nomor' : `$value[nis]`
                },";
       }; ?>
    ];
