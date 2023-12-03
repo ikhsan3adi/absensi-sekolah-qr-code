@@ -97,7 +97,7 @@ class Scan extends BaseController
 
             $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
 
-            if ($sudahAbsen != false) {
+            if ($sudahAbsen) {
                $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
                return $this->showErrorView('Anda sudah absen hari ini', $data);
             }
@@ -115,7 +115,7 @@ class Scan extends BaseController
 
             $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, Time::today()->toDateString());
 
-            if ($sudahAbsen != false) {
+            if ($sudahAbsen) {
                $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
                return $this->showErrorView('Anda sudah absen hari ini', $data);
             }
@@ -148,7 +148,7 @@ class Scan extends BaseController
 
             $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
 
-            if ($sudahAbsen == false) {
+            if (!$sudahAbsen) {
                return $this->showErrorView('Anda belum absen hari ini', $data);
             }
 
@@ -164,7 +164,7 @@ class Scan extends BaseController
 
             $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, $date);
 
-            if ($sudahAbsen == false) {
+            if (!$sudahAbsen) {
                return $this->showErrorView('Anda belum absen hari ini', $data);
             }
 
