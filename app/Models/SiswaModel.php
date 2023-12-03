@@ -28,6 +28,10 @@ class SiswaModel extends Model
          'tb_kelas',
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
+      )->join(
+         'tb_jurusan',
+         'tb_jurusan.id = tb_kelas.id_jurusan',
+         'LEFT'
       );
       return $this->where(['unique_code' => $unique_code])->first();
    }
