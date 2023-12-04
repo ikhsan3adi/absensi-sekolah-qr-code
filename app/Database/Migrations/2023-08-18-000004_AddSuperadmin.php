@@ -3,8 +3,9 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use Myth\Auth\Password;
 
-class AddSuperadminField extends Migration
+class AddSuperadmin extends Migration
 {
     public function up()
     {
@@ -18,12 +19,17 @@ class AddSuperadminField extends Migration
             ]
         ]);
 
-        $this->forge->getConnection()->query("INSERT INTO users (email, username, is_superadmin, password_hash, active) VALUES (
-            'adminsuper@gmail.com',
-            'superadmin',
-            1,
-            '$2y\$10\$Ke39CFuF9n1qQCkkOxUSz.SctsyzMS1dL2qt85GviA1HJ2jLNRwhS',
-            1)");
+        // INSERT INITIAL SUPERADMIN
+        $email = 'adminsuper@gmail.com';
+        $username = 'superadmin';
+        $password = 'superadmin';
+
+        $encryptedPassword = Password::hash($password);
+
+        $this->forge->getConnection()->query(
+            "INSERT INTO users (email, username, is_superadmin, password_hash, active) 
+            VALUES ($email, $username, 1, '$encryptedPassword', 1)"
+        );
     }
 
     public function down()
