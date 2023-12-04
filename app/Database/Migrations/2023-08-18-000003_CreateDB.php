@@ -139,7 +139,6 @@ class CreateDB extends Migration
             'tb_presensi_guru',
             'tb_siswa',
             'tb_guru',
-            'tb_kelas',
             'tb_kehadiran',
         ];
 
