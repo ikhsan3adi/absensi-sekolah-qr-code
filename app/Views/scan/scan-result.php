@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\TipeUser;
+use TipeUser;
 
 switch ($type) {
    case TipeUser::Siswa:

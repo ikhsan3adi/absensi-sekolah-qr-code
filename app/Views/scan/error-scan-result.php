@@ -2,7 +2,7 @@
 
 <?php
 
-use App\Models\TipeUser;
+use TipeUser;
 
 if (empty($type)) {
    return;

@@ -7,7 +7,7 @@ use App\Models\GuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
-use App\Models\TipeUser;
+use TipeUser;
 
 class Scan extends BaseController
 {
