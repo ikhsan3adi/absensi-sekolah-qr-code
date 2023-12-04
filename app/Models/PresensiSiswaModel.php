@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\PresensiBaseModel;
-
+use App\Models\PresensiInterface;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\Model;
+use Kehadiran;
 
-class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
+class PresensiSiswaModel extends Model implements PresensiInterface
 {
+   protected $primaryKey = 'id_presensi';
+
    protected $allowedFields = [
       'id_siswa',
       'id_kelas',
@@ -55,7 +58,7 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
       return $this->where(['id_siswa' => $idSiswa, 'tanggal' => $date])->first();
    }
 
-   public function getPresensiById($idPresensi)
+   public function getPresensiById(string $idPresensi)
    {
       return $this->where([$this->primaryKey => $idPresensi])->first();
    }
@@ -105,8 +108,16 @@ class PresensiSiswaModel extends PresensiBaseModel implements PresensiInterface
       }
    }
 
-   public function updatePresensi($idPresensi = NULL, $idSiswa, $idKelas, $tanggal, $idKehadiran, $jamMasuk = NULL, $jamKeluar, $keterangan = NULL)
-   {
+   public function updatePresensi(
+      $idPresensi,
+      $idSiswa,
+      $idKelas,
+      $tanggal,
+      $idKehadiran,
+      $jamMasuk,
+      $jamKeluar,
+      $keterangan
+   ) {
       $presensi = $this->getPresensiByIdSiswaTanggal($idSiswa, $tanggal);
 
       $data = [
