@@ -101,7 +101,23 @@ composer install
 php spark migrate --all
 ```
 
-- Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah baris berikut:
+- Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah kedua baris berikut:
+
+```php
+    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
+
+    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+```
+
+- ubah value menjadi `null`:
+
+```php
+    public $requireActivation = null;
+
+    public $activeResetter = null;
+```
+
+- (Opsional) Masih di file yang sama, ubah baris berikut:
 
 ```php
 public $views = [
@@ -118,7 +134,7 @@ menjadi:
 
 ```php
 public $views = [
-        'login'           => '\App\Views\admin\login', // ubah seperti ini agar login bisa diakses
+        'login'           => '\App\Views\admin\login', // menggunakan tampilan login custom
         'register'        => 'Myth\Auth\Views\register',
         'forgot'          => 'Myth\Auth\Views\forgot',
         'reset'           => 'Myth\Auth\Views\reset',
@@ -127,29 +143,24 @@ public $views = [
     ];
 ```
 
-- Masih di file yang sama, ubah kedua baris berikut:
-
-```php
-    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
-
-    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
-```
-
-ubah value menjadi `null`:
-
-```php
-    public $requireActivation = null;
-
-    public $activeResetter = null;
-```
-
 - Jalankan web server.
 - Lalu jalankan aplikasi di browser.
 - Login menggunakan krendensial superadmin:
 
 ```
 username : superadmin
-password : 1234ikh123
+password : superadmin
+```
+
+Jika ingin mengubah email, username & password dari superadmin
+
+Buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
+
+```php
+// INSERT INITIAL SUPERADMIN
+$email = 'adminsuper@gmail.com';
+$username = 'superadmin';
+$password = 'superadmin';
 ```
 
 - Izinkan akses kamera.
