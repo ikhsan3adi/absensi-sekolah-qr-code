@@ -6,17 +6,14 @@ use CodeIgniter\Model;
 
 class GuruModel extends Model
 {
-   protected function initialize()
-   {
-      $this->allowedFields = [
-         'nuptk',
-         'nama_guru',
-         'jenis_kelamin',
-         'alamat',
-         'no_hp',
-         'unique_code'
-      ];
-   }
+   protected $allowedFields = [
+      'nuptk',
+      'nama_guru',
+      'jenis_kelamin',
+      'alamat',
+      'no_hp',
+      'unique_code'
+   ];
 
    protected $table = 'tb_guru';
 
