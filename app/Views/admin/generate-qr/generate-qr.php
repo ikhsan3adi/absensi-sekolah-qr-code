@@ -138,7 +138,7 @@
          echo "{
                   'nama' : `$value[nama_guru]`,
                   'unique_code' : `$value[unique_code]`,
-                  'nomor' : `$value[nuptk]`'
+                  'nomor' : `$value[nuptk]`
                },";
       }; ?>
    ];
