@@ -28,7 +28,7 @@ class AddSuperadmin extends Migration
 
         $this->forge->getConnection()->query(
             "INSERT INTO users (email, username, is_superadmin, password_hash, active) 
-            VALUES ($email, $username, 1, '$encryptedPassword', 1)"
+            VALUES ('$email', '$username', 1, '$encryptedPassword', 1)"
         );
     }
 
