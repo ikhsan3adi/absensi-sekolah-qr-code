@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Libraries\enums;
+
 enum Kehadiran: int
 {
   case Hadir = 1;

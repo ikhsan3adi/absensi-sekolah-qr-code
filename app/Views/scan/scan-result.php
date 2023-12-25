@@ -1,6 +1,6 @@
 <?php
 
-use TipeUser;
+use App\Libraries\enums\TipeUser;
 
 switch ($type) {
    case TipeUser::Siswa:

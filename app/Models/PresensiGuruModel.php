@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\PresensiInterface;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
-use Kehadiran;
+use App\Libraries\enums\Kehadiran;
 
 class PresensiGuruModel extends Model implements PresensiInterface
 {

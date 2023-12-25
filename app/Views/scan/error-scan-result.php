@@ -2,7 +2,7 @@
 
 <?php
 
-use TipeUser;
+use App\Libraries\enums\TipeUser;
 
 if (empty($type)) {
    return;
