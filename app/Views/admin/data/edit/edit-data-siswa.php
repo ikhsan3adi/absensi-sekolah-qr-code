@@ -61,8 +61,9 @@
                         <div class="col-md-6">
                            <label for="jk">Jenis Kelamin</label>
                            <?php
-                           $l = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Laki-laki' || '1' ? 'checked' : '';
-                           $p = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']) == 'Perempuan' || '2' ? 'checked' : '';
+                           $jenisKelamin = (old('jk') ?? $oldInput['jk'] ?? $data['jenis_kelamin']);
+                           $l = $jenisKelamin == 'Laki-laki' || $jenisKelamin == '1' ? 'checked' : '';
+                           $p = $jenisKelamin == 'Perempuan' || $jenisKelamin == '2' ? 'checked' : '';
                            ?>
                            <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>" id="jk">
                               <div class="row">
