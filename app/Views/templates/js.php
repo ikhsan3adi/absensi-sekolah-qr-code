@@ -9,9 +9,3 @@
 <script src="<?= base_url('public/assets/js/plugins/nouislider.min.js') ?>"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="<?= base_url('public/assets/js/material-dashboard.js') ?>" type="text/javascript"></script>
-
-<!--  Google Maps Plugin    -->
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<!-- <script src="<?= base_url('public/assets/demo/demo.js') ?>"></script> -->
