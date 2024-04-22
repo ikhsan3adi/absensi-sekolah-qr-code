@@ -1,4 +1,4 @@
-name: PHP Composer CI
+name: Continuous Integration
 
 on:
   push:
