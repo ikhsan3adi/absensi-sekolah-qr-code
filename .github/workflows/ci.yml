@@ -2,15 +2,16 @@ name: PHP Composer CI
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
+      - main
   pull_request:
-    branches: ["master"]
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
       mysql:
