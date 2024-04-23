@@ -85,6 +85,15 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ### Instalasi
 
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
+- Jika belum memiliki file `.env`, rename file `.env.example` menjadi `.env` atau jalankan perintah berikut:
+
+```shell
+# linux & macos, git bash
+composer run-script setup-env
+# windows cmd/powershell
+composer run-script setup-env-win
+```
+
 - (Opsional) Konfigurasi file `.env` untuk mengatur parameter seperti koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 - (Opsional) Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
 - (Opsional) Konfigurasi file `app/Config/App.php` untuk mengubah base url sesuai dengan nama folder project.

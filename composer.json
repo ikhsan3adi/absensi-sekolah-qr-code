@@ -29,7 +29,9 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "setup-env": "cp .env.example .env",
+        "setup-env-win": "copy .env.example .env"
     },
     "support": {
         "forum": "https://forum.codeigniter.com/",
