@@ -3,7 +3,6 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-use CodeIgniter\Session\Handlers\FileHandler;
 
 class App extends BaseConfig
 {
@@ -23,6 +22,8 @@ class App extends BaseConfig
      * environments.
      */
     public string $baseURL = 'http://localhost/absensi-sekolah-qr-code/';
+    // Using php spark serve
+    // public string $baseURL = 'http://localhost:8080/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
