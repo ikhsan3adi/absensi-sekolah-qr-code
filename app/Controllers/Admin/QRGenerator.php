@@ -25,28 +25,25 @@ class QRGenerator extends BaseController
    protected Color $foregroundColor2;
    protected Color $backgroundColor;
 
-   protected string $relativePath;
    protected string $qrCodeFilePath;
 
    public function __construct()
    {
-      $this->relativePath = ROOTPATH . '/';
-      $this->qrCodeFilePath = 'public/uploads/';
+      $PUBLIC_PATH = ROOTPATH . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+      $this->qrCodeFilePath = $PUBLIC_PATH . 'uploads' . DIRECTORY_SEPARATOR;
 
-      if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
-         mkdir($this->relativePath . $this->qrCodeFilePath);
-      }
+      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath);
 
       $this->writer = new PngWriter();
 
-      $this->labelFont = new Font($this->relativePath . 'public/assets/fonts/Roboto-Medium.ttf', 14);
+      $this->labelFont = new Font($PUBLIC_PATH . 'assets/fonts/Roboto-Medium.ttf', 14);
 
       $this->foregroundColor = new Color(44, 73, 162);
       $this->foregroundColor2 = new Color(28, 101, 90);
       $this->backgroundColor = new Color(255, 255, 255);
 
       // Create logo
-      $this->logo = Logo::create(base_url('public/assets/img/logo_sekolah.jpg'))->setResizeToWidth(75);
+      $this->logo = Logo::create($PUBLIC_PATH . 'assets/img/logo_sekolah.jpg')->setResizeToWidth(75);
 
       $this->label = Label::create('')
          ->setFont($this->labelFont)
@@ -67,10 +64,10 @@ class QRGenerator extends BaseController
    {
       $kelas = url_title($this->request->getVar('kelas'), '-', true);
 
-      $this->qrCodeFilePath .= 'qr-siswa/' . $kelas . '/';
+      $this->qrCodeFilePath .= "qr-siswa/$kelas/";
 
-      if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
-         mkdir($this->relativePath . $this->qrCodeFilePath, recursive: true);
+      if (!file_exists($this->qrCodeFilePath)) {
+         mkdir($this->qrCodeFilePath, recursive: true);
       }
 
       $this->generate(
@@ -89,8 +86,8 @@ class QRGenerator extends BaseController
 
       $this->qrCodeFilePath .= 'qr-guru/';
 
-      if (!file_exists($this->relativePath . $this->qrCodeFilePath)) {
-         mkdir($this->relativePath . $this->qrCodeFilePath);
+      if (!file_exists($this->qrCodeFilePath)) {
+         mkdir($this->qrCodeFilePath);
       }
 
       $this->generate(
@@ -113,7 +110,13 @@ class QRGenerator extends BaseController
 
       // Save it to a file
       $this->writer
-         ->write(qrCode: $this->qrCode, logo: $this->logo, label: $this->label)
-         ->saveToFile(path: $this->relativePath . $this->qrCodeFilePath . $filename);
+         ->write(
+            qrCode: $this->qrCode,
+            logo: $this->logo,
+            label: $this->label
+         )
+         ->saveToFile(
+            path: $this->qrCodeFilePath . $filename
+         );
    }
 }
