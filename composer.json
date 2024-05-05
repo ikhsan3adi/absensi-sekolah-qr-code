@@ -4,10 +4,16 @@
     "description": "CodeIgniter4 starter app",
     "homepage": "https://codeigniter.com",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/ikhsan3adi/myth-auth"
+        }
+    ],
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
-        "myth/auth": "^1.2",
+        "myth/auth": "dev-develop",
         "endroid/qr-code": "^4.8"
     },
     "require-dev": {
