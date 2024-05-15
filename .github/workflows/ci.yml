@@ -44,9 +44,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: Setup environment
-        run: cp .env.example .env
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
