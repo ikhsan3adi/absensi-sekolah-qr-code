@@ -18,7 +18,7 @@ class QRGenerator extends BaseController
 {
    protected QrCode $qrCode;
    protected PngWriter $writer;
-   protected Logo $logo;
+   protected ?Logo $logo;
    protected Label $label;
    protected Font $labelFont;
    protected Color $foregroundColor;
@@ -43,7 +43,9 @@ class QRGenerator extends BaseController
       $this->backgroundColor = new Color(255, 255, 255);
 
       // Create logo
-      $this->logo = Logo::create($PUBLIC_PATH . 'assets/img/logo_sekolah.jpg')->setResizeToWidth(75);
+      $this->logo = boolval(env('QR_LOGO'))
+         ? Logo::create($PUBLIC_PATH . 'assets/img/logo_sekolah.jpg')->setResizeToWidth(75)
+         : null;
 
       $this->label = Label::create('')
          ->setFont($this->labelFont)
