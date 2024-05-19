@@ -35,9 +35,10 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
-        "setup-env": "cp .env.example .env",
-        "setup-env-win": "copy .env.example .env"
+        "post-install-cmd": [
+            "cp -n .env.example .env"
+        ],
+        "test": "phpunit"
     },
     "support": {
         "forum": "https://forum.codeigniter.com/",
