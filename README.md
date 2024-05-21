@@ -144,7 +144,8 @@ public $views = [
 ];
 ```
 
-- Jalankan web server.
+- Jalankan web server (contoh Apache, XAMPP, etc)
+- Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
 - Lalu jalankan aplikasi di browser.
 - Login menggunakan krendensial superadmin:
 
