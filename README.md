@@ -46,7 +46,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Dashboard Petugas
 
-![Dashboard](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_10_2023_205123.jpeg)
+![Dashboard](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/dashboard.png)
 
 ### Tampilan CRUD Data Absen
 
@@ -144,7 +144,8 @@ public $views = [
 ];
 ```
 
-- Jalankan web server.
+- Jalankan web server (contoh Apache, XAMPP, etc)
+- Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
 - Lalu jalankan aplikasi di browser.
 - Login menggunakan krendensial superadmin:
 
