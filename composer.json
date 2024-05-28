@@ -29,8 +29,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "cp -n .env.example .env"
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "test": "phpunit"
     },
