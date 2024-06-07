@@ -88,7 +88,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
 
-> [!IMPORTANT]
+> [!CAUTION]
 >
 > - Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
 >
@@ -102,7 +102,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 - (Opsional) Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
 - (Opsional) Konfigurasi file `app/Config/App.php` untuk mengubah base url sesuai dengan nama folder project.
 
-> [!IMPORTANT]
+> [!WARNING]
 >
 > - Buat database `db_absensi` di phpMyAdmin / mysql
 >
