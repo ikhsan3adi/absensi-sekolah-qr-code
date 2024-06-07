@@ -22,13 +22,15 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 - **Lihat, Tambah, Ubah, Hapus(CRUD) data petugas.** (khusus petugas yang login sebagai **`superadmin`**).
 - **Generate Laporan.** Generate laporan dalam bentuk pdf.
 
-## Framework dan Library Yang Digunakan
-
-- CodeIgniter 4
-- [Material Dashboard Bootstrap 4](https://www.creative-tim.com/product/material-dashboard-bs4)
-- [Myth Auth Library](https://github.com/lonnieezell/myth-auth)
-- [Endroid QR Code Generator](https://github.com/endroid/qr-code)
-- [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
+> [!NOTE]
+>
+> ## Framework dan Library Yang Digunakan
+>
+> - CodeIgniter 4
+> - [Material Dashboard Bootstrap 4](https://www.creative-tim.com/product/material-dashboard-bs4)
+> - [Myth Auth Library](https://github.com/lonnieezell/myth-auth)
+> - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
+> - [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
 
 ## Screenshots
 
@@ -79,28 +81,36 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ### Persyaratan
 
 - [Composer](https://getcomposer.org/).
-- PHP dan MySQL atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `-intl` dan `-gd`.
+- PHP 8.1+ dan MySQL/MariaDB atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `intl` dan `gd`.
 - Pastikan perangkat memiliki kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
 
 ### Instalasi
 
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
-- Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
+
+> [!IMPORTANT]
+>
+> - Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
+>
+> ```shell
+> composer install
+> ```
+>
+> - Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
+
 - (Opsional) Konfigurasi file `.env` untuk mengatur parameter seperti koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 - (Opsional) Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
 - (Opsional) Konfigurasi file `app/Config/App.php` untuk mengubah base url sesuai dengan nama folder project.
-- Penting ⚠️. Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
 
-```shell
-composer install
-```
-
-- Buat database `db_absensi` di phpMyAdmin / mysql
-- Penting ⚠️. Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
-
-```shell
-php spark migrate --all
-```
+> [!IMPORTANT]
+>
+> - Buat database `db_absensi` di phpMyAdmin / mysql
+>
+> - Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
+>
+> ```shell
+> php spark migrate --all
+> ```
 
 - Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah kedua baris berikut:
 
@@ -144,26 +154,28 @@ public $views = [
 ];
 ```
 
-- Jalankan web server (contoh Apache, XAMPP, etc)
-- Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
-- Lalu jalankan aplikasi di browser.
-- Login menggunakan krendensial superadmin:
+> [!IMPORTANT]
+>
+> - Jalankan web server (contoh Apache, XAMPP, etc)
+> - Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
+> - Lalu jalankan aplikasi di browser.
+> - Login menggunakan krendensial superadmin:
+>
+> ```txt
+> username : superadmin
+> password : superadmin
+> ```
 
-```
-username : superadmin
-password : superadmin
-```
-
-Jika ingin mengubah email, username & password dari superadmin
-
-Buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
-
-```php
-// INSERT INITIAL SUPERADMIN
-$email = 'adminsuper@gmail.com';
-$username = 'superadmin';
-$password = 'superadmin';
-```
+> [!TIP]
+>
+> Jika ingin mengubah email, username & password dari superadmin, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
+>
+> ```php
+> // INSERT INITIAL SUPERADMIN
+> $email = 'adminsuper@gmail.com';
+> $username = 'superadmin';
+> $password = 'superadmin';
+> ```
 
 - Izinkan akses kamera.
 
