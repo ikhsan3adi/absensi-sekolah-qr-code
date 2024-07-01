@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "969905f081709d130e1c5aa5c3f4adbb",
+    "content-hash": "fc6b221b17a76a91844f0081ad0c1305",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -323,17 +323,11 @@
         },
         {
             "name": "myth/auth",
-            "version": "v1.2.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lonnieezell/myth-auth.git",
-                "reference": "7d0347faa47bd754d2dc49593a9852800be73986"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lonnieezell/myth-auth/zipball/7d0347faa47bd754d2dc49593a9852800be73986",
-                "reference": "7d0347faa47bd754d2dc49593a9852800be73986",
-                "shasum": ""
+                "url": "https://github.com/ikhsan3adi/myth-auth",
+                "reference": "7d3e3efa9fb6a54263a054825d258f018be0dd5d"
             },
             "require": {
                 "php": "^7.4 || ^8.0"
@@ -347,6 +341,7 @@
                 "codeigniter4/framework": "^4.1",
                 "mockery/mockery": "^1.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -356,7 +351,42 @@
                     "**/Database/Migrations/**"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\Support\\": "tests/_support"
+                }
+            },
+            "scripts": {
+                "analyze": [
+                    "phpstan analyze",
+                    "psalm",
+                    "rector process --dry-run"
+                ],
+                "ci": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@deduplicate",
+                    "@analyze",
+                    "@composer normalize --dry-run",
+                    "@test",
+                    "@inspect",
+                    "@style"
+                ],
+                "deduplicate": [
+                    "phpcpd app/ src/"
+                ],
+                "inspect": [
+                    "deptrac analyze --cache-file=build/deptrac.cache"
+                ],
+                "mutate": [
+                    "infection --threads=2 --skip-initial-tests --coverage=build/phpunit"
+                ],
+                "style": [
+                    "php-cs-fixer fix --verbose --ansi --using-cache=no"
+                ],
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -371,29 +401,11 @@
             "description": "Flexible authentication/authorization system for CodeIgniter 4.",
             "homepage": "https://github.com/lonnieezell/myth-auth",
             "keywords": [
-                "Authentication",
+                "authentication",
                 "authorization",
                 "codeigniter"
             ],
-            "support": {
-                "issues": "https://github.com/lonnieezell/myth-auth/issues",
-                "source": "https://github.com/lonnieezell/myth-auth/tree/v1.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lonnieezell",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/mgatner",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lonnieezell",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2022-07-13T18:35:46+00:00"
+            "time": "2024-05-05T08:38:21+00:00"
         },
         {
             "name": "psr/log",
@@ -2306,16 +2318,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf"
+                "reference": "0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/7c3aff79d10325257a001fcf92d991f24fc967cf",
-                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1",
+                "reference": "0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1",
                 "shasum": ""
             },
             "require": {
@@ -2324,7 +2336,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.4-dev"
+                    "dev-main": "3.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -2353,7 +2365,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.4.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -2369,7 +2381,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-23T14:45:45+00:00"
+            "time": "2024-04-18T09:32:20+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -2424,7 +2436,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "myth/auth": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
