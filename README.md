@@ -100,7 +100,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 - (Opsional) Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 - (Opsional) Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
-- (Opsional) Ganti nama sekolah di `App/Config/AbsensiSekolah.php`.
+- (Opsional) Ganti nama sekolah di `app/Config/AbsensiSekolah.php`.
 
 > [!WARNING]
 >
