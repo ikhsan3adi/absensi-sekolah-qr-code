@@ -98,13 +98,13 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >
 > - Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
 
-- (Opsional) Konfigurasi file `.env` untuk mengatur parameter seperti koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
+- (Opsional) Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 - (Opsional) Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
-- (Opsional) Konfigurasi file `app/Config/App.php` untuk mengubah base url sesuai dengan nama folder project.
+- (Opsional) Ganti nama sekolah di `App/Config/AbsensiSekolah.php`.
 
 > [!WARNING]
 >
-> - Buat database `db_absensi` di phpMyAdmin / mysql
+> - Buat database `db_absensi`(sesuaikan dengan yang terdapat di `.env`) di phpMyAdmin / mysql
 >
 > - Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
 >
