@@ -112,7 +112,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 > php spark migrate --all
 > ```
 
-- Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah kedua baris berikut:
+- Buka file `app/Config/Auth.php`. Lalu ubah kedua baris berikut:
 
 ```php
 public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
