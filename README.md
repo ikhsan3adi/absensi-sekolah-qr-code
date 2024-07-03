@@ -179,6 +179,16 @@ public $views = [
 
 - Izinkan akses kamera.
 
+### Konfigurasi
+
+**Nama Sekolah**
+
+Untuk mengubah identitas nama sekolah, buka file konfigurasi `app/Config/AbsensiSekolah.php` dan ubah pada:
+
+```php
+public string $namaSekolah = 'SMK 12369 HONGKONG';
+```
+
 ## Kesimpulan
 
 Dengan aplikasi web sistem absensi sekolah berbasis QR code ini, diharapkan proses absensi di sekolah menjadi lebih efisien dan terotomatisasi. Proyek ini dapat diadaptasi dan dikembangkan lebih lanjut sesuai dengan kebutuhan dan persyaratan sekolah Anda.

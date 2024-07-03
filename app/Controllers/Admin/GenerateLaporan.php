@@ -13,6 +13,7 @@ use App\Models\KelasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
+use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class GenerateLaporan extends BaseController
 {
@@ -24,6 +25,8 @@ class GenerateLaporan extends BaseController
    protected PresensiSiswaModel $presensiSiswaModel;
    protected PresensiGuruModel $presensiGuruModel;
 
+   protected string $namaSekolah;
+
    public function __construct()
    {
       $this->siswaModel = new SiswaModel();
@@ -33,6 +36,8 @@ class GenerateLaporan extends BaseController
 
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
+
+      $this->namaSekolah = (new ConfigAbsensiSekolah)->namaSekolah;
    }
 
    public function index()
@@ -120,7 +125,8 @@ class GenerateLaporan extends BaseController
             'perempuan' => count($siswa) - $laki
          ],
          'kelas' => $kelas,
-         'grup' => "kelas " . $kelas['kelas'] . " " . $kelas['jurusan']
+         'grup' => "kelas " . $kelas['kelas'] . " " . $kelas['jurusan'],
+         'namaSekolah' => $this->namaSekolah
       ];
 
 
@@ -193,7 +199,8 @@ class GenerateLaporan extends BaseController
             'laki' => $laki,
             'perempuan' => count($guru) - $laki
          ],
-         'grup' => 'guru'
+         'grup' => 'guru',
+         'namaSekolah' => $this->namaSekolah
       ];
 
       if ($type == 'doc') {
