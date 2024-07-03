@@ -16,7 +16,8 @@ class Auth extends MythAuthConfig
      *
      * @var string|null Name of the ActivatorInterface class
      */
-    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
+    public $requireActivation = null;
+    // public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
 
     /**
      * --------------------------------------------------------------------
@@ -28,7 +29,8 @@ class Auth extends MythAuthConfig
      *
      * @var string|null Name of the ResetterInterface class
      */
-    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+    public $activeResetter = null;
+    // public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
 
     /**
      * --------------------------------------------------------------------
@@ -38,7 +40,8 @@ class Auth extends MythAuthConfig
      * @var array
      */
     public $views = [
-        'login'           => 'Myth\Auth\Views\login',
+        'login'           => '\App\Views\admin\login',
+        // 'login'           => 'Myth\Auth\Views\login',
         'register'        => 'Myth\Auth\Views\register',
         'forgot'          => 'Myth\Auth\Views\forgot',
         'reset'           => 'Myth\Auth\Views\reset',
