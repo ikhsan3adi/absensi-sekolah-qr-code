@@ -11,6 +11,7 @@ use App\Models\PetugasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
+use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class Dashboard extends BaseController
 {
@@ -24,6 +25,8 @@ class Dashboard extends BaseController
 
    protected PetugasModel $petugasModel;
 
+   protected string $namaSekolah;
+
    public function __construct()
    {
       $this->siswaModel = new SiswaModel();
@@ -32,6 +35,7 @@ class Dashboard extends BaseController
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
       $this->petugasModel = new PetugasModel();
+      $this->namaSekolah = (new ConfigAbsensiSekolah)->namaSekolah;
    }
 
    public function index()
@@ -96,7 +100,9 @@ class Dashboard extends BaseController
             'alfa' => count($this->presensiGuruModel->getPresensiByKehadiran('4', $today))
          ],
 
-         'petugas' => $this->petugasModel->getAllPetugas()
+         'petugas' => $this->petugasModel->getAllPetugas(),
+
+         'namaSekolah' => $this->namaSekolah,
       ];
 
       return view('admin/dashboard', $data);

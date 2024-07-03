@@ -56,7 +56,7 @@
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">home</i>
-                            SMK 12369 HONGKONG
+                            <?= $namaSekolah; ?>
                         </div>
                     </div>
                 </div>

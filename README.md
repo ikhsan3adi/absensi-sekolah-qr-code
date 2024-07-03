@@ -112,48 +112,6 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 > php spark migrate --all
 > ```
 
-- Buka file `vendor/myth/auth/src/Config/Auth.php`. Lalu ubah kedua baris berikut:
-
-```php
-public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
-
-public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
-```
-
-- ubah value menjadi `null`:
-
-```php
-public $requireActivation = null;
-
-public $activeResetter = null;
-```
-
-- (Opsional) Masih di file yang sama, ubah baris berikut:
-
-```php
-public $views = [
-    'login'           => 'Myth\Auth\Views\login', // baris ini
-    'register'        => 'Myth\Auth\Views\register',
-    'forgot'          => 'Myth\Auth\Views\forgot',
-    'reset'           => 'Myth\Auth\Views\reset',
-    'emailForgot'     => 'Myth\Auth\Views\emails\forgot',
-    'emailActivation' => 'Myth\Auth\Views\emails\activation',
-];
-```
-
-menjadi:
-
-```php
-public $views = [
-    'login'           => '\App\Views\admin\login', // menggunakan tampilan login custom
-    'register'        => 'Myth\Auth\Views\register',
-    'forgot'          => 'Myth\Auth\Views\forgot',
-    'reset'           => 'Myth\Auth\Views\reset',
-    'emailForgot'     => 'Myth\Auth\Views\emails\forgot',
-    'emailActivation' => 'Myth\Auth\Views\emails\activation',
-];
-```
-
 > [!IMPORTANT]
 >
 > - Jalankan web server (contoh Apache, XAMPP, etc)
@@ -178,6 +136,16 @@ public $views = [
 > ```
 
 - Izinkan akses kamera.
+
+### Konfigurasi
+
+**Nama Sekolah**
+
+Untuk mengubah identitas nama sekolah, buka file konfigurasi `app/Config/AbsensiSekolah.php` dan ubah pada:
+
+```php
+public string $namaSekolah = 'SMK 12369 HONGKONG';
+```
 
 ## Kesimpulan
 
