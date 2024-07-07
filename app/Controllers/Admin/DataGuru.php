@@ -80,13 +80,14 @@ class DataGuru extends BaseController
          return view('/admin/data/create/create-data-guru', $data);
       }
 
-      $nuptk = $this->request->getVar('nuptk');
-      $namaGuru = $this->request->getVar('nama');
-      $jenisKelamin = $this->request->getVar('jk');
-      $alamat = $this->request->getVar('alamat');
-      $noHp = $this->request->getVar('no_hp');
-
-      $result = $this->guruModel->saveGuru(NULL, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      // simpan
+      $result = $this->guruModel->createGuru(
+         nuptk: $this->request->getVar('nuptk'),
+         nama: $this->request->getVar('nama'),
+         jenisKelamin: $this->request->getVar('jk'),
+         alamat: $this->request->getVar('alamat'),
+         noHp: $this->request->getVar('no_hp'),
+      );
 
       if ($result) {
          session()->setFlashdata([
@@ -136,13 +137,15 @@ class DataGuru extends BaseController
          return view('/admin/data/edit/edit-data-guru', $data);
       }
 
-      $nuptk = $this->request->getVar('nuptk');
-      $namaGuru = $this->request->getVar('nama');
-      $jenisKelamin = $this->request->getVar('jk');
-      $alamat = $this->request->getVar('alamat');
-      $noHp = $this->request->getVar('no_hp');
-
-      $result = $this->guruModel->saveGuru($idGuru, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp);
+      // update
+      $result = $this->guruModel->updateGuru(
+         id: $idGuru,
+         nuptk: $this->request->getVar('nuptk'),
+         nama: $this->request->getVar('nama'),
+         jenisKelamin: $this->request->getVar('jk'),
+         alamat: $this->request->getVar('alamat'),
+         noHp: $this->request->getVar('no_hp'),
+      );
 
       if ($result) {
          session()->setFlashdata([

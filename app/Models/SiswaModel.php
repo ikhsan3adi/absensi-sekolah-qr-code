@@ -77,16 +77,27 @@ class SiswaModel extends Model
          ->where(['tb_siswa.id_kelas' => $id_kelas])->findAll();
    }
 
-   public function saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp)
+   public function createSiswa($nis, $nama, $idKelas, $jenisKelamin, $noHp)
    {
       return $this->save([
-         $this->primaryKey => $idSiswa,
          'nis' => $nis,
-         'nama_siswa' => $namaSiswa,
+         'nama_siswa' => $nama,
          'id_kelas' => $idKelas,
          'jenis_kelamin' => $jenisKelamin,
          'no_hp' => $noHp,
-         'unique_code' => sha1($namaSiswa . md5($nis . $noHp . $namaSiswa)) . substr(sha1($nis . rand(0, 100)), 0, 24)
+         'unique_code' => sha1($nama . md5($nis . $noHp . $nama)) . substr(sha1($nis . rand(0, 100)), 0, 24)
+      ]);
+   }
+
+   public function updateSiswa($id, $nis, $nama, $idKelas, $jenisKelamin, $noHp)
+   {
+      return $this->save([
+         $this->primaryKey => $id,
+         'nis' => $nis,
+         'nama_siswa' => $nama,
+         'id_kelas' => $idKelas,
+         'jenis_kelamin' => $jenisKelamin,
+         'no_hp' => $noHp,
       ]);
    }
 }
