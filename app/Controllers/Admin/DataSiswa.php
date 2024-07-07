@@ -103,13 +103,14 @@ class DataSiswa extends BaseController
          return view('/admin/data/create/create-data-siswa', $data);
       }
 
-      $nis = $this->request->getVar('nis');
-      $namaSiswa = $this->request->getVar('nama');
-      $idKelas = intval($this->request->getVar('id_kelas'));
-      $jenisKelamin = $this->request->getVar('jk');
-      $noHp = $this->request->getVar('no_hp');
-
-      $result = $this->siswaModel->saveSiswa(NULL, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
+      // simpan
+      $result = $this->siswaModel->createSiswa(
+         nis: $this->request->getVar('nis'),
+         nama: $this->request->getVar('nama'),
+         idKelas: intval($this->request->getVar('id_kelas')),
+         jenisKelamin: $this->request->getVar('jk'),
+         noHp: $this->request->getVar('no_hp'),
+      );
 
       if ($result) {
          session()->setFlashdata([
@@ -171,13 +172,15 @@ class DataSiswa extends BaseController
          return view('/admin/data/edit/edit-data-siswa', $data);
       }
 
-      $nis = $this->request->getVar('nis');
-      $namaSiswa = $this->request->getVar('nama');
-      $idKelas = intval($this->request->getVar('id_kelas'));
-      $jenisKelamin = $this->request->getVar('jk');
-      $noHp = $this->request->getVar('no_hp');
-
-      $result = $this->siswaModel->saveSiswa($idSiswa, $nis, $namaSiswa, $idKelas, $jenisKelamin, $noHp);
+      // update
+      $result = $this->siswaModel->updateSiswa(
+         id: $idSiswa,
+         nis: $this->request->getVar('nis'),
+         nama: $this->request->getVar('nama'),
+         idKelas: intval($this->request->getVar('id_kelas')),
+         jenisKelamin: $this->request->getVar('jk'),
+         noHp: $this->request->getVar('no_hp'),
+      );
 
       if ($result) {
          session()->setFlashdata([

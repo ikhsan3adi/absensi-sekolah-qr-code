@@ -34,16 +34,27 @@ class GuruModel extends Model
       return $this->where([$this->primaryKey => $id])->first();
    }
 
-   public function saveGuru($idGuru, $nuptk, $namaGuru, $jenisKelamin, $alamat, $noHp)
+   public function createGuru($nuptk, $nama, $jenisKelamin, $alamat, $noHp)
    {
       return $this->save([
-         $this->primaryKey => $idGuru,
          'nuptk' => $nuptk,
-         'nama_guru' => $namaGuru,
+         'nama_guru' => $nama,
          'jenis_kelamin' => $jenisKelamin,
          'alamat' => $alamat,
          'no_hp' => $noHp,
-         'unique_code' => sha1($namaGuru . md5($nuptk . $namaGuru . $noHp)) . substr(sha1($nuptk . rand(0, 100)), 0, 24)
+         'unique_code' => sha1($nama . md5($nuptk . $nama . $noHp)) . substr(sha1($nuptk . rand(0, 100)), 0, 24)
+      ]);
+   }
+
+   public function updateGuru($id, $nuptk, $nama, $jenisKelamin, $alamat, $noHp)
+   {
+      return $this->save([
+         $this->primaryKey => $id,
+         'nuptk' => $nuptk,
+         'nama_guru' => $nama,
+         'jenis_kelamin' => $jenisKelamin,
+         'alamat' => $alamat,
+         'no_hp' => $noHp,
       ]);
    }
 }
