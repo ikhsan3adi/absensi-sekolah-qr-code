@@ -86,7 +86,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Instalasi
 
-- Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
+- Clone/Download source code proyek ini.
 
 > [!CAUTION]
 >
@@ -144,7 +144,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 Untuk mengubah identitas nama sekolah, buka file konfigurasi `app/Config/AbsensiSekolah.php` dan ubah pada:
 
 ```php
-public string $namaSekolah = 'SMK 12369 HONGKONG';
+public string $namaSekolah = 'SMK 1 Indonesia';
 ```
 
 ## Kesimpulan
