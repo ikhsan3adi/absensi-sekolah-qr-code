@@ -57,43 +57,6 @@
       </div>
    </div>
 
-   <!-- Modal tambah kelas -->
-   <div class="modal fade" id="tambahKelasModal" tabindex="-1" aria-labelledby="tambahKelasModal" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <form id="formTambahKelas" action="#">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="modalUbahKehadiran">Tambah Data Kelas</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="container-fluid">
-                     <div class="form-group mt-2">
-                        <label for="kelas">Kelas</label>
-                        <select class="custom-select" id="kelas" name="kelas" required>
-                           <option value="">--Pilih kelas--</option>
-                           <option value="X">X</option>
-                           <option value="XI">XI</option>
-                           <option value="XII">XII</option>
-                        </select>
-                     </div>
-                     <div class="form-group mt-4">
-                        <label for="jurusan">Jurusan</label>
-                        <input type="text" id="jurusan" class="form-control" name="jurusan" placeholder="Nama jurusan" required>
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                  <button type="submit" onclick="tambahDataKelas()" class="btn btn-primary">Simpan</button>
-               </div>
-            </form>
-         </div>
-      </div>
-   </div>
-
    <!-- Modal ubah kehadiran -->
    <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -208,30 +171,6 @@
          error: function(xhr, status, thrown) {
             console.log(thrown);
             alert('Gagal ubah kehadiran\n' + thrown);
-         }
-      });
-   }
-
-   function tambahDataKelas() {
-      var form = $('#formTambahKelas').serializeArray();
-
-      jQuery.ajax({
-         url: "<?= base_url('/admin/tambah-kelas'); ?>",
-         type: 'post',
-         data: form,
-         success: function(response, status, xhr) {
-            // console.log(status);
-
-            if (response['status']) {
-               getSiswa(lastIdKelas, lastKelas);
-               alert('Berhasil tambah kelas : ' + response['kelas']);
-            } else {
-               alert('Gagal ubah kehadiran : ' + response['kelas']);
-            }
-         },
-         error: function(xhr, status, thrown) {
-            console.log(thrown);
-            alert('Gagal menambah kelas\n' + thrown);
          }
       });
    }
