@@ -10,7 +10,7 @@ class CreateDB extends Migration
     {
         $this->forge->getConnection()->query("CREATE TABLE tb_kehadiran (
             id_kehadiran int(11) NOT NULL,
-            kehadiran enum('Hadir','Sakit','Izin','Tanpa keterangan') NOT NULL
+            kehadiran ENUM('Hadir', 'Sakit', 'Izin', 'Tanpa keterangan') NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
         $this->forge->getConnection()->query("INSERT INTO tb_kehadiran (id_kehadiran, kehadiran) VALUES
@@ -43,7 +43,7 @@ class CreateDB extends Migration
             id_guru int(11) NOT NULL,
             nuptk varchar(24) NOT NULL,
             nama_guru varchar(255) NOT NULL,
-            jenis_kelamin enum('Laki-laki','Perempuan') NOT NULL,
+            jenis_kelamin ENUM('Laki-laki','Perempuan') NOT NULL,
             alamat text NOT NULL,
             no_hp varchar(32) NOT NULL,
             unique_code varchar(64) NOT NULL
@@ -65,7 +65,7 @@ class CreateDB extends Migration
             nis varchar(16) NOT NULL,
             nama_siswa varchar(255) NOT NULL,
             id_kelas int(11) UNSIGNED NOT NULL,
-            jenis_kelamin enum('Laki-laki','Perempuan') NOT NULL,
+            jenis_kelamin ENUM('Laki-laki','Perempuan') NOT NULL,
             no_hp varchar(32) NOT NULL,
             unique_code varchar(64) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
