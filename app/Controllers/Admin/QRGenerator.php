@@ -39,7 +39,7 @@ class QRGenerator extends BaseController
          $this->qrCodeFilePath .= $qrCodeFilePath;
       }
 
-      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath);
+      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath, recursive: true);
 
       $this->writer = new PngWriter();
 
