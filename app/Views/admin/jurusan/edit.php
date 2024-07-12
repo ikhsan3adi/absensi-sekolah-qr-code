@@ -17,7 +17,7 @@
 
               <?php if (session()->getFlashdata('msg')) : ?>
                 <div class="pb-2">
-                  <div class="alert alert-danger">
+                  <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <i class="material-icons">close</i>
                     </button>

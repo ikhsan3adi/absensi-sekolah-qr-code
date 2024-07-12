@@ -9,7 +9,7 @@
             <th><b>Kelas</b></th>
             <th><b>Jurusan</b></th>
             <th><b>No HP</b></th>
-            <th><b>Aksi</b></th>
+            <th width="1%"><b>Aksi</b></th>
          </thead>
          <tbody>
             <?php $i = 1;
@@ -23,18 +23,24 @@
                   <td><?= $value['jurusan']; ?></td>
                   <td><?= $value['no_hp']; ?></td>
                   <td>
-                     <a href="<?= base_url('admin/siswa/edit/' . $value['id_siswa']); ?>" type="button" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
-                        <i class="material-icons">edit</i>
-                        Edit
-                     </a>
-                     <form action="<?= base_url('admin/siswa/delete/' . $value['id_siswa']); ?>" method="post" class="d-inline">
-                        <?= csrf_field(); ?>
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nis']; ?>">
-                           <i class="material-icons">delete_forever</i>
-                           Delete
-                        </button>
-                     </form>
+                     <div class="d-flex justify-content-center">
+                        <a href="<?= base_url('admin/siswa/edit/' . $value['id_siswa']); ?>" class="btn btn-primary p-2" id="<?= $value['nis']; ?>">
+                           <i class="material-icons">edit</i>
+                           Edit
+                        </a>
+                        <form action="<?= base_url('admin/siswa/delete/' . $value['id_siswa']); ?>" method="post" class="d-inline">
+                           <?= csrf_field(); ?>
+                           <input type="hidden" name="_method" value="DELETE">
+                           <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nis']; ?>">
+                              <i class="material-icons">delete_forever</i>
+                              Delete
+                           </button>
+                        </form>
+                        <a href="<?= base_url('admin/qr/siswa/' . $value['id_siswa'] . '/download'); ?>" class="btn btn-success p-2">
+                           <i class="material-icons">qr_code</i>
+                           Download QR
+                        </a>
+                     </div>
                   </td>
                </tr>
             <?php $i++;
