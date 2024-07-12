@@ -1,8 +1,6 @@
 <?php
 
 use App\Controllers\Admin\QRGenerator;
-use App\Models\KelasModel;
-use App\Models\SiswaModel;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 
@@ -26,7 +24,7 @@ class QRGeneratorTest extends CIUnitTestCase
 
         $this->db->table('tb_kelas')->insert([
             'kelas' => 'Z',
-            'id_jurusan' => $this->db->table('tb_jurusan')->get()->getFirstRow()->id,
+            'id_jurusan' => $this->db->table('tb_jurusan')->get(1)->getRowArray()['id'],
         ]);
 
         $this->db->table('tb_siswa')->insert([
@@ -40,8 +38,11 @@ class QRGeneratorTest extends CIUnitTestCase
 
     public function testGenerateQrCode(): void
     {
-        $kelas = (new KelasModel)->first();
-        $siswa = (new SiswaModel)->where('id_kelas', $kelas['id_kelas'])->first();
+        $kelas = $this->db->table('tb_kelas')->get(1)->getRowArray();
+        $siswa = $this->db->table('tb_siswa')
+            ->where('id_kelas', $kelas['id_kelas'])
+            ->get(1)
+            ->getRowArray();
 
         $result = (new QRGenerator(qrCodeFilePath: "qr-siswa/test/"))->generate(
             $siswa['nama_siswa'],
