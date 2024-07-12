@@ -93,10 +93,17 @@ $routes->group('admin', function (RouteCollection $routes) {
 
    // admin generate QR
    $routes->get('generate', 'Admin\GenerateQR::index');
-   $routes->post('generate/siswa-by-kelas', 'Admin\GenerateQR::getSiswaByKelas');
+   $routes->post('generate/siswa-by-kelas', 'Admin\GenerateQR::getSiswaByKelas'); // ambil siswa berdasarkan kelas
 
+   // Generate QR
    $routes->post('generate/siswa', 'Admin\QRGenerator::generateQrSiswa');
    $routes->post('generate/guru', 'Admin\QRGenerator::generateQrGuru');
+
+   // Download QR
+   $routes->get('qr/siswa/download', 'Admin\QRGenerator::downloadAllQrSiswa');
+   $routes->get('qr/siswa/(:any)/download', 'Admin\QRGenerator::downloadQrSiswa/$1');
+   $routes->get('qr/guru/download', 'Admin\QRGenerator::downloadAllQrGuru');
+   $routes->get('qr/guru/(:any)/download', 'Admin\QRGenerator::downloadQrGuru/$1');
 
    // admin buat laporan
    $routes->get('laporan', 'Admin\GenerateLaporan::index');
