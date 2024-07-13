@@ -52,19 +52,19 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan CRUD Data Absen
 
-| Siswa (Dengan Data Kelas)                                                                                                   |                                                           Guru                                                           |
-| --------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------: |
-| ![CRUD Absen Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_11_2023_205146.jpeg) | ![CRUD Absen Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_2_2023_20525.jpeg) |
+| Siswa (Dengan Data Kelas)                                                                                         |                                                      Guru                                                       |
+| ----------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------: |
+| ![CRUD Absen Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/absen-siswa.png) | ![CRUD Absen Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/absen-guru.png) |
 
 ### Tampilan Ubah Data Kehadiran
 
-![Kehadiran](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_17_2023_205557.jpeg)
+<img src="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_17_2023_205557.jpeg" height="320px" style="object-fit:cover" title="Ubah Data Kehadiran">
 
 ### Tampilan CRUD Data Siswa & Guru
 
-| Siswa                                                                                                                      |                                                           Guru                                                            |
-| -------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| ![CRUD Data Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_12_2023_205221.jpeg) | ![CRUD Data Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_14_2023_205256.jpeg) |
+| Siswa                                                                                                           |                                                     Guru                                                      |
+| --------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------: |
+| ![CRUD Data Siswa](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/data-siswa.png) | ![CRUD Data Guru](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/data-guru.png) |
 
 ### Tampilan CRUD Data Kelas & Jurusan
 
@@ -72,9 +72,9 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Generate QR Code dan Generate Laporan
 
-| Generate QR                                                                                                          |                                                      Generate Laporan                                                       |
-| -------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------: |
-| ![Generate QR](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_3_2023_20539.jpeg) | ![Generate Laporan](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_15_2023_205322.jpeg) |
+| Generate QR                                                                                                  |                                                      Generate Laporan                                                       |
+| ------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------: |
+| ![Generate QR](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/generate-qr.png) | ![Generate Laporan](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/raw/master/screenshots/image_15_2023_205322.jpeg) |
 
 ## Cara Penggunaan
 
@@ -105,8 +105,6 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >   ```shell
 >   php spark migrate --all
 >   ```
->
-> 
 >
 > - Jalankan web server (contoh Apache, XAMPP, etc)
 > - Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
