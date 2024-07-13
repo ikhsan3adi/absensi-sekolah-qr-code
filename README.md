@@ -4,18 +4,22 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=social)
-![GitHub all releases](https://img.shields.io/github/downloads/ikhsan3adi/absensi-sekolah-qr-code/total?style=social)
+![YouTube Video Views](https://img.shields.io/youtube/views/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
+![YouTube Video Likes](https://img.shields.io/youtube/likes/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
+
 
 ![Preview](./screenshots/hero.png)
 
 Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah menggunakan teknologi QR code. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
+
+> [Instalasi & Cara Penggunaan](#cara-penggunaan)
 
 ## Fitur Utama
 
 - **QR Code scanner.** Setiap siswa/guru menunjukkan qr code kepada perangkat yang dilengkapi dengan kamera. Aplikasi akan memvalidasi QR code dan mencatat kehadiran siswa ke dalam database.
 - **Login petugas.**
 - **Dashboard petugas.** Petugas sekolah dapat dengan mudah memantau kehadiran siswa dalam periode waktu tertentu melalui tampilan yang disediakan.
-- **QR Code generator.** Petugas yang sudah login akan men-generate qr code setiap siswa/guru secara otomatis. Setiap siswa akan diberikan QR code unik yang terkait dengan identitas siswa. QR code ini akan digunakan saat proses absensi.
+- **QR Code generator & downloader.** Petugas yang sudah login akan men-generate dan/atau mendownload qr code setiap siswa/guru. Setiap siswa akan diberikan QR code unik yang terkait dengan identitas siswa. QR code ini akan digunakan saat proses absensi.
 - **Ubah data absen siswa/guru.** Petugas dapat mengubah data absensi setiap siswa/guru. Misalnya mengubah data kehadiran dari `tanpa keterangan` menjadi `sakit` atau `izin`.
 - **Tambah, Ubah, Hapus(CRUD) data siswa/guru.**
 - **Tambah, Ubah, Hapus(CRUD) data kelas.**
@@ -36,7 +40,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Halaman QR Scanner
 
-![QR Scanner view](./screenshots/image_5_2023_204644.jpeg)
+![QR Scanner view](./screenshots/qr-scanner.jpeg)
 
 ### Tampilan Absen Masuk dan Pulang
 
@@ -44,7 +48,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Login Petugas
 
-![Login](./screenshots/image_4_2023_20573.jpeg)
+![Login](./screenshots/login.jpeg)
 
 ### Tampilan Dashboard Petugas
 
@@ -58,7 +62,9 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Ubah Data Kehadiran
 
-<img src="./screenshots/image_17_2023_205557.jpeg" height="320px" style="object-fit:cover" title="Ubah Data Kehadiran">
+<p align="center">
+  <img src="./screenshots/ubah-kehadiran.jpeg" height="320px" style="object-fit:cover" alt="Ubah Data Kehadiran" title="Ubah Data Kehadiran">
+</p>
 
 ### Tampilan CRUD Data Siswa & Guru
 
@@ -72,9 +78,9 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ### Tampilan Generate QR Code dan Generate Laporan
 
-| Generate QR                                   |                       Generate Laporan                       |
-| --------------------------------------------- | :----------------------------------------------------------: |
-| ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/image_15_2023_205322.jpeg) |
+| Generate QR                                   |                Generate Laporan                |
+| --------------------------------------------- | :--------------------------------------------: |
+| ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/laporan.png) |
 
 ## Cara Penggunaan
 
