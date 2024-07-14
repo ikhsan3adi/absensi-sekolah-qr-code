@@ -13,5 +13,5 @@ class AbsensiSekolah extends BaseConfig
      *
      * Pengaturan untuk nama sekolah
      */
-    public string $namaSekolah = 'SMK 1 Indonesia';
+    const SCHOOL_NAME = 'SMK 1 Indonesia';
 }
