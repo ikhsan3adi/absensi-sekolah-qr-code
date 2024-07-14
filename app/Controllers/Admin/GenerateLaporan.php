@@ -37,7 +37,7 @@ class GenerateLaporan extends BaseController
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
 
-      $this->namaSekolah = (new ConfigAbsensiSekolah)->namaSekolah;
+      $this->namaSekolah = ConfigAbsensiSekolah::SCHOOL_NAME;
    }
 
    public function index()
@@ -76,7 +76,9 @@ class GenerateLaporan extends BaseController
          return redirect()->to('/admin/laporan');
       }
 
-      $kelas = $this->kelasModel->where(['id_kelas' => $idKelas])->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')->first();
+      $kelas = $this->kelasModel->where(['id_kelas' => $idKelas])
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
+         ->first();
 
       $bulan = $this->request->getVar('tanggalSiswa');
 
@@ -129,10 +131,12 @@ class GenerateLaporan extends BaseController
          'namaSekolah' => $this->namaSekolah
       ];
 
-
       if ($type == 'doc') {
          $this->response->setHeader('Content-type', 'application/vnd.ms-word');
-         $this->response->setHeader('Content-Disposition', 'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->format('F-Y') . '.doc');
+         $this->response->setHeader(
+            'Content-Disposition',
+            'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->format('F-Y') . '.doc'
+         );
 
          return view('admin/generate-laporan/laporan-siswa', $data);
       }
@@ -205,7 +209,10 @@ class GenerateLaporan extends BaseController
 
       if ($type == 'doc') {
          $this->response->setHeader('Content-type', 'application/vnd.ms-word');
-         $this->response->setHeader('Content-Disposition', 'attachment;Filename=laporan_absen_guru_' . $begin->format('F-Y') . '.doc');
+         $this->response->setHeader(
+            'Content-Disposition',
+            'attachment;Filename=laporan_absen_guru_' . $begin->format('F-Y') . '.doc'
+         );
 
          return view('admin/generate-laporan/laporan-guru', $data);
       }
