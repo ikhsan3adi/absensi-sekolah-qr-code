@@ -32,14 +32,9 @@ class QRGenerator extends BaseController
    const PUBLIC_PATH = ROOTPATH . 'public' . DIRECTORY_SEPARATOR;
    const UPLOADS_PATH = self::PUBLIC_PATH . 'uploads' . DIRECTORY_SEPARATOR;
 
-   public function __construct($qrCodeFilePath = null)
+   public function __construct()
    {
-      $this->qrCodeFilePath = self::UPLOADS_PATH;
-      if ($qrCodeFilePath) {
-         $this->qrCodeFilePath .= $qrCodeFilePath;
-      }
-
-      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath, recursive: true);
+      $this->setQrCodeFilePath(self::UPLOADS_PATH);
 
       $this->writer = new PngWriter();
 
@@ -67,6 +62,12 @@ class QRGenerator extends BaseController
          ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
          ->setForegroundColor($this->foregroundColor)
          ->setBackgroundColor($this->backgroundColor);
+   }
+
+   public function setQrCodeFilePath(string $qrCodeFilePath)
+   {
+      $this->qrCodeFilePath = $qrCodeFilePath;
+      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath, recursive: true);
    }
 
    public function generateQrSiswa()
