@@ -22,21 +22,18 @@
                   <td><?= $value['alamat']; ?></td>
                   <td>
                      <div class="d-flex justify-content-center">
-                        <a href="<?= base_url('admin/guru/edit/' . $value['id_guru']); ?>" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
+                        <a title="Edit" href="<?= base_url('admin/guru/edit/' . $value['id_guru']); ?>" class="btn btn-success p-2" id="<?= $value['nuptk']; ?>">
                            <i class="material-icons">edit</i>
-                           Edit
                         </a>
                         <form action="<?= base_url('admin/guru/delete/' . $value['id_guru']); ?>" method="post" class="d-inline">
                            <?= csrf_field(); ?>
                            <input type="hidden" name="_method" value="DELETE">
-                           <button onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nuptk']; ?>">
+                           <button title="Delete" onclick="return confirm('Konfirmasi untuk menghapus data');" type="submit" class="btn btn-danger p-2" id="<?= $value['nuptk']; ?>">
                               <i class="material-icons">delete_forever</i>
-                              Delete
                            </button>
                         </form>
-                        <a href="<?= base_url('admin/qr/guru/' . $value['id_guru'] . '/download'); ?>" class="btn btn-success p-2">
+                        <a title="Download QR Code" href="<?= base_url('admin/qr/guru/' . $value['id_guru'] . '/download'); ?>" class="btn btn-info p-2">
                            <i class="material-icons">qr_code</i>
-                           Download QR
                         </a>
                      </div>
                   </td>
