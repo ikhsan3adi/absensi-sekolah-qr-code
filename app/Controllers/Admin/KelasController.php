@@ -81,7 +81,7 @@ class KelasController extends ResourceController
             'kelas' => [
                 'rules' => 'required|max_length[32]',
             ],
-            'idJurusan' => [
+            'id_jurusan' => [
                 'rules' => 'required|numeric',
             ],
         ])) {
@@ -99,7 +99,7 @@ class KelasController extends ResourceController
 
         // ambil variabel POST
         $kelas = $this->request->getVar('kelas');
-        $idJurusan = $this->request->getVar('idJurusan');
+        $idJurusan = $this->request->getVar('id_jurusan');
 
         $result = $this->kelasModel->tambahKelas($kelas, $idJurusan);
 
@@ -153,7 +153,7 @@ class KelasController extends ResourceController
             'kelas' => [
                 'rules' => 'required|max_length[32]',
             ],
-            'idJurusan' => [
+            'id_jurusan' => [
                 'rules' => 'required|numeric',
             ],
         ])) {
@@ -178,7 +178,7 @@ class KelasController extends ResourceController
 
         // ambil variabel POST
         $kelas = $this->request->getRawInputVar('kelas');
-        $idJurusan = $this->request->getRawInputVar('idJurusan');
+        $idJurusan = $this->request->getRawInputVar('id_jurusan');
 
         $result = $this->kelasModel->update($id, [
             'kelas' => $kelas,
