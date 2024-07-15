@@ -50,7 +50,7 @@ class KelasController extends ResourceController
             'empty' => empty($result)
         ];
 
-        return view('admin/kelas/list_kelas', $data);
+        return view('admin/kelas/list-kelas', $data);
     }
 
     /**
