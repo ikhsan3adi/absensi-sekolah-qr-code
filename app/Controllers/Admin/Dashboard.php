@@ -35,7 +35,7 @@ class Dashboard extends BaseController
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
       $this->petugasModel = new PetugasModel();
-      $this->namaSekolah = (new ConfigAbsensiSekolah)->namaSekolah;
+      $this->namaSekolah = ConfigAbsensiSekolah::SCHOOL_NAME;
    }
 
    public function index()
