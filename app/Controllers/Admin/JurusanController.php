@@ -40,7 +40,7 @@ class JurusanController extends ResourceController
             'empty' => empty($result)
         ];
 
-        return view('admin/jurusan/list_jurusan', $data);
+        return view('admin/jurusan/list-jurusan', $data);
     }
 
     /**
