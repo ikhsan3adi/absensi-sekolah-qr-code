@@ -94,7 +94,7 @@ class KelasController extends ResourceController
                 'validation' => $this->validator,
                 'oldInput' => $this->request->getVar()
             ];
-            return view('/admin/kelas/new', $data);
+            return view('/admin/kelas/create', $data);
         }
 
         // ambil variabel POST
@@ -115,7 +115,7 @@ class KelasController extends ResourceController
             'msg' => 'Gagal menambah data',
             'error' => true
         ]);
-        return redirect()->to('/admin/kelas/new');
+        return redirect()->to('/admin/kelas/create');
     }
 
     /**
