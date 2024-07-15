@@ -75,7 +75,7 @@ class JurusanController extends ResourceController
                 'validation' => $this->validator,
                 'oldInput' => $this->request->getVar()
             ];
-            return view('/admin/jurusan/new', $data);
+            return view('/admin/jurusan/create', $data);
         }
 
         // ambil variabel POST
@@ -95,7 +95,7 @@ class JurusanController extends ResourceController
             'msg' => 'Gagal menambah data',
             'error' => true
         ]);
-        return redirect()->to('/admin/jurusan/new');
+        return redirect()->to('/admin/jurusan/create');
     }
 
     /**
