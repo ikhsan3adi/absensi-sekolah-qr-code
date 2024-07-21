@@ -20,13 +20,13 @@
    <tr>
       <td></td>
       <td></td>
-      <td colspan="<?= count($tanggal); ?>"><b>Hari/Tanggal</b></td>
+      <th colspan="<?= count($tanggal); ?>">Hari/Tanggal</th>
    </tr>
    <tr>
       <td></td>
       <td></td>
       <?php foreach ($tanggal as $value) : ?>
-         <td align="center"><b><?= $value->format('D'); ?></b></td>
+         <td align="center"><b><?= $value->toLocalizedString('E'); ?></b></td>
       <?php endforeach; ?>
       <td colspan="4" align="center">Total</td>
    </tr>

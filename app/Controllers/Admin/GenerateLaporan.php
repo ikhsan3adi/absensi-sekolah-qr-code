@@ -85,7 +85,7 @@ class GenerateLaporan extends BaseController
       $bulan = $this->request->getVar('tanggalSiswa');
 
       // hari pertama dalam 1 bulan
-      $begin = new DateTime($bulan);
+      $begin = new Time($bulan, locale: 'id');
       // tanggal terakhir dalam 1 bulan
       $end = (new DateTime($begin->format('Y-m-t')))->modify('+1 day');
       // interval 1 hari
@@ -107,7 +107,7 @@ class GenerateLaporan extends BaseController
             $absenByTanggal['lewat'] = $lewat;
 
             array_push($dataAbsen, $absenByTanggal);
-            array_push($arrayTanggal, $value);
+            array_push($arrayTanggal, Time::createFromInstance($value, locale: 'id'));
          }
       }
 
@@ -121,7 +121,7 @@ class GenerateLaporan extends BaseController
 
       $data = [
          'tanggal' => $arrayTanggal,
-         'bulan' => $begin->format('F'),
+         'bulan' => $begin->toLocalizedString('MMMM'),
          'listAbsen' => $dataAbsen,
          'listSiswa' => $siswa,
          'jumlahSiswa' => [
@@ -138,7 +138,7 @@ class GenerateLaporan extends BaseController
          $this->response->setHeader('Content-type', 'application/vnd.ms-word');
          $this->response->setHeader(
             'Content-Disposition',
-            'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->format('F-Y') . '.doc'
+            'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->toLocalizedString('MMMM-Y') . '.doc'
          );
 
          return view('admin/generate-laporan/laporan-siswa', $data);
@@ -163,7 +163,7 @@ class GenerateLaporan extends BaseController
       $bulan = $this->request->getVar('tanggalGuru');
 
       // hari pertama dalam 1 bulan
-      $begin = new DateTime($bulan);
+      $begin = new Time($bulan, locale: 'id');
       // tanggal terakhir dalam 1 bulan
       $end = (new DateTime($begin->format('Y-m-t')))->modify('+1 day');
       // interval 1 hari
@@ -185,7 +185,7 @@ class GenerateLaporan extends BaseController
             $absenByTanggal['lewat'] = $lewat;
 
             array_push($dataAbsen, $absenByTanggal);
-            array_push($arrayTanggal, $value);
+            array_push($arrayTanggal, Time::createFromInstance($value, locale: 'id'));
          }
       }
 
@@ -199,7 +199,7 @@ class GenerateLaporan extends BaseController
 
       $data = [
          'tanggal' => $arrayTanggal,
-         'bulan' => $begin->format('F'),
+         'bulan' => $begin->toLocalizedString('MMMM'),
          'listAbsen' => $dataAbsen,
          'listGuru' => $guru,
          'jumlahGuru' => [
@@ -215,7 +215,7 @@ class GenerateLaporan extends BaseController
          $this->response->setHeader('Content-type', 'application/vnd.ms-word');
          $this->response->setHeader(
             'Content-Disposition',
-            'attachment;Filename=laporan_absen_guru_' . $begin->format('F-Y') . '.doc'
+            'attachment;Filename=laporan_absen_guru_' . $begin->toLocalizedString('MMMM-Y') . '.doc'
          );
 
          return view('admin/generate-laporan/laporan-guru', $data);
