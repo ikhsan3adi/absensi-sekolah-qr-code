@@ -25,7 +25,7 @@
       <td></td>
       <td></td>
       <?php foreach ($tanggal as $value) : ?>
-         <th align="center"><?= $value->format('D'); ?></th>
+         <th align="center"><?= $value->toLocalizedString('E'); ?></th>
       <?php endforeach; ?>
       <td colspan="4" align="center">Total</td>
    </thead>
