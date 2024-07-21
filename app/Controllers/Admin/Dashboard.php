@@ -11,7 +11,6 @@ use App\Models\PetugasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
-use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class Dashboard extends BaseController
 {
@@ -35,7 +34,7 @@ class Dashboard extends BaseController
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
       $this->petugasModel = new PetugasModel();
-      $this->namaSekolah = ConfigAbsensiSekolah::SCHOOL_NAME;
+      $this->namaSekolah = config('School')->name;
    }
 
    public function index()

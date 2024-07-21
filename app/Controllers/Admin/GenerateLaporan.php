@@ -13,7 +13,6 @@ use App\Models\KelasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
-use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class GenerateLaporan extends BaseController
 {
@@ -38,8 +37,9 @@ class GenerateLaporan extends BaseController
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
 
-      $this->namaSekolah = ConfigAbsensiSekolah::SCHOOL_NAME;
-      $this->tahunAjaran = ConfigAbsensiSekolah::SCHOOL_YEAR;
+      $schoolConfig = config('School');
+      $this->namaSekolah = $schoolConfig->name;
+      $this->tahunAjaran = $schoolConfig->schoolYear;
    }
 
    public function index()

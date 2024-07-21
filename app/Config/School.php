@@ -4,7 +4,7 @@ namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 
-class AbsensiSekolah extends BaseConfig
+class School extends BaseConfig
 {
     /**
      * --------------------------------------------------------------------------
@@ -13,7 +13,7 @@ class AbsensiSekolah extends BaseConfig
      *
      * Pengaturan untuk nama sekolah
      */
-    const SCHOOL_NAME = 'SMK 1 Indonesia';
+    public string $name = 'SMK 1 Indonesia';
 
     /**
      * --------------------------------------------------------------------------
@@ -22,5 +22,5 @@ class AbsensiSekolah extends BaseConfig
      *
      * Pengaturan untuk tahun ajaran
      */
-    const SCHOOL_YEAR = '2024/2025';
+    public string $schoolYear = '2024/2025';
 }
