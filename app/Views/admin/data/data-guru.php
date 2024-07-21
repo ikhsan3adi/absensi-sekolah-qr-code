@@ -20,7 +20,7 @@
                      <div class="row">
                         <div class="col">
                            <h4 class="card-title"><b>Daftar Guru</b></h4>
-                           <p class="card-category">Angkatan 2022/2023</p>
+                           <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
                         </div>
                         <div class="col-auto">
                            <div class="nav-tabs-wrapper">

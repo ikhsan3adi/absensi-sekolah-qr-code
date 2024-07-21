@@ -7,7 +7,7 @@
       <td width="100%">
          <h2 align="center">DAFTAR HADIR SISWA</h2>
          <h4 align="center"><?= $namaSekolah; ?></h4>
-         <h4 align="center">TAHUN PELAJARAN 2022/2023</h4>
+         <h4 align="center">TAHUN PELAJARAN <?= $tahunAjaran; ?></h4>
       </td>
       <td>
          <div style="width:100px"></div>
