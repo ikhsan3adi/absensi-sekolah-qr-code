@@ -85,11 +85,11 @@
     </div>
  </div>
 
- <script type="text/javascript" src="<?= base_url('public/assets/js/plugins/zxing/zxing.min.js') ?>"></script>
- <script src="<?= base_url('public/assets/js/core/jquery-3.5.1.min.js') ?>"></script>
+ <script type="text/javascript" src="<?= base_url('assets/js/plugins/zxing/zxing.min.js') ?>"></script>
+ <script src="<?= base_url('assets/js/core/jquery-3.5.1.min.js') ?>"></script>
  <script type="text/javascript">
     let selectedDeviceId = null;
-    let audio = new Audio("<?= base_url('public/assets/audio/beep.mp3'); ?>");
+    let audio = new Audio("<?= base_url('assets/audio/beep.mp3'); ?>");
     const codeReader = new ZXing.BrowserMultiFormatReader();
     const sourceSelect = $('#pilihKamera');
 

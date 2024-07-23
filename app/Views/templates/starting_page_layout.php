@@ -9,7 +9,7 @@
    <title>Absensi QR Code</title>
    <style>
       .bg {
-         background: url(<?= base_url('public/assets/img/bg2.jpg'); ?>) center;
+         background: url(<?= base_url('assets/img/bg2.jpg'); ?>) center;
          opacity: 0.1;
          background-size: cover;
          height: 100vh;

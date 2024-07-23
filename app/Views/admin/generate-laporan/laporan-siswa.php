@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <table>
    <tr>
-      <td><img src="<?= base_url('public/assets/img/logo_sekolah.jpg'); ?>" width="100px" height="100px"></img></td>
+      <td><img src="<?= base_url('assets/img/logo_sekolah.jpg'); ?>" width="100px" height="100px"></img></td>
       <td width="100%">
          <h2 align="center">DAFTAR HADIR SISWA</h2>
          <h4 align="center"><?= $namaSekolah; ?></h4>
