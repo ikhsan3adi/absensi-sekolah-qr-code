@@ -80,9 +80,9 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div id="dataJurusan">
-              <p class="text-center mt-3">Daftar jurusan muncul disini</p>
+              <div id="dataJurusan">
+                <p class="text-center mt-3">Daftar jurusan muncul disini</p>
+              </div>
             </div>
           </div>
         </div>
