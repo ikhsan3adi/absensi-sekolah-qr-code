@@ -5,13 +5,15 @@ namespace App\Controllers\Admin;
 use App\Models\JurusanModel;
 use App\Models\KelasModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
-use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
 
-class KelasController extends ResourceController
+class KelasController extends BaseController
 {
     protected KelasModel $kelasModel;
 
     protected JurusanModel $jurusanModel;
+
+    protected $generalSettings;
 
     public function __construct()
     {

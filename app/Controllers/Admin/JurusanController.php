@@ -5,8 +5,9 @@ namespace App\Controllers\Admin;
 use App\Models\JurusanModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
 
-class JurusanController extends ResourceController
+class JurusanController extends BaseController
 {
     protected JurusanModel $jurusanModel;
 
