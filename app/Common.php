@@ -62,7 +62,14 @@ if (!function_exists('getValRules')) {
             foreach ($rules as $key => $rule) {
                 $newRules[$key] = [
                     'label' => $rule['label'],
-                    'rules' => $rule['rules']
+                    'rules' => $rule['rules'],
+                    'errors' => [
+                        'required' => lang("Validation.form_validation_required"),
+                        'min_length' => lang("Validation.form_validation_min_length"),
+                        'max_length' => lang("Validation.form_validation_max_length"),
+                        'matches' => lang("Validation.form_validation_matches"),
+                        'is_unique' => lang("Validation.form_validation_is_unique")
+                    ]
                 ];
             }
         }
