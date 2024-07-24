@@ -21,22 +21,22 @@
          <li class="header-title">Background Image</li>
          <li class="active">
             <a class="img-holder switch-trigger" href="javascript:void(0)">
-               <img src="<?= base_url('public/assets/img/sidebar/sidebar-1.jpg'); ?>" alt="">
+               <img src="<?= base_url('assets/img/sidebar/sidebar-1.jpg'); ?>" alt="">
             </a>
          </li>
          <li>
             <a class="img-holder switch-trigger" href="javascript:void(0)">
-               <img src="<?= base_url('public/assets/img/sidebar/sidebar-2.jpg'); ?>" alt="">
+               <img src="<?= base_url('assets/img/sidebar/sidebar-2.jpg'); ?>" alt="">
             </a>
          </li>
          <li>
             <a class="img-holder switch-trigger" href="javascript:void(0)">
-               <img src="<?= base_url('public/assets/img/sidebar/sidebar-3.jpg'); ?>" alt="">
+               <img src="<?= base_url('assets/img/sidebar/sidebar-3.jpg'); ?>" alt="">
             </a>
          </li>
          <li>
             <a class="img-holder switch-trigger" href="javascript:void(0)">
-               <img src="<?= base_url('public/assets/img/sidebar/sidebar-4.jpg'); ?>" alt="">
+               <img src="<?= base_url('assets/img/sidebar/sidebar-4.jpg'); ?>" alt="">
             </a>
          </li>
       </ul>

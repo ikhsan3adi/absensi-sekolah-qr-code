@@ -177,7 +177,7 @@
     </div>
 </div>
 <!-- Chartist JS -->
-<script src="<?= base_url('public/assets/js/plugins/chartist.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>
 <script>
     $(document).ready(function() {
         initDashboardPageCharts();
