@@ -88,6 +88,12 @@ switch ($context) {
                   <p>Data Petugas</p>
                </a>
             </li>
+            <li class="nav-item <?= $context == 'general_settings' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/general-settings'); ?>">
+                  <i class="material-icons">settings</i>
+                  <p>Pengaturan</p>
+               </a>
+            </li>
          <?php endif; ?>
          <!-- <li class="nav-item active-pro mb-3">
             <a class="nav-link" href="./upgrade.html">
