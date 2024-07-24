@@ -25,9 +25,6 @@ class GenerateLaporan extends BaseController
    protected PresensiSiswaModel $presensiSiswaModel;
    protected PresensiGuruModel $presensiGuruModel;
 
-   protected string $namaSekolah;
-   protected string $tahunAjaran;
-
    public function __construct()
    {
       $this->siswaModel = new SiswaModel();
@@ -37,9 +34,6 @@ class GenerateLaporan extends BaseController
 
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
-
-      $this->namaSekolah = ConfigAbsensiSekolah::SCHOOL_NAME;
-      $this->tahunAjaran = ConfigAbsensiSekolah::SCHOOL_YEAR;
    }
 
    public function index()
@@ -130,8 +124,6 @@ class GenerateLaporan extends BaseController
          ],
          'kelas' => $kelas,
          'grup' => "kelas " . $kelas['kelas'] . " " . $kelas['jurusan'],
-         'namaSekolah' => $this->namaSekolah,
-         'tahunAjaran' => $this->tahunAjaran
       ];
 
       if ($type == 'doc') {
@@ -207,8 +199,6 @@ class GenerateLaporan extends BaseController
             'perempuan' => count($guru) - $laki
          ],
          'grup' => 'guru',
-         'namaSekolah' => $this->namaSekolah,
-         'tahunAjaran' => $this->tahunAjaran
       ];
 
       if ($type == 'doc') {
