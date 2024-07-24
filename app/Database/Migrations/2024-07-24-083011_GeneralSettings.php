@@ -45,6 +45,11 @@ class GeneralSettings extends Migration
 
 
         $this->forge->createTable('general_settings', TRUE);
+        
+        // Insert Default Data
+        $default['school_name'] = 'SMK 1 Indonesia';
+        $default['school_year'] = '2024/2025';
+        $this->db->table('general_settings')->insert($default);
     }
 
     public function down()
