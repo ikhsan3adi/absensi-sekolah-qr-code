@@ -74,7 +74,9 @@ class SiswaModel extends Model
          'LEFT'
       )
          ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
-         ->where(['tb_siswa.id_kelas' => $id_kelas])->findAll();
+         ->where(['tb_siswa.id_kelas' => $id_kelas])
+         ->orderBy('nama_siswa')
+         ->findAll();
    }
 
    public function createSiswa($nis, $nama, $idKelas, $jenisKelamin, $noHp)
