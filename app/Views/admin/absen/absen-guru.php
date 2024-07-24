@@ -4,9 +4,9 @@
    <div class="container-fluid">
       <div class="card">
          <div class="card-body">
-            <div class="pt-3 pl-3 w-25 pb-2">
+            <div class="pt-3 pl-3 pb-2">
                <h4><b>Tanggal</b></h4>
-               <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="getGuru()">
+               <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="getGuru()" style="max-width: 200px;">
             </div>
          </div>
       </div>

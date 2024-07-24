@@ -15,31 +15,31 @@
           </div>
         <?php endif; ?>
         <div class="row">
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-xl-6">
             <div class="card">
               <div class="card-header card-header-tabs card-header-primary">
                 <div class="nav-tabs-navigation">
                   <div class="row">
-                    <div class="col">
+                    <div class="col-md-4 col-lg-5">
                       <h4 class="card-title"><b>Daftar Kelas</b></h4>
                       <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
                     </div>
-                    <div class="col-auto">
-                      <div class="nav-tabs-wrapper">
-                        <ul class="nav nav-tabs" data-tabs="tabs">
-                          <li class="nav-item">
-                            <a class="nav-link" id="tabBtn" onclick="removeHover()" href="<?= base_url('admin/kelas/new'); ?>">
-                              <i class="material-icons">add</i> Tambah data kelas
-                              <div class="ripple-container"></div>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="refreshBtn" onclick="getDataKelas()" href="#" data-toggle="tab">
-                              <i class="material-icons">refresh</i> Refresh
-                              <div class="ripple-container"></div>
-                            </a>
-                          </li>
-                        </ul>
+                    <div class="col-auto row">
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <div class="nav-item">
+                          <a class="nav-link" id="tabBtn" onclick="removeHover()" href="<?= base_url('admin/kelas/new'); ?>">
+                            <i class="material-icons">add</i> Tambah data kelas
+                            <div class="ripple-container"></div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <div class="nav-item">
+                          <a class="nav-link" id="refreshBtn" onclick="getDataKelas()" href="#" data-toggle="tab">
+                            <i class="material-icons">refresh</i> Refresh
+                            <div class="ripple-container"></div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,39 +50,39 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-xl-6">
             <div class="card">
               <div class="card-header card-header-tabs card-header-primary">
                 <div class="nav-tabs-navigation">
                   <div class="row">
-                    <div class="col">
+                    <div class="col-md-4 col-lg-5">
                       <h4 class="card-title"><b>Daftar Jurusan</b></h4>
                       <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
                     </div>
-                    <div class="col-auto">
-                      <div class="nav-tabs-wrapper">
-                        <ul class="nav nav-tabs" data-tabs="tabs">
-                          <li class="nav-item">
-                            <a class="nav-link" id="tabBtn2" onclick="removeHover()" href="<?= base_url('admin/jurusan/new'); ?>">
-                              <i class="material-icons">add</i> Tambah data jurusan
-                              <div class="ripple-container"></div>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="refreshBtn2" onclick="getDataJurusan()" href="#" data-toggle="tab">
-                              <i class="material-icons">refresh</i> Refresh
-                              <div class="ripple-container"></div>
-                            </a>
-                          </li>
-                        </ul>
+                    <div class="col-auto row">
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <div class="nav-item">
+                          <a class="nav-link" id="tabBtn2" onclick="removeHover()" href="<?= base_url('admin/jurusan/new'); ?>">
+                            <i class="material-icons">add</i> Tambah data jurusan
+                            <div class="ripple-container"></div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <div class="nav-item">
+                          <a class="nav-link" id="refreshBtn2" onclick="getDataJurusan()" href="#" data-toggle="tab">
+                            <i class="material-icons">refresh</i> Refresh
+                            <div class="ripple-container"></div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div id="dataJurusan">
-                <p class="text-center mt-3">Daftar jurusan muncul disini</p>
-              </div>
+            </div>
+            <div id="dataJurusan">
+              <p class="text-center mt-3">Daftar jurusan muncul disini</p>
             </div>
           </div>
         </div>
