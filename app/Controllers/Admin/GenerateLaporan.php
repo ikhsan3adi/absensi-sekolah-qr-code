@@ -13,7 +13,6 @@ use App\Models\KelasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\SiswaModel;
 use App\Models\PresensiSiswaModel;
-use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class GenerateLaporan extends BaseController
 {
