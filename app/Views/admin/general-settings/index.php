@@ -46,10 +46,10 @@
                                             <img id="logo" src="<?= getLogo(); ?>" alt="logo" style="max-width: 250px; max-height: 250px;">
                                         </div>
                                         <div class="display-block">
-                                            <a class='btn btn-primary btn-sm btn-file-upload'>
+                                            <button type="button" onclick="$('#logo-upload').trigger('click');" class="btn btn-primary btn-sm btn-file-upload">
                                                 Ganti
-                                                <input type="file" name="logo" size="40" accept="image/jpg,image/jpeg,image/png,image/gif,image/svg+xml" onchange="$('#upload-file-info1').html($(this).val().replace(/.*[\/\\]/, ''));">
-                                            </a>
+                                            </button>
+                                            <input type="file" id="logo-upload" name="logo" size="40" accept="image/jpg,image/jpeg,image/png,image/gif,image/svg+xml" onchange="$('#upload-file-info1').html($(this).val().replace(/.*[\/\\]/, ''));">
                                             <span class="text-sm text-secondary">(.png, .jpg, .jpeg, .gif, .svg)</span>
                                         </div>
                                         <span class='label label-info' id="upload-file-info1"></span>
