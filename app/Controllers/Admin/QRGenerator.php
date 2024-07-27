@@ -15,12 +15,14 @@ use Endroid\QrCode\Label\Label;
 use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\SvgWriter;
+use Endroid\QrCode\Writer\WriterInterface;
 
 class QRGenerator extends BaseController
 {
    protected QrCode $qrCode;
-   protected PngWriter $writer;
-   protected ?Logo $logo;
+   protected WriterInterface $writer;
+   protected ?Logo $logo = null;
    protected Label $label;
    protected Font $labelFont;
    protected Color $foregroundColor;
@@ -29,8 +31,7 @@ class QRGenerator extends BaseController
 
    protected string $qrCodeFilePath;
 
-   const PUBLIC_PATH = ROOTPATH . 'public' . DIRECTORY_SEPARATOR;
-   const UPLOADS_PATH = self::PUBLIC_PATH . 'uploads' . DIRECTORY_SEPARATOR;
+   const UPLOADS_PATH = FCPATH . 'uploads' . DIRECTORY_SEPARATOR;
 
    public function __construct()
    {
@@ -38,16 +39,31 @@ class QRGenerator extends BaseController
 
       $this->writer = new PngWriter();
 
-      $this->labelFont = new Font(self::PUBLIC_PATH . 'assets/fonts/Roboto-Medium.ttf', 14);
+      $this->labelFont = new Font(FCPATH . 'assets/fonts/Roboto-Medium.ttf', 14);
 
       $this->foregroundColor = new Color(44, 73, 162);
       $this->foregroundColor2 = new Color(28, 101, 90);
       $this->backgroundColor = new Color(255, 255, 255);
 
-      // Create logo
-      $this->logo = boolval(env('QR_LOGO'))
-         ? Logo::create(self::PUBLIC_PATH . 'assets/img/logo_sekolah.jpg')->setResizeToWidth(75)
-         : null;
+      if (boolval(env('QR_LOGO'))) {
+         // Create logo
+         $logo = (new \Config\School)::$generalSettings->logo;
+         if (empty($logo) || !file_exists(FCPATH . $logo)) {
+            $logo = 'assets/img/logo_sekolah.jpg';
+         }
+         if (file_exists(FCPATH . $logo)) {
+            $fileExtension = pathinfo(FCPATH . $logo, PATHINFO_EXTENSION);
+            if ($fileExtension === 'svg') {
+               $this->writer = new SvgWriter();
+               $this->logo = Logo::create(FCPATH . $logo)
+                  ->setResizeToWidth(75)
+                  ->setResizeToHeight(75);
+            } else {
+               $this->logo = Logo::create(FCPATH . $logo)
+                  ->setResizeToWidth(75);
+            }
+         }
+      }
 
       $this->label = Label::create('')
          ->setFont($this->labelFont)
@@ -114,7 +130,8 @@ class QRGenerator extends BaseController
 
    public function generate($nama, $nomor, $unique_code)
    {
-      $filename = url_title($nama, lowercase: true) . "_" . url_title($nomor, lowercase: true) . '.png';
+      $fileExt = $this->writer instanceof SvgWriter ? 'svg' : 'png';
+      $filename = url_title($nama, lowercase: true) . "_" . url_title($nomor, lowercase: true) . ".$fileExt";
 
       // set qr code data
       $this->qrCode->setData($unique_code);

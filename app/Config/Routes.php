@@ -120,6 +120,12 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('petugas/edit', 'Admin\DataPetugas::updatePetugas');
    // superadmin hapus data petugas
    $routes->delete('petugas/delete/(:any)', 'Admin\DataPetugas::delete/$1');
+
+   // Settings
+   $routes->group('general-settings', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'GeneralSettings::index');
+      $routes->post('update', 'GeneralSettings::generalSettingsPost');
+  });
 });
 
 

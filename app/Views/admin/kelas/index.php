@@ -22,7 +22,7 @@
                   <div class="row">
                     <div class="col-md-4 col-lg-5">
                       <h4 class="card-title"><b>Daftar Kelas</b></h4>
-                      <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
+                      <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
                     </div>
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">
@@ -57,7 +57,7 @@
                   <div class="row">
                     <div class="col-md-4 col-lg-5">
                       <h4 class="card-title"><b>Daftar Jurusan</b></h4>
-                      <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
+                      <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
                     </div>
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">

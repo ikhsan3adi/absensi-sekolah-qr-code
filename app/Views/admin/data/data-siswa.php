@@ -23,7 +23,7 @@
                      <div class="row">
                         <div class="col-md-2">
                            <h4 class="card-title"><b>Daftar Siswa</b></h4>
-                           <p class="card-category">Angkatan <?= \Config\AbsensiSekolah::SCHOOL_YEAR ?></p>
+                           <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
                         </div>
                         <div class="col-md-4">
                            <div class="nav-tabs-wrapper">

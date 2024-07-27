@@ -56,7 +56,7 @@
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">home</i>
-                            <?= $namaSekolah; ?>
+                            <?= $generalSettings->school_name; ?>
                         </div>
                     </div>
                 </div>

@@ -130,19 +130,9 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 > 
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 > 
-> - Untuk mengubah konfigurasi nama sekolah, tahun ajaran dll, buka file konfigurasi `app/Config/AbsensiSekolah.php` dan ubah pada:
-> 
->   ```php
->   // NAMA SEKOLAH
->   const SCHOOL_NAME = 'SMK 1 Indonesia';
+> - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan di admin panel.
 >
->   // TAHUN AJARAN
->   const SCHOOL_YEAR = '2024/2025';
->
->   // ...
->   ```
->
-> - Ganti/replace logo sekolah di `public/assets/img/logo_sekolah.jpg`.
+> - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
 > 
 > - Jika ingin mengubah email, username & password dari superadmin, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
 >
@@ -157,7 +147,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 Dengan aplikasi web sistem absensi sekolah berbasis QR code ini, diharapkan proses absensi di sekolah menjadi lebih efisien dan terotomatisasi. Proyek ini dapat diadaptasi dan dikembangkan lebih lanjut sesuai dengan kebutuhan dan persyaratan sekolah Anda.
 
-Jangan lupa beri star ya...⭐
+Jangan lupa beri star ya...⭐⭐⭐
 
 ## Contributing
 
