@@ -16,7 +16,7 @@
               <i class="material-icons">edit</i>
               Edit
             </a>
-            <button onclick='deleteItem("admin/jurusan/deleteJurusanPost","<?= $value["id"]; ?>","<?= "Konfirmasi untuk menghapus data"; ?>");' class="btn btn-danger p-2" id="<?= $value['id']; ?>">
+            <button onclick='deleteItem("admin/jurusan/deleteJurusanPost","<?= $value["id"]; ?>","Konfirmasi untuk menghapus data");' class="btn btn-danger p-2" id="<?= $value['id']; ?>">
               <i class="material-icons">delete_forever</i>
               Delete
             </button>
