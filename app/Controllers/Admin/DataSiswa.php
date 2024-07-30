@@ -52,8 +52,8 @@ class DataSiswa extends BaseController
       $data = [
          'title' => 'Data Siswa',
          'ctx' => 'siswa',
-         'kelas' => $this->kelasModel->getAllKelas(),
-         'jurusan' => $this->jurusanModel->findAll()
+         'kelas' => $this->kelasModel->getDataKelas(),
+         'jurusan' => $this->jurusanModel->getDataJurusan()
       ];
 
       return view('admin/data/data-siswa', $data);
@@ -76,7 +76,7 @@ class DataSiswa extends BaseController
 
    public function formTambahSiswa()
    {
-      $kelas = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getDataKelas();
 
       $data = [
          'ctx' => 'siswa',
@@ -91,7 +91,7 @@ class DataSiswa extends BaseController
    {
       // validasi
       if (!$this->validate($this->siswaValidationRules)) {
-         $kelas = $this->kelasModel->getAllKelas();
+         $kelas = $this->kelasModel->getDataKelas();
 
          $data = [
             'ctx' => 'siswa',
@@ -130,7 +130,7 @@ class DataSiswa extends BaseController
    public function formEditSiswa($id)
    {
       $siswa = $this->siswaModel->getSiswaById($id);
-      $kelas = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getDataKelas();
 
       if (empty($siswa) || empty($kelas)) {
          throw new PageNotFoundException('Data siswa dengan id ' . $id . ' tidak ditemukan');
@@ -159,7 +159,7 @@ class DataSiswa extends BaseController
       // validasi
       if (!$this->validate($this->siswaValidationRules)) {
          $siswa = $this->siswaModel->getSiswaById($idSiswa);
-         $kelas = $this->kelasModel->getAllKelas();
+         $kelas = $this->kelasModel->getDataKelas();
 
          $data = [
             'data' => $siswa,

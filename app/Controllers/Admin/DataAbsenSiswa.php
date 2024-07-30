@@ -38,7 +38,7 @@ class DataAbsenSiswa extends BaseController
 
    public function index()
    {
-      $kelas = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getDataKelas();
 
       $data = [
          'title' => 'Data Absen Siswa',
