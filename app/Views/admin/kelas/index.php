@@ -4,16 +4,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12 col-md-12">
-        <?php if (session()->getFlashdata('msg')) : ?>
-          <div class="pb-2 px-3">
-            <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="material-icons">close</i>
-              </button>
-              <?= session()->getFlashdata('msg') ?>
-            </div>
-          </div>
-        <?php endif; ?>
+        <?= view('admin/_messages'); ?>
         <div class="row">
           <div class="col-12 col-xl-6">
             <div class="card">
@@ -24,29 +15,26 @@
                       <h4 class="card-title"><b>Daftar Kelas</b></h4>
                       <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
                     </div>
+
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <div class="nav-item">
-                          <a class="nav-link" id="tabBtn" onclick="removeHover()" href="<?= base_url('admin/kelas/new'); ?>">
-                            <i class="material-icons">add</i> Tambah data kelas
-                            <div class="ripple-container"></div>
-                          </a>
-                        </div>
+                        <a class="btn-custom-tools" id="tabBtn" href="<?= base_url('admin/kelas/tambah'); ?>">
+                          <i class="material-icons">add</i> Tambah data kelas
+                          <div class="ripple-container"></div>
+                        </a>
+
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <div class="nav-item">
-                          <a class="nav-link" id="refreshBtn" onclick="getDataKelas()" href="#" data-toggle="tab">
-                            <i class="material-icons">refresh</i> Refresh
-                            <div class="ripple-container"></div>
-                          </a>
-                        </div>
+                        <a class="btn-custom-tools" id="refreshBtn" onclick="fetchKelasJurusanData('kelas', '#dataKelas')" href="javascript:void(0)">
+                          <i class="material-icons">refresh</i> Refresh
+
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div id="dataKelas">
-                <p class="text-center mt-3">Daftar kelas muncul disini</p>
+              <div class="card-data" id="dataKelas">
               </div>
             </div>
           </div>
@@ -61,27 +49,23 @@
                     </div>
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <div class="nav-item">
-                          <a class="nav-link" id="tabBtn2" onclick="removeHover()" href="<?= base_url('admin/jurusan/new'); ?>">
-                            <i class="material-icons">add</i> Tambah data jurusan
-                            <div class="ripple-container"></div>
-                          </a>
-                        </div>
+                        <a class="btn-custom-tools" id="tabBtn" href="<?= base_url('admin/jurusan/tambah'); ?>">
+                          <i class="material-icons">add</i> Tambah data jurusan
+                        </a>
+
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <div class="nav-item">
-                          <a class="nav-link" id="refreshBtn2" onclick="getDataJurusan()" href="#" data-toggle="tab">
-                            <i class="material-icons">refresh</i> Refresh
-                            <div class="ripple-container"></div>
-                          </a>
-                        </div>
+                        <a class="btn-custom-tools" id="refreshBtn2" onclick="fetchKelasJurusanData('jurusan', '#dataJurusan')" href="javascript:void(0)">
+                          <i class="material-icons">refresh</i> Refresh
+
+                        </a>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
-              <div id="dataJurusan">
-                <p class="text-center mt-3">Daftar jurusan muncul disini</p>
+              <div class="card-data" id="dataJurusan">
               </div>
             </div>
           </div>
@@ -92,56 +76,11 @@
 </div>
 
 <script>
-  getDataKelas();
-  getDataJurusan();
+  document.addEventListener('DOMContentLoaded', function() {
+    fetchKelasJurusanData('kelas', '#dataKelas');
+    fetchKelasJurusanData('jurusan', '#dataJurusan');
+  });
 
-  function getDataKelas() {
-    jQuery.ajax({
-      url: "<?= base_url('/admin/kelas/get'); ?>",
-      type: 'get',
-      data: {},
-      success: function(response, status, xhr) {
-        $('#dataKelas').html(response);
-
-        $('html, body').animate({
-          scrollTop: $("#dataKelas").offset().top
-        }, 500);
-        $('#refreshBtn').removeClass('active show');
-      },
-      error: function(xhr, status, thrown) {
-        console.log(thrown);
-        $('#dataKelas').html(thrown);
-        $('#refreshBtn').removeClass('active show');
-      }
-    });
-  }
-
-  function getDataJurusan() {
-    jQuery.ajax({
-      url: "<?= base_url('/admin/jurusan/get'); ?>",
-      type: 'get',
-      data: {},
-      success: function(response, status, xhr) {
-        $('#dataJurusan').html(response);
-
-        $('html, body').animate({
-          scrollTop: $("#dataJurusan").offset().top
-        }, 500);
-        $('#refreshBtn2').removeClass('active show');
-      },
-      error: function(xhr, status, thrown) {
-        console.log(thrown);
-        $('#dataJurusan').html(thrown);
-        $('#refreshBtn2').removeClass('active show');
-      }
-    });
-  }
-
-  function removeHover() {
-    setTimeout(() => {
-      $('#tabBtn').removeClass('active show');
-      $('#tabBtn2').removeClass('active show');
-    }, 250);
-  }
+  
 </script>
 <?= $this->endSection() ?>

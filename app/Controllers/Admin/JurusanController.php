@@ -3,28 +3,29 @@
 namespace App\Controllers\Admin;
 
 use App\Models\JurusanModel;
-use CodeIgniter\Exceptions\PageNotFoundException;
-use CodeIgniter\RESTful\ResourceController;
+use App\Models\KelasModel;
 use App\Controllers\BaseController;
 
 class JurusanController extends BaseController
 {
     protected JurusanModel $jurusanModel;
+    protected KelasModel $kelasModel;
 
-    public function __construct()
+    public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
+        parent::initController($request, $response, $logger);
+        $this->kelasModel = new KelasModel();
         $this->jurusanModel = new JurusanModel();
     }
 
     /**
-     * Return an array of resource objects, themselves in array format
+     * Return redirect to kelas controller
      *
      * @return mixed
      */
     public function index()
     {
-        $kelasController = new KelasController();
-        return $kelasController->index();
+        return redirect()->to('admin/kelas');
     }
 
     /**
@@ -32,16 +33,21 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function show($id = null)
+
+    public function listData()
     {
-        $result = $this->jurusanModel->findAll();
-
-        $data = [
-            'data' => $result,
-            'empty' => empty($result)
-        ];
-
-        return view('admin/jurusan/list-jurusan', $data);
+        $vars['data'] = $this->jurusanModel->getDataJurusan();
+        $htmlContent = '';
+        if (!empty($vars['data'])) {
+            $htmlContent = view('admin/jurusan/list-jurusan', $vars);
+            $data = [
+                'result' => 1,
+                'htmlContent' => $htmlContent,
+            ];
+            echo json_encode($data);
+        } else {
+            echo json_encode(['result' => 0]);
+        }
     }
 
     /**
@@ -49,7 +55,7 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function new()
+    public function tambahJurusan()
     {
         $data = [
             'ctx' => 'kelas',
@@ -63,40 +69,25 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function create()
+    public function tambahJurusanPost()
     {
-        if (!$this->validate([
-            'jurusan' => [
-                'rules' => 'required|max_length[32]|is_unique[tb_jurusan.jurusan]',
-            ],
-        ])) {
-            $data = [
-                'ctx' => 'kelas',
-                'title' => 'Tambah Data Jurusan',
-                'validation' => $this->validator,
-                'oldInput' => $this->request->getVar()
-            ];
-            return view('/admin/jurusan/create', $data);
+        $val = \Config\Services::validation();
+        $val->setRule('jurusan', 'Jurusan', 'required|max_length[32]|is_unique[tb_jurusan.jurusan]');
+
+        if (!$this->validate(getValRules($val))) {
+            $this->session->setFlashdata('errors', $val->getErrors());
+            return redirect()->to('admin/jurusan/tambah')->withInput();
+        } else {
+            if ($this->jurusanModel->addJurusan()) {
+                $this->session->setFlashdata('success', 'Tambah data berhasil');
+                return redirect()->to('admin/jurusan');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal menambah data');
+                return redirect()->to('admin/jurusan/tambah')->withInput();
+            }
         }
 
-        // ambil variabel POST
-        $jurusan = $this->request->getVar('jurusan');
-
-        $result = $this->jurusanModel->insert(['jurusan' => $jurusan]);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Tambah data berhasil',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/jurusan');
-        }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal menambah data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/jurusan/create');
+        return redirect()->to('admin/jurusan/tambah');
     }
 
     /**
@@ -104,19 +95,15 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function edit($id = null)
+    public function editJurusan($id)
     {
-        $jurusan = $this->jurusanModel->where(['id' => $id])->first();
-
-        if (!$jurusan) {
-            throw new PageNotFoundException('Data jurusan dengan id ' . $id . ' tidak ditemukan');
+        $data['title'] = 'Edit Jurusan';
+        $data['ctx'] = 'kelas';
+        $data['jurusan'] = $this->jurusanModel->getJurusan($id);
+        if (empty($data['jurusan'])) {
+            return redirect()->to('admin/kelas');
         }
 
-        $data = [
-            'ctx' => 'kelas',
-            'data' => $jurusan,
-            'title' => 'Edit Jurusan',
-        ];
         return view('/admin/jurusan/edit', $data);
     }
 
@@ -125,49 +112,23 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function update($id = null)
+    public function editJurusanPost()
     {
-        $jurusan = $this->jurusanModel->where(['id' => $id])->first();
-
-        // ambil variabel POST
-        $namaJurusan = $this->request->getRawInputVar('jurusan');
-
-        if ($jurusan['jurusan'] != $namaJurusan && !$this->validate([
-            'jurusan' => [
-                'rules' => 'required|max_length[32]|is_unique[tb_jurusan.jurusan]',
-            ],
-        ])) {
-            if (!$jurusan) {
-                throw new PageNotFoundException('Data jurusan dengan id ' . $id . ' tidak ditemukan');
+        $val = \Config\Services::validation();
+        $val->setRule('jurusan', 'Jurusan', 'required|max_length[32]|is_unique[tb_jurusan.jurusan]');
+        if (!$this->validate(getValRules($val))) {
+            $this->session->setFlashdata('errors', $val->getErrors());
+            return redirect()->back();
+        } else {
+            $id = inputPost('id');
+            if ($this->jurusanModel->editJurusan($id)) {
+                $this->session->setFlashdata('success', 'Edit data berhasil');
+                return redirect()->to('admin/jurusan');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal Mengubah data');
             }
-
-            $data = [
-                'ctx' => 'kelas',
-                'title' => 'Edit Jurusan',
-                'data' => $jurusan,
-                'validation' => $this->validator,
-                'oldInput' => $this->request->getRawInput()
-            ];
-            return view('/admin/jurusan/edit', $data);
         }
-
-        $result = $this->jurusanModel->update($id, [
-            'jurusan' => $namaJurusan
-        ]);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Edit data berhasil',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/jurusan');
-        }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal mengubah data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/jurusan/' . $id . '/edit');
+        return redirect()->to('admin/jurusan/edit/' . cleanNumber($id));
     }
 
     /**
@@ -175,22 +136,20 @@ class JurusanController extends BaseController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function deleteJurusanPost($id = null)
     {
-        $result = $this->jurusanModel->delete($id);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Data berhasil dihapus',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/jurusan');
+        $id = inputPost('id');
+        $jurusan = $this->jurusanModel->getJurusan($id);
+        if (!empty($jurusan)) {
+            if (!empty($this->kelasModel->getKelasCountByJurusan($id))) {
+                $this->session->setFlashdata('error', 'Hapus Relasi Data Dulu');
+                exit();
+            }
+            if ($this->jurusanModel->deleteJurusan($id)) {
+                $this->session->setFlashdata('success', 'Data berhasil dihapus');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal menghapus data');
+            }
         }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal menghapus data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/jurusan');
     }
 }
