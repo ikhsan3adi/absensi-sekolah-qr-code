@@ -149,6 +149,11 @@ class KelasController extends BaseController
         $id = inputPost('id');
         $kelas = $this->kelasModel->getKelas($id);
         if (!empty($kelas)) {
+            $siswaModel = new \App\Models\SiswaModel();
+            if (!empty($siswaModel->getSiswaCountByKelas($id))) {
+                $this->session->setFlashdata('error', 'Kelas Masih Memiliki Siswa Aktif');
+                exit();
+            }
             if ($this->kelasModel->deleteKelas($id)) {
                 $this->session->setFlashdata('success', 'Data berhasil dihapus');
             } else {

@@ -59,21 +59,20 @@ class KelasModel extends BaseModel
       return $tree;
    }
 
-
-   public function getKelasCountByJurusan($categoryId)
+   public function getKelasCountByJurusan($jurusanId)
    {
       $tree = array();
-      $categoryId = cleanNumber($categoryId);
-      if (!empty($categoryId)) {
-         array_push($tree, $categoryId);
+      $jurusanId = cleanNumber($jurusanId);
+      if (!empty($jurusanId)) {
+         array_push($tree, $jurusanId);
       }
 
-      $categoryIds = $tree;
-      if (countItems($categoryIds) < 1) {
+      $jurusanIds = $tree;
+      if (countItems($jurusanIds) < 1) {
          return array();
       }
 
-      return $this->builder->whereIn('tb_kelas.id_jurusan', $categoryIds, false)->countAllResults();
+      return $this->builder->whereIn('tb_kelas.id_jurusan', $jurusanIds, false)->countAllResults();
    }
 
    public function deleteKelas($id)
