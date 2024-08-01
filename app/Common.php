@@ -284,3 +284,19 @@ if (!function_exists('countItems')) {
         return 0;
     }
 }
+
+//get csv value
+if (!function_exists('getCSVInputValue')) {
+    function getCSVInputValue($array, $key, $dataType = 'string')
+    {
+        if (!empty($array)) {
+            if (!empty($array[$key])) {
+                return $array[$key];
+            }
+        }
+        if ($dataType == 'int') {
+            return 0;
+        }
+        return '';
+    }
+}

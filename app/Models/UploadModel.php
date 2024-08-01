@@ -55,6 +55,12 @@ class UploadModel extends BaseModel
         return $this->upload($inputName, "uploads/logo/", "logo_", ['jpg', 'jpeg', 'png', 'gif', 'svg']);
     }
 
+     //upload CSV file
+     public function uploadCSVFile($inputName)
+     {
+         return $this->upload($inputName, 'uploads/tmp/', 'temp_', ['csv']);
+     }
+
     //check allowed file types
     public function checkAllowedFileTypes($fileName, $allowedTypes)
     {

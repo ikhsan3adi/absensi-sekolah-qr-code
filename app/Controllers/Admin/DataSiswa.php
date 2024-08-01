@@ -7,6 +7,7 @@ use App\Models\KelasModel;
 
 use App\Controllers\BaseController;
 use App\Models\JurusanModel;
+use App\Models\UploadModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class DataSiswa extends BaseController
@@ -214,5 +215,99 @@ class DataSiswa extends BaseController
          'error' => true
       ]);
       return redirect()->to('/admin/siswa');
+   }
+
+   /**
+    * Delete Selected Posts
+    */
+   public function deleteSelectedSiswa()
+   {
+      $siswaIds = inputPost('siswa_ids');
+      $this->siswaModel->deleteMultiSelected($siswaIds);
+   }
+
+   /*
+    *-------------------------------------------------------------------------------------------------
+    * IMPORT SISWA
+    *-------------------------------------------------------------------------------------------------
+    */
+
+   /**
+    * Bulk Post Upload
+    */
+   public function bulkPostSiswa()
+   {
+      $data['title'] = 'Import Siswa';
+      $data['ctx'] = 'siswa';
+      $data['kelas'] = $this->kelasModel->getDataKelas();
+
+      return view('/admin/data/import-siswa', $data);
+   }
+
+   /**
+    * Generate CSV Object Post
+    */
+   public function generateCSVObjectPost()
+   {
+      $uploadModel = new UploadModel();
+      //delete old txt files
+      $files = glob(FCPATH . 'uploads/tmp/*.txt');
+      if (!empty($files)) {
+         foreach ($files as $item) {
+            @unlink($item);
+         }
+      }
+      $file = $uploadModel->uploadCSVFile('file');
+      if (!empty($file) && !empty($file['path'])) {
+         $obj = $this->siswaModel->generateCSVObject($file['path']);
+         if (!empty($obj)) {
+            $data = [
+               'result' => 1,
+               'numberOfItems' => $obj->numberOfItems,
+               'txtFileName' => $obj->txtFileName,
+            ];
+            echo json_encode($data);
+            exit();
+         }
+      }
+      echo json_encode(['result' => 0]);
+   }
+
+   /**
+    * Import CSV Item Post
+    */
+   public function importCSVItemPost()
+   {
+      $txtFileName = inputPost('txtFileName');
+      $index = inputPost('index');
+      $title = $this->siswaModel->importCSVItem($txtFileName, $index);
+      if (!empty($title)) {
+         $data = [
+            'result' => 1,
+            'title' => $title,
+            'index' => $index
+         ];
+         echo json_encode($data);
+      } else {
+         $data = [
+            'result' => 0,
+            'index' => $index
+         ];
+         echo json_encode($data);
+      }
+   }
+
+   /**
+    * Download CSV File Post
+    */
+   public function downloadCSVFilePost()
+   {
+      $submit = inputPost('submit');
+      $response = \Config\Services::response();
+      if ($submit == 'csv_siswa_template') {
+         return $response->download(FCPATH . 'assets/file/csv_siswa_template.csv', null);
+      } elseif ($submit == 'csv_guru_template') {
+         return $response->download(FCPATH . 'assets/file/csv_guru_template.csv', null);
+      }
    }
 }

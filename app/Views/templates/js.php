@@ -12,4 +12,6 @@
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="<?= base_url('assets/js/material-dashboard.js') ?>" type="text/javascript"></script>
 <!-- Custom JS App -->
+<script src="<?= base_url('assets/js/plugins/file-uploader/js/jquery.dm-uploader.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/plugins/file-uploader/js/ui.js'); ?>"></script>
 <script src="<?= base_url('assets/js/custom.js') ?>" type="text/javascript"></script>

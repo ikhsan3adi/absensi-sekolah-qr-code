@@ -2,6 +2,7 @@
    <?php if (!$empty) : ?>
       <table class="table table-hover">
          <thead class="text-primary">
+            <th width="20"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
             <th><b>No</b></th>
             <th><b>NIS</b></th>
             <th><b>Nama Siswa</b></th>
@@ -15,6 +16,7 @@
             <?php $i = 1;
             foreach ($data as $value) : ?>
                <tr>
+                  <td><input type="checkbox" name="checkbox-table" class="checkbox-table" value="<?= $value['id_siswa']; ?>"></td>
                   <td><?= $i; ?></td>
                   <td><?= $value['nis']; ?></td>
                   <td><b><?= $value['nama_siswa']; ?></b></td>
