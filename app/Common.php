@@ -261,3 +261,26 @@ if (!function_exists('generateToken')) {
         return $token;
     }
 }
+
+//current full url
+if (!function_exists('currentFullURL')) {
+    function currentFullURL()
+    {
+        $currentURL = current_url();
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $currentURL = $currentURL . "?" . $_SERVER['QUERY_STRING'];
+        }
+        return $currentURL;
+    }
+}
+
+//count items
+if (!function_exists('countItems')) {
+    function countItems($items)
+    {
+        if (!empty($items) && is_array($items)) {
+            return count($items);
+        }
+        return 0;
+    }
+}

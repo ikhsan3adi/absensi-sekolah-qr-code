@@ -75,7 +75,7 @@ class Dashboard extends BaseController
          'siswa' => $this->siswaModel->getAllSiswaWithKelas(),
          'guru' => $this->guruModel->getAllGuru(),
 
-         'kelas' => $this->KelasModel->getAllKelas(),
+         'kelas' => $this->KelasModel->getDataKelas(),
 
          'dateRange' => $dateRange,
          'dateNow' => $now->toLocalizedString('d MMMM Y'),

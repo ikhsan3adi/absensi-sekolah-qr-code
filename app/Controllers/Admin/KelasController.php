@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Models\JurusanModel;
 use App\Models\KelasModel;
-use CodeIgniter\Exceptions\PageNotFoundException;
 use App\Controllers\BaseController;
 
 class KelasController extends BaseController
@@ -13,10 +12,9 @@ class KelasController extends BaseController
 
     protected JurusanModel $jurusanModel;
 
-    protected $generalSettings;
-
-    public function __construct()
+    public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
+        parent::initController($request, $response, $logger);
         $this->kelasModel = new KelasModel();
         $this->jurusanModel = new JurusanModel();
     }
@@ -41,18 +39,20 @@ class KelasController extends BaseController
      *
      * @return mixed
      */
-    public function show($id = null)
+    public function listData()
     {
-        $result = $this->kelasModel
-            ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'LEFT')
-            ->findAll();
-
-        $data = [
-            'data' => $result,
-            'empty' => empty($result)
-        ];
-
-        return view('admin/kelas/list-kelas', $data);
+        $vars['data'] = $this->kelasModel->getDataKelas();
+        $htmlContent = '';
+        if (!empty($vars['data'])) {
+            $htmlContent = view('admin/kelas/list-kelas', $vars);
+            $data = [
+                'result' => 1,
+                'htmlContent' => $htmlContent,
+            ];
+            echo json_encode($data);
+        } else {
+            echo json_encode(['result' => 0]);
+        }
     }
 
     /**
@@ -60,15 +60,12 @@ class KelasController extends BaseController
      *
      * @return mixed
      */
-    public function new()
+    public function tambahKelas()
     {
-        $jurusan = $this->jurusanModel->findAll();
+        $data['ctx'] = 'kelas';
+        $data['title'] = 'Tambah Data Kelas';
+        $data['jurusan'] = $this->jurusanModel->findAll();
 
-        $data = [
-            'ctx' => 'kelas',
-            'jurusan' => $jurusan,
-            'title' => 'Tambah Data Kelas',
-        ];
         return view('/admin/kelas/create', $data);
     }
 
@@ -77,129 +74,69 @@ class KelasController extends BaseController
      *
      * @return mixed
      */
-    public function create()
+    public function tambahKelasPost()
     {
-        if (!$this->validate([
-            'kelas' => [
-                'rules' => 'required|max_length[32]',
-            ],
-            'id_jurusan' => [
-                'rules' => 'required|numeric',
-            ],
-        ])) {
-            $jurusan = $this->jurusanModel->findAll();
+        $val = \Config\Services::validation();
+        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
 
-            $data = [
-                'ctx' => 'kelas',
-                'jurusan' => $jurusan,
-                'title' => 'Tambah Data Kelas',
-                'validation' => $this->validator,
-                'oldInput' => $this->request->getVar()
-            ];
-            return view('/admin/kelas/create', $data);
+        if (!$this->validate(getValRules($val))) {
+            $this->session->setFlashdata('errors', $val->getErrors());
+            return redirect()->to('admin/kelas/tambah')->withInput();
+        } else {
+            if ($this->kelasModel->addKelas()) {
+                $this->session->setFlashdata('success', 'Tambah data berhasil');
+                return redirect()->to('admin/kelas');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal menambah data');
+                return redirect()->to('admin/kelas/tambah')->withInput();
+            }
         }
 
-        // ambil variabel POST
-        $kelas = $this->request->getVar('kelas');
-        $idJurusan = $this->request->getVar('id_jurusan');
-
-        $result = $this->kelasModel->tambahKelas($kelas, $idJurusan);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Tambah data berhasil',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/kelas');
-        }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal menambah data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/kelas/create');
+        return redirect()->to('admin/kelas/tambah');
     }
 
     /**
-     * Return the editable properties of a resource object
+     * Return a resource object, with default properties
      *
      * @return mixed
      */
-    public function edit($id = null)
+    public function editKelas($id)
     {
-        $kelas = $this->kelasModel->where(['id_kelas' => $id])->first();
-
-        if (!$kelas) {
-            throw new PageNotFoundException('Data kelas dengan id ' . $id . ' tidak ditemukan');
+        $data['title'] = 'Edit Kelas';
+        $data['ctx'] = 'kelas';
+        $data['jurusan'] = $this->jurusanModel->findAll();
+        $data['kelas'] = $this->kelasModel->getKelas($id);
+        if (empty($data['kelas'])) {
+            return redirect()->to('admin/kelas');
         }
 
-        $jurusan = $this->jurusanModel->findAll();
-
-        $data = [
-            'ctx' => 'kelas',
-            'data' => $kelas,
-            'jurusan' => $jurusan,
-            'title' => 'Edit Kelas',
-        ];
         return view('/admin/kelas/edit', $data);
     }
 
     /**
-     * Add or update a model resource, from "posted" properties
+     * Edit a resource object, from "posted" parameters
      *
      * @return mixed
      */
-    public function update($id = null)
+    public function editKelasPost()
     {
-        if (!$this->validate([
-            'kelas' => [
-                'rules' => 'required|max_length[32]',
-            ],
-            'id_jurusan' => [
-                'rules' => 'required|numeric',
-            ],
-        ])) {
-            $jurusan = $this->jurusanModel->findAll();
-
-            $kelas = $this->kelasModel->where(['id_kelas' => $id])->first();
-
-            if (!$kelas) {
-                throw new PageNotFoundException('Data kelas dengan id ' . $id . ' tidak ditemukan');
+        $val = \Config\Services::validation();
+        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
+        if (!$this->validate(getValRules($val))) {
+            $this->session->setFlashdata('errors', $val->getErrors());
+            return redirect()->back();
+        } else {
+            $id = inputPost('id');
+            if ($this->kelasModel->editKelas($id)) {
+                $this->session->setFlashdata('success', 'Edit data berhasil');
+                return redirect()->to('admin/kelas');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal Mengubah data');
             }
-
-            $data = [
-                'ctx' => 'kelas',
-                'jurusan' => $jurusan,
-                'title' => 'Edit Kelas',
-                'data' => $kelas,
-                'validation' => $this->validator,
-                'oldInput' => $this->request->getRawInput()
-            ];
-            return view('/admin/kelas/edit', $data);
         }
-
-        // ambil variabel POST
-        $kelas = $this->request->getRawInputVar('kelas');
-        $idJurusan = $this->request->getRawInputVar('id_jurusan');
-
-        $result = $this->kelasModel->update($id, [
-            'kelas' => $kelas,
-            'id_jurusan' => $idJurusan
-        ]);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Edit data berhasil',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/kelas');
-        }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal mengubah data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/kelas/' . $id . '/edit');
+        return redirect()->to('admin/kelas/edit/' . cleanNumber($id));
     }
 
     /**
@@ -207,22 +144,21 @@ class KelasController extends BaseController
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function deleteKelasPost($id = null)
     {
-        $result = $this->kelasModel->delete($id);
-
-        if ($result) {
-            session()->setFlashdata([
-                'msg' => 'Data berhasil dihapus',
-                'error' => false
-            ]);
-            return redirect()->to('/admin/kelas');
+        $id = inputPost('id');
+        $kelas = $this->kelasModel->getKelas($id);
+        if (!empty($kelas)) {
+            $siswaModel = new \App\Models\SiswaModel();
+            if (!empty($siswaModel->getSiswaCountByKelas($id))) {
+                $this->session->setFlashdata('error', 'Kelas Masih Memiliki Siswa Aktif');
+                exit();
+            }
+            if ($this->kelasModel->deleteKelas($id)) {
+                $this->session->setFlashdata('success', 'Data berhasil dihapus');
+            } else {
+                $this->session->setFlashdata('error', 'Gagal menghapus data');
+            }
         }
-
-        session()->setFlashdata([
-            'msg' => 'Gagal menghapus data',
-            'error' => true
-        ]);
-        return redirect()->to('/admin/kelas');
     }
 }

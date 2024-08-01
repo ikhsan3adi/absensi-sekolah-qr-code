@@ -37,7 +37,7 @@ class GenerateLaporan extends BaseController
 
    public function index()
    {
-      $kelas = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getDataKelas();
       $guru = $this->guruModel->getAllGuru();
 
       $siswaPerKelas = [];

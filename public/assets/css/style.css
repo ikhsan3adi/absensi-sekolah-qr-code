@@ -19,3 +19,55 @@
     color: transparent;
     cursor: pointer;
 }
+
+.btn-custom-tools {
+    position: relative;
+    color: #fff;
+    border: 0;
+    margin: 0;
+    border-radius: 3px;
+    line-height: 24px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 15px;
+    background-color: transparent;
+    transition: 0.3s background-color 0s;
+}
+
+.btn-custom-tools:hover,
+.btn-custom-tools:focus {
+    color: #fff;
+}
+
+.card-data {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Spinner styles */
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #22a6b3;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+    display: block;
+    /* Hidden by default */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

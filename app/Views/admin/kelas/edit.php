@@ -10,42 +10,31 @@
           </div>
           <div class="card-body mx-5 my-3">
 
-            <form action="<?= base_url('admin/kelas/' . $data['id_kelas']); ?>" method="post">
-              <input type="hidden" name="_method" value="PATCH">
+            <form action="<?= base_url('admin/kelas/editKelasPost'); ?>" method="post">
               <?= csrf_field() ?>
-              <?php $validation = \Config\Services::validation(); ?>
-
-              <?php if (session()->getFlashdata('msg')) : ?>
-                <div class="pb-2">
-                  <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <i class="material-icons">close</i>
-                    </button>
-                    <?= session()->getFlashdata('msg') ?>
-                  </div>
-                </div>
-              <?php endif; ?>
+              <input type="hidden" name="id" value="<?= esc($kelas->id_kelas); ?>">
+              <input type="hidden" name="back_url" value="<?= currentFullURL(); ?>">
 
               <div class="form-group mt-4">
                 <label for="kelas">Kelas / Tingkat</label>
-                <input type="text" id="kelas" class="form-control <?= $validation->getError('kelas') ? 'is-invalid' : ''; ?>" name="kelas" placeholder="'X', 'XI', '11'" value="<?= old('kelas') ?? $oldInput['kelas'] ?? $data['kelas'] ?>">
+                <input type="text" id="kelas" class="form-control <?= invalidFeedback('kelas') ? 'is-invalid' : ''; ?>" name="kelas" placeholder="'X', 'XI', '11'" , value="<?= old('kelas') ?? $kelas->kelas  ?? '' ?>" required>
                 <div class="invalid-feedback">
-                  <?= $validation->getError('kelas'); ?>
+                  <?= invalidFeedback('kelas'); ?>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
                   <label for="id_jurusan">Jurusan</label>
-                  <select class="custom-select <?= $validation->getError('id_jurusan') ? 'is-invalid' : ''; ?>" id="id_jurusan" name="id_jurusan">
+                  <select class="custom-select <?= invalidFeedback('id_jurusan') ? 'is-invalid' : ''; ?>" id="id_jurusan" name="id_jurusan">
                     <option value="">--Pilih Jurusan--</option>
                     <?php foreach ($jurusan as $value) : ?>
-                      <option value="<?= $value['id']; ?>" <?= old('id_jurusan') ?? $oldInput['id_jurusan'] ?? $value['id'] == $data['id_jurusan'] ? 'selected' : ''; ?>>
+                      <option value="<?= $value['id']; ?>" <?= $kelas->id_jurusan == $value['id'] ? 'selected' : ''; ?>>
                         <?= $value['jurusan']; ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
                   <div class="invalid-feedback">
-                    <?= $validation->getError('id_jurusan'); ?>
+                    <?= invalidFeedback('id_jurusan'); ?>
                   </div>
                 </div>
               </div>

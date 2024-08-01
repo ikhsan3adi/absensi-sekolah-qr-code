@@ -102,4 +102,20 @@ class SiswaModel extends Model
          'no_hp' => $noHp,
       ]);
    }
+
+   public function getSiswaCountByKelas($kelasId)
+   {
+      $tree = array();
+      $kelasId = cleanNumber($kelasId);
+      if (!empty($kelasId)) {
+         array_push($tree, $kelasId);
+      }
+
+      $kelasIds = $tree;
+      if (countItems($kelasIds) < 1) {
+         return array();
+      }
+
+      return $this->whereIn('tb_siswa.id_kelas', $kelasIds, false)->countAllResults();
+   }
 }

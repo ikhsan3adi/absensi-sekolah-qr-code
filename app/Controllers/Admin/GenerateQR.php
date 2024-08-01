@@ -26,7 +26,7 @@ class GenerateQR extends BaseController
    public function index()
    {
       $siswa = $this->siswaModel->getAllSiswaWithKelas();
-      $kelas = $this->kelasModel->getAllKelas();
+      $kelas = $this->kelasModel->getDataKelas();
       $guru = $this->guruModel->getAllGuru();
 
       $data = [

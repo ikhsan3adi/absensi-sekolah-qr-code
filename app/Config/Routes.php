@@ -49,9 +49,27 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
 
-   // data kelas & jurusan
-   $routes->resource('kelas', ['controller' => 'Admin\KelasController']);
-   $routes->resource('jurusan', ['controller' => 'Admin\JurusanController']);
+   // Kelas
+   $routes->group('kelas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'KelasController::index');
+      $routes->get('tambah', 'KelasController::tambahKelas');
+      $routes->post('tambahKelasPost', 'KelasController::tambahKelasPost');
+      $routes->get('edit/(:any)', 'KelasController::editKelas/$1');
+      $routes->post('editKelasPost', 'KelasController::editKelasPost');
+      $routes->post('deleteKelasPost', 'KelasController::deleteKelasPost');
+      $routes->post('list-data', 'KelasController::listData');
+   });
+
+   // Jurusan
+   $routes->group('jurusan', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'JurusanController::index');
+      $routes->get('tambah', 'JurusanController::tambahJurusan');
+      $routes->post('tambahJurusanPost', 'JurusanController::tambahJurusanPost');
+      $routes->get('edit/(:any)', 'JurusanController::editJurusan/$1');
+      $routes->post('editJurusanPost', 'JurusanController::editJurusanPost');
+      $routes->post('deleteJurusanPost', 'JurusanController::deleteJurusanPost');
+      $routes->post('list-data', 'JurusanController::listData');
+   });
 
    // admin lihat data siswa
    $routes->get('siswa', 'Admin\DataSiswa::index');
