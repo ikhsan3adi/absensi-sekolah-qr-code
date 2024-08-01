@@ -1,0 +1,321 @@
+
+.dm-uploader-container {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.dm-uploader {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 219px;
+    max-height: 412px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    background: #f8f9fb;
+    border: 2px dashed #e4e5e7;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.dm-uploader input[type="file"] {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.dm-upload-icon {
+    font-size: 38px;
+    line-height: 38px;
+    color: #979ba1;
+    margin-bottom: 5px;
+    margin-top: 30px;
+}
+
+.dm-upload-text {
+    font-size: 14px;
+    color: #979ba1;
+}
+
+.dm-btn-select-files {
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent !important;
+}
+
+.dm-uploader.active {
+
+}
+
+.dm-uploader h3 {
+    font-size: 14px;
+}
+
+.dm-uploaded-files {
+    display: block;
+    position: relative;
+    float: left;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.dm-uploaded-files li {
+    position: relative;
+    float: left;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    margin-top: 20px !important;
+    border: 1px solid #e9e9e9 !important;
+}
+
+.dm-uploaded-files li img {
+    position: relative;
+    float: left;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    min-height: 90px;
+    height: auto;
+    margin: 0;
+    border-radius: 2px;
+    object-fit: cover;
+}
+
+.dm-uploaded-files li .media-body {
+    position: absolute;
+    display: block;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.dm-uploaded-files li .media-body .progress {
+    height: 20px;
+    margin-bottom: 0 !important;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 11px !important;
+    border-radius: 0 !important;
+}
+
+.dm-uploaded-files li .btn-img-delete {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    display: block;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    border-radius: 100%;
+    background-color: #f86969;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+
+.btn-digital-file-delete {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    position: relative;
+    right: 0;
+    border-radius: 100%;
+    background-color: #f86969;
+    color: #fff !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    float: right !important;
+}
+
+.dm-uploaded-files li .btn-img-delete i {
+    position: relative;
+}
+
+.dm-uploaded-digital-file {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background: #f8f9fb;
+    border: 2px dashed #eeeff1;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.dm-uploaded-files-no-preview {
+    padding-bottom: 0 !important;
+}
+
+.dm-uploaded-files-no-preview li {
+    border: 0 !important;
+}
+
+.dm-uploaded-files-no-preview li .media-body {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.dm-uploaded-digital-file .file-icon {
+    font-size: 16px;
+}
+
+.dm-uploaded-digital-file .button-link-style {
+    line-height: 30px;
+}
+
+.dm-uploaded-media-file {
+    width: 100% !important;
+}
+
+.dm-uploaded-media-file li {
+    width: 180px !important;
+    margin: 0 !important;
+    height: auto !important;
+    margin-top: 30px !important;
+}
+
+.dm-uploaded-media-file .li-dm-media-preview {
+    margin: 0 !important;
+}
+
+.dm-uploaded-media-file .li-dm-media-preview video {
+    overflow: hidden;
+}
+
+.dm-uploaded-media-file .li-uploaded-file {
+    list-style: none;
+}
+
+.dm-progress-waiting {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-weight: 400;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.images-exp {
+    margin-bottom: 30px;
+    color: #9B9B9B;
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.images-exp i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.error-message-img-upload {
+    display: none;
+}
+
+.error-message-img-upload p {
+    list-style: none !important;
+}
+
+.badge-is-image-main {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-weight: normal;
+    padding: 3px 6px;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.btn-browse-files {
+    background-color: transparent !important;
+    color: #979ba1;
+    border-color: #cfd3d9 !important;
+    margin-top: 10px;
+}
+
+.uploaded-file-name {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.file-manager-file-types {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    left: 0;
+    right: 0;
+    top: 15px;
+    text-align: center;
+}
+
+.file-manager-file-types span {
+    display: inline-block;
+    font-size: 11px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    color: #979ba1 !important;
+    padding: 2px 4px;
+    border: 1px dashed #dce0e6 !important;
+    border-radius: 2px;
+}
+
+.btn-reset-upload {
+    display: none;
+    background-color: transparent !important;
+    color: #979ba1 !important;
+    border-color: #cfd3d9 !important;
+    margin-top: 5px;
+    margin-bottom: 50px;
+}
+
+.csv-uploaded-files-container {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.dm-uploader-csv {
+    height: 172px !important;
+    min-height: 172px !important;
+    overflow: hidden !important;
+}
+
+.dm-uploader-csv .dm-upload-icon {
+    margin-top: 15px !important;
+}
+
+.csv-uploaded-files {
+    margin-bottom: 0;
+}
+
+.csv-uploaded-files .list-group-item {
+    padding: 8px 15px;
+    border: 0 !important;
+}
+
+.csv-upload-spinner {
+    text-align: center;
+    margin: 20px auto;
+    display: none;
+}
+
+.csv-upload-spinner strong {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.csv-upload-spinner .text-csv-import-completed {
+    display: none;
+}
