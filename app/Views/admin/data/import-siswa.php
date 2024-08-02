@@ -174,9 +174,9 @@
                 success: function(response) {
                     var objSub = JSON.parse(response);
                     if (objSub.result == 1) {
-                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-success"><i class="fa fa-check"></i>&nbsp;' + objSub.index + '.&nbsp;' + objSub.title + '</li>');
+                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-success">&nbsp;' + objSub.index + '.&nbsp;' + objSub.siswa.nis + '.&nbsp; - ' + objSub.siswa.nama_siswa +'</li>');
                     } else {
-                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-danger"><i class="fa fa-times"></i>&nbsp;' + objSub.index + '.</li>');
+                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-danger">&nbsp;' + objSub.index + '.</li>');
                     }
                     if (objSub.index == numberOfItems) {
                         $("#csv_upload_spinner .text-csv-importing").hide();

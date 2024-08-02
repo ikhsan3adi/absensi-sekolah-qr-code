@@ -176,7 +176,7 @@ class SiswaModel extends Model
                $data['unique_code'] = generateToken();
 
                $this->insert($data);
-               return $data['nama_siswa'];
+               return $data;
             }
             $i++;
          }

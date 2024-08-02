@@ -280,11 +280,11 @@ class DataSiswa extends BaseController
    {
       $txtFileName = inputPost('txtFileName');
       $index = inputPost('index');
-      $title = $this->siswaModel->importCSVItem($txtFileName, $index);
-      if (!empty($title)) {
+      $siswa = $this->siswaModel->importCSVItem($txtFileName, $index);
+      if (!empty($siswa)) {
          $data = [
             'result' => 1,
-            'title' => $title,
+            'siswa' => $siswa,
             'index' => $index
          ];
          echo json_encode($data);
