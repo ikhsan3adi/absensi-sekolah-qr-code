@@ -46,7 +46,7 @@ class KelasModel extends BaseModel
 
    public function getKelas($id)
    {
-      return $this->builder->where('id_kelas', cleanNumber($id))->get()->getRow();
+      return $this->builder->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')->where('id_kelas', cleanNumber($id))->get()->getRow();
    }
 
    public  function getCategoryTree($categoryId, $categories)
