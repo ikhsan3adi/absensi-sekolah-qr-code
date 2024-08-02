@@ -87,7 +87,7 @@ class SiswaModel extends Model
          'id_kelas' => $idKelas,
          'jenis_kelamin' => $jenisKelamin,
          'no_hp' => $noHp,
-         'unique_code' => sha1($nama . md5($nis . $noHp . $nama)) . substr(sha1($nis . rand(0, 100)), 0, 24)
+         'unique_code' => generateToken()
       ]);
    }
 
@@ -173,7 +173,7 @@ class SiswaModel extends Model
                $data['id_kelas'] = getCSVInputValue($item, 'id_kelas', 'int');
                $data['jenis_kelamin'] = getCSVInputValue($item, 'jenis_kelamin');
                $data['no_hp'] = getCSVInputValue($item, 'no_hp');
-               $data['unique_code'] = sha1($data['nama_siswa'] . md5($data['nis'] . $data['no_hp'] . $data['nama_siswa'])) . substr(sha1($data['nis'] . rand(0, 100)), 0, 24);
+               $data['unique_code'] = generateToken();
 
                $this->insert($data);
                return $data['nama_siswa'];

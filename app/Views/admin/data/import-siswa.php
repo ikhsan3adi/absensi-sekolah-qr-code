@@ -185,7 +185,17 @@
                     }
                     index = index + 1;
                     addCSVItem(numberOfItems, txtFileName, index);
-                }
+                },
+                error: function(xhr, status, thrown) {
+                    swal({
+                        text: 'Ada Kesalahan Pada CSV silahkan Cek Log',
+                        icon: "warning"
+                    }).then(function(willDelete) {
+                        if (willDelete) {
+                            location.reload();
+                        }
+                    });
+                },
             });
         }
     }
