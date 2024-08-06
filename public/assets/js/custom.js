@@ -67,3 +67,44 @@ function fetchKelasJurusanData(type, target) {
     }
   });
 }
+
+//delete selected posts
+function deleteSelectedSiswa(message) {
+  swal({
+      text: message,
+      icon: "warning",
+      buttons: [BaseConfig.textCancel, BaseConfig.textOk],
+      dangerMode: true,
+  }).then(function (willDelete) {
+      if (willDelete) {
+          var siswaIds = [];
+          $("input[name='checkbox-table']:checked").each(function () {
+              siswaIds.push(this.value);
+          });
+          var data = {
+              'siswa_ids': siswaIds,
+          };
+          $.ajax({
+              type: 'POST',
+              url: BaseConfig.baseURL + '/admin/siswa/deleteSelectedSiswa',
+              data: setAjaxData(data),
+              success: function (response) {
+                  location.reload();
+              }
+          });
+      }
+  });
+};
+
+$(document).on('click', '#checkAll', function () {
+  $('input:checkbox').not(this).prop('checked', this.checked);
+});
+
+$(document).on('click', '.checkbox-table', function () {
+  if ($(".checkbox-table").is(':checked')) {
+    $(".btn-table-delete").show();
+  } else {
+    $(".btn-table-delete").hide();
+  }
+});
+

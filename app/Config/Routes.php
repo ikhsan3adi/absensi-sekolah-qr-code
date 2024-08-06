@@ -43,6 +43,8 @@ $routes->group('scan', function (RouteCollection $routes) {
    $routes->post('cek', 'Scan::cekKode');
 });
 
+
+
 // Admin
 $routes->group('admin', function (RouteCollection $routes) {
    // Admin dashboard
@@ -82,6 +84,16 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('siswa/edit', 'Admin\DataSiswa::updateSiswa');
    // admin hapus data siswa
    $routes->delete('siswa/delete/(:any)', 'Admin\DataSiswa::delete/$1');
+   $routes->get('siswa/bulk', 'Admin\DataSiswa::bulkPostSiswa');
+
+   // POST Data Siswa
+
+   $routes->group('siswa', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->post('downloadCSVFilePost', 'DataSiswa::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'DataSiswa::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'DataSiswa::importCSVItemPost');
+      $routes->post('deleteSelectedSiswa', 'DataSiswa::deleteSelectedSiswa');
+   });
 
 
    // admin lihat data guru
@@ -143,7 +155,7 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->group('general-settings', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
       $routes->get('/', 'GeneralSettings::index');
       $routes->post('update', 'GeneralSettings::generalSettingsPost');
-  });
+   });
 });
 
 

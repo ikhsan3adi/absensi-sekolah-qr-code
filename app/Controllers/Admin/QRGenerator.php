@@ -162,6 +162,7 @@ class QRGenerator extends BaseController
          ]);
          return redirect()->back();
       }
+      
       try {
          $kelas = $this->getKelasJurusanSlug($siswa['id_kelas']) ?? 'tmp';
          $this->qrCodeFilePath .= "qr-siswa/$kelas/";
@@ -330,11 +331,9 @@ class QRGenerator extends BaseController
 
    protected function getKelasJurusanSlug(string $idKelas)
    {
-      $kelas = (new KelasModel)
-         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
-         ->find($idKelas);
+      $kelas = (new KelasModel)->getKelas($idKelas);;
       if ($kelas) {
-         return url_title($kelas['kelas'] . ' ' . $kelas['jurusan'], lowercase: true);
+         return url_title($kelas->kelas . ' ' . $kelas->jurusan, lowercase: true);
       } else {
          return false;
       }
