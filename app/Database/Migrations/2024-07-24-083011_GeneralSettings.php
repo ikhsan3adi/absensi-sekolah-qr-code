@@ -36,7 +36,7 @@ class GeneralSettings extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => 225,
                 'null'           => true,
-                'default'        => '© 2023 All rights reserved.',
+                'default'        => '© 2025 All rights reserved.',
             ],
         ]);
 
@@ -45,7 +45,7 @@ class GeneralSettings extends Migration
 
 
         $this->forge->createTable('general_settings', TRUE);
-        
+
         // Insert Default Data
         $default['school_name'] = 'SMK 1 Indonesia';
         $default['school_year'] = '2024/2025';
