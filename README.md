@@ -7,7 +7,6 @@
 ![YouTube Video Views](https://img.shields.io/youtube/views/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
 ![YouTube Video Likes](https://img.shields.io/youtube/likes/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
 
-
 ![Preview](./screenshots/hero.png)
 
 Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah menggunakan teknologi QR code. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
@@ -26,7 +25,6 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 - **Lihat, Tambah, Ubah, Hapus(CRUD) data petugas.** (khusus petugas yang login sebagai **`superadmin`**).
 - **Generate Laporan.** Generate laporan dalam bentuk pdf.
 - **Import Banyak Siswa.** Menggunakan CSV delimiter koma (,), Contoh: [CSV](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/blob/141ef728f01b14b89b43aee2c0c38680b0b60528/public/assets/file/csv_siswa_example.csv).
-
 
 > [!NOTE]
 >
@@ -89,13 +87,13 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 > [!CAUTION]
 >
 > ### Persyaratan
-> 
+>
 > - [Composer](https://getcomposer.org/).
 > - PHP 8.1+ dan MySQL/MariaDB atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `intl` dan `gd`.
 > - Pastikan perangkat memiliki kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
 >
 > ### Instalasi
-> 
+>
 > - Clone/Download source code proyek ini.
 >
 > - Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
@@ -125,17 +123,18 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >   ```
 >
 > - Izinkan akses kamera.
+<!--  -->
 
 > [!TIP]
-> 
+>
 > ### Konfigurasi
-> 
+>
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
-> 
+>
 > - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan (khusus untuk superadmin).
 >
 > - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
-> 
+>
 > - Jika ingin mengubah email, username & password dari superadmin, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
 >
 >   ```php
@@ -151,13 +150,12 @@ Dengan aplikasi web sistem absensi sekolah berbasis QR code ini, diharapkan pros
 
 Jangan lupa beri star ya...⭐⭐⭐
 
-## Contributing
+## Contributing 🤝
 
 Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini. Jika Anda menemukan masalah, bug, atau memiliki saran untuk peningkatan, silakan buat issue baru dalam repositori ini atau ajukan pull request.
 
-## Donasi
+## Donasi ❤
 
-[![Donate paypal](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/xannxett?country.x=ID&locale.x=en_US)
 [![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann)](https://saweria.co/xiboxann)
 
 ## Lisensi
