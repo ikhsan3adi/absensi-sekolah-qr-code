@@ -39,7 +39,7 @@ class Dashboard extends BaseController
    {
 
       // jika bukan admin dan kepala sekolah, maka hentikan
-      if (user()->toArray()['is_superadmin'] != 1) {
+      if (user()->toArray()['is_superadmin'] < 1) {
          return redirect()->to('scan');
       }
 

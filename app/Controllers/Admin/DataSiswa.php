@@ -51,7 +51,8 @@ class DataSiswa extends BaseController
    public function index()
    {
 
-      if (user()->toArray()['is_superadmin'] != '1') {
+      // hanya super admin
+      if (user()->toArray()['is_superadmin'] != 1) {
          return redirect()->to('admin');
       }
 

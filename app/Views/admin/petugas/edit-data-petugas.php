@@ -56,11 +56,18 @@
                      <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>" id="role" name="role">
                         <option value="">--Pilih role--</option>
                         <option value="0" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] == "0" ? 'selected' : ''; ?>>
-                           Petugas
+                           Scanner
                         </option>
                         <option value="1" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "1" ? 'selected' : ''; ?>>
                            Super Admin
                         </option>
+                        <option value="2" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "2" ? 'selected' : ''; ?>>
+                           Kepsek
+                        </option>
+                        <option value="3" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "3" ? 'selected' : ''; ?>>
+                           Staf Petugas
+                        </option>
+
                      </select>
                      <div class="invalid-feedback">
                         <?= $validation->getError('role'); ?>
