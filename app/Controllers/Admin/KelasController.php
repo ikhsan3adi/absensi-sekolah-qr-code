@@ -26,6 +26,11 @@ class KelasController extends BaseController
      */
     public function index()
     {
+        if (user()->toArray()['is_superadmin'] != '1') {
+            return redirect()->to('admin');
+        }
+
+
         $data = [
             'title' => 'Kelas & Jurusan',
             'ctx' => 'kelas',

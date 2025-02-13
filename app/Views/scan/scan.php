@@ -5,6 +5,11 @@
     <i class="material-icons mr-2">dashboard</i>
     Dashboard
  </a>
+
+ <a href="<?= base_url('/logout'); ?> " class="btn btn-danger pull-right pl-3">
+    <i class="material-icons mr-2">exit_to_app</i>
+    Logout
+ </a>
  <?= $this->endSection() ?>
 
  <?= $this->section('content'); ?>
