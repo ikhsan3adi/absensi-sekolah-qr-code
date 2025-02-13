@@ -58,7 +58,7 @@ switch ($context) {
                <p>Generate Laporan</p>
             </a>
          </li>
-         <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
+         <?php if (user()->toArray()['is_superadmin'] == 1) : ?>
             <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/siswa'); ?>">
                   <i class="material-icons">person</i>
