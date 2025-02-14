@@ -31,7 +31,7 @@
                   <td><b><?= $value['jam_keluar'] ?? '-'; ?></b></td>
                   <td><?= $value['keterangan'] ?? '-'; ?></td>
                   <td>
-                     <?php if (!$lewat && user()->toArray()['is_superadmin'] == 1) : ?>
+                     <?php if (!$lewat && (user()->toArray()['is_superadmin'] == 1 || user()->toArray()['is_superadmin'] == 3) && (!(str_contains(strtolower($value['nama_guru']), "yuyun") || str_contains(strtolower($value['nama_guru']), "ahmad") || str_contains(strtolower($value['nama_guru']), "faisal") || str_contains(strtolower($value['nama_guru']), "sarmin")))) : ?>
                         <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_guru']; ?>)" class="btn btn-info p-2" id="<?= $value['id_guru']; ?>">
                            <i class="material-icons">edit</i>
                            Edit
