@@ -52,12 +52,16 @@ switch ($context) {
             </a>
          </li>
 
-         <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/laporan'); ?>">
-               <i class="material-icons">print</i>
-               <p>Generate Laporan</p>
-            </a>
-         </li>
+         <?php if (user()->toArray()['is_superadmin'] != 0) : ?>
+            <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/laporan'); ?>">
+                  <i class="material-icons">print</i>
+                  <p>Generate Laporan</p>
+               </a>
+            </li>
+         <?php endif; ?>
+
+
          <?php if (user()->toArray()['is_superadmin'] == 1) : ?>
             <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/siswa'); ?>">
