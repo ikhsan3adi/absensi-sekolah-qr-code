@@ -4,8 +4,6 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=social)
-![YouTube Video Views](https://img.shields.io/youtube/views/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
-![YouTube Video Likes](https://img.shields.io/youtube/likes/E1ho6wRBIUs?link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DE1ho6wRBIUs)
 
 ![Preview](./screenshots/hero.png)
 
