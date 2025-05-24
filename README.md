@@ -14,6 +14,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ## Fitur Utama
 
 - **QR Code scanner.** Setiap siswa/guru menunjukkan qr code kepada perangkat yang dilengkapi dengan kamera. Aplikasi akan memvalidasi QR code dan mencatat kehadiran siswa ke dalam database.
+- **Notifikasi Presensi via WhatsApp**. Setelah berhasil scan dan presensi, pemberitahuan dikirim ke nomor hp siswa melalui whatsapp.
 - **Login petugas.**
 - **Dashboard petugas.** Petugas sekolah dapat dengan mudah memantau kehadiran siswa dalam periode waktu tertentu melalui tampilan yang disediakan.
 - **QR Code generator & downloader.** Petugas yang sudah login akan men-generate dan/atau mendownload qr code setiap siswa/guru. Setiap siswa akan diberikan QR code unik yang terkait dengan identitas siswa. QR code ini akan digunakan saat proses absensi.
@@ -28,11 +29,15 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >
 > ## Framework dan Library Yang Digunakan
 >
-> - CodeIgniter 4
+> - [CodeIgniter 4](https://github.com/codeigniter4/CodeIgniter4)
 > - [Material Dashboard Bootstrap 4](https://www.creative-tim.com/product/material-dashboard-bs4)
 > - [Myth Auth Library](https://github.com/lonnieezell/myth-auth)
 > - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
 > - [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
+>
+> ---
+>
+> - [Fonnte](https://fonnte.com/) - WhatsApp API untuk mengirim pesan notifikasi
 
 ## Screenshots
 
@@ -43,6 +48,10 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ### Tampilan Absen Masuk dan Pulang
 
 ![QR Scanner absen](./screenshots/absen.jpg)
+
+> #### Notifikasi via WhatsApp
+>
+> ![Notifikasi WA](./screenshots/notif-wa.png)
 
 ### Tampilan Login Petugas
 
@@ -129,6 +138,25 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 >
+> - Untuk mengaktifkan **notifikasi WhatsApp**, pertama-tama ubah variabel `.env` berikut dari `false` menjadi `true`.
+>
+>   ```sh
+>   # .env
+>   # WA_NOTIFICATION=false # sebelum
+>   WA_NOTIFICATION=true
+>   ```
+>
+>   Lalu masukkan token WhatsApp API.
+>
+>   ```sh
+>   # .env
+>   WA_NOTIFICATION=true
+>   WHATSAPP_PROVIDER=Fonnte
+>   WHATSAPP_TOKEN=XXXXXXXXXXXXXXXXX # ganti dengan token anda
+>   ```
+>
+>   _**Untuk mendapatkan token, daftar di website [fonnte](https://md.fonnte.com/new/register.php) terlebih dahulu. Lalu daftarkan device anda dan [dapatkan token Fonnte Whatsapp API](https://docs.fonnte.com/token-api-key/)**_
+>
 > - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan (khusus untuk superadmin).
 >
 > - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
@@ -156,10 +184,11 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 
 [![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann)](https://saweria.co/xiboxann)
 
-## Lisensi
-
-[![GitHub license](https://img.shields.io/github/license/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge)](./LICENSE)
-
-## Authors
+## Kontributor 🛠️
 
 - [@ikhsan3adi](https://www.github.com/ikhsan3adi)
+- [@reactmore](https://www.github.com/reactmore)
+- [@janglapuk](https://www.github.com/janglapuk)
+- [@nanda443](https://www.github.com/nanda443)
+- [@kevindoni](https://www.github.com/kevindoni)
+- [@pandigresik](https://github.com/pandigresik)
