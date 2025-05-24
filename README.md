@@ -91,50 +91,47 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 
 ## Cara Penggunaan
 
-> [!CAUTION]
->
-> ### Persyaratan
->
-> - [Composer](https://getcomposer.org/).
-> - PHP 8.1+ dan MySQL/MariaDB atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `intl` dan `gd`.
-> - Pastikan perangkat memiliki kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
->
-> ### Instalasi
->
-> - Clone/Download source code proyek ini.
->
-> - Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
->
->   ```shell
->   composer install
->   ```
->
-> - Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
->
-> - Buat database `db_absensi`(sesuaikan dengan yang terdapat di `.env`) di phpMyAdmin / mysql
->
-> - Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
->
->   ```shell
->   php spark migrate --all
->   ```
->
-> - Jalankan web server (contoh Apache, XAMPP, etc)
-> - Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
-> - Lalu jalankan aplikasi di browser.
-> - Login menggunakan krendensial superadmin:
->
->   ```txt
->   username : superadmin
->   password : superadmin
->   ```
->
-> - Izinkan akses kamera.
-<!--  -->
+### Persyaratan
 
-> [!TIP]
->
-> ### Konfigurasi
+- [Composer](https://getcomposer.org/).
+- PHP 8.1+ dan MySQL/MariaDB atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `intl` dan `gd`.
+- Pastikan perangkat memiliki kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
+
+### Instalasi
+
+- Clone/Download source code proyek ini.
+
+- Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
+
+  ```shell
+  composer install
+  ```
+
+- Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
+
+- Buat database `db_absensi`(sesuaikan dengan yang terdapat di `.env`) di phpMyAdmin / mysql
+
+- Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
+
+  ```shell
+  php spark migrate --all
+  ```
+
+- Jalankan web server (contoh Apache, XAMPP, etc)
+- Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
+- Lalu jalankan aplikasi di browser.
+- Login menggunakan krendensial superadmin:
+
+  ```txt
+  username : superadmin
+  password : superadmin
+  ```
+
+- Izinkan akses kamera.
+
+### Konfigurasi
+
+> [!IMPORTANT]
 >
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 >
