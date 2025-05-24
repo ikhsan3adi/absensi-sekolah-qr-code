@@ -103,7 +103,7 @@ class Scan extends BaseController
             }
 
             $this->presensiGuruModel->absenMasuk($idGuru, $date, $time);
-            $messageString = $result['nama_guru'] .' dengan NIP '.$result['nuptk'].$messageString ;
+            $messageString = $result['nama_guru'] . ' dengan NIP ' . $result['nuptk'] . $messageString;
             $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($idGuru, $date);
 
             break;
@@ -121,16 +121,16 @@ class Scan extends BaseController
             }
 
             $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
-            $messageString = 'Siswa '.$result['nama_siswa'] .' dengan NIS '.$result['nis'].$messageString ;
+            $messageString = 'Siswa ' . $result['nama_siswa'] . ' dengan NIS ' . $result['nis'] . $messageString;
             $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
-            
+
             break;
 
          default:
             return $this->showErrorView('Tipe tidak valid');
       }
       // kirim notifikasi ke whatsapp
-      if(!empty($result['no_hp'])){
+      if (!empty($result['no_hp'])) {
          $message = [
             'destination' => $result['no_hp'],
             'message' => $messageString,
@@ -141,7 +141,7 @@ class Scan extends BaseController
          } catch (\Exception $e) {
             log_message('error', 'Error sending notification: ' . $e->getMessage());
          }
-      }      
+      }
       return view('scan/scan-result', $data);
    }
 
@@ -150,11 +150,11 @@ class Scan extends BaseController
       // data ditemukan
       $data['data'] = $result;
       $data['waktu'] = 'pulang';
-      
+
       $date = Time::today()->toDateString();
       $time = Time::now()->toTimeString();
       $messageString = " sudah absen pulang pada tanggal $date jam $time";
-      
+
       // absen pulang
       switch ($type) {
          case TipeUser::Guru:
@@ -168,7 +168,7 @@ class Scan extends BaseController
             }
 
             $this->presensiGuruModel->absenKeluar($sudahAbsen, $time);
-            $messageString = $result['nama_guru'] .' dengan NIP '.$result['nuptk'].$messageString ;
+            $messageString = $result['nama_guru'] . ' dengan NIP ' . $result['nuptk'] . $messageString;
             $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
 
             break;
@@ -184,7 +184,7 @@ class Scan extends BaseController
             }
 
             $this->presensiSiswaModel->absenKeluar($sudahAbsen, $time);
-            $messageString = 'Siswa '.$result['nama_siswa'] .' dengan NIS '.$result['nis'].$messageString ;
+            $messageString = 'Siswa ' . $result['nama_siswa'] . ' dengan NIS ' . $result['nis'] . $messageString;
             $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
 
             break;
@@ -193,7 +193,7 @@ class Scan extends BaseController
       }
 
       // kirim notifikasi ke whatsapp
-      if(!empty($result['no_hp'])){
+      if (!empty($result['no_hp'])) {
          $message = [
             'destination' => $result['no_hp'],
             'message' => $messageString,
@@ -203,7 +203,7 @@ class Scan extends BaseController
             $this->sendNotification($message);
          } catch (\Exception $e) {
             log_message('error', 'Error sending notification: ' . $e->getMessage());
-         }         
+         }
       }
 
       return view('scan/scan-result', $data);
@@ -221,6 +221,7 @@ class Scan extends BaseController
    {
       $token = getenv('WHATSAPP_TOKEN');
       $provider = getenv('WHATSAPP_PROVIDER');
+
       if (empty($provider)) {
          return;
       }
@@ -230,8 +231,8 @@ class Scan extends BaseController
 
       switch ($provider) {
          case 'Fonnte':
-            $whatsapp = new \App\Libraries\Whatsapp\Fonnte\Fonnte($token);            
-            break;         
+            $whatsapp = new \App\Libraries\Whatsapp\Fonnte\Fonnte($token);
+            break;
          default:
             return;
       }
