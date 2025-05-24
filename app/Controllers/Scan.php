@@ -11,6 +11,8 @@ use App\Libraries\enums\TipeUser;
 
 class Scan extends BaseController
 {
+   private bool $WANotificationEnabled;
+
    protected SiswaModel $siswaModel;
    protected GuruModel $guruModel;
 
@@ -19,6 +21,8 @@ class Scan extends BaseController
 
    public function __construct()
    {
+      $this->WANotificationEnabled = getenv('WA_NOTIFICATION') === 'true' ? true : false;
+
       $this->siswaModel = new SiswaModel();
       $this->guruModel = new GuruModel();
       $this->presensiSiswaModel = new PresensiSiswaModel();
@@ -129,8 +133,9 @@ class Scan extends BaseController
          default:
             return $this->showErrorView('Tipe tidak valid');
       }
+
       // kirim notifikasi ke whatsapp
-      if (!empty($result['no_hp'])) {
+      if ($this->WANotificationEnabled && !empty($result['no_hp'])) {
          $message = [
             'destination' => $result['no_hp'],
             'message' => $messageString,
@@ -193,7 +198,7 @@ class Scan extends BaseController
       }
 
       // kirim notifikasi ke whatsapp
-      if (!empty($result['no_hp'])) {
+      if ($this->WANotificationEnabled && !empty($result['no_hp'])) {
          $message = [
             'destination' => $result['no_hp'],
             'message' => $messageString,
