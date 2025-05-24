@@ -11,6 +11,8 @@ use App\Libraries\enums\TipeUser;
 
 class Scan extends BaseController
 {
+   private bool $WANotificationEnabled;
+
    protected SiswaModel $siswaModel;
    protected GuruModel $guruModel;
 
@@ -19,6 +21,8 @@ class Scan extends BaseController
 
    public function __construct()
    {
+      $this->WANotificationEnabled = getenv('WA_NOTIFICATION') === 'true' ? true : false;
+
       $this->siswaModel = new SiswaModel();
       $this->guruModel = new GuruModel();
       $this->presensiSiswaModel = new PresensiSiswaModel();
@@ -88,7 +92,7 @@ class Scan extends BaseController
 
       $date = Time::today()->toDateString();
       $time = Time::now()->toTimeString();
-
+      $messageString = " sudah absen masuk pada tanggal $date jam $time";
       // absen masuk
       switch ($type) {
          case TipeUser::Guru:
@@ -103,10 +107,10 @@ class Scan extends BaseController
             }
 
             $this->presensiGuruModel->absenMasuk($idGuru, $date, $time);
-
+            $messageString = $result['nama_guru'] . ' dengan NIP ' . $result['nuptk'] . $messageString;
             $data['presensi'] = $this->presensiGuruModel->getPresensiByIdGuruTanggal($idGuru, $date);
 
-            return view('scan/scan-result', $data);
+            break;
 
          case TipeUser::Siswa:
             $idSiswa =  $result['id_siswa'];
@@ -121,14 +125,29 @@ class Scan extends BaseController
             }
 
             $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
-
+            $messageString = 'Siswa ' . $result['nama_siswa'] . ' dengan NIS ' . $result['nis'] . $messageString;
             $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
 
-            return view('scan/scan-result', $data);
+            break;
 
          default:
             return $this->showErrorView('Tipe tidak valid');
       }
+
+      // kirim notifikasi ke whatsapp
+      if ($this->WANotificationEnabled && !empty($result['no_hp'])) {
+         $message = [
+            'destination' => $result['no_hp'],
+            'message' => $messageString,
+            'delay' => 0
+         ];
+         try {
+            $this->sendNotification($message);
+         } catch (\Exception $e) {
+            log_message('error', 'Error sending notification: ' . $e->getMessage());
+         }
+      }
+      return view('scan/scan-result', $data);
    }
 
    public function absenPulang($type, $result)
@@ -139,6 +158,7 @@ class Scan extends BaseController
 
       $date = Time::today()->toDateString();
       $time = Time::now()->toTimeString();
+      $messageString = " sudah absen pulang pada tanggal $date jam $time";
 
       // absen pulang
       switch ($type) {
@@ -153,10 +173,10 @@ class Scan extends BaseController
             }
 
             $this->presensiGuruModel->absenKeluar($sudahAbsen, $time);
-
+            $messageString = $result['nama_guru'] . ' dengan NIP ' . $result['nuptk'] . $messageString;
             $data['presensi'] = $this->presensiGuruModel->getPresensiById($sudahAbsen);
 
-            return view('scan/scan-result', $data);
+            break;
 
          case TipeUser::Siswa:
             $idSiswa =  $result['id_siswa'];
@@ -169,13 +189,29 @@ class Scan extends BaseController
             }
 
             $this->presensiSiswaModel->absenKeluar($sudahAbsen, $time);
-
+            $messageString = 'Siswa ' . $result['nama_siswa'] . ' dengan NIS ' . $result['nis'] . $messageString;
             $data['presensi'] = $this->presensiSiswaModel->getPresensiById($sudahAbsen);
 
-            return view('scan/scan-result', $data);
+            break;
          default:
             return $this->showErrorView('Tipe tidak valid');
       }
+
+      // kirim notifikasi ke whatsapp
+      if ($this->WANotificationEnabled && !empty($result['no_hp'])) {
+         $message = [
+            'destination' => $result['no_hp'],
+            'message' => $messageString,
+            'delay' => 0
+         ];
+         try {
+            $this->sendNotification($message);
+         } catch (\Exception $e) {
+            log_message('error', 'Error sending notification: ' . $e->getMessage());
+         }
+      }
+
+      return view('scan/scan-result', $data);
    }
 
    public function showErrorView(string $msg = 'no error message', $data = NULL)
@@ -184,5 +220,27 @@ class Scan extends BaseController
       $errdata['msg'] = $msg;
 
       return view('scan/error-scan-result', $errdata);
+   }
+
+   protected function sendNotification($message)
+   {
+      $token = getenv('WHATSAPP_TOKEN');
+      $provider = getenv('WHATSAPP_PROVIDER');
+
+      if (empty($provider)) {
+         return;
+      }
+      if (empty($token)) {
+         return;
+      }
+
+      switch ($provider) {
+         case 'Fonnte':
+            $whatsapp = new \App\Libraries\Whatsapp\Fonnte\Fonnte($token);
+            break;
+         default:
+            return;
+      }
+      $whatsapp->sendMessage($message);
    }
 }
