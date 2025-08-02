@@ -4,6 +4,12 @@ namespace Config;
 
 use CodeIgniter\Modules\Modules as BaseModules;
 
+/**
+ * Modules Configuration.
+ *
+ * NOTE: This class is required prior to Autoloader instantiation,
+ *       and does not extend BaseConfig.
+ */
 class Modules extends BaseModules
 {
     /**
@@ -50,7 +56,7 @@ class Modules extends BaseModules
      *       ],
      *   ]
      *
-     * @var array
+     * @var array{only?: list<string>, exclude?: list<string>}
      */
     public $composerPackages = [];
 
@@ -64,7 +70,7 @@ class Modules extends BaseModules
      *
      * If it is not listed, only the base application elements will be used.
      *
-     * @var string[]
+     * @var list<string>
      */
     public $aliases = [
         'events',
