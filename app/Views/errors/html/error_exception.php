@@ -1,4 +1,9 @@
-<?php $error_id = uniqid('error', true); ?>
+<?php
+use CodeIgniter\HTTP\Header;
+use CodeIgniter\CodeIgniter;
+
+$errorId = uniqid('error', true);
+?>
 <!doctype html>
 <html>
 <head>
@@ -18,6 +23,12 @@
 
     <!-- Header -->
     <div class="header">
+        <div class="environment">
+            Displayed at <?= esc(date('H:i:s')) ?> &mdash;
+            PHP: <?= esc(PHP_VERSION) ?>  &mdash;
+            CodeIgniter: <?= esc(CodeIgniter::CI_VERSION) ?> --
+            Environment: <?= ENVIRONMENT ?>
+        </div>
         <div class="container">
             <h1><?= esc($title), esc($exception->getCode() ? ' #' . $exception->getCode() : '') ?></h1>
             <p>
@@ -40,6 +51,30 @@
     </div>
 
     <div class="container">
+        <?php
+        $last = $exception;
+
+        while ($prevException = $last->getPrevious()) {
+            $last = $prevException;
+            ?>
+
+    <pre>
+    Caused by:
+    <?= esc($prevException::class), esc($prevException->getCode() ? ' #' . $prevException->getCode() : '') ?>
+
+    <?= nl2br(esc($prevException->getMessage())) ?>
+    <a href="https://www.duckduckgo.com/?q=<?= urlencode($prevException::class . ' ' . preg_replace('#\'.*\'|".*"#Us', '', $prevException->getMessage())) ?>"
+       rel="noreferrer" target="_blank">search &rarr;</a>
+    <?= esc(clean_path($prevException->getFile()) . ':' . $prevException->getLine()) ?>
+    </pre>
+
+        <?php
+        }
+        ?>
+    </div>
+
+    <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE) : ?>
+    <div class="container">
 
         <ul class="tabs" id="tabs">
             <li><a href="#backtrace">Backtrace</a></li>
@@ -61,7 +96,7 @@
                     <li>
                         <p>
                             <!-- Trace info -->
-                            <?php if (isset($row['file']) && is_file($row['file'])) :?>
+                            <?php if (isset($row['file']) && is_file($row['file'])) : ?>
                                 <?php
                                 if (isset($row['function']) && in_array($row['function'], ['include', 'include_once', 'require', 'require_once'], true)) {
                                     echo esc($row['function'] . ' ' . clean_path($row['file']));
@@ -77,16 +112,16 @@
                             <?php if (isset($row['class'])) : ?>
                                 &nbsp;&nbsp;&mdash;&nbsp;&nbsp;<?= esc($row['class'] . $row['type'] . $row['function']) ?>
                                 <?php if (! empty($row['args'])) : ?>
-                                    <?php $args_id = $error_id . 'args' . $index ?>
-                                    ( <a href="#" onclick="return toggle('<?= esc($args_id, 'attr') ?>');">arguments</a> )
-                                    <div class="args" id="<?= esc($args_id, 'attr') ?>">
+                                    <?php $argsId = $errorId . 'args' . $index ?>
+                                    ( <a href="#" onclick="return toggle('<?= esc($argsId, 'attr') ?>');">arguments</a> )
+                                    <div class="args" id="<?= esc($argsId, 'attr') ?>">
                                         <table cellspacing="0">
 
                                         <?php
                                         $params = null;
                                         // Reflection by name is not available for closure function
-                                        if (substr($row['function'], -1) !== '}') {
-                                            $mirror = isset($row['class']) ? new \ReflectionMethod($row['class'], $row['function']) : new \ReflectionFunction($row['function']);
+                                        if (! str_ends_with($row['function'], '}')) {
+                                            $mirror = isset($row['class']) ? new ReflectionMethod($row['class'], $row['function']) : new ReflectionFunction($row['function']);
                                             $params = $mirror->getParameters();
                                         }
 
@@ -189,7 +224,7 @@
 
             <!-- Request -->
             <div class="content" id="request">
-                <?php $request = \Config\Services::request(); ?>
+                <?php $request = service('request'); ?>
 
                 <table>
                     <tbody>
@@ -199,7 +234,7 @@
                         </tr>
                         <tr>
                             <td>HTTP Method</td>
-                            <td><?= esc(strtoupper($request->getMethod())) ?></td>
+                            <td><?= esc($request->getMethod()) ?></td>
                         </tr>
                         <tr>
                             <td>IP Address</td>
@@ -283,21 +318,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($headers as $value) : ?>
-                            <?php
-                            if (empty($value)) {
-                                continue;
-                            }
-
-                            if (! is_array($value)) {
-                                $value = [$value];
-                            } ?>
-                            <?php foreach ($value as $h) : ?>
-                                <tr>
-                                    <td><?= esc($h->getName(), 'html') ?></td>
-                                    <td><?= esc($h->getValueLine(), 'html') ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+                        <?php foreach ($headers as $name => $value) : ?>
+                            <tr>
+                                <td><?= esc($name, 'html') ?></td>
+                                <td>
+                                <?php
+                                if ($value instanceof Header) {
+                                    echo esc($value->getValueLine(), 'html');
+                                } else {
+                                    foreach ($value as $i => $header) {
+                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine(), 'html');
+                                    }
+                                }
+                                ?>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -307,7 +342,7 @@
 
             <!-- Response -->
             <?php
-                $response = \Config\Services::response();
+                $response = service('response');
                 $response->setStatusCode(http_response_code());
             ?>
             <div class="content" id="response">
@@ -320,8 +355,6 @@
 
                 <?php $headers = $response->headers(); ?>
                 <?php if (! empty($headers)) : ?>
-                    <?php natsort($headers) ?>
-
                     <h3>Headers</h3>
 
                     <table>
@@ -335,7 +368,17 @@
                         <?php foreach ($headers as $name => $value) : ?>
                             <tr>
                                 <td><?= esc($name, 'html') ?></td>
-                                <td><?= esc($response->getHeaderLine($name), 'html') ?></td>
+                                <td>
+                                <?php
+                                if ($value instanceof Header) {
+                                    echo esc($response->getHeaderLine($name), 'html');
+                                } else {
+                                    foreach ($value as $i => $header) {
+                                        echo ' ('. $i+1 . ') ' . esc($header->getValueLine(), 'html');
+                                    }
+                                }
+                                ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -380,18 +423,7 @@
         </div>  <!-- /tab-content -->
 
     </div> <!-- /container -->
-
-    <div class="footer">
-        <div class="container">
-
-            <p>
-                Displayed at <?= esc(date('H:i:sa')) ?> &mdash;
-                PHP: <?= esc(PHP_VERSION) ?>  &mdash;
-                CodeIgniter: <?= esc(\CodeIgniter\CodeIgniter::CI_VERSION) ?>
-            </p>
-
-        </div>
-    </div>
+    <?php endif; ?>
 
 </body>
 </html>

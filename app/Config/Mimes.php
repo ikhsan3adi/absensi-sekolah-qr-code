@@ -3,8 +3,6 @@
 namespace Config;
 
 /**
- * Mimes
- *
  * This file contains an array of mime types.  It is used by the
  * Upload class to help identify allowed file types.
  *
@@ -20,6 +18,8 @@ class Mimes
 {
     /**
      * Map of extensions to mime types.
+     *
+     * @var array<string, list<string>|string>
      */
     public static array $mimes = [
         'hqx' => [
@@ -53,6 +53,8 @@ class Mimes
         'lzh' => 'application/octet-stream',
         'exe' => [
             'application/octet-stream',
+            'application/vnd.microsoft.portable-executable',
+            'application/x-dosexec',
             'application/x-msdownload',
         ],
         'class' => 'application/octet-stream',
@@ -476,6 +478,8 @@ class Mimes
             'application/sla',
             'application/vnd.ms-pki.stl',
             'application/x-navistyle',
+            'model/stl',
+            'application/octet-stream',
         ],
     ];
 
