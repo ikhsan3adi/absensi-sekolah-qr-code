@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use CodeIgniter\Cache\CacheInterface;
 use CodeIgniter\Cache\Handlers\DummyHandler;
 use CodeIgniter\Cache\Handlers\FileHandler;
 use CodeIgniter\Cache\Handlers\MemcachedHandler;
@@ -35,37 +36,6 @@ class Cache extends BaseConfig
 
     /**
      * --------------------------------------------------------------------------
-     * Cache Directory Path
-     * --------------------------------------------------------------------------
-     *
-     * The path to where cache files should be stored, if using a file-based
-     * system.
-     *
-     * @deprecated Use the driver-specific variant under $file
-     */
-    public string $storePath = WRITEPATH . 'cache/';
-
-    /**
-     * --------------------------------------------------------------------------
-     * Cache Include Query String
-     * --------------------------------------------------------------------------
-     *
-     * Whether to take the URL query string into consideration when generating
-     * output cache files. Valid options are:
-     *
-     *    false      = Disabled
-     *    true       = Enabled, take all query parameters into account.
-     *                 Please be aware that this may result in numerous cache
-     *                 files generated for the same page over and over again.
-     *    array('q') = Enabled, but only take into account the specified list
-     *                 of query parameters.
-     *
-     * @var bool|string[]
-     */
-    public $cacheQueryString = false;
-
-    /**
-     * --------------------------------------------------------------------------
      * Key Prefix
      * --------------------------------------------------------------------------
      *
@@ -95,7 +65,8 @@ class Cache extends BaseConfig
      * A string of reserved characters that will not be allowed in keys or tags.
      * Strings that violate this restriction will cause handlers to throw.
      * Default: {}()/\@:
-     * Note: The default set is required for PSR-6 compliance.
+     *
+     * NOTE: The default set is required for PSR-6 compliance.
      */
     public string $reservedCharacters = '{}()/\@:';
 
@@ -103,10 +74,11 @@ class Cache extends BaseConfig
      * --------------------------------------------------------------------------
      * File settings
      * --------------------------------------------------------------------------
+     *
      * Your file storage preferences can be specified below, if you are using
      * the File driver.
      *
-     * @var array<string, int|string|null>
+     * @var array{storePath?: string, mode?: int}
      */
     public array $file = [
         'storePath' => WRITEPATH . 'cache/',
@@ -117,12 +89,13 @@ class Cache extends BaseConfig
      * -------------------------------------------------------------------------
      * Memcached settings
      * -------------------------------------------------------------------------
+     *
      * Your Memcached servers can be specified below, if you are using
      * the Memcached drivers.
      *
      * @see https://codeigniter.com/user_guide/libraries/caching.html#memcached
      *
-     * @var array<string, bool|int|string>
+     * @var array{host?: string, port?: int, weight?: int, raw?: bool}
      */
     public array $memcached = [
         'host'   => '127.0.0.1',
@@ -135,10 +108,11 @@ class Cache extends BaseConfig
      * -------------------------------------------------------------------------
      * Redis settings
      * -------------------------------------------------------------------------
+     *
      * Your Redis server can be specified below, if you are using
      * the Redis or Predis drivers.
      *
-     * @var array<string, int|string|null>
+     * @var array{host?: string, password?: string|null, port?: int, timeout?: int, database?: int}
      */
     public array $redis = [
         'host'     => '127.0.0.1',
@@ -156,7 +130,7 @@ class Cache extends BaseConfig
      * This is an array of cache engine alias' and class names. Only engines
      * that are listed here are allowed to be used.
      *
-     * @var array<string, string>
+     * @var array<string, class-string<CacheInterface>>
      */
     public array $validHandlers = [
         'dummy'     => DummyHandler::class,
@@ -166,4 +140,23 @@ class Cache extends BaseConfig
         'redis'     => RedisHandler::class,
         'wincache'  => WincacheHandler::class,
     ];
+
+    /**
+     * --------------------------------------------------------------------------
+     * Web Page Caching: Cache Include Query String
+     * --------------------------------------------------------------------------
+     *
+     * Whether to take the URL query string into consideration when generating
+     * output cache files. Valid options are:
+     *
+     *    false = Disabled
+     *    true  = Enabled, take all query parameters into account.
+     *            Please be aware that this may result in numerous cache
+     *            files generated for the same page over and over again.
+     *    ['q'] = Enabled, but only take into account the specified list
+     *            of query parameters.
+     *
+     * @var bool|list<string>
+     */
+    public $cacheQueryString = false;
 }
