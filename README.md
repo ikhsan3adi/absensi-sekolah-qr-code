@@ -1,9 +1,24 @@
-# Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code
+<h1 align="center">
+  Aplikasi Web Sistem Absensi Sekolah<br>Berbasis QR Code
+</h1>
 
-[![Continuous Integration](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml/badge.svg)](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml)
-![GitHub Repo stars](https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=social)
-![GitHub forks](https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=social)
+<p align="center">
+    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
+    </a>
+    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/stargazers">
+        <img src="https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Repo stars">
+    </a>
+    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/graphs/contributors">
+        <img src="https://img.shields.io/github/contributors-anon/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Contributors">
+    </a>
+    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/watchers">
+        <img src="https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub watchers">
+    </a>
+    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/network/members">
+        <img src="https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub forks"
+    </a>
+</p>
 
 ![Preview](./screenshots/hero.png)
 
@@ -134,7 +149,6 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 > [!IMPORTANT]
 >
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
->
 > - Untuk mengaktifkan **notifikasi WhatsApp**, pertama-tama ubah variabel `.env` berikut dari `false` menjadi `true`.
 >
 >   ```sh
@@ -155,9 +169,7 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >   _**Untuk mendapatkan token, daftar di website [fonnte](https://md.fonnte.com/new/register.php) terlebih dahulu. Lalu daftarkan device anda dan [dapatkan token Fonnte Whatsapp API](https://docs.fonnte.com/token-api-key/)**_
 >
 > - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan (khusus untuk superadmin).
->
 > - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
->
 > - Jika ingin mengubah email, username & password dari superadmin, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
 >
 >   ```php
@@ -179,7 +191,7 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 
 ## Donasi ❤
 
-[![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann)](https://saweria.co/xiboxann)
+[![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann&labelColor=%239f39b5&color=%2300bcd4)](https://saweria.co/xiboxann)
 
 ## Star History
 
