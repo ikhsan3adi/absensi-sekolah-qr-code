@@ -50,22 +50,32 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                      </div>
                   </div>
                   <div class="card-body my-auto px-5">
-                     <h4 class="d-inline">Pilih kamera</h4>
+                     <div class="togglebutton mb-3 text-center">
+                        <label>
+                           <input type="checkbox" id="toggleKamera" checked>
+                           <span class="toggle"></span>
+                           <b class="text-dark">Gunakan Kamera (Scan QR)</b>
+                        </label>
+                     </div>
 
-                     <select id="pilihKamera" class="custom-select w-50 ml-2" aria-label="Default select example"
-                        style="height: 35px;">
-                        <option selected>Select camera devices</option>
-                     </select>
+                     <div id="cameraSection">
+                        <h4 class="d-inline">Pilih kamera</h4>
 
-                     <br>
+                        <select id="pilihKamera" class="custom-select w-50 ml-2" aria-label="Default select example"
+                           style="height: 35px;">
+                           <option selected>Select camera devices</option>
+                        </select>
 
-                     <div class="row">
-                        <div class="col-sm-12 mx-auto">
-                           <div class="previewParent">
-                              <div class="text-center">
-                                 <h4 class="d-none w-100" id="searching"><b>Mencari...</b></h4>
+                        <br>
+
+                        <div class="row">
+                           <div class="col-sm-12 mx-auto">
+                              <div class="previewParent">
+                                 <div class="text-center">
+                                    <h4 class="d-none w-100" id="searching"><b>Mencari...</b></h4>
+                                 </div>
+                                 <video id="previewKamera"></video>
                               </div>
-                              <video id="previewKamera"></video>
                            </div>
                         </div>
                      </div>
@@ -122,16 +132,30 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
 
    $(document).on('change', '#pilihKamera', function () {
       selectedDeviceId = $(this).val();
-      if (codeReader) {
+      if (codeReader && $('#toggleKamera').is(':checked')) {
          codeReader.reset();
          initScanner();
       }
    })
 
+   $(document).on('change', '#toggleKamera', function () {
+      if (this.checked) {
+         $('#cameraSection').slideDown();
+         initScanner();
+      } else {
+         codeReader.reset();
+         $('#cameraSection').slideUp();
+      }
+   });
+
    const previewParent = document.getElementById('previewParent');
    const preview = document.getElementById('previewKamera');
 
    function initScanner() {
+      if (!$('#toggleKamera').is(':checked')) {
+         console.log("Scanner disabled by user toggle.");
+         return;
+      }
       codeReader.listVideoInputDevices()
          .then(videoInputDevices => {
             videoInputDevices.forEach(device =>
