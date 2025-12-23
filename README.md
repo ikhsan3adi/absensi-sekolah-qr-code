@@ -104,6 +104,35 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 | --------------------------------------------- | :--------------------------------------------: |
 | ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/laporan.png) |
 
+## 🐳 Docker Setup
+
+Untuk menjalankan aplikasi menggunakan Docker, pastikan Docker dan Docker Compose sudah terinstal di komputer Anda.
+
+### 1. Jalankan Container
+Jalankan perintah berikut di root project:
+```bash
+docker-compose up -d --build
+```
+Perintah ini akan membangun image dan menjalankan container untuk aplikasi web, database, dan phpMyAdmin.
+
+### 2. Akses Aplikasi
+- **Aplikasi Utama**: Akses melalui browser di `http://localhost:8080/`
+- **phpMyAdmin**: Akses melalui browser di `http://localhost:8081/`
+
+### 3. Konfigurasi
+Aplikasi sudah dikonfigurasi untuk terhubung dengan database container secara otomatis. 
+Default credential database:
+- **Host**: `db`
+- **Username**: `root`
+- **Password**: `root`
+- **Database**: `db_absensi`
+
+### 4. Menghentikan Container
+Untuk menghentikan container:
+```bash
+docker-compose down
+```
+
 ## Cara Penggunaan
 
 ### Persyaratan

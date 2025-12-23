@@ -82,8 +82,9 @@ class KelasController extends BaseController
     public function tambahKelasPost()
     {
         $val = \Config\Services::validation();
-        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('tingkat', 'Tingkat', 'required|max_length[10]');
         $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
+        $val->setRule('index_kelas', 'Index', 'required|max_length[5]');
 
         if (!$this->validate(getValRules($val))) {
             $this->session->setFlashdata('errors', $val->getErrors());
@@ -127,8 +128,9 @@ class KelasController extends BaseController
     public function editKelasPost()
     {
         $val = \Config\Services::validation();
-        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('tingkat', 'Tingkat', 'required|max_length[10]');
         $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
+        $val->setRule('index_kelas', 'Index', 'required|max_length[5]');
         if (!$this->validate(getValRules($val))) {
             $this->session->setFlashdata('errors', $val->getErrors());
             return redirect()->back();

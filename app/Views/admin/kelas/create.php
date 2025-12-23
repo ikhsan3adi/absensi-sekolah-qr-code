@@ -13,19 +13,37 @@
 
             <form action="<?= base_url('admin/kelas/tambahKelasPost'); ?>" method="post">
               <?= csrf_field() ?>
-              <div class="form-group mt-4">
-                <label for="kelas">Kelas / Tingkat</label>
-                <input type="text" id="kelas" class="form-control <?= invalidFeedback('kelas') ? 'is-invalid' : ''; ?>" name="kelas" placeholder="'X', 'XI', '11'" , value="<?= old('kelas') ?>" required>
-                <div class="invalid-feedback">
-                  <?= invalidFeedback('kelas'); ?>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mt-4">
+                    <label for="tingkat">Tingkat</label>
+                    <input type="text" id="tingkat"
+                      class="form-control <?= invalidFeedback('tingkat') ? 'is-invalid' : ''; ?>" name="tingkat"
+                      placeholder="'X', 'XI', 'XII'" value="<?= old('tingkat') ?>" required>
+                    <div class="invalid-feedback">
+                      <?= invalidFeedback('tingkat'); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mt-4">
+                    <label for="index_kelas">Index Kelas</label>
+                    <input type="text" id="index_kelas"
+                      class="form-control <?= invalidFeedback('index_kelas') ? 'is-invalid' : ''; ?>" name="index_kelas"
+                      placeholder="'1', '2', 'A'" value="<?= old('index_kelas') ?>" required>
+                    <div class="invalid-feedback">
+                      <?= invalidFeedback('index_kelas'); ?>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
                   <label for="id_jurusan">Jurusan</label>
-                  <select class="custom-select <?= invalidFeedback('id_jurusan') ? 'is-invalid' : ''; ?>" id="id_jurusan" name="id_jurusan">
+                  <select class="custom-select <?= invalidFeedback('id_jurusan') ? 'is-invalid' : ''; ?>"
+                    id="id_jurusan" name="id_jurusan">
                     <option value="">--Pilih Jurusan--</option>
-                    <?php foreach ($jurusan as $value) : ?>
+                    <?php foreach ($jurusan as $value): ?>
                       <option value="<?= $value['id']; ?>" <?= old('id_jurusan') == $value['id'] ? 'selected' : ''; ?>>
                         <?= $value['jurusan']; ?>
                       </option>

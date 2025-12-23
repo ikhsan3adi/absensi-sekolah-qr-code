@@ -53,8 +53,8 @@
                               id="kelas" name="id_kelas">
                               <option value="">--Pilih kelas--</option>
                               <?php foreach ($kelas as $value): ?>
-                                 <option value="<?= $value['id_kelas']; ?>" <?= old('id_kelas') ?? $oldInput['id_kelas'] ?? '' == $value['id_kelas'] ? 'selected' : ''; ?>>
-                                    <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
+                                 <option value="<?= $value['id_kelas']; ?>" <?= (old('id_kelas') == $value['id_kelas'] || (isset($oldInput) && is_array($oldInput) && isset($oldInput['id_kelas']) && $oldInput['id_kelas'] == $value['id_kelas'])) ? 'selected' : ''; ?>>
+                                    <?= $value['kelas']; ?>
                                  </option>
                               <?php endforeach; ?>
                            </select>
@@ -66,8 +66,8 @@
                            <label for="jk">Jenis Kelamin</label>
                            <?php
                            if (old('jk')) {
-                              $l = (old('jk') ?? $oldInput['jk']) == '1' ? 'checked' : '';
-                              $p = (old('jk') ?? $oldInput['jk']) == '2' ? 'checked' : '';
+                              $l = (old('jk') ?? (isset($oldInput) && is_array($oldInput) ? ($oldInput['jk'] ?? '') : '')) == '1' ? 'checked' : '';
+                              $p = (old('jk') ?? (isset($oldInput) && is_array($oldInput) ? ($oldInput['jk'] ?? '') : '')) == '2' ? 'checked' : '';
                            }
                            ?>
                            <div

@@ -1,0 +1,58 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: absensi-sekolah-qr-code
+        container_name: absensi-app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - app-network
+        ports:
+            - "8080:80"
+
+    db:
+        image: mysql:8.0
+        container_name: absensi-db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: db_absensi
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./presensi.sql:/docker-entrypoint-initdb.d/presensi.sql
+        networks:
+            - app-network
+
+    pma:
+        image: phpmyadmin/phpmyadmin
+        container_name: absensi-pma
+        restart: unless-stopped
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+        ports:
+            - "8081:80"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local

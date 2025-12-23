@@ -10,19 +10,23 @@ class CreateKelasTable extends Migration
     {
         $this->forge->addField([
             'id_kelas' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
                 'auto_increment' => true
             ],
-            'kelas' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => 32,
+            'tingkat' => [
+                'type' => 'VARCHAR',
+                'constraint' => 10,
             ],
             'id_jurusan' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+            ],
+            'index_kelas' => [
+                'type' => 'VARCHAR',
+                'constraint' => 5,
             ],
             'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
             'updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
