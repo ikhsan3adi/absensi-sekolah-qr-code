@@ -22,9 +22,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12 col-md-12">
-        <?php if (session()->getFlashdata('msg')) : ?>
+        <?php if (session()->getFlashdata('msg')): ?>
           <div class="pb-2 px-3">
-            <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
+            <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success' ?> ">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <i class="material-icons">close</i>
               </button>
@@ -60,7 +60,9 @@
                                 <span id="progressTextSiswa"></span>
                                 <i id="progressSelesaiSiswa" class="material-icons d-none" class="d-none">check</i>
                                 <div class="progress progress-siswa">
-                                  <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                  <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white"
+                                    style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
+                                    aria-valuemax=""></div>
                                 </div>
                               </div>
                             </div>
@@ -88,16 +90,17 @@
                     <form action="<?= base_url('admin/qr/siswa/download'); ?>" method="get">
                       <select name="id_kelas" id="kelasSelect" class="custom-select mb-3" required>
                         <option value="">--Pilih kelas--</option>
-                        <?php foreach ($kelas as $value) : ?>
+                        <?php foreach ($kelas as $value): ?>
                           <option id="idKelas<?= $value['id_kelas']; ?>" value="<?= $value['id_kelas']; ?>">
-                            <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
+                            <?= $value['kelas']; ?>
                           </option>
                         <?php endforeach; ?>
                       </select>
                       <b class="text-danger mt-2" id="textErrorKelas"></b>
                       <div class="row px-2">
                         <div class="col-12 col-xl-6 px-1">
-                          <button type="button" onclick="generateQrSiswaByKelas()" class="btn btn-primary p-2 px-md-4 w-100">
+                          <button type="button" onclick="generateQrSiswaByKelas()"
+                            class="btn btn-primary p-2 px-md-4 w-100">
                             <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
                               <div>
                                 <i class="material-icons" style="font-size: 24px;">qr_code</i>
@@ -110,7 +113,9 @@
                                   <span id="progressTextKelas"></span>
                                   <i id="progressSelesaiKelas" class="material-icons d-none" class="d-none">check</i>
                                   <div class="progress progress-siswa d-none" id="progressBarBgKelas">
-                                    <div id="progressBarKelas" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                    <div id="progressBarKelas" class="progress-bar my-progress-bar bg-white"
+                                      style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
+                                      aria-valuemax=""></div>
                                   </div>
                                 </div>
                               </div>
@@ -163,7 +168,9 @@
                                   <span id="progressTextGuru"></span>
                                   <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
                                   <div class="progress progress-guru">
-                                    <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                    <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white"
+                                      style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
+                                      aria-valuemax=""></div>
                                   </div>
                                 </div>
                               </div>
@@ -214,7 +221,8 @@
               'unique_code' : `$value[unique_code]`,
               'nomor' : `$value[nuptk]`
             },";
-    }; ?>
+    }
+    ; ?>
   ];
 
   const dataSiswa = [
@@ -225,7 +233,8 @@
               'id_kelas' : `$value[id_kelas]`,
               'nomor' : `$value[nis]`
             },";
-    }; ?>
+    }
+    ; ?>
   ];
 
   var dataSiswaPerKelas = [];
@@ -249,7 +258,7 @@
           id_kelas: element['id_kelas'],
           nomor: element['nomor']
         },
-        success: function(response) {
+        success: function (response) {
           if (!response) return;
           if (i != dataSiswa.length) {
             $('#progressTextSiswa').html('Progres: ' + i + '/' + dataSiswa.length);
@@ -286,7 +295,7 @@
       data: {
         idKelas: idKelas
       },
-      success: function(response) {
+      success: function (response) {
         dataSiswaPerKelas = response;
 
         if (dataSiswaPerKelas.length < 1) {
@@ -317,7 +326,7 @@
               id_kelas: element['id_kelas'],
               nomor: element['nis']
             },
-            success: function(response) {
+            success: function (response) {
               if (!response) return;
               if (i != dataSiswaPerKelas.length) {
                 $('#progressTextKelas').html('Progres: ' + i + '/' + dataSiswaPerKelas.length);
@@ -331,7 +340,7 @@
                 .attr('style', 'width: ' + (i / dataSiswaPerKelas.length) * 100 + '%;');
               i++;
             },
-            error: function(xhr, status, thrown) {
+            error: function (xhr, status, thrown) {
               console.error(xhr + status + thrown);
             }
           });
@@ -358,7 +367,7 @@
           unique_code: element['unique_code'],
           nomor: element['nomor']
         },
-        success: function(response) {
+        success: function (response) {
           if (!response) return;
           if (i != dataGuru.length) {
             $('#progressTextGuru').html('Progres: ' + i + '/' + dataGuru.length);

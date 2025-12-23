@@ -71,9 +71,7 @@ class GenerateLaporan extends BaseController
          return redirect()->to('/admin/laporan');
       }
 
-      $kelas = $this->kelasModel->where(['id_kelas' => $idKelas])
-         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
-         ->first();
+      $kelas = (array) $this->kelasModel->getKelas($idKelas);
 
       $bulan = $this->request->getVar('tanggalSiswa');
 
@@ -122,14 +120,14 @@ class GenerateLaporan extends BaseController
             'perempuan' => count($siswa) - $laki
          ],
          'kelas' => $kelas,
-         'grup' => "kelas " . $kelas['kelas'] . " " . $kelas['jurusan'],
+         'grup' => "kelas " . $kelas['kelas'],
       ];
 
       if ($type == 'doc') {
          $this->response->setHeader('Content-type', 'application/vnd.ms-word');
          $this->response->setHeader(
             'Content-Disposition',
-            'attachment;Filename=laporan_absen_' . $kelas['kelas'] . " " . $kelas['jurusan'] . '_' . $begin->toLocalizedString('MMMM-Y') . '.doc'
+            'attachment;Filename=laporan_absen_' . $kelas['kelas'] . '_' . $begin->toLocalizedString('MMMM-Y') . '.doc'
          );
 
          return view('admin/generate-laporan/laporan-siswa', $data);
