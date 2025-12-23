@@ -46,11 +46,11 @@
                                  <?php foreach ($kelas as $key => $value): ?>
                                     <?php
                                     $idKelas = $value['id_kelas'];
-                                    $kelas = $value['kelas'];
-                                    $jumlahSiswa = count($siswaPerKelas[$key]);
+                                    $namaKelas = $value['kelas'];
+                                    $totalSiswa = count($siswaPerKelas[$key]);
                                     ?>
                                     <option value="<?= $idKelas; ?>">
-                                       <?= "$kelas - {$jumlahSiswa} siswa"; ?>
+                                       <?= "$namaKelas - {$totalSiswa} siswa"; ?>
                                     </option>
                                  <?php endforeach; ?>
                               </select>

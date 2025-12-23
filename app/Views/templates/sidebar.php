@@ -20,7 +20,8 @@ switch ($context) {
       break;
 }
 ?>
-<div class="sidebar" data-color="<?= $sidebarColor; ?>" data-background-color="black" data-image="<?= base_url('assets/img/sidebar/sidebar-1.jpg'); ?>">
+<div class="sidebar" data-color="<?= $sidebarColor; ?>" data-background-color="black"
+   data-image="<?= base_url('assets/img/sidebar/sidebar-1.jpg'); ?>">
    <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -33,26 +34,28 @@ switch ($context) {
    </div>
    <div class="sidebar-wrapper">
       <ul class="nav">
-         <li class="nav-item <?= $context == 'dashboard' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
-               <i class="material-icons">dashboard</i>
-               <p>Dashboard</p>
-            </a>
-         </li>
-         <li class="nav-item <?= $context == 'absen-siswa' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/absen-siswa'); ?>">
-               <i class="material-icons">checklist</i>
-               <p>Absensi Siswa</p>
-            </a>
-         </li>
-         <li class="nav-item <?= $context == 'absen-guru' ? 'active' : ''; ?>">
-            <a class="nav-link" href="<?= base_url('admin/absen-guru'); ?>">
-               <i class="material-icons">checklist</i>
-               <p>Absensi Guru</p>
-            </a>
-         </li>
+         <?php if (empty(user()->id_guru)): ?>
+            <li class="nav-item <?= $context == 'dashboard' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
+                  <i class="material-icons">dashboard</i>
+                  <p>Dashboard</p>
+               </a>
+            </li>
+            <li class="nav-item <?= $context == 'absen-siswa' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/absen-siswa'); ?>">
+                  <i class="material-icons">checklist</i>
+                  <p>Absensi Siswa</p>
+               </a>
+            </li>
+            <li class="nav-item <?= $context == 'absen-guru' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/absen-guru'); ?>">
+                  <i class="material-icons">checklist</i>
+                  <p>Absensi Guru</p>
+               </a>
+            </li>
+         <?php endif; ?>
 
-         <?php if (user()->toArray()['is_superadmin'] != 0) : ?>
+         <?php if (user()->toArray()['is_superadmin'] != 0): ?>
             <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/laporan'); ?>">
                   <i class="material-icons">print</i>
@@ -62,7 +65,28 @@ switch ($context) {
          <?php endif; ?>
 
 
-         <?php if (user()->toArray()['is_superadmin'] == 1) : ?>
+         <?php if (!empty(user()->id_guru)): ?>
+            <li class="nav-item <?= $context == 'dashboard' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('teacher/dashboard'); ?>">
+                  <i class="material-icons">dashboard</i>
+                  <p>Dashboard Wali Kelas</p>
+               </a>
+            </li>
+            <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('teacher/laporan'); ?>">
+                  <i class="material-icons">print</i>
+                  <p>Laporan Kelas</p>
+               </a>
+            </li>
+            <li class="nav-item <?= $context == 'qr' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('teacher/qr'); ?>">
+                  <i class="material-icons">qr_code</i>
+                  <p>QR Code Siswa</p>
+               </a>
+            </li>
+         <?php endif; ?>
+
+         <?php if (user()->toArray()['is_superadmin'] == 1): ?>
             <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('admin/siswa'); ?>">
                   <i class="material-icons">person</i>

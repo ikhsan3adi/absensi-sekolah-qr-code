@@ -37,31 +37,45 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-12">
-                  <label for="id_jurusan">Jurusan</label>
-                  <select class="custom-select <?= invalidFeedback('id_jurusan') ? 'is-invalid' : ''; ?>"
-                    id="id_jurusan" name="id_jurusan">
-                    <option value="">--Pilih Jurusan--</option>
-                    <?php foreach ($jurusan as $value): ?>
-                      <option value="<?= $value['id']; ?>" <?= old('id_jurusan') == $value['id'] ? 'selected' : ''; ?>>
-                        <?= $value['jurusan']; ?>
-                      </option>
-                    <?php endforeach; ?>
-                  </select>
-                  <div class="invalid-feedback">
-                    <?= invalidFeedback('id_jurusan'); ?>
-                  </div>
+              <div class="col-md-6">
+                <label for="id_jurusan">Jurusan</label>
+                <select class="custom-select <?= invalidFeedback('id_jurusan') ? 'is-invalid' : ''; ?>" id="id_jurusan"
+                  name="id_jurusan">
+                  <option value="">--Pilih Jurusan--</option>
+                  <?php foreach ($jurusan as $value): ?>
+                    <option value="<?= $value['id']; ?>" <?= old('id_jurusan') == $value['id'] ? 'selected' : ''; ?>>
+                      <?= $value['jurusan']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+                <div class="invalid-feedback">
+                  <?= invalidFeedback('id_jurusan'); ?>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary mt-4">Simpan</button>
-            </form>
-
-            <hr>
+              <div class="col-md-6">
+                <label for="id_wali_kelas">Wali Kelas</label>
+                <select class="custom-select <?= invalidFeedback('id_wali_kelas') ? 'is-invalid' : ''; ?>"
+                  id="id_wali_kelas" name="id_wali_kelas">
+                  <option value="">--Pilih Wali Kelas--</option>
+                  <?php foreach ($guru as $value): ?>
+                    <option value="<?= $value['id_guru']; ?>" <?= old('id_wali_kelas') == $value['id_guru'] ? 'selected' : ''; ?>>
+                      <?= $value['nama_guru']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+                <div class="invalid-feedback">
+                  <?= invalidFeedback('id_wali_kelas'); ?>
+                </div>
+              </div>
           </div>
+          <button type="submit" class="btn btn-primary mt-4">Simpan</button>
+          </form>
+
+          <hr>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 <?= $this->endSection() ?>

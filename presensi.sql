@@ -1379,7 +1379,7 @@ CREATE TABLE `tb_guru` (
   PRIMARY KEY (`id_guru`),
   UNIQUE KEY `unique_code` (`unique_code`),
   KEY `rfid_code` (`rfid_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1388,78 +1388,6 @@ CREATE TABLE `tb_guru` (
 
 LOCK TABLES `tb_guru` WRITE;
 /*!40000 ALTER TABLE `tb_guru` DISABLE KEYS */;
-INSERT INTO `tb_guru` (`id_guru`, `nuptk`, `nama_guru`, `jenis_kelamin`, `alamat`, `no_hp`, `unique_code`) VALUES
-(1,'198005062011011006','AHMAD AKBAR, S. Pd.','Laki-laki','','','29df97696cd05b851fb688bd4c41548afbc9b9e5fc4ab7ab73ddb7d7'),
-(2,'196812311998021048','RAHMANSYAH, S. Pd.','Laki-laki','','','eddf9d11b5e22aaa9e19a9226b118dea75f3414357d0cb44d9e43090'),
-(3,'196606132005021002','Drs. NASRI M.','Laki-laki','','','2635120935b680f31c8a09592fd8f515a9b7cafd8d93b39891ed71de'),
-(4,'196810242005021002','BAKHTIAR, S. Pd.','Laki-laki','','','2bb3337887a71d6e2e6e2651345f4722e3f130ae544da8fbb0a36c1e'),
-(5,'196703132007012024','Dra. PUJIATUM','Laki-laki','','','ee7a532c761d7a0f8277688e73ddeda5b2eacedabc0dd26428ac500e'),
-(6,'198108152006042018','HERAWATI  C. S. Pd.','Laki-laki','','','fec8993c26fd06cad9e41193ab6e44841bc0999e8f6d19e7473368f0'),
-(7,'198008172009032012','ROSDIANA, S. Kom.','Laki-laki','','','6ccac1554b2b77358c162cc9310f6408064ad001bd3c9d051ddf5cec'),
-(8,'198103152009032012','YUYUN MARYATI S. S.Kom.','Laki-laki','','','ac148d8765aec2513a98cfd29af10e02667997b274d7ef35d906aa59'),
-(9,'198111272008042003','NIRWANA  M, S.Pd.','Laki-laki','','','52e649c65cd916a1a6893282b25a24faeb56c60aaad3a88bc189e293'),
-(10,'198502202009032011','WAHYUNI DARWIS, S.Pd., M. Pd.','Laki-laki','','','991f7403058d783ec65fa0dbb2e0af01fd3c8d8f2bada0760f150a69'),
-(11,'197403072007012014','KURNIAH, S. Ag., M. Pd. I.','Laki-laki','','','21f38c0b3d4a23fccf7fedfde5bcd2e8c7a26f0748ab75a9c9710233'),
-(12,'197012092005021002','MUHAMMAD ILYAS, S. Pd.','Laki-laki','','','ca92176aec6206260ef56b4da917d1d38c9bf839fa27ceb6589fcf21'),
-(13,'198712102022212008','JUDESLIANTI AMRAN, S. Pd. I., Gr.','Laki-laki','','','e68bbc5dd1548c851ebe990aac9ef87e2b47f25eb3f028fc3d40300c'),
-(14,'198606192022211006','MUH. YUSUF, SH.','Laki-laki','','','5531efda580a06e8d2bcee4b846b7ccdce2f4a7cea05f37520808917'),
-(15,'198300042022212004','NURHAYATI, S. Pd.','Laki-laki','','','821f467d1f991b77ce8c652b3af647171ec7dc0477ef28df0922e59e'),
-(16,'198801272022212002','MARDHAWIAH, S. Pd.','Laki-laki','','','16f4673d9d96cfc9408a9f4593b633f705ff67a17a92b9ef0794693c'),
-(17,'198510102022211015','ABRIANTO YASIN, S.Pd.','Laki-laki','','','e0836a919d66be1a37d20a0816021aaf6c8220061407686242d759d5'),
-(18,'199603142022211001','ARDAN, S. Kom.','Laki-laki','MAMBU','082271413360','1eeb0d7121f1f942ca190d3a209a2993336f750c67337fe91e17385f'),
-(19,'198603062022211005','USMAN A. S. Kom.','Laki-laki','','','fda2fda27bed988b6901790e089a55ff886ede6bc6b36070803a5da6'),
-(20,'198603282022212009','A. REZKY TAPPAWALI MT, S. Pd.','Laki-laki','','','f41fb02ad5281b0cbed0f7c42e92442032ebe16e105334c82a3f60ef'),
-(21,'198810092022212014','ASRIAH MARDIN, S. Pd.','Laki-laki','','','684f96a6a0eac5ce62e4435af06659cb39358f3410ceb669fcf85425'),
-(22,'198809072022212017','NURLINAH, S. Pd.','Laki-laki','','','85944913a6e01e29a2f3861c616c51f9e0502a3a08c5f4b27ba5900c'),
-(23,'199506072022212016','NURATIKA, S. Pd.','Laki-laki','','','f391b7acc854fd2442b0a55b9f0627c8a1b547801d297898a36ab2f9'),
-(24,'199611072022212010','NUR ASIMAH, S. Pd.','Laki-laki','','','2592fafdf7b1ad4e3f41e6cee72c79843c0c4a3e45f7ff36fb892121'),
-(25,'198711102022212022','HARLIANA, S. Pd.,Gr.','Laki-laki','','','81c16c766f2f4c9479a8a839962489f433595befadcdbf1f9fc5c44a'),
-(26,'198305202022211020','ARMIN PATAMORGANA, S. Pd.','Laki-laki','','','bb84fb4f1212f3fa331838d603c0451f99e44b9110dfced602d9a175'),
-(27,'198701192022211006','SIGIT PRASETYO, S. Pd.','Laki-laki','','','29bb78a6afe0f2b1edbef4b6854b780087ac9e18d7c5b7b0790caa09'),
-(28,'198705192022212020','MASDALIA, S.Pd.','Laki-laki','','','7efbd9e0338a2a7ffbc8bdec47256cdbae2f5651ea7615a573ffbcf6'),
-(29,'198710022022212012','SUMIATI, S. Pd.','Laki-laki','','','0b6f3097af854bc009111f98dcb491cc530380dbee3dbc984553e31a'),
-(30,'197001242002211002','YUSRI TAUWAL, SE.','Laki-laki','','','5e5bd9e6929fb42058b13a36ad5da8e7cb1bbef7237d17279e67f002'),
-(31,'198006142022211005','SUARDI, S. Pd.','Laki-laki','','','6c1ad10e7f6bc00e2c58d531e59892333d0b7e28b8f807381fd290b0'),
-(32,'198809092022212016','ANITA, S. Pd.','Laki-laki','','','46d19cbfaa613a39e72b746e54bab8a85559369def7ba19be6874e2a'),
-(33,'196910272022212002','YEKTI UTAMI DEWI, S. Pd.','Laki-laki','','','8440c523dc50795d1b1e956f907c64c2b33b64c2d8e83d632ac09298'),
-(34,'199108272022212020','NANDA ANRY, S. Pd.','Laki-laki','','','9f8dbd98a866bdfa20dfb52b162653e9a717b59bef87829609057eb2'),
-(35,'197901102023211006','HUSNI KADIR, S. Pd','Laki-laki','','','e6560f387d7d217c53abfcb3d5ce666347d82bd8b608a09c15091537'),
-(36,'198413112023211011','SUPRIADI, S. IP','Laki-laki','','','fe477895cefd553efefb420076d07ff5a5f54c389a88ac5690fb6fc7'),
-(37,'199004162023211031','NURPADILAH, S. Pd','Laki-laki','','','6b02642c3aa59a61bedf5aff8ba36407eb4e0016280a98afdaeb3941'),
-(38,'199503052023211011','FAISAL TANJUNG, S. Pd','Laki-laki','LABASANG','082219996642','6c50612d155a3376fc09d87abbfa1ee8c25b058999f56cda929a01fc'),
-(39,'199010092024212039','NASRAH, S. Pd.','Laki-laki','','','79f44e1532be7c01ed36d553355cede7018d5ad3c910b56f6ca89fe8'),
-(40,'199406232024212042','NASRIAH, S. Pd.','Laki-laki','','','afbf17b5f701974a9f2b324467a4e636b815a4f6d3499305c81512f9'),
-(41,'199304202024212048','UNI ANASTASYA, S. Kom.','Perempuan','MAMBU','085255064838','3cf6fa60f636cbccde05eb84cf9fad5872ee038c5775412e10ec840b'),
-(42,'199312152024212050','HASBIA, S. Kom.','Perempuan','','082313999313','b4c810f683e82014ace446db8ccdcbcbefd6204e94f91eaad1f4596c'),
-(43,'199610072024212049','MIFTAHUL JANNA, S. Pd.','Perempuan','','085261186409','080791fc53b988019accb895282bce1afd3d58e9aa62454793acec80'),
-(44,'199704102024211014','RISMAN, S. Pd','Laki-laki','','','4d3d0fb61b02a6d9a0c7de0bc38ff374589d344418636ee126c4a4da'),
-(45,'NIPPPK199809152024212029','NOVIA, S. Pd','Laki-laki','','','041bff0587d7892d9f29456a0db8bce54e0eabff84b65b5b1324abaf'),
-(46,'199301012024212084','PADLIANI, S. Pd','Laki-laki','','','3672a0699e136ec229df5011c760790f475767dfb7a44202413b25b8'),
-(47,'199308172024212056','HASRIATI HASAN, S. Pd','Laki-laki','','','8b27a2674fe0a6a76fc54fe2c404de3cbdfbd3ef48e28d5bd0545cc0'),
-(48,'5354766668130133','TAUFIQ, S. S. Pd. I.','Laki-laki','','','d9d19975fa8ee399abb6398c9e6b1c6f9f1bb96c2b9b50fe5232b89c'),
-(49,'5743766667130152','AMRIANI, SE.','Laki-laki','','','3f0df14844065c2c8188042fe49b670e6eefdae533270bbb6deea532'),
-(50,'1051772673130053','MUH. HAYAN ALIYUL IKRAM, S. Pd.I','Laki-laki','','','6481a8c35d7efb51ce65875e869a1707f83693906709f4e9b44305e1'),
-(51,'5744765666220002','RATNASARI, S. Pd.','Laki-laki','','','c1aac95276ae28af7417816cc0662a8834e4d19f0ea803d218b800d5'),
-(52,'8044766667300003','NISRAWATI, S. Pd.I','Laki-laki','','','3d02560364b89ead80f1e45ccde9fb91c6e805623f33a4b467408c68'),
-(53,'7545770671230123','NURHASDIANA, SE.','Laki-laki','','','560b504e01f6f420bf14e69d33c82fe81846b96fc79ac0392e8fde6d'),
-(54,'8132771672130023','ARMAN SUARDI, S. Pd.','Laki-laki','','','10653846e1b0b87768feedc5bce195c0b101977060c23761ba2bd254'),
-(55,'BELUM ADA','SATRIA','Laki-laki','','','45cf969126a90a4da34f4db13014956a22311c39b79e6048d5e4bd36'),
-(56,'3563769670130453','AHMAD, A. Ma.','Laki-laki','','','6df25d20d3653be831774cbe9b0dbf7e0d4345a4357a8f73d0ebfedb'),
-(57,'5942773674130192','SARMIN, A. Ma.','Laki-laki','','','31f39b81f145333870bbea975905584d421605c11756c854c6ccb42e'),
-(58,'BELUM ADA','RAHMATIAH','Laki-laki','','','155963c104bbffe1498f4a41582adfb122311c39b79e6048d5e4bd36'),
-(59,'6555768669130193','EDI GUNAWAN, S. IP.','Laki-laki','','','9c7fc201733f37eabdecca4efcc27e98844c8ea6d07653c5aa59606a'),
-(60,'0859764666130172','ERNIDAYANTI,  S. Kom.','Laki-laki','','','0705493a2c409fc8f66f90d14120d86d82e11dded5d2e1d7c431dbfe'),
-(61,'0563770671130153','FITRIANTI,  A. Md. Kom.','Laki-laki','','','58f49267d63a1b0456814f6c88ff125765be0b5d8091a51f600d4b14'),
-(62,'6543765666130142','MASRIANI,  S. Kom.','Laki-laki','','','ee990549706de6b948e02090aebeb1360ed70e60b408e839ca7b2555'),
-(63,'8447769670130112','SYAMSURYAH, S . Kom.','Laki-laki','','','4057b3a8c8fc7ef2c59b39db435a6d02523f1a18a7661d70e5593764'),
-(64,'4053773674230143','SATRIANI, S. Kom.','Laki-laki','','','d53ca4a728d58533d964e5228d37cda0013cd60471c9e4ff82893469'),
-(65,'BELUM ADA','ACHMAD ICHSAN','Laki-laki','','','f8f0347de0ab88efa587e8aec9d9cfd522311c39b79e6048d5e4bd36'),
-(66,'7342757658130233','WIDYAWATI, S. Si.','Laki-laki','','','7df2b76deff163d11330322d0434300e5918da17cfc0f5e33c323b77'),
-(67,'7447769670130123','HASANIA, Amd. Kom.','Laki-laki','','','a16e468610072008d98bad6303da7d08c20151f861ea2c9ee1506071'),
-(70,'BELUM ADA','FIKRI FAUSAN','Laki-laki','','','ecdf8b27b7d2aa48ebdabc8a3fbf8ec322311c39b79e6048d5e4bd36'),
-(71,'7604020602990008','SATRIO','Laki-laki','DUSUN LEMO DESA KATUMBANGAN LEMO KEC. CAMPALAGIAN','083192132590','43e02dc18f33f634cd513a927e37dba86cc30f9bb17f573699e87a1f6ff72e15'),
-(72,'7604022606940007','RAHMAT','Laki-laki','Laliko','085343822252','667a194968b66f690b16125a4845a4656aa349e44df167e2eb34d553b3cf9ac4'),
-(73,'197001181993011001','Sarif, S.Pd., M.Pd','Laki-laki','POLEWALI','082396282627','be58fb0ab948fbc177a7b7bdde37b5f82b4d9ee76a09f6e483ac86ad5c57fad9');
 /*!40000 ALTER TABLE `tb_guru` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1530,13 +1458,16 @@ CREATE TABLE `tb_kelas` (
   `tingkat` varchar(10) NOT NULL,
   `id_jurusan` int(11) unsigned NOT NULL,
   `index_kelas` varchar(5) NOT NULL,
+  `id_wali_kelas` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_kelas`),
   KEY `tb_kelas_id_jurusan_foreign` (`id_jurusan`),
-  CONSTRAINT `tb_kelas_id_jurusan_foreign` FOREIGN KEY (`id_jurusan`) REFERENCES `tb_jurusan` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  KEY `id_wali_kelas` (`id_wali_kelas`),
+  CONSTRAINT `tb_kelas_id_jurusan_foreign` FOREIGN KEY (`id_jurusan`) REFERENCES `tb_jurusan` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `tb_kelas_id_wali_kelas_foreign` FOREIGN KEY (`id_wali_kelas`) REFERENCES `tb_guru` (`id_guru`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1657,6 +1588,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_guru` int(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `username` varchar(30) DEFAULT NULL,
   `is_superadmin` tinyint(1) NOT NULL DEFAULT 0,
@@ -1674,7 +1606,9 @@ CREATE TABLE `users` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  KEY `id_guru` (`id_guru`),
+  CONSTRAINT `users_id_guru_foreign` FOREIGN KEY (`id_guru`) REFERENCES `tb_guru` (`id_guru`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1685,9 +1619,9 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,'anu@gmail.com','adminanu',1,'$2y$10$DrUZyuS22GVHcBTwWXrBnuytCcGg8S8HUMa22j1/YoI9YXNDzdF06',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,NULL,NULL),
-(2,'operator@gmail.com','operator1',0,'$2y$10$n6ZbSM61n5rn7k.WBzB0oOpu1HwAcX8bfYSdOqS/S5rHmRFDBG4Pe',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2024-07-18 10:45:32','2024-07-18 10:45:32',NULL),
-(3,'kepsek@smkncampalagian.sch.id','kepsek',0,'$2y$10$JmVstQFYNr14eSXKqySJNu49w72LHnprQzRCIN1jhl.Efh7RTjXFC',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2024-07-19 18:44:33','2024-07-19 18:44:33',NULL);
+(1,NULL,'anu@gmail.com','adminanu',1,'$2y$10$DrUZyuS22GVHcBTwWXrBnuytCcGg8S8HUMa22j1/YoI9YXNDzdF06',NULL,NULL,NULL,NULL,NULL,NULL,1,0,NULL,NULL,NULL),
+(2,NULL,'operator@gmail.com','operator1',0,'$2y$10$n6ZbSM61n5rn7k.WBzB0oOpu1HwAcX8bfYSdOqS/S5rHmRFDBG4Pe',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2024-07-18 10:45:32','2024-07-18 10:45:32',NULL),
+(3,NULL,'kepsek@smkncampalagian.sch.id','kepsek',0,'$2y$10$JmVstQFYNr14eSXKqySJNu49w72LHnprQzRCIN1jhl.Efh7RTjXFC',NULL,NULL,NULL,NULL,NULL,NULL,1,0,'2024-07-19 18:44:33','2024-07-19 18:44:33',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

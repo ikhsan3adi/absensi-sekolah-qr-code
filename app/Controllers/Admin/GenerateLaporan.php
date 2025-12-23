@@ -115,7 +115,7 @@ class GenerateLaporan extends BaseController
          'bulan' => $begin->toLocalizedString('MMMM'),
          'listAbsen' => $dataAbsen,
          'listSiswa' => $siswa,
-         'jumlahSiswa' => [
+         'rekapSiswa' => [
             'laki' => $laki,
             'perempuan' => count($siswa) - $laki
          ],

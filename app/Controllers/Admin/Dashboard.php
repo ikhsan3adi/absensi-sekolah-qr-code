@@ -40,8 +40,12 @@ class Dashboard extends BaseController
 
       // jika bukan admin dan kepala sekolah, maka hentikan
 
-      $userRole = user()->toArray()['is_superadmin'];
-      $userRole = (int)$userRole;
+      $user = user();
+      $userRole = (int) $user->is_superadmin;
+
+      if (!empty($user->id_guru)) {
+         return redirect()->to('teacher/dashboard');
+      }
 
       if ($userRole < 1) {
          return redirect()->to('scan');
