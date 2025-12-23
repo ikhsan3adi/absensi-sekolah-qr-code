@@ -58,6 +58,8 @@ class QRCode extends BaseController
 
         // We can reuse the admin QR generator logic
         $qrGenerator = new QRGenerator();
+        $qrGenerator->initController($this->request, $this->response, service('logger'));
+
         $this->request->setGlobal('get', ['id_kelas' => $kelas['id_kelas']]);
 
         return $qrGenerator->downloadAllQrSiswa();
