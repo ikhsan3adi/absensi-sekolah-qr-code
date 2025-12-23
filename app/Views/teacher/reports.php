@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <form action="<?= base_url('teacher/laporan/generate'); ?>" method="post">
                             <?= csrf_field() ?>
-                            <div class="row">
+                            <div class="row" style="margin-top: 2rem;">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group is-filled">
                                         <label class="bmd-label-static">Pilih Bulan</label>
