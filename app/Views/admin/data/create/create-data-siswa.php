@@ -119,8 +119,12 @@
 
                      <div class="form-group mt-5">
                         <label for="rfid">RFID Code</label>
-                        <input type="text" id="rfid" name="rfid" class="form-control"
+                        <input type="text" id="rfid" name="rfid"
+                           class="form-control <?= $validation->getError('rfid') ? 'is-invalid' : ''; ?>"
                            value="<?= old('rfid') ?? $oldInput['rfid'] ?? '' ?>" placeholder="Tap RFID Card here">
+                        <div class="invalid-feedback">
+                           <?= $validation->getError('rfid'); ?>
+                        </div>
                      </div>
 
                      <button type="submit" class="btn btn-primary btn-block">Simpan</button>

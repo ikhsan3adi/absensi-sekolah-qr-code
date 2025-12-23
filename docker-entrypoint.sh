@@ -7,6 +7,10 @@ if [ ! -d "vendor" ] || [ -z "$(ls -A vendor)" ]; then
     composer install --no-interaction --optimize-autoloader
 fi
 
+# Run database migrations
+echo "Running database migrations..."
+php spark migrate --all
+
 # Fix permissions for writable and public/uploads directory to ensure www-data can write
 if [ -d "writable" ]; then
     chown -R www-data:www-data writable

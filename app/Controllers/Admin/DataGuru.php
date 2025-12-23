@@ -27,7 +27,13 @@ class DataGuru extends BaseController
          ]
       ],
       'jk' => ['rules' => 'required', 'errors' => ['required' => 'Jenis kelamin wajib diisi']],
-      'no_hp' => 'required|numeric|max_length[20]|min_length[5]'
+      'no_hp' => 'required|numeric|max_length[20]|min_length[5]',
+      'rfid' => [
+         'rules' => 'permit_empty|is_rfid_unique[,guru]',
+         'errors' => [
+            'is_rfid_unique' => 'RFID code sudah digunakan.'
+         ]
+      ]
    ];
 
    public function __construct()
@@ -130,6 +136,8 @@ class DataGuru extends BaseController
    public function updateGuru()
    {
       $idGuru = $this->request->getVar('id');
+
+      $this->guruValidationRules['rfid']['rules'] = "permit_empty|is_rfid_unique[{$idGuru},guru]";
 
       // validasi
       if (!$this->validate($this->guruValidationRules)) {

@@ -38,7 +38,13 @@ class DataSiswa extends BaseController
          ]
       ],
       'jk' => ['rules' => 'required', 'errors' => ['required' => 'Jenis kelamin wajib diisi']],
-      'no_hp' => 'required|numeric|max_length[20]|min_length[5]'
+      'no_hp' => 'required|numeric|max_length[20]|min_length[5]',
+      'rfid' => [
+         'rules' => 'permit_empty|is_rfid_unique[,siswa]',
+         'errors' => [
+            'is_rfid_unique' => 'RFID code sudah digunakan.'
+         ]
+      ]
    ];
 
    public function __construct()
@@ -158,11 +164,15 @@ class DataSiswa extends BaseController
    {
       $idSiswa = $this->request->getVar('id');
 
+      $this->siswaValidationRules['rfid']['rules'] = "permit_empty|is_rfid_unique[{$idSiswa},siswa]";
+
       $siswaLama = $this->siswaModel->getSiswaById($idSiswa);
 
       if ($siswaLama['nis'] != $this->request->getVar('nis')) {
          $this->siswaValidationRules['nis']['rules'] = 'required|max_length[20]|min_length[4]|is_unique[tb_siswa.nis]';
       }
+
+      $this->siswaValidationRules['rfid']['rules'] = "permit_empty|is_rfid_unique[{$idSiswa},siswa]";
 
       // validasi
       if (!$this->validate($this->siswaValidationRules)) {
