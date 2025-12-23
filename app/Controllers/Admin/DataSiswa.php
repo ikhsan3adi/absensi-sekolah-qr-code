@@ -117,6 +117,7 @@ class DataSiswa extends BaseController
          idKelas: intval($this->request->getVar('id_kelas')),
          jenisKelamin: $this->request->getVar('jk'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {
@@ -187,6 +188,7 @@ class DataSiswa extends BaseController
          idKelas: intval($this->request->getVar('id_kelas')),
          jenisKelamin: $this->request->getVar('jk'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {

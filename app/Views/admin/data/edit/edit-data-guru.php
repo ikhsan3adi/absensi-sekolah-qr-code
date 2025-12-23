@@ -11,9 +11,9 @@
                </div>
                <div class="card-body mx-5 my-3">
 
-                  <?php if (session()->getFlashdata('msg')) : ?>
+                  <?php if (session()->getFlashdata('msg')): ?>
                      <div class="pb-2">
-                        <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
+                        <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success' ?> ">
                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <i class="material-icons">close</i>
                            </button>
@@ -30,7 +30,9 @@
 
                      <div class="form-group mt-4">
                         <label for="nuptk">NUPTK</label>
-                        <input type="text" id="nuptk" class="form-control <?= $validation->getError('nuptk') ? 'is-invalid' : ''; ?>" name="nuptk" placeholder="1234" value="<?= old('nuptk') ?? $oldInput['nuptk'] ?? $data['nuptk'] ?>">
+                        <input type="text" id="nuptk"
+                           class="form-control <?= $validation->getError('nuptk') ? 'is-invalid' : ''; ?>" name="nuptk"
+                           placeholder="1234" value="<?= old('nuptk') ?? $oldInput['nuptk'] ?? $data['nuptk'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('nuptk'); ?>
                         </div>
@@ -38,7 +40,10 @@
 
                      <div class="form-group mt-4">
                         <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" class="form-control <?= $validation->getError('nama') ? 'is-invalid' : ''; ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?? $oldInput['nama'] ?? $data['nama_guru'] ?>" required>
+                        <input type="text" id="nama"
+                           class="form-control <?= $validation->getError('nama') ? 'is-invalid' : ''; ?>" name="nama"
+                           placeholder="Your Name" value="<?= old('nama') ?? $oldInput['nama'] ?? $data['nama_guru'] ?>"
+                           required>
                         <div class="invalid-feedback">
                            <?= $validation->getError('nama'); ?>
                         </div>
@@ -51,7 +56,8 @@
                         $l = $jenisKelamin == 'Laki-laki' || $jenisKelamin == '1' ? 'checked' : '';
                         $p = $jenisKelamin == 'Perempuan' || $jenisKelamin == '2' ? 'checked' : '';
                         ?>
-                        <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>">
+                        <div
+                           class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>">
                            <div class="row">
                               <div class="col-auto">
                                  <div class="row">
@@ -86,15 +92,26 @@
 
                      <div class="form-group mt-4">
                         <label for="alamat">Alamat</label>
-                        <input type="text" id="alamat" name="alamat" class="form-control" value="<?= old('alamat') ?? $oldInput['alamat']  ?? $data['alamat'] ?>">
+                        <input type="text" id="alamat" name="alamat" class="form-control"
+                           value="<?= old('alamat') ?? $oldInput['alamat'] ?? $data['alamat'] ?>">
                      </div>
 
                      <div class="form-group mt-4">
                         <label for="hp">No HP</label>
-                        <input type="number" id="hp" name="no_hp" class="form-control <?= $validation->getError('no_hp') ? 'is-invalid' : ''; ?>" placeholder="08969xxx" value="<?= old('no_hp') ?? $oldInput['no_hp']  ?? $data['no_hp'] ?>" required>
+                        <input type="number" id="hp" name="no_hp"
+                           class="form-control <?= $validation->getError('no_hp') ? 'is-invalid' : ''; ?>"
+                           placeholder="08969xxx" value="<?= old('no_hp') ?? $oldInput['no_hp'] ?? $data['no_hp'] ?>"
+                           required>
                         <div class="invalid-feedback">
                            <?= $validation->getError('no_hp'); ?>
                         </div>
+                     </div>
+
+                     <div class="form-group mt-4">
+                        <label for="rfid">RFID Code</label>
+                        <input type="text" id="rfid" name="rfid" class="form-control"
+                           value="<?= old('rfid') ?? $oldInput['rfid'] ?? $data['rfid_code'] ?? '' ?>"
+                           placeholder="Tap RFID Card here">
                      </div>
 
                      <button type="submit" class="btn btn-success btn-block">Simpan</button>

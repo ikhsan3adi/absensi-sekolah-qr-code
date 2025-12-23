@@ -15,9 +15,10 @@
                      <?= csrf_field() ?>
                      <?php $validation = \Config\Services::validation(); ?>
 
-                     <?php if (session()->getFlashdata('msg')) : ?>
+                     <?php if (session()->getFlashdata('msg')): ?>
                         <div class="pb-2">
-                           <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
+                           <div
+                              class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success' ?> ">
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                  <i class="material-icons">close</i>
                               </button>
@@ -30,7 +31,9 @@
 
                      <div class="form-group mt-4">
                         <label for="nis">NIS</label>
-                        <input type="text" id="nis" class="form-control <?= $validation->getError('nis') ? 'is-invalid' : ''; ?>" name="nis" placeholder="1234" value="<?= old('nis') ?? $oldInput['nis'] ?? $data['nis'] ?>">
+                        <input type="text" id="nis"
+                           class="form-control <?= $validation->getError('nis') ? 'is-invalid' : ''; ?>" name="nis"
+                           placeholder="1234" value="<?= old('nis') ?? $oldInput['nis'] ?? $data['nis'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('nis'); ?>
                         </div>
@@ -38,7 +41,10 @@
 
                      <div class="form-group mt-4">
                         <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" class="form-control <?= $validation->getError('nama') ? 'is-invalid' : ''; ?>" name="nama" placeholder="Your Name" value="<?= old('nama') ?? $oldInput['nama'] ?? $data['nama_siswa'] ?>">
+                        <input type="text" id="nama"
+                           class="form-control <?= $validation->getError('nama') ? 'is-invalid' : ''; ?>" name="nama"
+                           placeholder="Your Name"
+                           value="<?= old('nama') ?? $oldInput['nama'] ?? $data['nama_siswa'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('nama'); ?>
                         </div>
@@ -46,9 +52,10 @@
                      <div class="row">
                         <div class="col-md-6">
                            <label for="kelas">Kelas</label>
-                           <select class="custom-select <?= $validation->getError('id_kelas') ? 'is-invalid' : ''; ?>" id="kelas" name="id_kelas">
+                           <select class="custom-select <?= $validation->getError('id_kelas') ? 'is-invalid' : ''; ?>"
+                              id="kelas" name="id_kelas">
                               <option value="">--Pilih kelas--</option>
-                              <?php foreach ($kelas as $value) : ?>
+                              <?php foreach ($kelas as $value): ?>
                                  <option value="<?= $value['id_kelas']; ?>" <?= old('id_kelas') ?? $oldInput['id_kelas'] ?? $value['id_kelas'] == $data['id_kelas'] ? 'selected' : ''; ?>>
                                     <?= $value['kelas'] . ' ' . $value['jurusan']; ?>
                                  </option>
@@ -65,7 +72,9 @@
                            $l = $jenisKelamin == 'Laki-laki' || $jenisKelamin == '1' ? 'checked' : '';
                            $p = $jenisKelamin == 'Perempuan' || $jenisKelamin == '2' ? 'checked' : '';
                            ?>
-                           <div class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>" id="jk">
+                           <div
+                              class="form-check form-control pt-0 mb-1 <?= $validation->getError('jk') ? 'is-invalid' : ''; ?>"
+                              id="jk">
                               <div class="row">
                                  <div class="col-auto">
                                     <div class="row">
@@ -82,7 +91,8 @@
                                  <div class="col">
                                     <div class="row">
                                        <div class="col-auto pr-1">
-                                          <input class="form-check" type="radio" name="jk" id="perempuan" value="2" <?= $p; ?>>
+                                          <input class="form-check" type="radio" name="jk" id="perempuan" value="2"
+                                             <?= $p; ?>>
                                        </div>
                                        <div class="col">
                                           <label class="form-check-label pl-0 pt-1" for="perempuan">
@@ -101,10 +111,19 @@
 
                      <div class="form-group mt-5">
                         <label for="hp">No HP</label>
-                        <input type="number" id="hp" name="no_hp" class="form-control <?= $validation->getError('no_hp') ? 'is-invalid' : ''; ?>" value="<?= old('no_hp') ?? $oldInput['no_hp'] ?? $data['no_hp'] ?>">
+                        <input type="number" id="hp" name="no_hp"
+                           class="form-control <?= $validation->getError('no_hp') ? 'is-invalid' : ''; ?>"
+                           value="<?= old('no_hp') ?? $oldInput['no_hp'] ?? $data['no_hp'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('no_hp'); ?>
                         </div>
+                     </div>
+
+                     <div class="form-group mt-5">
+                        <label for="rfid">RFID Code</label>
+                        <input type="text" id="rfid" name="rfid" class="form-control"
+                           value="<?= old('rfid') ?? $oldInput['rfid'] ?? $data['rfid_code'] ?? '' ?>"
+                           placeholder="Tap RFID Card here">
                      </div>
 
                      <button type="submit" class="btn btn-primary btn-block">Simpan</button>

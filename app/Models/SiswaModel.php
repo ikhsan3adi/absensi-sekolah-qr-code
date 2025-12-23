@@ -14,7 +14,8 @@ class SiswaModel extends Model
          'id_kelas',
          'jenis_kelamin',
          'no_hp',
-         'unique_code'
+         'unique_code',
+         'rfid_code'
       ];
    }
 
@@ -29,11 +30,13 @@ class SiswaModel extends Model
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
       )->join(
-         'tb_jurusan',
-         'tb_jurusan.id = tb_kelas.id_jurusan',
-         'LEFT'
-      );
-      return $this->where(['unique_code' => $unique_code])->first();
+            'tb_jurusan',
+            'tb_jurusan.id = tb_kelas.id_jurusan',
+            'LEFT'
+         );
+      return $this->where(['unique_code' => $unique_code])
+         ->orWhere(['rfid_code' => $unique_code])
+         ->first();
    }
 
    public function getSiswaById($id)
@@ -48,10 +51,10 @@ class SiswaModel extends Model
          'tb_kelas.id_kelas = tb_siswa.id_kelas',
          'LEFT'
       )->join(
-         'tb_jurusan',
-         'tb_kelas.id_jurusan = tb_jurusan.id',
-         'LEFT'
-      );
+            'tb_jurusan',
+            'tb_kelas.id_jurusan = tb_jurusan.id',
+            'LEFT'
+         );
 
       if (!empty($kelas) && !empty($jurusan)) {
          $query = $this->where(['kelas' => $kelas, 'jurusan' => $jurusan]);
@@ -79,7 +82,7 @@ class SiswaModel extends Model
          ->findAll();
    }
 
-   public function createSiswa($nis, $nama, $idKelas, $jenisKelamin, $noHp)
+   public function createSiswa($nis, $nama, $idKelas, $jenisKelamin, $noHp, $rfid = null)
    {
       return $this->save([
          'nis' => $nis,
@@ -87,11 +90,13 @@ class SiswaModel extends Model
          'id_kelas' => $idKelas,
          'jenis_kelamin' => $jenisKelamin,
          'no_hp' => $noHp,
-         'unique_code' => generateToken()
+         'no_hp' => $noHp,
+         'unique_code' => generateToken(),
+         'rfid_code' => $rfid
       ]);
    }
 
-   public function updateSiswa($id, $nis, $nama, $idKelas, $jenisKelamin, $noHp)
+   public function updateSiswa($id, $nis, $nama, $idKelas, $jenisKelamin, $noHp, $rfid = null)
    {
       return $this->save([
          $this->primaryKey => $id,
@@ -100,6 +105,7 @@ class SiswaModel extends Model
          'id_kelas' => $idKelas,
          'jenis_kelamin' => $jenisKelamin,
          'no_hp' => $noHp,
+         'rfid_code' => $rfid
       ]);
    }
 

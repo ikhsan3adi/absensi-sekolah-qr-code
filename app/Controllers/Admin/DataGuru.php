@@ -92,6 +92,7 @@ class DataGuru extends BaseController
          jenisKelamin: $this->request->getVar('jk'),
          alamat: $this->request->getVar('alamat'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {
@@ -150,6 +151,7 @@ class DataGuru extends BaseController
          jenisKelamin: $this->request->getVar('jk'),
          alamat: $this->request->getVar('alamat'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {
