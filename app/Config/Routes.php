@@ -170,6 +170,11 @@ $routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' =>
    // QR Code Siswa สำหรับ Wali Kelas
    $routes->get('qr', 'QRCode::index');
    $routes->get('qr/download', 'QRCode::download');
+   $routes->get('attendance', 'Dashboard::attendance');
+   $routes->get('attendance/(:any)', 'Dashboard::attendance/$1');
+   $routes->post('attendance/get-list', 'Dashboard::getAttendanceList');
+   $routes->post('attendance/get-edit-modal', 'Dashboard::getEditModal');
+   $routes->post('attendance/update-single', 'Dashboard::updateSingleAttendance');
 });
 
 

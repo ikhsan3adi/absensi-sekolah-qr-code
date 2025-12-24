@@ -84,6 +84,12 @@ switch ($context) {
                   <p>QR Code Siswa</p>
                </a>
             </li>
+            <li class="nav-item <?= $context == 'attendance' ? 'active' : '' ?>">
+               <a class="nav-link" href="<?= base_url('teacher/attendance'); ?>">
+                  <i class="material-icons">event_note</i>
+                  <p>Manajemen Kehadiran</p>
+               </a>
+            </li>
          <?php endif; ?>
 
          <?php if (user()->toArray()['is_superadmin'] == 1): ?>

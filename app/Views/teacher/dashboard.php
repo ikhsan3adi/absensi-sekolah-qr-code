@@ -32,6 +32,7 @@
                                 <span class="mx-2">|</span>
                                 <i class="material-icons text-primary">qr_code</i> <a class="text-primary"
                                     href="<?= base_url('teacher/qr'); ?>">Download QR Code Siswa</a>
+
                             </div>
                         </div>
                     </div>
