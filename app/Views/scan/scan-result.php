@@ -4,22 +4,22 @@ use App\Libraries\enums\TipeUser;
 
 switch ($type) {
    case TipeUser::Siswa:
-?>
+      ?>
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
       <div class="row w-100">
          <div class="col">
             <p>Nama : <b><?= $data['nama_siswa']; ?></b></p>
             <p>NIS : <b><?= $data['nis']; ?></b></p>
-            <p>Kelas : <b><?= $data['kelas']  . ' ' . $data['jurusan']; ?></b></p>
+            <p>Kelas : <b><?= $data['kelas']; ?></b></p>
          </div>
          <div class="col">
             <?= jam($presensi); ?>
          </div>
       </div>
-   <?php break;
+      <?php break;
 
    case TipeUser::Guru:
-   ?>
+      ?>
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
       <div class="row w-100">
          <div class="col">
@@ -31,12 +31,12 @@ switch ($type) {
             <?= jam($presensi); ?>
          </div>
       </div>
-   <?php break;
+      <?php break;
 
    default:
-   ?>
+      ?>
       <h3 class="text-danger">Tipe tidak valid</h3>
-   <?php
+      <?php
       break;
 }
 
@@ -45,7 +45,7 @@ function jam($presensi)
    ?>
    <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
    <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
-<?php
+   <?php
 }
 
 ?>
