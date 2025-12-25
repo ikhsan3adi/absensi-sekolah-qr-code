@@ -11,6 +11,7 @@ use Myth\Auth\Password;
 class DataPetugas extends BaseController
 {
    protected PetugasModel $petugasModel;
+   protected \App\Models\GuruModel $guruModel;
 
    protected $petugasValidationRules = [
       'email' => [
@@ -42,6 +43,7 @@ class DataPetugas extends BaseController
    public function __construct()
    {
       $this->petugasModel = new PetugasModel();
+      $this->guruModel = new \App\Models\GuruModel();
    }
 
    public function index()
@@ -78,10 +80,49 @@ class DataPetugas extends BaseController
 
       $data = [
          'title' => 'Register Petugas',
-         'ctx' => 'petugas'
+         'ctx' => 'petugas',
+         'guru' => $this->guruModel->getAllGuru()
       ];
 
       return view('admin/petugas/register', $data);
+   }
+
+   public function registerPetugasPost()
+   {
+      if (user()->toArray()['is_superadmin'] != '1') {
+         return redirect()->to('admin');
+      }
+
+      $this->petugasValidationRules['email']['rules'] .= '|is_unique[users.email]';
+      $this->petugasValidationRules['username']['rules'] .= '|is_unique[users.username]';
+      $this->petugasValidationRules['password']['rules'] = 'required|min_length[6]';
+
+      if (!$this->validate($this->petugasValidationRules)) {
+         return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+      }
+
+      $email = $this->request->getVar('email');
+      $username = $this->request->getVar('username');
+      $password = $this->request->getVar('password');
+      $passwordHash = Password::hash($password);
+      $role = $this->request->getVar('role');
+      $id_guru = $this->request->getVar('id_guru') ?: null;
+
+      $result = $this->petugasModel->savePetugas(null, $email, $username, $passwordHash, $role, $id_guru, 1);
+
+      if ($result) {
+         session()->setFlashdata([
+            'msg' => 'Registrasi petugas berhasil',
+            'error' => false
+         ]);
+         return redirect()->to('/admin/petugas');
+      }
+
+      session()->setFlashdata([
+         'msg' => 'Gagal registrasi petugas',
+         'error' => true
+      ]);
+      return redirect()->back()->withInput();
    }
 
    public function formEditPetugas($id)
@@ -96,6 +137,7 @@ class DataPetugas extends BaseController
          'data' => $petugas,
          'ctx' => 'petugas',
          'title' => 'Edit Data Petugas',
+         'guru' => $this->guruModel->getAllGuru()
       ];
 
       return view('admin/petugas/edit-data-petugas', $data);
@@ -133,8 +175,9 @@ class DataPetugas extends BaseController
       $username = $this->request->getVar('username');
       $passwordHash = $password ? Password::hash($password) : $petugasLama['password_hash'];
       $role = $this->request->getVar('role');
+      $id_guru = $this->request->getVar('id_guru') ?: null;
 
-      $result = $this->petugasModel->savePetugas($idPetugas, $email, $username, $passwordHash, $role);
+      $result = $this->petugasModel->savePetugas($idPetugas, $email, $username, $passwordHash, $role, $id_guru, $petugasLama['active']);
 
       if ($result) {
          session()->setFlashdata([
@@ -167,6 +210,28 @@ class DataPetugas extends BaseController
          'msg' => 'Gagal menghapus data',
          'error' => true
       ]);
+      return redirect()->to('/admin/petugas');
+   }
+
+   public function toggleActivation($id)
+   {
+      if (user()->toArray()['is_superadmin'] != '1') {
+         return redirect()->to('admin');
+      }
+
+      $petugas = $this->petugasModel->getPetugasById($id);
+      if (empty($petugas)) {
+         throw new PageNotFoundException('Data petugas dengan id ' . $id . ' tidak ditemukan');
+      }
+
+      $newStatus = ($petugas['active'] ?? 0) == 1 ? 0 : 1;
+      $this->petugasModel->update($id, ['active' => $newStatus]);
+
+      session()->setFlashdata([
+         'msg' => 'Status akun berhasil diubah',
+         'error' => false
+      ]);
+
       return redirect()->to('/admin/petugas');
    }
 }

@@ -27,7 +27,13 @@ class DataGuru extends BaseController
          ]
       ],
       'jk' => ['rules' => 'required', 'errors' => ['required' => 'Jenis kelamin wajib diisi']],
-      'no_hp' => 'required|numeric|max_length[20]|min_length[5]'
+      'no_hp' => 'required|numeric|max_length[20]|min_length[5]',
+      'rfid' => [
+         'rules' => 'permit_empty|is_rfid_unique[,guru]',
+         'errors' => [
+            'is_rfid_unique' => 'RFID code sudah digunakan.'
+         ]
+      ]
    ];
 
    public function __construct()
@@ -37,6 +43,11 @@ class DataGuru extends BaseController
 
    public function index()
    {
+      if (user()->toArray()['is_superadmin'] != '1') {
+         return redirect()->to('admin');
+      }
+
+
       $data = [
          'title' => 'Data Guru',
          'ctx' => 'guru',
@@ -87,6 +98,7 @@ class DataGuru extends BaseController
          jenisKelamin: $this->request->getVar('jk'),
          alamat: $this->request->getVar('alamat'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {
@@ -125,6 +137,8 @@ class DataGuru extends BaseController
    {
       $idGuru = $this->request->getVar('id');
 
+      $this->guruValidationRules['rfid']['rules'] = "permit_empty|is_rfid_unique[{$idGuru},guru]";
+
       // validasi
       if (!$this->validate($this->guruValidationRules)) {
          $data = [
@@ -145,6 +159,7 @@ class DataGuru extends BaseController
          jenisKelamin: $this->request->getVar('jk'),
          alamat: $this->request->getVar('alamat'),
          noHp: $this->request->getVar('no_hp'),
+         rfid: $this->request->getVar('rfid')
       );
 
       if ($result) {

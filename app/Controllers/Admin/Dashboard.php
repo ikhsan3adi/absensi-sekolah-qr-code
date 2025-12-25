@@ -37,6 +37,22 @@ class Dashboard extends BaseController
 
    public function index()
    {
+
+      // jika bukan admin dan kepala sekolah, maka hentikan
+
+      $user = user();
+      $userRole = (int) $user->is_superadmin;
+
+      if (!empty($user->id_guru)) {
+         return redirect()->to('teacher/dashboard');
+      }
+
+      if ($userRole < 1) {
+         return redirect()->to('scan');
+      }
+
+
+
       $now = Time::now();
 
       $dateRange = [];

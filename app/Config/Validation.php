@@ -30,6 +30,7 @@ class Validation extends BaseConfig
         \CodeIgniter\Validation\FileRules::class,
         \CodeIgniter\Validation\CreditCardRules::class,
         \Myth\Auth\Authentication\Passwords\ValidationRules::class,
+        \App\Validation\RFIDRules::class,
     ];
 
     /**
@@ -39,7 +40,7 @@ class Validation extends BaseConfig
      * @var array<string, string>
      */
     public array $templates = [
-        'list'   => 'CodeIgniter\Validation\Views\list',
+        'list' => 'CodeIgniter\Validation\Views\list',
         'single' => 'CodeIgniter\Validation\Views\single',
     ];
 

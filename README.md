@@ -29,9 +29,15 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 ## Fitur Utama
 
 - **QR Code scanner.** Setiap siswa/guru menunjukkan qr code kepada perangkat yang dilengkapi dengan kamera. Aplikasi akan memvalidasi QR code dan mencatat kehadiran siswa ke dalam database.
+- **RFID Integration.** Dukungan presensi menggunakan RFID card sebagai alternatif QR Code. Setiap siswa/guru dapat menggunakan RFID card untuk melakukan presensi dengan validasi kode RFID yang unik.
 - **Notifikasi Presensi via WhatsApp**. Setelah berhasil scan dan presensi, pemberitahuan dikirim ke nomor hp siswa melalui whatsapp.
 - **Login petugas.**
 - **Dashboard petugas.** Petugas sekolah dapat dengan mudah memantau kehadiran siswa dalam periode waktu tertentu melalui tampilan yang disediakan.
+- **Dashboard Wali Kelas.** Fitur khusus untuk guru wali kelas dengan kemampuan:
+  - Memantau kehadiran siswa di kelas yang diampu
+  - Mengelola data kehadiran siswa per kelas
+  - Generate QR code untuk siswa di kelasnya
+  - Generate laporan kehadiran khusus untuk kelas yang diampu
 - **QR Code generator & downloader.** Petugas yang sudah login akan men-generate dan/atau mendownload qr code setiap siswa/guru. Setiap siswa akan diberikan QR code unik yang terkait dengan identitas siswa. QR code ini akan digunakan saat proses absensi.
 - **Ubah data absen siswa/guru.** Petugas dapat mengubah data absensi setiap siswa/guru. Misalnya mengubah data kehadiran dari `tanpa keterangan` menjadi `sakit` atau `izin`.
 - **Tambah, Ubah, Hapus(CRUD) data siswa/guru.**
@@ -103,6 +109,14 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 | Generate QR                                   |                Generate Laporan                |
 | --------------------------------------------- | :--------------------------------------------: |
 | ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/laporan.png) |
+
+### Tampilan Dashboard Wali Kelas
+
+![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas.png)
+
+### Manajemen Kehadiran Kelas di Dashboard Wali Kelas
+
+![Wali Kelas Kehadiran](./screenshots/wali-kelas-kehadiran.png)
 
 ## Cara Penggunaan
 
@@ -179,6 +193,43 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >   $password = 'superadmin';
 >   ```
 
+### Docker Setup
+
+Untuk menjalankan aplikasi menggunakan Docker, pastikan Docker dan Docker Compose sudah terinstal di komputer Anda.
+
+#### 1. Jalankan Container
+
+Jalankan perintah berikut di root project:
+
+```bash
+docker-compose up -d --build
+```
+
+Perintah ini akan membangun image dan menjalankan container untuk aplikasi web, database, dan phpMyAdmin.
+
+#### 2. Akses Aplikasi
+
+- **Aplikasi Utama**: Akses melalui browser di `http://localhost:8080/`
+- **phpMyAdmin**: Akses melalui browser di `http://localhost:8081/`
+
+#### 3. Konfigurasi
+
+Aplikasi sudah dikonfigurasi untuk terhubung dengan database container secara otomatis.
+Default credential database:
+
+- **Host**: `db`
+- **Username**: `root`
+- **Password**: `root`
+- **Database**: `db_absensi`
+
+#### 4. Menghentikan Container
+
+Untuk menghentikan container:
+
+```bash
+docker-compose down
+```
+
 ## Kesimpulan
 
 Dengan aplikasi web sistem absensi sekolah berbasis QR code ini, diharapkan proses absensi di sekolah menjadi lebih efisien dan terotomatisasi. Proyek ini dapat diadaptasi dan dikembangkan lebih lanjut sesuai dengan kebutuhan dan persyaratan sekolah Anda.
@@ -211,3 +262,4 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 - [@nanda443](https://www.github.com/nanda443)
 - [@kevindoni](https://www.github.com/kevindoni)
 - [@pandigresik](https://github.com/pandigresik)
+- [@hex4coder](https://github.com/hex4coder)

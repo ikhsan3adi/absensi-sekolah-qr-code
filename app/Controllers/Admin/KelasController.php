@@ -9,14 +9,15 @@ use App\Controllers\BaseController;
 class KelasController extends BaseController
 {
     protected KelasModel $kelasModel;
-
     protected JurusanModel $jurusanModel;
+    protected \App\Models\GuruModel $guruModel;
 
     public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
         $this->kelasModel = new KelasModel();
         $this->jurusanModel = new JurusanModel();
+        $this->guruModel = new \App\Models\GuruModel();
     }
 
     /**
@@ -26,6 +27,11 @@ class KelasController extends BaseController
      */
     public function index()
     {
+        if (user()->toArray()['is_superadmin'] != '1') {
+            return redirect()->to('admin');
+        }
+
+
         $data = [
             'title' => 'Kelas & Jurusan',
             'ctx' => 'kelas',
@@ -65,6 +71,7 @@ class KelasController extends BaseController
         $data['ctx'] = 'kelas';
         $data['title'] = 'Tambah Data Kelas';
         $data['jurusan'] = $this->jurusanModel->findAll();
+        $data['guru'] = $this->guruModel->getAllGuru();
 
         return view('/admin/kelas/create', $data);
     }
@@ -77,8 +84,10 @@ class KelasController extends BaseController
     public function tambahKelasPost()
     {
         $val = \Config\Services::validation();
-        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('tingkat', 'Tingkat', 'required|max_length[10]');
         $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
+        $val->setRule('index_kelas', 'Index', 'required|max_length[5]');
+        $val->setRule('id_wali_kelas', 'Wali Kelas', 'permit_empty|numeric');
 
         if (!$this->validate(getValRules($val))) {
             $this->session->setFlashdata('errors', $val->getErrors());
@@ -92,8 +101,6 @@ class KelasController extends BaseController
                 return redirect()->to('admin/kelas/tambah')->withInput();
             }
         }
-
-        return redirect()->to('admin/kelas/tambah');
     }
 
     /**
@@ -106,6 +113,7 @@ class KelasController extends BaseController
         $data['title'] = 'Edit Kelas';
         $data['ctx'] = 'kelas';
         $data['jurusan'] = $this->jurusanModel->findAll();
+        $data['guru'] = $this->guruModel->getAllGuru();
         $data['kelas'] = $this->kelasModel->getKelas($id);
         if (empty($data['kelas'])) {
             return redirect()->to('admin/kelas');
@@ -122,8 +130,10 @@ class KelasController extends BaseController
     public function editKelasPost()
     {
         $val = \Config\Services::validation();
-        $val->setRule('kelas', 'Kelas', 'required|max_length[32]');
+        $val->setRule('tingkat', 'Tingkat', 'required|max_length[10]');
         $val->setRule('id_jurusan', 'Jurusan', 'required|numeric');
+        $val->setRule('index_kelas', 'Index', 'required|max_length[5]');
+        $val->setRule('id_wali_kelas', 'Wali Kelas', 'permit_empty|numeric');
         if (!$this->validate(getValRules($val))) {
             $this->session->setFlashdata('errors', $val->getErrors());
             return redirect()->back();

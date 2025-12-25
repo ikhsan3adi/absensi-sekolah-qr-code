@@ -25,19 +25,19 @@ class CreateDB extends Migration
             ('AKL'),
             ('RPL');");
 
-        $this->forge->getConnection()->query("INSERT INTO tb_kelas (kelas, id_jurusan) VALUES
-            ('X', 1),
-            ('X', 2),
-            ('X', 3),
-            ('X', 4),
-            ('XI', 1),
-            ('XI', 2),
-            ('XI', 3),
-            ('XI', 4),
-            ('XII', 1),
-            ('XII', 2),
-            ('XII', 3),
-            ('XII', 4);");
+        $this->forge->getConnection()->query("INSERT INTO tb_kelas (tingkat, id_jurusan, index_kelas) VALUES
+            ('X', 1, 'A'),
+            ('X', 2, 'A'),
+            ('X', 3, 'A'),
+            ('X', 4, 'A'),
+            ('XI', 1, 'A'),
+            ('XI', 2, 'A'),
+            ('XI', 3, 'A'),
+            ('XI', 4, 'A'),
+            ('XII', 1, 'A'),
+            ('XII', 2, 'A'),
+            ('XII', 3, 'A'),
+            ('XII', 4, 'A');");
 
         $this->forge->getConnection()->query("CREATE TABLE tb_guru (
             id_guru int(11) NOT NULL,

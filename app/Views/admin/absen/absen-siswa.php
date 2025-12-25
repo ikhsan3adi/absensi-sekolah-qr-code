@@ -17,13 +17,14 @@
 
                   <div class="card-body pt-1 px-3">
                      <div class="row">
-                        <?php foreach ($kelas as $value) : ?>
+                        <?php foreach ($kelas as $value): ?>
                            <?php
                            $idKelas = $value['id_kelas'];
-                           $namaKelas =  $value['kelas'] . ' ' . $value['jurusan'];
+                           $namaKelas = $value['kelas'];
                            ?>
                            <div class="col-md-3">
-                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
+                              <button id="kelas-<?= $idKelas; ?>"
+                                 onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
                                  <?= $namaKelas; ?>
                               </button>
                            </div>
@@ -35,7 +36,8 @@
                      <div class="col-md-3">
                         <div class="pt-3 pl-3 pb-2">
                            <h4><b>Tanggal</b></h4>
-                           <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
+                           <input class="form-control" type="date" name="tangal" id="tanggal"
+                              value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
                         </div>
                      </div>
                   </div>
@@ -93,7 +95,7 @@
             'id_kelas': idKelas,
             'tanggal': tanggal
          },
-         success: function(response, status, xhr) {
+         success: function (response, status, xhr) {
             // console.log(status);
             $('#dataSiswa').html(response);
 
@@ -101,7 +103,7 @@
                scrollTop: $("#dataSiswa").offset().top
             }, 500);
          },
-         error: function(xhr, status, thrown) {
+         error: function (xhr, status, thrown) {
             console.log(thrown);
             $('#dataSiswa').html(thrown);
          }
@@ -131,11 +133,11 @@
             'id_presensi': idPresensi,
             'id_siswa': idSiswa
          },
-         success: function(response, status, xhr) {
+         success: function (response, status, xhr) {
             // console.log(status);
             $('#modalFormUbahSiswa').html(response);
          },
-         error: function(xhr, status, thrown) {
+         error: function (xhr, status, thrown) {
             console.log(thrown);
             $('#modalFormUbahSiswa').html(thrown);
          }
@@ -158,7 +160,7 @@
          url: "<?= base_url('/admin/absen-siswa/edit'); ?>",
          type: 'post',
          data: form,
-         success: function(response, status, xhr) {
+         success: function (response, status, xhr) {
             // console.log(status);
 
             if (response['status']) {
@@ -168,7 +170,7 @@
                alert('Gagal ubah kehadiran : ' + response['nama_siswa']);
             }
          },
-         error: function(xhr, status, thrown) {
+         error: function (xhr, status, thrown) {
             console.log(thrown);
             alert('Gagal ubah kehadiran\n' + thrown);
          }

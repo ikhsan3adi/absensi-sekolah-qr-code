@@ -18,8 +18,10 @@ class KelasModel extends BaseModel
    public function inputValues()
    {
       return [
-         'kelas' => inputPost('kelas'),
+         'tingkat' => inputPost('tingkat'),
          'id_jurusan' => inputPost('id_jurusan'),
+         'index_kelas' => inputPost('index_kelas'),
+         'id_wali_kelas' => inputPost('id_wali_kelas'),
       ];
    }
 
@@ -41,15 +43,32 @@ class KelasModel extends BaseModel
 
    public function getDataKelas()
    {
-      return $this->builder->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')->orderBy('tb_kelas.id_kelas')->get()->getResult('array');
+      return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')
+         ->join('tb_guru', 'tb_kelas.id_wali_kelas = tb_guru.id_guru', 'left')
+         ->orderBy('tb_kelas.id_kelas')
+         ->get()->getResult('array');
    }
 
    public function getKelas($id)
    {
-      return $this->builder->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')->where('id_kelas', cleanNumber($id))->get()->getRow();
+      return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')
+         ->join('tb_guru', 'tb_kelas.id_wali_kelas = tb_guru.id_guru', 'left')
+         ->where('id_kelas', cleanNumber($id))
+         ->get()->getRow();
    }
 
-   public  function getCategoryTree($categoryId, $categories)
+   public function getKelasByWali($id_guru)
+   {
+      return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')
+         ->join('tb_guru', 'tb_kelas.id_wali_kelas = tb_guru.id_guru', 'left')
+         ->where('id_wali_kelas', cleanNumber($id_guru))
+         ->get()->getRowArray();
+   }
+
+   public function getCategoryTree($categoryId, $categories)
    {
       $tree = array();
       $categoryId = cleanNumber($categoryId);
@@ -86,6 +105,8 @@ class KelasModel extends BaseModel
 
    public function getAllKelas()
    {
-      return $this->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')->findAll();
+      return $this->select('tb_kelas.*, tb_jurusan.jurusan, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
+         ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
+         ->findAll();
    }
 }

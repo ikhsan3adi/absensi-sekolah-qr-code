@@ -21,9 +21,7 @@ class App extends BaseConfig
      * explicitly and never rely on auto-guessing, especially in production
      * environments.
      */
-    public string $baseURL = 'http://localhost/absensi-sekolah-qr-code/';
-    // Using php spark serve
-    // public string $baseURL = 'http://localhost:8080/';
+    public string $baseURL = '';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -113,7 +111,7 @@ class App extends BaseConfig
      * The default timezone that will be used in your application to display
      * dates with the date helper, and can be retrieved through app_timezone()
      */
-    public string $appTimezone = 'Asia/Jakarta';
+    public string $appTimezone = 'Asia/Makassar';
 
     /**
      * --------------------------------------------------------------------------
@@ -179,4 +177,19 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Check if running via CLI or if SERVER variables are missing
+        if (is_cli() || !isset($_SERVER['HTTP_HOST'])) {
+            $this->baseURL = 'http://localhost:8080/';
+            return;
+        }
+
+        $protocol = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $this->baseURL = $protocol . '://' . $host . '/';
+    }
 }

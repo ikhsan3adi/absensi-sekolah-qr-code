@@ -83,7 +83,8 @@ class QRGenerator extends BaseController
    public function setQrCodeFilePath(string $qrCodeFilePath)
    {
       $this->qrCodeFilePath = $qrCodeFilePath;
-      if (!file_exists($this->qrCodeFilePath)) mkdir($this->qrCodeFilePath, recursive: true);
+      if (!file_exists($this->qrCodeFilePath))
+         mkdir($this->qrCodeFilePath, recursive: true);
    }
 
    public function generateQrSiswa()
@@ -162,7 +163,7 @@ class QRGenerator extends BaseController
          ]);
          return redirect()->back();
       }
-      
+
       try {
          $kelas = $this->getKelasJurusanSlug($siswa['id_kelas']) ?? 'tmp';
          $this->qrCodeFilePath .= "qr-siswa/$kelas/";
@@ -256,7 +257,7 @@ class QRGenerator extends BaseController
 
          $this->zipFolder($this->qrCodeFilePath, $output);
 
-         return $this->response->download($output, null,  true);
+         return $this->response->download($output, null, true);
       } catch (\Throwable $th) {
          session()->setFlashdata([
             'msg' => $th->getMessage(),
@@ -283,7 +284,7 @@ class QRGenerator extends BaseController
 
          $this->zipFolder($this->qrCodeFilePath, $output);
 
-         return $this->response->download($output, null,  true);
+         return $this->response->download($output, null, true);
       } catch (\Throwable $th) {
          session()->setFlashdata([
             'msg' => $th->getMessage(),
@@ -331,9 +332,10 @@ class QRGenerator extends BaseController
 
    protected function getKelasJurusanSlug(string $idKelas)
    {
-      $kelas = (new KelasModel)->getKelas($idKelas);;
+      $kelas = (new KelasModel)->getKelas($idKelas);
+      ;
       if ($kelas) {
-         return url_title($kelas->kelas . ' ' . $kelas->jurusan, lowercase: true);
+         return url_title($kelas->kelas, lowercase: true);
       } else {
          return false;
       }

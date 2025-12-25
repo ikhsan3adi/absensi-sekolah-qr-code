@@ -145,17 +145,36 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('petugas', 'Admin\DataPetugas::ambilDataPetugas');
    // superadmin tambah data petugas
    $routes->get('petugas/register', 'Admin\DataPetugas::registerPetugas');
+   $routes->post('petugas/register', 'Admin\DataPetugas::registerPetugasPost');
    // superadmin edit data petugas
    $routes->get('petugas/edit/(:any)', 'Admin\DataPetugas::formEditPetugas/$1');
    $routes->post('petugas/edit', 'Admin\DataPetugas::updatePetugas');
    // superadmin hapus data petugas
    $routes->delete('petugas/delete/(:any)', 'Admin\DataPetugas::delete/$1');
+   $routes->get('petugas/activate/(:any)', 'Admin\DataPetugas::toggleActivation/$1');
 
    // Settings
    $routes->group('general-settings', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
       $routes->get('/', 'GeneralSettings::index');
       $routes->post('update', 'GeneralSettings::generalSettingsPost');
    });
+});
+
+// Teacher
+$routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' => 'login'], function (RouteCollection $routes) {
+   $routes->get('/', 'Dashboard::index');
+   $routes->get('dashboard', 'Dashboard::index');
+   $routes->get('laporan', 'Reports::index');
+   $routes->post('laporan/generate', 'Reports::generate');
+
+   // QR Code Siswa สำหรับ Wali Kelas
+   $routes->get('qr', 'QRCode::index');
+   $routes->get('qr/download', 'QRCode::download');
+   $routes->get('attendance', 'Dashboard::attendance');
+   $routes->get('attendance/(:any)', 'Dashboard::attendance/$1');
+   $routes->post('attendance/get-list', 'Dashboard::getAttendanceList');
+   $routes->post('attendance/get-edit-modal', 'Dashboard::getEditModal');
+   $routes->post('attendance/update-single', 'Dashboard::updateSingleAttendance');
 });
 
 

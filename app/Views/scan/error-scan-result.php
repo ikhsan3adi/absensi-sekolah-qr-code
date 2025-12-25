@@ -13,13 +13,13 @@ if (empty($type)) {
             <div class="col">
                <p>Nama : <b><?= $data['nama_siswa']; ?></b></p>
                <p>NIS : <b><?= $data['nis']; ?></b></p>
-               <p>Kelas : <b><?= $data['kelas'] . ' ' . $data['jurusan']; ?></b></p>
+               <p>Kelas : <b><?= $data['kelas']; ?></b></p>
             </div>
             <div class="col">
                <?= jam($presensi ?? []); ?>
             </div>
          </div>
-      <?php break;
+         <?php break;
 
       case TipeUser::Guru: ?>
          <div class="row w-100">
@@ -32,11 +32,11 @@ if (empty($type)) {
                <?= jam($presensi ?? []); ?>
             </div>
          </div>
-      <?php break;
+         <?php break;
 
       default: ?>
          <p class="text-danger">Tipe tidak valid</p>
-   <?php break;
+         <?php break;
    }
 }
 
@@ -45,7 +45,7 @@ function jam($presensi)
    ?>
    <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
    <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
-<?php
+   <?php
 }
 
 ?>
