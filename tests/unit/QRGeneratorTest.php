@@ -23,14 +23,14 @@ class QRGeneratorTest extends CIUnitTestCase
         ]);
 
         $this->db->table('tb_kelas')->insert([
-            'kelas' => 'Z',
+            'tingkat' => 'Z',
             'id_jurusan' => $this->db->table('tb_jurusan')->get(1)->getRowArray()['id'],
         ]);
 
         $this->db->table('tb_siswa')->insert([
             'nis' => '1234567890',
             'nama_siswa' => 'John Doe',
-            'id_kelas' => $kelasId ?? 1,
+            'id_kelas' => 1,
             'no_hp' => '081234567890',
             'unique_code' => '1234567890',
         ]);
