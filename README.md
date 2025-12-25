@@ -1,5 +1,5 @@
 <h1 align="center">
-  Aplikasi Web Sistem Absensi Sekolah<br>Berbasis QR Code
+  Aplikasi Web Sistem Absensi Sekolah<br>Berbasis QR Code (+ Dukungan RFID)
 </h1>
 
 <p align="center">
@@ -22,7 +22,7 @@
 
 ![Preview](./screenshots/hero.png)
 
-Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah menggunakan teknologi QR code. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
+Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
 > [Instalasi & Cara Penggunaan](#cara-penggunaan)
 
@@ -60,63 +60,100 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >
 > - [Fonnte](https://fonnte.com/) - WhatsApp API untuk mengirim pesan notifikasi
 
-## Screenshots
+## Pratinjau
 
-### Tampilan Halaman QR Scanner
+### Sistem Presensi
 
-![QR Scanner view](./screenshots/qr-scanner.jpeg)
+#### 1. Halaman Scanner (QR Code & RFID)
 
-### Tampilan Absen Masuk dan Pulang
+|                                (OLD) QR Scanner                                 |                            (NEW) QR Code + RFID                             |
+| :-----------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
+| <img src="./screenshots/qr-scanner.jpeg" height="320px" alt="QR Scanner (OLD)"> | <img src="./screenshots/new-scanner.png" height="320px" alt="RFID Scanner"> |
 
-![QR Scanner absen](./screenshots/absen.jpg)
+Halaman presensi yang mendukung **QR Code Scanner** (menggunakan kamera) dan **RFID Reader** (tap kartu).
 
-> #### Notifikasi via WhatsApp
->
-> ![Notifikasi WA](./screenshots/notif-wa.png)
+#### 2. Hasil Presensi Masuk/Pulang (OLD)
 
-### Tampilan Login Petugas
+![Hasil Scan Absensi](./screenshots/absen.jpg)
 
-![Login](./screenshots/login.jpeg)
-
-### Tampilan Dashboard Petugas
-
-![Dashboard](./screenshots/dashboard.png)
-
-### Tampilan CRUD Data Absen
-
-| Siswa (Dengan Data Kelas)                          |                       Guru                       |
-| -------------------------------------------------- | :----------------------------------------------: |
-| ![CRUD Absen Siswa](./screenshots/absen-siswa.png) | ![CRUD Absen Guru](./screenshots/absen-guru.png) |
-
-### Tampilan Ubah Data Kehadiran
+#### 3. Notifikasi WhatsApp
 
 <p align="center">
-  <img src="./screenshots/ubah-kehadiran.jpeg" height="320px" style="object-fit:cover" alt="Ubah Data Kehadiran" title="Ubah Data Kehadiran">
+  <img src="./screenshots/notif-wa.png" width="320px" alt="Notifikasi WA">
 </p>
 
-### Tampilan CRUD Data Siswa & Guru
+Notifikasi otomatis dikirim ke nomor HP siswa/guru setelah berhasil presensi.
 
-| Siswa                                            |                      Guru                      |
-| ------------------------------------------------ | :--------------------------------------------: |
+---
+
+### Dashboard Admin/Petugas
+
+|               Login Petugas                |                 Dashboard Utama                 |
+| :----------------------------------------: | :---------------------------------------------: |
+| ![Halaman Login](./screenshots/login.jpeg) | ![Dashboard Admin](./screenshots/dashboard.png) |
+
+Dashboard admin untuk monitoring kehadiran siswa dan guru.
+
+---
+
+### Manajemen Data Absensi
+
+#### 1. Data Absensi Siswa & Guru
+
+|         Absensi Siswa (Dengan Data Kelas)          |                   Absensi Guru                   |
+| :------------------------------------------------: | :----------------------------------------------: |
+| ![CRUD Absen Siswa](./screenshots/absen-siswa.png) | ![CRUD Absen Guru](./screenshots/absen-guru.png) |
+
+#### 2. Edit Status Kehadiran
+
+<p align="center">
+  <img src="./screenshots/ubah-kehadiran.jpeg" height="320px" alt="Ubah Data Kehadiran">
+</p>
+
+Petugas dapat mengubah status kehadiran (Hadir, Sakit, Izin, Alpha, dll).
+
+---
+
+### Manajemen Data Master
+
+#### 1. Data Siswa & Guru
+
+|                    Data Siswa                    |                   Data Guru                    |
+| :----------------------------------------------: | :--------------------------------------------: |
 | ![CRUD Data Siswa](./screenshots/data-siswa.png) | ![CRUD Data Guru](./screenshots/data-guru.png) |
 
-### Tampilan CRUD Data Kelas & Jurusan
+#### 2. Data Kelas & Jurusan
 
-![CRUD Data Siswa](./screenshots/kelas-jurusan.png)
+<img src="./screenshots/kelas-jurusan.png" height="320px" alt="Kelas & Jurusan">
 
-### Tampilan Generate QR Code dan Generate Laporan
+Kelola data kelas, jurusan, dan **penugasan Wali Kelas**.
 
-| Generate QR                                   |                Generate Laporan                |
-| --------------------------------------------- | :--------------------------------------------: |
+---
+
+### Fitur Tambahan
+
+#### 1. Generate QR Code & Laporan
+
+|               Generate QR Code                |                Generate Laporan                |
+| :-------------------------------------------: | :--------------------------------------------: |
 | ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/laporan.png) |
 
-### Tampilan Dashboard Wali Kelas
+---
 
-![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas.png)
+### Dashboard Wali Kelas
 
-### Manajemen Kehadiran Kelas di Dashboard Wali Kelas
+|                                 Dashboard Wali Kelas                                 |                          Manajemen Kehadiran Kelas                           |
+| :----------------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
+|           ![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas.png)            |     ![Manajemen Kehadiran Kelas](./screenshots/wali-kelas-kehadiran.png)     |
+| Dashboard khusus untuk guru wali kelas dengan statistik kehadiran siswa di kelasnya. | Wali kelas dapat melihat dan mengelola kehadiran siswa di kelas yang diampu. |
 
-![Wali Kelas Kehadiran](./screenshots/wali-kelas-kehadiran.png)
+---
+
+## Skema Database Inti
+
+<img src="./screenshots/core-absensi-db-schema.svg" alt="Skema Database">
+
+---
 
 ## Cara Penggunaan
 
@@ -149,14 +186,71 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 - Jalankan web server (contoh Apache, XAMPP, etc)
 - Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
 - Lalu jalankan aplikasi di browser.
-- Login menggunakan krendensial superadmin:
+- Login menggunakan kredensial superadmin:
 
   ```txt
   username : superadmin
   password : superadmin
   ```
 
-- Izinkan akses kamera.
+- Izinkan akses kamera untuk QR Scanner.
+
+### Cara Menggunakan Akun Wali Kelas
+
+Fitur Wali Kelas memungkinkan guru untuk mengelola kehadiran siswa di kelas yang diampu. Berikut cara mengaktifkan dan menggunakan fitur ini:
+
+#### Persiapan Data
+
+Pastikan data berikut sudah tersedia:
+
+- **Data Guru** sudah terdaftar di sistem
+- **Data Kelas** sudah dibuat
+
+#### Menautkan Guru sebagai Wali Kelas
+
+1. Login sebagai **admin/superadmin**
+2. Buka menu **Kelas & Jurusan** → **Data Kelas**
+3. Klik tombol **Edit** pada kelas yang akan ditugaskan wali kelas
+4. Pada dropdown **"Wali Kelas"**, pilih nama guru yang akan menjadi wali kelas
+5. Klik **Simpan**
+
+#### Menautkan Wali Kelas ke Akun Petugas
+
+1. Login sebagai **superadmin**
+2. Buka menu **Data Petugas**
+3. Untuk membuat akun baru:
+   - Klik **Tambah Petugas**
+   - Isi data: Email, Username, Password
+   - Pilih Role: **Admin** (bukan Superadmin)
+   - Pada dropdown **"Hubungkan ke Guru"**, pilih nama guru
+   - Klik **Simpan**
+4. Untuk mengedit akun yang sudah ada:
+   - Klik **Edit** pada akun petugas
+   - Pada dropdown **"Hubungkan ke Guru"**, pilih nama guru
+   - Klik **Update**
+
+#### Login sebagai Wali Kelas
+
+1. Logout dari akun superadmin
+2. Login menggunakan **username dan password** yang sudah dibuat/dihubungkan ke data guru
+3. Setelah login, sistem akan otomatis mendeteksi bahwa akun tersebut terhubung dengan data guru yang menjadi wali kelas
+4. Dashboard Wali Kelas akan muncul dengan data kelas yang diampu
+
+#### Fitur Dashboard Wali Kelas
+
+Setelah login sebagai wali kelas, Anda dapat:
+
+- **Melihat Statistik Kehadiran**: Grafik dan data kehadiran siswa di kelas yang diampu
+- **Mengelola Kehadiran Siswa**: Lihat detail kehadiran setiap siswa per tanggal
+- **Generate QR Code**: Download QR Code untuk siswa di kelas yang diampu
+- **Generate Laporan**: Buat laporan kehadiran khusus untuk kelas yang diampu dalam format PDF
+
+#### Catatan Penting
+
+- Satu akun petugas hanya bisa dihubungkan ke **satu data guru**
+- Guru yang belum ditugaskan sebagai wali kelas tidak akan melihat menu Dashboard Wali Kelas
+- Wali kelas hanya dapat melihat dan mengelola data siswa di kelasnya sendiri
+- Akun superadmin memiliki akses penuh ke semua fitur, termasuk fitur wali kelas
 
 ### Konfigurasi
 
@@ -193,11 +287,11 @@ Aplikasi Web Sistem Absensi Sekolah Berbasis QR Code adalah sebuah proyek yang b
 >   $password = 'superadmin';
 >   ```
 
-### Docker Setup
+## Docker Setup (Opsional)
 
 Untuk menjalankan aplikasi menggunakan Docker, pastikan Docker dan Docker Compose sudah terinstal di komputer Anda.
 
-#### 1. Jalankan Container
+### 1. Jalankan Container
 
 Jalankan perintah berikut di root project:
 
@@ -207,12 +301,12 @@ docker-compose up -d --build
 
 Perintah ini akan membangun image dan menjalankan container untuk aplikasi web, database, dan phpMyAdmin.
 
-#### 2. Akses Aplikasi
+### 2. Akses Aplikasi
 
 - **Aplikasi Utama**: Akses melalui browser di `http://localhost:8080/`
 - **phpMyAdmin**: Akses melalui browser di `http://localhost:8081/`
 
-#### 3. Konfigurasi
+### 3. Konfigurasi
 
 Aplikasi sudah dikonfigurasi untuk terhubung dengan database container secara otomatis.
 Default credential database:
@@ -222,7 +316,7 @@ Default credential database:
 - **Password**: `root`
 - **Database**: `db_absensi`
 
-#### 4. Menghentikan Container
+### 4. Menghentikan Container
 
 Untuk menghentikan container:
 

@@ -132,3 +132,4 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 *.zip
+bash.exe.stackdump
