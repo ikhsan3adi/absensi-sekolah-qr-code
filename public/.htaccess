@@ -55,3 +55,144 @@ Options All -Indexes
 # Disable server signature start
 	ServerSignature Off
 # Disable server signature end
+
+# ======================================================================
+# Browser Caching - Static Assets
+# ======================================================================
+
+<IfModule mod_headers.c>
+	# Default: no cache
+	Header set Cache-Control "no-cache, no-store, must-revalidate, private, max-age=0"
+	
+	# Images: 1 year (31536000 seconds)
+	<FilesMatch "\.(gif|jpg|jpeg|png|webp|ico|svg)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header set Expires "Wed, 20 Jan 2027 04:20:42 GMT"
+	</FilesMatch>
+	
+	# CSS: 1 year (versioned)
+	<FilesMatch "\.css$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header set Expires "Wed, 20 Jan 2027 04:20:42 GMT"
+	</FilesMatch>
+	
+	# JavaScript: 1 year (versioned)
+	<FilesMatch "\.js$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header set Expires "Wed, 20 Jan 2027 04:20:42 GMT"
+	</FilesMatch>
+	
+	# Fonts: 1 year (versioned)
+	<FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header set Expires "Wed, 20 Jan 2027 04:20:42 GMT"
+	</FilesMatch>
+	
+	# HTML: no cache (always check with server)
+	<FilesMatch "\.html$">
+		Header set Cache-Control "public, max-age=3600, must-revalidate"
+		Header set Expires "Sun, 26 Dec 2021 04:20:42 GMT"
+	</FilesMatch>
+	
+	# Media files: 1 year
+	<FilesMatch "\.(mp3|mp4|webm|ogg|mpeg|avi|mov)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header set Expires "Wed, 20 Jan 2027 04:20:42 GMT"
+	</FilesMatch>
+	
+	# PDFs: 6 months
+	<FilesMatch "\.pdf$">
+		Header set Cache-Control "public, max-age=15768000"
+		Header set Expires "Mon, 26 Jun 2026 04:20:42 GMT"
+	</FilesMatch>
+</IfModule>
+
+# ======================================================================
+# Browser Caching - Using mod_expires (Fallback if mod_headers not available)
+# ======================================================================
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 0 seconds"
+	
+	# Images
+	ExpiresByType image/gif "access plus 1 year"
+	ExpiresByType image/jpeg "access plus 1 year"
+	ExpiresByType image/png "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 1 year"
+	ExpiresByType image/x-icon "access plus 1 year"
+	
+	# CSS
+	ExpiresByType text/css "access plus 1 year"
+	
+	# JavaScript
+	ExpiresByType application/javascript "access plus 1 year"
+	ExpiresByType text/javascript "access plus 1 year"
+	
+	# Fonts
+	ExpiresByType font/ttf "access plus 1 year"
+	ExpiresByType font/otf "access plus 1 year"
+	ExpiresByType font/woff "access plus 1 year"
+	ExpiresByType font/woff2 "access plus 1 year"
+	ExpiresByType application/font-woff "access plus 1 year"
+	
+	# Media
+	ExpiresByType audio/mpeg "access plus 1 year"
+	ExpiresByType video/mp4 "access plus 1 year"
+	ExpiresByType video/webm "access plus 1 year"
+	
+	# PDF
+	ExpiresByType application/pdf "access plus 6 months"
+	
+	# HTML - no cache
+	ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# ======================================================================
+# Enable GZIP Compression
+# ======================================================================
+
+<IfModule mod_deflate.c>
+	# Compress HTML, CSS, JavaScript, Text, XML and fonts
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/xml
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/javascript
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE font/ttf
+	AddOutputFilterByType DEFLATE font/otf
+	AddOutputFilterByType DEFLATE font/woff
+	AddOutputFilterByType DEFLATE font/woff2
+	AddOutputFilterByType DEFLATE application/font-woff
+	AddOutputFilterByType DEFLATE image/svg+xml
+	
+	# Remove browser bugs
+	BrowserMatch ^Mozilla/4 ^gzip-only-text/html$
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+	Header append Vary User-Agent
+</IfModule>
+
+# ======================================================================
+# Security Headers (Optional - uncomment to enable)
+# ======================================================================
+
+# <IfModule mod_headers.c>
+# 	# Prevent clickjacking
+# 	Header always set X-Frame-Options "SAMEORIGIN"
+# 	
+# 	# Prevent MIME type sniffing
+# 	Header always set X-Content-Type-Options "nosniff"
+# 	
+# 	# Enable XSS filter in browsers
+# 	Header always set X-XSS-Protection "1; mode=block"
+# 	
+# 	# Referrer policy
+# 	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+# </IfModule>
