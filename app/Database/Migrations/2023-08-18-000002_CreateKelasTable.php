@@ -10,40 +10,52 @@ class CreateKelasTable extends Migration
     {
         $this->forge->addField([
             'id_kelas' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
-                'auto_increment' => true
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => true,
+                'auto_increment' => true,
             ],
             'tingkat' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 10,
+                'null'       => false,
             ],
             'id_jurusan' => [
-                'type' => 'INT',
+                'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned' => true,
+                'unsigned'   => true,
+                'null'       => false,
             ],
             'index_kelas' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 5,
+                'null'       => false,
             ],
-            'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
-            'updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
-            'deleted_at TIMESTAMP NULL',
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
         ]);
 
-        // primary key
-        $this->forge->addKey('id_kelas', primary: TRUE);
+        // Primary key
+        $this->forge->addKey('id_kelas', true);
 
-        // id_jurusan foreign key
+        // Foreign key for id_jurusan
         $this->forge->addForeignKey('id_jurusan', 'tb_jurusan', 'id', 'CASCADE', 'NO ACTION');
 
-        $this->forge->createTable('tb_kelas', TRUE);
+        $this->forge->createTable('tb_kelas', true);
     }
 
     public function down()
     {
-        $this->forge->dropTable('tb_kelas');
+        $this->forge->dropTable('tb_kelas', true);
     }
 }

@@ -8,142 +8,232 @@ class CreateDB extends Migration
 {
     public function up()
     {
-        $this->forge->getConnection()->query("CREATE TABLE tb_kehadiran (
-            id_kehadiran int(11) NOT NULL,
-            kehadiran ENUM('Hadir', 'Sakit', 'Izin', 'Tanpa keterangan') NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        // ====================================
+        // Table: tb_kehadiran
+        // ====================================
+        $this->forge->addField([
+            'id_kehadiran' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => false,
+                'auto_increment' => true,
+            ],
+            'kehadiran' => [
+                'type'       => 'ENUM',
+                'constraint' => ['Hadir', 'Sakit', 'Izin', 'Tanpa keterangan'],
+                'null'       => false,
+            ],
+        ]);
 
-        $this->forge->getConnection()->query("INSERT INTO tb_kehadiran (id_kehadiran, kehadiran) VALUES
-            (1, 'Hadir'),
-            (2, 'Sakit'),
-            (3, 'Izin'),
-            (4, 'Tanpa keterangan');");
+        $this->forge->addKey('id_kehadiran', true);
+        $this->forge->createTable('tb_kehadiran', true);
 
-        $this->forge->getConnection()->query("INSERT INTO tb_jurusan (jurusan) VALUES
-            ('OTKP'),
-            ('BDP'),
-            ('AKL'),
-            ('RPL');");
+        // ====================================
+        // Table: tb_guru
+        // ====================================
+        $this->forge->addField([
+            'id_guru' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => false,
+                'auto_increment' => true,
+            ],
+            'nuptk' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 24,
+                'null'       => false,
+            ],
+            'nama_guru' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+            'jenis_kelamin' => [
+                'type'       => 'ENUM',
+                'constraint' => ['Laki-laki', 'Perempuan'],
+                'null'       => false,
+            ],
+            'alamat' => [
+                'type' => 'TEXT',
+                'null' => false,
+            ],
+            'no_hp' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 32,
+                'null'       => false,
+            ],
+            'unique_code' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 64,
+                'null'       => false,
+            ],
+        ]);
 
-        $this->forge->getConnection()->query("INSERT INTO tb_kelas (tingkat, id_jurusan, index_kelas) VALUES
-            ('X', 1, 'A'),
-            ('X', 2, 'A'),
-            ('X', 3, 'A'),
-            ('X', 4, 'A'),
-            ('XI', 1, 'A'),
-            ('XI', 2, 'A'),
-            ('XI', 3, 'A'),
-            ('XI', 4, 'A'),
-            ('XII', 1, 'A'),
-            ('XII', 2, 'A'),
-            ('XII', 3, 'A'),
-            ('XII', 4, 'A');");
+        $this->forge->addKey('id_guru', true);
+        $this->forge->addUniqueKey('unique_code');
+        $this->forge->createTable('tb_guru', true);
 
-        $this->forge->getConnection()->query("CREATE TABLE tb_guru (
-            id_guru int(11) NOT NULL,
-            nuptk varchar(24) NOT NULL,
-            nama_guru varchar(255) NOT NULL,
-            jenis_kelamin ENUM('Laki-laki','Perempuan') NOT NULL,
-            alamat text NOT NULL,
-            no_hp varchar(32) NOT NULL,
-            unique_code varchar(64) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        // ====================================
+        // Table: tb_siswa
+        // ====================================
+        $this->forge->addField([
+            'id_siswa' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => false,
+                'auto_increment' => true,
+            ],
+            'nis' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 16,
+                'null'       => false,
+            ],
+            'nama_siswa' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+            'id_kelas' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => false,
+            ],
+            'jenis_kelamin' => [
+                'type'       => 'ENUM',
+                'constraint' => ['Laki-laki', 'Perempuan'],
+                'null'       => false,
+            ],
+            'no_hp' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 32,
+                'null'       => false,
+            ],
+            'unique_code' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 64,
+                'null'       => false,
+            ],
+        ]);
 
-        $this->forge->getConnection()->query("CREATE TABLE tb_presensi_guru (
-            id_presensi int(11) NOT NULL,
-            id_guru int(11) DEFAULT NULL,
-            tanggal date NOT NULL,
-            jam_masuk time DEFAULT NULL,
-            jam_keluar time DEFAULT NULL,
-            id_kehadiran int(11) NOT NULL,
-            keterangan varchar(255) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                        ");
+        $this->forge->addKey('id_siswa', true);
+        $this->forge->addUniqueKey('unique_code');
+        $this->forge->addKey('id_kelas');
+        $this->forge->addForeignKey('id_kelas', 'tb_kelas', 'id_kelas', 'RESTRICT', 'CASCADE');
+        $this->forge->createTable('tb_siswa', true);
 
-        $this->forge->getConnection()->query("CREATE TABLE tb_siswa (
-            id_siswa int(11) NOT NULL,
-            nis varchar(16) NOT NULL,
-            nama_siswa varchar(255) NOT NULL,
-            id_kelas int(11) UNSIGNED NOT NULL,
-            jenis_kelamin ENUM('Laki-laki','Perempuan') NOT NULL,
-            no_hp varchar(32) NOT NULL,
-            unique_code varchar(64) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        // ====================================
+        // Table: tb_presensi_guru
+        // ====================================
+        $this->forge->addField([
+            'id_presensi' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => false,
+                'auto_increment' => true,
+            ],
+            'id_guru' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false,
+                'null'       => true,
+            ],
+            'tanggal' => [
+                'type' => 'DATE',
+                'null' => false,
+            ],
+            'jam_masuk' => [
+                'type' => 'TIME',
+                'null' => true,
+            ],
+            'jam_keluar' => [
+                'type' => 'TIME',
+                'null' => true,
+            ],
+            'id_kehadiran' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false,
+                'null'       => false,
+            ],
+            'keterangan' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+        ]);
 
-        $this->forge->getConnection()->query("CREATE TABLE tb_presensi_siswa (
-            id_presensi int(11) NOT NULL,
-            id_siswa int(11) NOT NULL,
-            id_kelas int(11) UNSIGNED DEFAULT NULL,
-            tanggal date NOT NULL,
-            jam_masuk time DEFAULT NULL,
-            jam_keluar time DEFAULT NULL,
-            id_kehadiran int(11) NOT NULL,
-            keterangan varchar(255) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        $this->forge->addKey('id_presensi', true);
+        $this->forge->addKey('id_guru');
+        $this->forge->addKey('id_kehadiran');
+        $this->forge->addForeignKey('id_kehadiran', 'tb_kehadiran', 'id_kehadiran', 'RESTRICT', 'CASCADE');
+        $this->forge->addForeignKey('id_guru', 'tb_guru', 'id_guru', 'SET NULL', 'CASCADE');
+        $this->forge->createTable('tb_presensi_guru', true);
 
-        $this->forge->getConnection()->query("ALTER TABLE tb_guru
-            ADD PRIMARY KEY (id_guru),
-            ADD UNIQUE KEY unique_code (unique_code);");
+        // ====================================
+        // Table: tb_presensi_siswa
+        // ====================================
+        $this->forge->addField([
+            'id_presensi' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => false,
+                'auto_increment' => true,
+            ],
+            'id_siswa' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false,
+                'null'       => false,
+            ],
+            'id_kelas' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => true,
+            ],
+            'tanggal' => [
+                'type' => 'DATE',
+                'null' => false,
+            ],
+            'jam_masuk' => [
+                'type' => 'TIME',
+                'null' => true,
+            ],
+            'jam_keluar' => [
+                'type' => 'TIME',
+                'null' => true,
+            ],
+            'id_kehadiran' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => false,
+                'null'       => false,
+            ],
+            'keterangan' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+        ]);
 
-        $this->forge->getConnection()->query("ALTER TABLE tb_kehadiran
-            ADD PRIMARY KEY (id_kehadiran);");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_guru
-            ADD PRIMARY KEY (id_presensi),
-            ADD KEY id_kehadiran (id_kehadiran),
-            ADD KEY id_guru (id_guru);");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
-            ADD PRIMARY KEY (id_presensi),
-            ADD KEY id_siswa (id_siswa),
-            ADD KEY id_kehadiran (id_kehadiran),
-            ADD KEY id_kelas (id_kelas);");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_siswa
-            ADD PRIMARY KEY (id_siswa),
-            ADD UNIQUE KEY unique_code (unique_code),
-            ADD KEY id_kelas (id_kelas);");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_guru
-            MODIFY id_guru int(11) NOT NULL AUTO_INCREMENT;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_kehadiran
-            MODIFY id_kehadiran int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_guru
-            MODIFY id_presensi int(11) NOT NULL AUTO_INCREMENT;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
-            MODIFY id_presensi int(11) NOT NULL AUTO_INCREMENT;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_siswa
-            MODIFY id_siswa int(11) NOT NULL AUTO_INCREMENT;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_guru
-            ADD CONSTRAINT tb_presensi_guru_ibfk_2 FOREIGN KEY (id_kehadiran) REFERENCES tb_kehadiran (id_kehadiran),
-            ADD CONSTRAINT tb_presensi_guru_ibfk_3 FOREIGN KEY (id_guru) REFERENCES tb_guru (id_guru) ON DELETE SET NULL;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_presensi_siswa
-            ADD CONSTRAINT tb_presensi_siswa_ibfk_2 FOREIGN KEY (id_kehadiran) REFERENCES tb_kehadiran (id_kehadiran),
-            ADD CONSTRAINT tb_presensi_siswa_ibfk_3 FOREIGN KEY (id_siswa) REFERENCES tb_siswa (id_siswa) ON DELETE CASCADE,
-            ADD CONSTRAINT tb_presensi_siswa_ibfk_4 FOREIGN KEY (id_kelas) REFERENCES tb_kelas (id_kelas) ON DELETE SET NULL ON UPDATE CASCADE;");
-
-        $this->forge->getConnection()->query("ALTER TABLE tb_siswa
-            ADD CONSTRAINT tb_siswa_ibfk_1 FOREIGN KEY (id_kelas) REFERENCES tb_kelas (id_kelas);");
+        $this->forge->addKey('id_presensi', true);
+        $this->forge->addKey('id_siswa');
+        $this->forge->addKey('id_kelas');
+        $this->forge->addKey('id_kehadiran');
+        $this->forge->addForeignKey('id_kehadiran', 'tb_kehadiran', 'id_kehadiran', 'RESTRICT', 'CASCADE');
+        $this->forge->addForeignKey('id_siswa', 'tb_siswa', 'id_siswa', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_kelas', 'tb_kelas', 'id_kelas', 'SET NULL', 'CASCADE');
+        $this->forge->createTable('tb_presensi_siswa', true);
     }
 
     public function down()
     {
-        $tables = [
-            'tb_presensi_siswa',
-            'tb_presensi_guru',
-            'tb_siswa',
-            'tb_guru',
-            'tb_kehadiran',
-        ];
-
-        foreach ($tables as $table) {
-            $this->forge->dropTable($table);
-        }
+        // Drop tables in reverse order (respecting foreign key constraints)
+        $this->forge->dropTable('tb_presensi_siswa', true);
+        $this->forge->dropTable('tb_presensi_guru', true);
+        $this->forge->dropTable('tb_siswa', true);
+        $this->forge->dropTable('tb_guru', true);
+        $this->forge->dropTable('tb_kehadiran', true);
     }
 }

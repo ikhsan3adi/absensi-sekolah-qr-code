@@ -165,35 +165,116 @@ Kelola data kelas, jurusan, dan **penugasan Wali Kelas**.
 
 ### Instalasi
 
-- Clone/Download source code proyek ini.
+#### 1. Clone/Download Repository
 
-- Install dependencies yang diperlukan dengan cara menjalankan perintah berikut di terminal:
+```bash
+git clone https://github.com/ikhsan3adi/absensi-sekolah-qr-code.git
+cd absensi-sekolah-qr-code
+```
 
-  ```shell
-  composer install
+#### 2. Install Dependencies
+
+Install semua dependencies menggunakan Composer:
+
+```bash
+composer install
+```
+
+#### 3. Konfigurasi Environment
+
+- Jika belum ada file `.env`, copy dari `.env.example`:
+
+  ```bash
+  cp .env.example .env
   ```
 
-- Jika belum terdapat file `.env`, rename file `.env.example` menjadi `.env`
-
-- Buat database `db_absensi`(sesuaikan dengan yang terdapat di `.env`) di phpMyAdmin / mysql
-
-- Jalankan migrasi database untuk membuat struktur tabel yang diperlukan. Ketikkan perintah berikut di terminal:
-
-  ```shell
-  php spark migrate --all
+- Edit file `.env` dan sesuaikan konfigurasi database:
+  ```env
+  database.default.hostname = localhost
+  database.default.database = db_absensi
+  database.default.username = root
+  database.default.password =
+  database.default.DBDriver = MySQLi
   ```
 
-- Jalankan web server (contoh Apache, XAMPP, etc)
-- Atau gunakan `php spark serve` (atur baseURL di `.env` menjadi `http://localhost:8080/` terlebih dahulu).
-- Lalu jalankan aplikasi di browser.
-- Login menggunakan kredensial superadmin:
+#### 4. Buat Database
 
-  ```txt
-  username : superadmin
-  password : superadmin
-  ```
+Buat database baru di MySQL/MariaDB:
 
-- Izinkan akses kamera untuk QR Scanner.
+```sql
+CREATE DATABASE db_absensi;
+```
+
+#### 5. Jalankan Migration
+
+Migration akan membuat semua struktur tabel yang diperlukan:
+
+```bash
+php spark migrate --all
+```
+
+**Tabel yang akan dibuat:**
+
+- `tb_jurusan` - Master jurusan
+- `tb_kelas` - Data kelas
+- `tb_kehadiran` - Master status kehadiran
+- `tb_guru` - Data guru
+- `tb_siswa` - Data siswa
+- `tb_presensi_guru` - Presensi guru
+- `tb_presensi_siswa` - Presensi siswa
+- `users` - Akun pengguna (ditambah kolom `is_superadmin`, `id_guru`)
+- `general_settings` - Pengaturan aplikasi
+
+#### 6. Jalankan Seeder
+
+Seeder akan mengisi data awal yang diperlukan:
+
+```bash
+php spark db:seed DatabaseSeeder
+```
+
+**Data yang akan di-seed:**
+
+- Status kehadiran: Hadir, Sakit, Izin, Tanpa keterangan
+- Jurusan: OTKP, BDP, AKL, RPL
+- Kelas awal: X, XI, XII untuk semua jurusan
+- Akun superadmin default
+- Pengaturan umum aplikasi
+
+#### 7. Jalankan Aplikasi
+
+**Menggunakan PHP Built-in Server:**
+
+```bash
+php spark serve
+```
+
+Aplikasi akan berjalan di `http://localhost:8080`
+
+**Atau menggunakan XAMPP/Apache:**
+
+- Pastikan Apache dan MySQL sudah running
+- Akses aplikasi melalui browser
+
+#### 8. Login
+
+Login menggunakan kredensial superadmin default:
+
+```txt
+Username: superadmin
+Password: superadmin
+Email: adminsuper@gmail.com
+```
+
+> **⚠️ PENTING:** Segera ubah password default setelah login pertama kali!
+
+#### 9. Setup Tambahan
+
+- **Izinkan akses kamera** untuk fitur QR Scanner
+- **Untuk RFID**: Hubungkan RFID reader USB ke komputer
+- **Untuk notifikasi WhatsApp**: Lihat bagian [Konfigurasi](#konfigurasi) di bawah
+
+> 📖 **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
 ### Cara Menggunakan Akun Wali Kelas
 

@@ -18,23 +18,33 @@ class CreateJurusanTable extends Migration
             'jurusan' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 32,
+                'null'           => false,
             ],
-            'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
-            'updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL',
-            'deleted_at TIMESTAMP NULL',
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
         ]);
 
-        // primary key
-        $this->forge->addKey('id', primary: TRUE);
+        // Primary key
+        $this->forge->addKey('id', true);
 
-        // unique key
-        $this->forge->addKey('jurusan', unique: TRUE);
+        // Unique key
+        $this->forge->addUniqueKey('jurusan');
 
-        $this->forge->createTable('tb_jurusan', TRUE);
+        $this->forge->createTable('tb_jurusan', true);
     }
 
     public function down()
     {
-        $this->forge->dropTable('tb_jurusan');
+        $this->forge->dropTable('tb_jurusan', true);
     }
 }

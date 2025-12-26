@@ -8,32 +8,46 @@ class AddRfidToSiswaGuru extends Migration
 {
     public function up()
     {
+        $db = \Config\Database::connect();
+
         $fields = [
             'rfid_code' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
-                'null' => true,
-                'after' => 'unique_code',
-                'default' => null,
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+                'default'    => null,
+                'after'      => 'unique_code',
             ],
         ];
 
-        // Add column to tb_siswa if not exists
-        if (!$this->db->fieldExists('rfid_code', 'tb_siswa')) {
+        // Add rfid_code column to tb_siswa
+        if (!$db->fieldExists('rfid_code', 'tb_siswa')) {
             $this->forge->addColumn('tb_siswa', $fields);
-            $this->db->query('ALTER TABLE tb_siswa ADD INDEX(rfid_code)');
+            $this->forge->addKey('rfid_code');
+            $this->db->query('CREATE INDEX idx_tb_siswa_rfid_code ON tb_siswa(rfid_code)');
         }
 
-        // Add column to tb_guru if not exists
-        if (!$this->db->fieldExists('rfid_code', 'tb_guru')) {
+        // Add rfid_code column to tb_guru
+        if (!$db->fieldExists('rfid_code', 'tb_guru')) {
             $this->forge->addColumn('tb_guru', $fields);
-            $this->db->query('ALTER TABLE tb_guru ADD INDEX(rfid_code)');
+            $this->forge->addKey('rfid_code');
+            $this->db->query('CREATE INDEX idx_tb_guru_rfid_code ON tb_guru(rfid_code)');
         }
     }
 
     public function down()
     {
-        $this->forge->dropColumn('tb_siswa', 'rfid_code');
-        $this->forge->dropColumn('tb_guru', 'rfid_code');
+        $db = \Config\Database::connect();
+
+        // Drop indexes first
+        if ($db->fieldExists('rfid_code', 'tb_siswa')) {
+            $this->db->query('DROP INDEX idx_tb_siswa_rfid_code ON tb_siswa');
+            $this->forge->dropColumn('tb_siswa', 'rfid_code');
+        }
+
+        if ($db->fieldExists('rfid_code', 'tb_guru')) {
+            $this->db->query('DROP INDEX idx_tb_guru_rfid_code ON tb_guru');
+            $this->forge->dropColumn('tb_guru', 'rfid_code');
+        }
     }
 }

@@ -8,42 +8,68 @@ class AddWaliKelasToKelas extends Migration
 {
     public function up()
     {
-        // Add id_wali_kelas to tb_kelas
-        $this->forge->addColumn('tb_kelas', [
-            'id_wali_kelas' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => true,
-                'after' => 'index_kelas',
-            ],
-        ]);
+        $db = \Config\Database::connect();
 
-        // Add foreign key for id_wali_kelas
-        $this->db->query('ALTER TABLE tb_kelas ADD CONSTRAINT tb_kelas_id_wali_kelas_foreign FOREIGN KEY (id_wali_kelas) REFERENCES tb_guru(id_guru) ON DELETE SET NULL ON UPDATE CASCADE');
+        // Add id_wali_kelas column to tb_kelas
+        if (!$db->fieldExists('id_wali_kelas', 'tb_kelas')) {
+            $this->forge->addColumn('tb_kelas', [
+                'id_wali_kelas' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'unsigned'   => false,
+                    'null'       => true,
+                    'after'      => 'index_kelas',
+                ],
+            ]);
 
-        // Add id_guru to users (Myth\Auth table)
-        // Note: The table name used by Myth\Auth is usually 'users'
-        $this->forge->addColumn('users', [
-            'id_guru' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => true,
-                'after' => 'id',
-            ],
-        ]);
+            // Add foreign key for id_wali_kelas
+            $this->forge->addForeignKey(
+                'id_wali_kelas',
+                'tb_guru',
+                'id_guru',
+                'SET NULL',
+                'CASCADE',
+                'tb_kelas_id_wali_kelas_foreign'
+            );
+        }
 
-        // Add foreign key for id_guru in users table
-        $this->db->query('ALTER TABLE users ADD CONSTRAINT users_id_guru_foreign FOREIGN KEY (id_guru) REFERENCES tb_guru(id_guru) ON DELETE CASCADE ON UPDATE CASCADE');
+        // Add id_guru column to users table (Myth\Auth)
+        if (!$db->fieldExists('id_guru', 'users')) {
+            $this->forge->addColumn('users', [
+                'id_guru' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'unsigned'   => false,
+                    'null'       => true,
+                    'after'      => 'id',
+                ],
+            ]);
+
+            // Add foreign key for id_guru in users table
+            $this->forge->addForeignKey(
+                'id_guru',
+                'tb_guru',
+                'id_guru',
+                'CASCADE',
+                'CASCADE',
+                'users_id_guru_foreign'
+            );
+        }
     }
 
     public function down()
     {
-        // Drop foreign keys first
-        $this->db->query('ALTER TABLE users DROP FOREIGN KEY users_id_guru_foreign');
-        $this->db->query('ALTER TABLE tb_kelas DROP FOREIGN KEY tb_kelas_id_wali_kelas_foreign');
+        $db = \Config\Database::connect();
 
-        // Drop columns
-        $this->forge->dropColumn('tb_kelas', 'id_wali_kelas');
-        $this->forge->dropColumn('users', 'id_guru');
+        // Drop foreign keys first
+        if ($db->fieldExists('id_guru', 'users')) {
+            $this->forge->dropForeignKey('users', 'users_id_guru_foreign');
+            $this->forge->dropColumn('users', 'id_guru');
+        }
+
+        if ($db->fieldExists('id_wali_kelas', 'tb_kelas')) {
+            $this->forge->dropForeignKey('tb_kelas', 'tb_kelas_id_wali_kelas_foreign');
+            $this->forge->dropColumn('tb_kelas', 'id_wali_kelas');
+        }
     }
 }
