@@ -93,7 +93,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
          $filteredResult = [];
 
          foreach ($result as $value) {
-            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+            if (!in_array($value['id_kehadiran'], ['1', '2', '3'])) {
                array_push($filteredResult, $value);
             }
          }
