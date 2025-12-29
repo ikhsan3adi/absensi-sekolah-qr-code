@@ -61,9 +61,9 @@ class PresensiGuruModel extends Model implements PresensiInterface
       return $this->where([$this->primaryKey => $idPresensi])->first();
    }
 
-   public function getPresensiByTanggal($tanggal)
+   public function getPresensiByTanggal($tanggal): array
    {
-      return $this->setTable('tb_guru')
+      return $this->db->table('tb_guru')
          ->select('*')
          ->join(
             "(SELECT id_presensi, id_guru AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
@@ -76,7 +76,8 @@ class PresensiGuruModel extends Model implements PresensiInterface
             'left'
          )
          ->orderBy("nama_guru")
-         ->findAll();
+         ->get()
+         ->getResultArray();
    }
 
    public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
