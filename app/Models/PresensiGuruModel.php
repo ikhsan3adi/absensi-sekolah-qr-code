@@ -61,13 +61,13 @@ class PresensiGuruModel extends Model implements PresensiInterface
       return $this->where([$this->primaryKey => $idPresensi])->first();
    }
 
-   public function getPresensiByTanggal($tanggal)
+   public function getPresensiByTanggal($tanggal): array
    {
-      return $this->setTable('tb_guru')
+      return $this->db->table('tb_guru')
          ->select('*')
          ->join(
             "(SELECT id_presensi, id_guru AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
-            "{$this->table}.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
+            "tb_guru.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
             'left'
          )
          ->join(
@@ -76,7 +76,8 @@ class PresensiGuruModel extends Model implements PresensiInterface
             'left'
          )
          ->orderBy("nama_guru")
-         ->findAll();
+         ->get()
+         ->getResultArray();
    }
 
    public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
@@ -93,7 +94,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
          $filteredResult = [];
 
          foreach ($result as $value) {
-            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+            if (!in_array($value['id_kehadiran'], ['1', '2', '3'])) {
                array_push($filteredResult, $value);
             }
          }

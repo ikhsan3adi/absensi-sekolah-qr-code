@@ -63,13 +63,13 @@ class PresensiSiswaModel extends Model implements PresensiInterface
       return $this->where([$this->primaryKey => $idPresensi])->first();
    }
 
-   public function getPresensiByKelasTanggal($idKelas, $tanggal)
+   public function getPresensiByKelasTanggal($idKelas, $tanggal): array
    {
-      return $this->setTable('tb_siswa')
+      return $this->db->table('tb_siswa')
          ->select('*')
          ->join(
             "(SELECT id_presensi, id_siswa AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
-            "{$this->table}.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
+            "tb_siswa.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
             'left'
          )
          ->join(
@@ -77,9 +77,10 @@ class PresensiSiswaModel extends Model implements PresensiInterface
             'tb_presensi_siswa.id_kehadiran = tb_kehadiran.id_kehadiran',
             'left'
          )
-         ->where("{$this->table}.id_kelas = $idKelas")
+         ->where("tb_siswa.id_kelas", $idKelas)
          ->orderBy("nama_siswa")
-         ->findAll();
+         ->get()
+         ->getResultArray();
    }
 
    public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
@@ -96,7 +97,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
          $filteredResult = [];
 
          foreach ($result as $value) {
-            if ($value['id_kehadiran'] != ('1' || '2' || '3')) {
+            if (!in_array($value['id_kehadiran'], ['1', '2', '3'])) {
                array_push($filteredResult, $value);
             }
          }

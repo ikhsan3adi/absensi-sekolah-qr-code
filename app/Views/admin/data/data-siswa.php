@@ -93,6 +93,9 @@
       </div>
    </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
    var kelas = null;
    var jurusan = null;

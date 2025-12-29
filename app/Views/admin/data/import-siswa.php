@@ -112,7 +112,9 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
 <script>
     $(function() {
         $('#drag-and-drop-zone').dmUploader({

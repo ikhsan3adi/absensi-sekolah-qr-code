@@ -48,6 +48,9 @@
       </div>
    </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
    getGuru();
 

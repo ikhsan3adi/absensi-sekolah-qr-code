@@ -74,7 +74,9 @@
     </div>
   </div>
 </div>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     fetchKelasJurusanData('kelas', '#dataKelas');

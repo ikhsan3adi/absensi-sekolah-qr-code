@@ -13,6 +13,8 @@ class QRGeneratorTest extends CIUnitTestCase
     protected $migrateOnce = true;
     protected $refresh     = true;
     protected $namespace   = null;
+    protected $seed        = ['\App\Database\Seeds\GeneralSettingsSeeder'];
+    protected $seedOnce    = true;
 
     protected function setUp(): void
     {

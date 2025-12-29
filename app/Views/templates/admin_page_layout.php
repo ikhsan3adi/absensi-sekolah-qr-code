@@ -32,6 +32,8 @@
          textCancel: "Batalkan"
       };
    </script>
+
+    <?= $this->renderSection("scripts") ?>
 </body>
 
 </html>

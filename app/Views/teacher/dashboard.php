@@ -92,7 +92,9 @@
         <?php endif; ?>
     </div>
 </div>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
 <?php if (!isset($no_class)): ?>
     <!-- Chartist JS -->
     <script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>

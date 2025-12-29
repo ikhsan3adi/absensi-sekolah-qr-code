@@ -20,19 +20,15 @@ class AddRfidToSiswaGuru extends Migration
             ],
         ];
 
-        // Add rfid_code column to tb_siswa
-        if (!$db->fieldExists('rfid_code', 'tb_siswa')) {
-            $this->forge->addColumn('tb_siswa', $fields);
-            $this->forge->addKey('rfid_code');
-            $this->db->query('CREATE INDEX idx_tb_siswa_rfid_code ON tb_siswa(rfid_code)');
-        }
+        // Add rfid_code column to tb_siswa    
+        $this->forge->addColumn('tb_siswa', $fields);
+        $this->forge->addKey('rfid_code');
+        $this->db->query('CREATE INDEX idx_tb_siswa_rfid_code ON tb_siswa(rfid_code)');
 
         // Add rfid_code column to tb_guru
-        if (!$db->fieldExists('rfid_code', 'tb_guru')) {
-            $this->forge->addColumn('tb_guru', $fields);
-            $this->forge->addKey('rfid_code');
-            $this->db->query('CREATE INDEX idx_tb_guru_rfid_code ON tb_guru(rfid_code)');
-        }
+        $this->forge->addColumn('tb_guru', $fields);
+        $this->forge->addKey('rfid_code');
+        $this->db->query('CREATE INDEX idx_tb_guru_rfid_code ON tb_guru(rfid_code)');
     }
 
     public function down()
@@ -41,12 +37,10 @@ class AddRfidToSiswaGuru extends Migration
 
         // Drop indexes first
         if ($db->fieldExists('rfid_code', 'tb_siswa')) {
-            $this->db->query('DROP INDEX idx_tb_siswa_rfid_code ON tb_siswa');
             $this->forge->dropColumn('tb_siswa', 'rfid_code');
         }
 
         if ($db->fieldExists('rfid_code', 'tb_guru')) {
-            $this->db->query('DROP INDEX idx_tb_guru_rfid_code ON tb_guru');
             $this->forge->dropColumn('tb_guru', 'rfid_code');
         }
     }

@@ -213,6 +213,9 @@
     </div>
   </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
   const dataGuru = [
     <?php foreach ($guru as $value) {

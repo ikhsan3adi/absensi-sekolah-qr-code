@@ -16,7 +16,8 @@ if (empty($type)) {
                <p>Kelas : <b><?= $data['kelas']; ?></b></p>
             </div>
             <div class="col">
-               <?= jam($presensi ?? []); ?>
+                <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
+                <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
             </div>
          </div>
          <?php break;
@@ -29,7 +30,8 @@ if (empty($type)) {
                <p>No HP : <b><?= $data['no_hp']; ?></b></p>
             </div>
             <div class="col">
-               <?= jam($presensi ?? []); ?>
+                <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
+                <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
             </div>
          </div>
          <?php break;
@@ -38,14 +40,6 @@ if (empty($type)) {
          <p class="text-danger">Tipe tidak valid</p>
          <?php break;
    }
-}
-
-function jam($presensi)
-{
-   ?>
-   <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
-   <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
-   <?php
 }
 
 ?>
