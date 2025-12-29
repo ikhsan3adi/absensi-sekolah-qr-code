@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Libraries\enums\JenisKelamin;
 use App\Models\GuruModel;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -14,7 +15,7 @@ final class GuruModelTest extends CIUnitTestCase
     use DatabaseTestTrait;
 
     protected $migrate     = true;
-    protected $migrateOnce = false;
+    protected $migrateOnce = true;
     protected $refresh     = true;
     protected $namespace   = null;
 
@@ -24,6 +25,12 @@ final class GuruModelTest extends CIUnitTestCase
     {
         parent::setUp();
         $this->model = new GuruModel();
+    }
+    
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        $this->db->table('tb_guru')->delete('1 = 1');
     }
 
     // =====================================================
@@ -35,7 +42,7 @@ final class GuruModelTest extends CIUnitTestCase
         $result = $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -49,7 +56,7 @@ final class GuruModelTest extends CIUnitTestCase
         
         $this->assertNotNull($guru);
         $this->assertEquals('John Teacher', $guru['nama_guru']);
-        $this->assertEquals('L', $guru['jenis_kelamin']);
+        $this->assertEquals(JenisKelamin::LAKI_LAKI->value, $guru['jenis_kelamin']);
         $this->assertEquals('Jl. Pendidikan No. 1', $guru['alamat']);
         $this->assertEquals('08123456789', $guru['no_hp']);
         $this->assertNotEmpty($guru['unique_code']);
@@ -60,7 +67,7 @@ final class GuruModelTest extends CIUnitTestCase
         $result = $this->model->createGuru(
             '1234567890123456',
             'Jane Teacher',
-            'P',
+            JenisKelamin::PEREMPUAN->value,
             'Jl. Pendidikan No. 2',
             '08123456788',
             'RFID123456'
@@ -81,7 +88,7 @@ final class GuruModelTest extends CIUnitTestCase
         $result = $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -106,7 +113,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -127,7 +134,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789',
             'RFID123456'
@@ -142,8 +149,8 @@ final class GuruModelTest extends CIUnitTestCase
 
     public function testGetAllGuru(): void
     {
-        $this->model->createGuru('1234567890123456', 'John Teacher', 'L', 'Jl. Test 1', '08123456789');
-        $this->model->createGuru('1234567890123457', 'Jane Teacher', 'P', 'Jl. Test 2', '08123456788');
+        $this->model->createGuru('1234567890123456', 'John Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test 1', '08123456789');
+        $this->model->createGuru('1234567890123457', 'Jane Teacher', JenisKelamin::PEREMPUAN->value, 'Jl. Test 2', '08123456788');
         
         $result = $this->model->getAllGuru();
         
@@ -156,7 +163,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -181,7 +188,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -195,7 +202,7 @@ final class GuruModelTest extends CIUnitTestCase
             $guru['id_guru'],
             '1234567890123456',
             'John Updated',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Updated Address',
             '08123456780'
         );
@@ -214,7 +221,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -228,7 +235,7 @@ final class GuruModelTest extends CIUnitTestCase
             $guru['id_guru'],
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789',
             'RFID789456'
@@ -273,8 +280,8 @@ final class GuruModelTest extends CIUnitTestCase
 
     public function testCreateGuruGeneratesDifferentUniqueCodes(): void
     {
-        $this->model->createGuru('1234567890123456', 'John Teacher', 'L', 'Jl. Test 1', '08123456789');
-        $this->model->createGuru('1234567890123457', 'Jane Teacher', 'P', 'Jl. Test 2', '08123456788');
+        $this->model->createGuru('1234567890123456', 'John Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test 1', '08123456789');
+        $this->model->createGuru('1234567890123457', 'Jane Teacher', JenisKelamin::PEREMPUAN->value, 'Jl. Test 2', '08123456788');
         
         $guru1 = $this->db->table('tb_guru')->where('nuptk', '1234567890123456')->get()->getRowArray();
         $guru2 = $this->db->table('tb_guru')->where('nuptk', '1234567890123457')->get()->getRowArray();
@@ -287,7 +294,7 @@ final class GuruModelTest extends CIUnitTestCase
         $this->model->createGuru(
             '1234567890123456',
             'John Teacher',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Pendidikan No. 1',
             '08123456789'
         );
@@ -303,7 +310,7 @@ final class GuruModelTest extends CIUnitTestCase
             $guru['id_guru'],
             '1234567890123456',
             'John Updated',
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             'Jl. Updated Address',
             '08123456780'
         );
@@ -315,9 +322,9 @@ final class GuruModelTest extends CIUnitTestCase
 
     public function testGetAllGuruOrderedByName(): void
     {
-        $this->model->createGuru('1234567890123456', 'Zack Teacher', 'L', 'Jl. Test 1', '08123456789');
-        $this->model->createGuru('1234567890123457', 'Alice Teacher', 'P', 'Jl. Test 2', '08123456788');
-        $this->model->createGuru('1234567890123458', 'Bob Teacher', 'L', 'Jl. Test 3', '08123456787');
+        $this->model->createGuru('1234567890123456', 'Zack Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test 1', '08123456789');
+        $this->model->createGuru('1234567890123457', 'Alice Teacher', JenisKelamin::PEREMPUAN->value, 'Jl. Test 2', '08123456788');
+        $this->model->createGuru('1234567890123458', 'Bob Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test 3', '08123456787');
         
         $result = $this->model->getAllGuru();
         
@@ -329,7 +336,7 @@ final class GuruModelTest extends CIUnitTestCase
     public function testCekGuruReturnsFirstMatchForOrCondition(): void
     {
         // Test that cekGuru works with either unique_code OR rfid_code
-        $this->model->createGuru('1234567890123456', 'John Teacher', 'L', 'Jl. Test', '08123456789', 'RFID123');
+        $this->model->createGuru('1234567890123456', 'John Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test', '08123456789', 'RFID123');
         
         $guru = $this->db->table('tb_guru')->where('nuptk', '1234567890123456')->get()->getRowArray();
         
@@ -339,28 +346,5 @@ final class GuruModelTest extends CIUnitTestCase
         $this->assertNotNull($resultByUniqueCode);
         $this->assertNotNull($resultByRfid);
         $this->assertEquals($resultByUniqueCode['id_guru'], $resultByRfid['id_guru']);
-    }
-
-    public function testCreateGuruHasDuplicateNoHpInAllowedFields(): void
-    {
-        // Note: There's a bug in line 48 of GuruModel where 'no_hp' appears twice
-        // This test documents the current behavior
-        $result = $this->model->createGuru(
-            '1234567890123456',
-            'John Teacher',
-            'L',
-            'Jl. Test',
-            '08123456789'
-        );
-        
-        $this->assertTrue($result);
-        
-        $guru = $this->db->table('tb_guru')
-            ->where('nuptk', '1234567890123456')
-            ->get()
-            ->getRowArray();
-        
-        // Should still work despite duplicate field
-        $this->assertEquals('08123456789', $guru['no_hp']);
     }
 }

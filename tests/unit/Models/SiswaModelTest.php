@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Libraries\enums\JenisKelamin;
 use App\Models\SiswaModel;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
@@ -14,7 +15,7 @@ final class SiswaModelTest extends CIUnitTestCase
     use DatabaseTestTrait;
 
     protected $migrate     = true;
-    protected $migrateOnce = false;
+    protected $migrateOnce = true;
     protected $refresh     = true;
     protected $namespace   = null;
 
@@ -43,6 +44,15 @@ final class SiswaModelTest extends CIUnitTestCase
         $this->testKelasId = $this->db->insertID();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    
+        $this->db->table('tb_siswa')->delete('1 = 1');
+        $this->db->table('tb_kelas')->delete('1 = 1');
+        $this->db->table('tb_jurusan')->delete('1 = 1');
+    }
+    
     // =====================================================
     // HAPPY PATH TESTS - CREATE OPERATIONS
     // =====================================================
@@ -53,7 +63,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Doe',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456789'
         );
         
@@ -67,7 +77,7 @@ final class SiswaModelTest extends CIUnitTestCase
         $this->assertNotNull($siswa);
         $this->assertEquals('John Doe', $siswa['nama_siswa']);
         $this->assertEquals($this->testKelasId, $siswa['id_kelas']);
-        $this->assertEquals('L', $siswa['jenis_kelamin']);
+        $this->assertEquals(JenisKelamin::LAKI_LAKI->value, $siswa['jenis_kelamin']);
         $this->assertEquals('08123456789', $siswa['no_hp']);
         $this->assertNotEmpty($siswa['unique_code']);
     }
@@ -78,7 +88,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1002',
             'Jane Doe',
             $this->testKelasId,
-            'P',
+            JenisKelamin::PEREMPUAN->value,
             '08123456788',
             'RFID123456'
         );
@@ -103,7 +113,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Doe',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456789'
         );
         
@@ -128,7 +138,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Doe',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456789',
             'RFID123456'
         );
@@ -146,7 +156,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Doe',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456789'
         );
         
@@ -163,8 +173,8 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetAllSiswaWithKelas(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, 'P', '08123456788');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $result = $this->model->getAllSiswaWithKelas();
         
@@ -175,7 +185,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetAllSiswaWithKelasFilterByTingkat(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         // Create another class with different tingkat
         $this->db->table('tb_kelas')->insert([
@@ -185,7 +195,7 @@ final class SiswaModelTest extends CIUnitTestCase
         ]);
         $kelasId2 = $this->db->insertID();
         
-        $this->model->createSiswa('1002', 'Jane Doe', $kelasId2, 'P', '08123456788');
+        $this->model->createSiswa('1002', 'Jane Doe', $kelasId2, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $result = $this->model->getAllSiswaWithKelas('10', null);
         
@@ -196,7 +206,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetAllSiswaWithKelasFilterByJurusan(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         // Create another jurusan
         $this->db->table('tb_jurusan')->insert(['jurusan' => 'IPS']);
@@ -209,7 +219,7 @@ final class SiswaModelTest extends CIUnitTestCase
         ]);
         $kelasId2 = $this->db->insertID();
         
-        $this->model->createSiswa('1002', 'Jane Doe', $kelasId2, 'P', '08123456788');
+        $this->model->createSiswa('1002', 'Jane Doe', $kelasId2, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $result = $this->model->getAllSiswaWithKelas(null, 'IPA');
         
@@ -220,8 +230,8 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetSiswaByKelas(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, 'P', '08123456788');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $result = $this->model->getSiswaByKelas($this->testKelasId);
         
@@ -231,8 +241,8 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetSiswaCountByKelas(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, 'P', '08123456788');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $result = $this->model->getSiswaCountByKelas($this->testKelasId);
         
@@ -245,7 +255,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testUpdateSiswa(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         $siswa = $this->db->table('tb_siswa')
             ->where('nis', '1001')
@@ -257,7 +267,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Updated',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456780'
         );
         
@@ -271,7 +281,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testUpdateSiswaWithRfid(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         $siswa = $this->db->table('tb_siswa')
             ->where('nis', '1001')
@@ -283,7 +293,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Doe',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456789',
             'RFID789456'
         );
@@ -301,7 +311,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testDeleteSiswa(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         $siswa = $this->db->table('tb_siswa')
             ->where('nis', '1001')
@@ -319,8 +329,8 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testDeleteMultiSelected(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, 'P', '08123456788');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $siswa1 = $this->db->table('tb_siswa')->where('nis', '1001')->get()->getRowArray();
         $siswa2 = $this->db->table('tb_siswa')->where('nis', '1002')->get()->getRowArray();
@@ -387,8 +397,8 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testCreateSiswaGeneratesUniqueCode(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, 'P', '08123456788');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Jane Doe', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
         
         $siswa1 = $this->db->table('tb_siswa')->where('nis', '1001')->get()->getRowArray();
         $siswa2 = $this->db->table('tb_siswa')->where('nis', '1002')->get()->getRowArray();
@@ -398,7 +408,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testUpdateSiswaDoesNotChangeUniqueCode(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         $siswa = $this->db->table('tb_siswa')->where('nis', '1001')->get()->getRowArray();
         $originalUniqueCode = $siswa['unique_code'];
@@ -408,7 +418,7 @@ final class SiswaModelTest extends CIUnitTestCase
             '1001',
             'John Updated',
             $this->testKelasId,
-            'L',
+            JenisKelamin::LAKI_LAKI->value,
             '08123456780'
         );
         
@@ -426,9 +436,9 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testGetAllSiswaWithKelasOrderedByName(): void
     {
-        $this->model->createSiswa('1001', 'Zack', $this->testKelasId, 'L', '08123456789');
-        $this->model->createSiswa('1002', 'Alice', $this->testKelasId, 'P', '08123456788');
-        $this->model->createSiswa('1003', 'Bob', $this->testKelasId, 'L', '08123456787');
+        $this->model->createSiswa('1001', 'Zack', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
+        $this->model->createSiswa('1002', 'Alice', $this->testKelasId, JenisKelamin::PEREMPUAN->value, '08123456788');
+        $this->model->createSiswa('1003', 'Bob', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456787');
         
         $result = $this->model->getAllSiswaWithKelas();
         
@@ -439,7 +449,7 @@ final class SiswaModelTest extends CIUnitTestCase
 
     public function testDeleteMultiSelectedWithEmptyArray(): void
     {
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789');
         
         $this->model->deleteMultiSelected([]);
         
@@ -452,7 +462,7 @@ final class SiswaModelTest extends CIUnitTestCase
     public function testCekSiswaReturnsFirstMatchForOrCondition(): void
     {
         // Test that cekSiswa works with either unique_code OR rfid_code
-        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, 'L', '08123456789', 'RFID123');
+        $this->model->createSiswa('1001', 'John Doe', $this->testKelasId, JenisKelamin::LAKI_LAKI->value, '08123456789', 'RFID123');
         
         $siswa = $this->db->table('tb_siswa')->where('nis', '1001')->get()->getRowArray();
         
