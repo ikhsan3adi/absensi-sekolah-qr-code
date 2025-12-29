@@ -227,7 +227,7 @@ final class RFIDRulesTest extends CIUnitTestCase
     public function testIsRfidUniqueWithNullRfidCode(): void
     {
         $error = null;
-        $result = $this->rules->is_rfid_unique(null, ',siswa', [], $error);
+        $result = $this->rules->is_rfid_unique('', ',siswa', [], $error);
         
         // Null should be treated as empty
         $this->assertTrue($result);

@@ -37,7 +37,7 @@ class SuperadminSeeder extends Seeder
             // Insert superadmin
             $this->db->table('users')->insert($data);
             
-            echo "Superadmin created successfully!\n";
+            echo "\nSuperadmin created successfully!\n";
             echo "Username: {$username}\n";
             echo "Password: {$password}\n";
             echo "Email: {$email}\n";

@@ -6,6 +6,8 @@ use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use CodeIgniter\Test\FeatureTestTrait;
 use CodeIgniter\I18n\Time;
+use Config\Services;
+use Myth\Auth\Models\UserModel;
 
 /**
  * Example Integration Test for Attendance Flow
@@ -24,28 +26,29 @@ final class AttendanceFlowTest extends CIUnitTestCase
     protected $migrateOnce = true;
     protected $refresh     = true;
     protected $namespace   = null;
+    protected $seed        = [
+        '\App\Database\Seeds\DatabaseSeeder',
+        '\Tests\Support\Database\Seeds\SuperadminSeeder',
+    ];
+    protected $seedOnce    = true;
 
     protected $testSiswaId;
     protected $testGuruId;
     protected $testKelasId;
-    protected $siswaUniqueCode;
-    protected $guruUniqueCode;
+    protected $testJurusanId;
+    protected string $siswaUniqueCode;
+    protected string $guruUniqueCode;
 
     protected function setUp(): void
     {
         parent::setUp();
         
-        // Setup test data
-        $this->setupTestData();
-    }
-
-    private function setupTestData(): void
-    {
         // Create jurusan
         $this->db->table('tb_jurusan')->insert([
             'jurusan' => 'IPA',
         ]);
         $jurusanId = $this->db->insertID();
+        $this->testJurusanId = $jurusanId;
         
         // Create kelas
         $this->db->table('tb_kelas')->insert([
@@ -55,16 +58,8 @@ final class AttendanceFlowTest extends CIUnitTestCase
         ]);
         $this->testKelasId = $this->db->insertID();
         
-        // Create kehadiran types
-        $this->db->table('tb_kehadiran')->insert([
-            ['id_kehadiran' => 1, 'nama' => 'Hadir'],
-            ['id_kehadiran' => 2, 'nama' => 'Sakit'],
-            ['id_kehadiran' => 3, 'nama' => 'Izin'],
-            ['id_kehadiran' => 4, 'nama' => 'Tanpa Keterangan'],
-        ]);
-        
         // Create test siswa
-        $this->siswaUniqueCode = 'test-siswa-' . uniqid();
+        $this->siswaUniqueCode = uniqid('test-siswa-');
         $this->db->table('tb_siswa')->insert([
             'nis' => '1001',
             'nama_siswa' => 'Test Siswa Integration',
@@ -76,7 +71,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
         $this->testSiswaId = $this->db->insertID();
         
         // Create test guru
-        $this->guruUniqueCode = 'test-guru-' . uniqid();
+        $this->guruUniqueCode = uniqid('test-guru-');
         $this->db->table('tb_guru')->insert([
             'nuptk' => '1234567890123456',
             'nama_guru' => 'Test Guru Integration',
@@ -86,6 +81,39 @@ final class AttendanceFlowTest extends CIUnitTestCase
             'unique_code' => $this->guruUniqueCode,
         ]);
         $this->testGuruId = $this->db->insertID();
+        
+        $this->login();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        
+        $this->logout();
+
+        $this->db->table('tb_siswa')->delete(['id_siswa' => $this->testSiswaId]);
+        $this->db->table('tb_guru')->delete(['id_guru' => $this->testGuruId]);
+        $this->db->table('tb_kelas')->delete(['id_kelas' => $this->testKelasId]);
+        $this->db->table('tb_jurusan')->delete(['id' => $this->testJurusanId]);
+    }
+    
+    protected function login(): void
+    {
+        $username = \Tests\Support\Database\Seeds\SuperadminSeeder::$username;
+        
+        $userData = $this->db->table('users')->where('username', $username)->get()->getRowArray();
+        
+        $user = model(UserModel::class)->find($userData['id']);
+
+        $auth = Services::authentication();
+        $auth->login($user);
+        Services::injectMock('authentication', $auth);
+    }
+
+    protected function logout(): void
+    {
+        $auth = Services::authentication();
+        $auth->logout();
     }
 
     // =====================================================
@@ -107,7 +135,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
         $date = Time::today()->toDateString();
         
         // Simulate QR code scan POST request
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'masuk'
         ]);
@@ -144,13 +172,13 @@ final class AttendanceFlowTest extends CIUnitTestCase
         $date = Time::today()->toDateString();
         
         // First scan - should succeed
-        $this->post('/scan/cekKode', [
+        $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'masuk'
         ]);
         
         // Second scan - should fail
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'masuk'
         ]);
@@ -180,7 +208,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
         $date = Time::today()->toDateString();
         
         // Entry scan
-        $this->post('/scan/cekKode', [
+        $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'masuk'
         ]);
@@ -195,7 +223,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
         $this->assertNull($attendance['jam_keluar'], 'Exit time should be null initially');
         
         // Exit scan
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'pulang'
         ]);
@@ -224,7 +252,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
     public function testStudentAttendanceExitWithoutEntry(): void
     {
         // Try to scan for exit without entry
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'pulang'
         ]);
@@ -244,7 +272,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
     {
         $date = Time::today()->toDateString();
         
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->guruUniqueCode,
             'waktu' => 'masuk'
         ]);
@@ -272,7 +300,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
      */
     public function testAttendanceWithInvalidUniqueCode(): void
     {
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => 'invalid-code-999',
             'waktu' => 'masuk'
         ]);
@@ -286,7 +314,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
      */
     public function testAttendanceWithInvalidWaktu(): void
     {
-        $result = $this->post('/scan/cekKode', [
+        $result = $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'invalid'
         ]);
@@ -305,7 +333,7 @@ final class AttendanceFlowTest extends CIUnitTestCase
     public function testStudentCanAttendConsecutiveDays(): void
     {
         // Day 1
-        $this->post('/scan/cekKode', [
+        $this->withSession()->post('/scan/cek', [
             'unique_code' => $this->siswaUniqueCode,
             'waktu' => 'masuk'
         ]);

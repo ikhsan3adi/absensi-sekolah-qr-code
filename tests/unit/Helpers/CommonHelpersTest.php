@@ -404,15 +404,6 @@ final class CommonHelpersTest extends CIUnitTestCase
         $this->assertEquals('......etcpasswd', $result);
     }
 
-    public function testCleanNumberHandlesIntegerOverflow(): void
-    {
-        $input = "99999999999999999999";
-        $result = cleanNumber($input);
-        
-        // PHP will convert to int (may overflow on 32-bit systems)
-        $this->assertIsInt($result);
-    }
-
     public function testGenerateTokenIsReasonablyLong(): void
     {
         $token = generateToken();

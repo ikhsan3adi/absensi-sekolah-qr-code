@@ -25,7 +25,7 @@ class GeneralSettingsSeeder extends Seeder
             // Insert default settings
             $this->db->table('general_settings')->insert($data);
             
-            echo "General settings created successfully!\n";
+            echo "\nGeneral settings created successfully!\n";
             echo "School Name: {$data['school_name']}\n";
             echo "School Year: {$data['school_year']}\n";
         } else {
