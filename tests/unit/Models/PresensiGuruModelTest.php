@@ -35,7 +35,7 @@ final class PresensiGuruModelTest extends CIUnitTestCase
         $this->db->table('tb_guru')->insert([
             'nuptk' => '1234567890123456',
             'nama_guru' => 'Test Guru',
-            'jenis_kelamin' => 'L',
+            'jenis_kelamin' => 'Laki-laki',
             'alamat' => 'Jl. Test',
             'no_hp' => '08123456789',
             'unique_code' => 'test-guru-code-123',
@@ -204,7 +204,7 @@ final class PresensiGuruModelTest extends CIUnitTestCase
         $this->db->table('tb_guru')->insert([
             'nuptk' => '1234567890123457',
             'nama_guru' => 'Test Guru 2',
-            'jenis_kelamin' => 'P',
+            'jenis_kelamin' => 'Perempuan',
             'alamat' => 'Jl. Test 2',
             'no_hp' => '08123456788',
             'unique_code' => 'test-guru-code-124',

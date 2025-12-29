@@ -53,7 +53,7 @@ final class PresensiSiswaModelTest extends CIUnitTestCase
             'nis' => '1001',
             'nama_siswa' => 'Test Siswa',
             'id_kelas' => $this->testKelasId,
-            'jenis_kelamin' => 'L',
+            'jenis_kelamin' => 'Laki-laki',
             'no_hp' => '08123456789',
             'unique_code' => 'test-code-123',
         ]);
@@ -227,7 +227,7 @@ final class PresensiSiswaModelTest extends CIUnitTestCase
             'nis' => '1002',
             'nama_siswa' => 'Test Siswa 2',
             'id_kelas' => $this->testKelasId,
-            'jenis_kelamin' => 'P',
+            'jenis_kelamin' => 'Perempuan',
             'no_hp' => '08123456788',
             'unique_code' => 'test-code-124',
         ]);
