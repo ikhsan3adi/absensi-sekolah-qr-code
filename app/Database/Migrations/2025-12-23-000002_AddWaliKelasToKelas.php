@@ -21,14 +21,8 @@ class AddWaliKelasToKelas extends Migration
             ],
         ]);
 
-        // Add foreign key for id_wali_kelas
-        $this->forge->addForeignKey(
-            'id_wali_kelas',
-            'tb_guru',
-            'id_guru',
-            'NO ACTION',
-            'RESTRICT'
-        );
+        // Add foreign key for id_wali_kelas to tb_kelas
+        $this->db->query('ALTER TABLE tb_kelas ADD CONSTRAINT fk_tb_kelas_id_wali_kelas FOREIGN KEY (id_wali_kelas) REFERENCES tb_guru(id_guru) ON DELETE NO ACTION ON UPDATE RESTRICT');
 
         // Add id_guru column to users table (Myth\Auth)
         $this->forge->addColumn('users', [
@@ -42,13 +36,7 @@ class AddWaliKelasToKelas extends Migration
         ]);
 
         // Add foreign key for id_guru in users table
-        $this->forge->addForeignKey(
-            'id_guru',
-            'tb_guru',
-            'id_guru',
-            'NO ACTION',
-            'RESTRICT'
-        );
+        $this->db->query('ALTER TABLE users ADD CONSTRAINT fk_users_id_guru FOREIGN KEY (id_guru) REFERENCES tb_guru(id_guru) ON DELETE NO ACTION ON UPDATE RESTRICT');
     }
 
     public function down()
@@ -57,10 +45,12 @@ class AddWaliKelasToKelas extends Migration
 
         // Drop foreign keys first
         if ($db->fieldExists('id_guru', 'users')) {
+            $this->db->query('ALTER TABLE users DROP FOREIGN KEY fk_users_id_guru');
             $this->forge->dropColumn('users', 'id_guru');
         }
 
         if ($db->fieldExists('id_wali_kelas', 'tb_kelas')) {
+            $this->db->query('ALTER TABLE tb_kelas DROP FOREIGN KEY fk_tb_kelas_id_wali_kelas');
             $this->forge->dropColumn('tb_kelas', 'id_wali_kelas');
         }
     }
