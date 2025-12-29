@@ -74,6 +74,9 @@
       </div>
    </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
    var lastIdKelas;
    var lastKelas;

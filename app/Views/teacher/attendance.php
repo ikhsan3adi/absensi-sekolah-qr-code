@@ -41,7 +41,9 @@
       </div>
    </div>
 </div>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
 <script>
     var lastIdKelas = <?= $kelas['id_kelas']; ?>;
     var lastKelas = '<?= $kelas['kelas']; ?>';

@@ -176,6 +176,9 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <!-- Chartist JS -->
 <script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>
 <script>
