@@ -130,65 +130,139 @@ class SiswaModel extends Model
    //generate CSV object
    public function generateCSVObject($filePath)
    {
+      if (!file_exists($filePath)) {
+         log_message('error', 'CSV file not found: ' . $filePath);
+         return false;
+      }
+      
       $array = array();
       $fields = array();
       $txtName = uniqid() . '.txt';
       $i = 0;
-      $handle = fopen($filePath, 'r');
-      if ($handle) {
-         while (($row = fgetcsv($handle)) !== false) {
-            if (empty($fields)) {
-               $fields = $row;
-               continue;
+      $handle = @fopen($filePath, 'r');
+      
+      if (!$handle) {
+         log_message('error', 'Failed to open CSV file: ' . $filePath);
+         return false;
+      }
+      
+      while (($row = fgetcsv($handle)) !== false) {
+         if (empty($fields)) {
+            $fields = $row;
+            // Validate required headers
+            $requiredHeaders = ['nis', 'nama_siswa', 'id_kelas', 'jenis_kelamin', 'no_hp'];
+            foreach ($requiredHeaders as $header) {
+               if (!in_array($header, $fields)) {
+                  log_message('error', 'CSV missing required header: ' . $header);
+                  fclose($handle);
+                  @unlink($filePath);
+                  return false;
+               }
             }
-            foreach ($row as $k => $value) {
+            continue;
+         }
+         
+         // Skip empty rows
+         if (empty(array_filter($row))) {
+            continue;
+         }
+         
+         foreach ($row as $k => $value) {
+            if (isset($fields[$k])) {
                $array[$i][$fields[$k]] = $value;
             }
-            $i++;
          }
-         if (!feof($handle)) {
-            return false;
-         }
-         fclose($handle);
-         if (!empty($array)) {
-            $txtFile = fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
-            fwrite($txtFile, serialize($array));
-            fclose($txtFile);
-            $obj = new \stdClass();
-            $obj->numberOfItems = countItems($array);
-            $obj->txtFileName = $txtName;
-            @unlink($filePath);
-            return $obj;
-         }
+         $i++;
       }
-      return false;
+      
+      if (!feof($handle)) {
+         log_message('error', 'Error reading CSV file, not reached EOF');
+         fclose($handle);
+         @unlink($filePath);
+         return false;
+      }
+      
+      fclose($handle);
+      
+      if (empty($array)) {
+         log_message('error', 'CSV file contains no data rows');
+         @unlink($filePath);
+         return false;
+      }
+      
+      $txtFile = @fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
+      if (!$txtFile) {
+         log_message('error', 'Failed to create temp file: ' . FCPATH . 'uploads/tmp/' . $txtName);
+         @unlink($filePath);
+         return false;
+      }
+      
+      fwrite($txtFile, serialize($array));
+      fclose($txtFile);
+      
+      $obj = new \stdClass();
+      $obj->numberOfItems = countItems($array);
+      $obj->txtFileName = $txtName;
+      @unlink($filePath);
+      
+      return $obj;
    }
 
    //import csv item
    public function importCSVItem($txtFileName, $index)
    {
       $filePath = FCPATH . 'uploads/tmp/' . $txtFileName;
-      $file = fopen($filePath, 'r');
+      
+      if (!file_exists($filePath)) {
+         log_message('error', 'Temp file not found: ' . $filePath);
+         return false;
+      }
+      
+      $file = @fopen($filePath, 'r');
+      if (!$file) {
+         log_message('error', 'Failed to open temp file: ' . $filePath);
+         return false;
+      }
+      
       $content = fread($file, filesize($filePath));
+      fclose($file);
+      
       $array = @unserialize($content);
-      if (!empty($array)) {
-         $i = 1;
-         foreach ($array as $item) {
-            if ($i == $index) {
-               $data = array();
-               $data['nis'] = getCSVInputValue($item, 'nis', 'int');
-               $data['nama_siswa'] = getCSVInputValue($item, 'nama_siswa');
-               $data['id_kelas'] = getCSVInputValue($item, 'id_kelas', 'int');
-               $data['jenis_kelamin'] = getCSVInputValue($item, 'jenis_kelamin');
-               $data['no_hp'] = getCSVInputValue($item, 'no_hp');
-               $data['unique_code'] = generateToken();
-
+      if (empty($array)) {
+         log_message('error', 'Failed to unserialize temp file content');
+         return false;
+      }
+      
+      $i = 1;
+      foreach ($array as $item) {
+         if ($i == $index) {
+            $data = array();
+            $data['nis'] = getCSVInputValue($item, 'nis', 'int');
+            $data['nama_siswa'] = getCSVInputValue($item, 'nama_siswa');
+            $data['id_kelas'] = getCSVInputValue($item, 'id_kelas', 'int');
+            $data['jenis_kelamin'] = getCSVInputValue($item, 'jenis_kelamin');
+            $data['no_hp'] = getCSVInputValue($item, 'no_hp');
+            $data['unique_code'] = generateToken();
+            
+            // Validate required fields
+            if (empty($data['nis']) || empty($data['nama_siswa']) || empty($data['id_kelas'])) {
+               log_message('error', 'CSV item missing required fields at index: ' . $index);
+               return false;
+            }
+            
+            try {
                $this->insert($data);
                return $data;
+            } catch (\Exception $e) {
+               log_message('error', 'Failed to insert CSV item at index ' . $index . ': ' . $e->getMessage());
+               return false;
             }
-            $i++;
          }
+         $i++;
       }
+      
+      log_message('error', 'CSV item index not found: ' . $index);
+      return false;
    }
 
    public function getSiswa($id)

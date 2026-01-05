@@ -275,20 +275,34 @@ class DataSiswa extends BaseController
             @unlink($item);
          }
       }
+      
       $file = $uploadModel->uploadCSVFile('file');
-      if (!empty($file) && !empty($file['path'])) {
-         $obj = $this->siswaModel->generateCSVObject($file['path']);
-         if (!empty($obj)) {
-            $data = [
-               'result' => 1,
-               'numberOfItems' => $obj->numberOfItems,
-               'txtFileName' => $obj->txtFileName,
-            ];
-            echo json_encode($data);
-            exit();
-         }
+      if (empty($file) || empty($file['path'])) {
+         log_message('error', 'CSV upload failed: File upload returned empty');
+         echo json_encode([
+            'result' => 0,
+            'error' => 'File gagal diupload. Pastikan file yang dipilih adalah CSV yang valid.'
+         ]);
+         return;
       }
-      echo json_encode(['result' => 0]);
+      
+      $obj = $this->siswaModel->generateCSVObject($file['path']);
+      if (!empty($obj)) {
+         $data = [
+            'result' => 1,
+            'numberOfItems' => $obj->numberOfItems,
+            'txtFileName' => $obj->txtFileName,
+         ];
+         log_message('info', 'CSV object generated successfully: ' . $obj->numberOfItems . ' items');
+         echo json_encode($data);
+         exit();
+      }
+      
+      log_message('error', 'CSV parsing failed for file: ' . $file['path']);
+      echo json_encode([
+         'result' => 0,
+         'error' => 'Gagal memproses file CSV. Pastikan format sesuai template dan encoding UTF-8.'
+      ]);
    }
 
    /**
@@ -298,8 +312,20 @@ class DataSiswa extends BaseController
    {
       $txtFileName = inputPost('txtFileName');
       $index = inputPost('index');
+      
+      if (empty($txtFileName) || empty($index)) {
+         log_message('error', 'Import CSV Item: Missing parameters');
+         echo json_encode([
+            'result' => 0,
+            'index' => $index,
+            'error' => 'Parameter tidak lengkap'
+         ]);
+         return;
+      }
+      
       $siswa = $this->siswaModel->importCSVItem($txtFileName, $index);
       if (!empty($siswa)) {
+         log_message('info', 'Imported student: ' . $siswa['nis'] . ' - ' . $siswa['nama_siswa']);
          $data = [
             'result' => 1,
             'siswa' => $siswa,
@@ -307,9 +333,11 @@ class DataSiswa extends BaseController
          ];
          echo json_encode($data);
       } else {
+         log_message('error', 'Failed to import CSV item at index: ' . $index);
          $data = [
             'result' => 0,
-            'index' => $index
+            'index' => $index,
+            'error' => 'Gagal mengimport data pada baris ke-' . $index
          ];
          echo json_encode($data);
       }

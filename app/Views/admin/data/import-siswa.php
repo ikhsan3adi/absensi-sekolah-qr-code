@@ -151,14 +151,57 @@
                             addCSVItem(numberOfItems, txtFileName, 1);
                         } else {
                             $("#csv_upload_spinner").hide();
+                            swal({
+                                title: 'Import Gagal',
+                                text: 'File CSV tidak berisi data siswa yang valid. Pastikan format CSV sesuai template.',
+                                icon: "error"
+                            });
                         }
                     } else {
                         $("#csv_upload_spinner").hide();
+                        swal({
+                            title: 'Upload Gagal',
+                            text: 'Gagal memproses file CSV. Pastikan file sesuai format yang ditentukan dan tidak ada kesalahan.',
+                            icon: "error"
+                        });
                     }
 
                 } catch (e) {
-                    alert("Invalid CSV file! Make sure there are no double quotes in your content. Double quotes can brake the CSV structure.");
+                    $("#csv_upload_spinner").hide();
+                    console.error('CSV Parse Error:', e);
+                    console.error('Response:', response);
+                    swal({
+                        title: 'File Tidak Valid',
+                        text: 'Format file CSV tidak valid. Pastikan:\n- Menggunakan encoding UTF-8\n- Tidak ada tanda kutip ganda di dalam data\n- Format sesuai dengan template',
+                        icon: "error"
+                    });
                 }
+            },
+            onUploadError: function(id, xhr, status, errorThrown) {
+                $("#csv_upload_spinner").hide();
+                console.error('Upload Error:', status, errorThrown);
+                console.error('Response:', xhr.responseText);
+                swal({
+                    title: 'Upload Gagal',
+                    text: 'Terjadi kesalahan saat mengupload file. Silakan coba lagi atau hubungi administrator.',
+                    icon: "error"
+                });
+            },
+            onFileTypeError: function(file) {
+                $("#csv_upload_spinner").hide();
+                swal({
+                    title: 'Tipe File Salah',
+                    text: 'Hanya file CSV yang diperbolehkan. File yang dipilih: ' + file.name,
+                    icon: "error"
+                });
+            },
+            onFileSizeError: function(file) {
+                $("#csv_upload_spinner").hide();
+                swal({
+                    title: 'File Terlalu Besar',
+                    text: 'Ukuran file ' + file.name + ' melebihi batas maksimum.',
+                    icon: "error"
+                });
             }
         });
     });
@@ -189,11 +232,17 @@
                     addCSVItem(numberOfItems, txtFileName, index);
                 },
                 error: function(xhr, status, thrown) {
+                    $("#csv_upload_spinner").hide();
+                    console.error('Import Error at index:', index);
+                    console.error('Status:', status);
+                    console.error('Error:', thrown);
+                    console.error('Response:', xhr.responseText);
                     swal({
-                        text: 'Ada Kesalahan Pada CSV silahkan Cek Log',
-                        icon: "warning"
-                    }).then(function(willDelete) {
-                        if (willDelete) {
+                        title: 'Import Gagal',
+                        text: 'Terjadi kesalahan saat mengimport data siswa pada baris ke-' + index + '. Periksa console browser untuk detail error.',
+                        icon: "error"
+                    }).then(function(ok) {
+                        if (ok) {
                             location.reload();
                         }
                     });
