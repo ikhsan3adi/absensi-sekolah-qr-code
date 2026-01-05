@@ -184,7 +184,12 @@
                     console.error('Response:', response);
                     swal({
                         title: 'File Tidak Valid',
-                        text: 'Format file CSV tidak valid. Pastikan:\n- Menggunakan encoding UTF-8\n- Tidak ada tanda kutip ganda di dalam data\n- Format sesuai dengan template',
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: 'Format file CSV tidak valid. Pastikan:<br>- Menggunakan encoding UTF-8<br>- Tidak ada tanda kutip ganda di dalam data<br>- Format sesuai dengan template'
+                            }
+                        },
                         icon: "error"
                     });
                 }

@@ -139,7 +139,7 @@ class SiswaModel extends Model
       $fields = array();
       $txtName = uniqid() . '.txt';
       $i = 0;
-      $handle = @fopen($filePath, 'r');
+      $handle = fopen($filePath, 'r');
       
       if (!$handle) {
          log_message('error', 'Failed to open CSV file: ' . $filePath);
@@ -155,7 +155,9 @@ class SiswaModel extends Model
                if (!in_array($header, $fields)) {
                   log_message('error', 'CSV missing required header: ' . $header);
                   fclose($handle);
-                  @unlink($filePath);
+                  if (file_exists($filePath)) {
+                     unlink($filePath);
+                  }
                   return false;
                }
             }
@@ -178,7 +180,9 @@ class SiswaModel extends Model
       if (!feof($handle)) {
          log_message('error', 'Error reading CSV file, not reached EOF');
          fclose($handle);
-         @unlink($filePath);
+         if (file_exists($filePath)) {
+            unlink($filePath);
+         }
          return false;
       }
       
@@ -186,14 +190,18 @@ class SiswaModel extends Model
       
       if (empty($array)) {
          log_message('error', 'CSV file contains no data rows');
-         @unlink($filePath);
+         if (file_exists($filePath)) {
+            unlink($filePath);
+         }
          return false;
       }
       
-      $txtFile = @fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
+      $txtFile = fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
       if (!$txtFile) {
          log_message('error', 'Failed to create temp file: ' . FCPATH . 'uploads/tmp/' . $txtName);
-         @unlink($filePath);
+         if (file_exists($filePath)) {
+            unlink($filePath);
+         }
          return false;
       }
       
@@ -203,7 +211,9 @@ class SiswaModel extends Model
       $obj = new \stdClass();
       $obj->numberOfItems = countItems($array);
       $obj->txtFileName = $txtName;
-      @unlink($filePath);
+      if (file_exists($filePath)) {
+         unlink($filePath);
+      }
       
       return $obj;
    }
@@ -218,7 +228,7 @@ class SiswaModel extends Model
          return false;
       }
       
-      $file = @fopen($filePath, 'r');
+      $file = fopen($filePath, 'r');
       if (!$file) {
          log_message('error', 'Failed to open temp file: ' . $filePath);
          return false;
@@ -227,8 +237,8 @@ class SiswaModel extends Model
       $content = fread($file, filesize($filePath));
       fclose($file);
       
-      $array = @unserialize($content);
-      if (empty($array)) {
+      $array = unserialize($content);
+      if ($array === false || empty($array)) {
          log_message('error', 'Failed to unserialize temp file content');
          return false;
       }
@@ -244,8 +254,10 @@ class SiswaModel extends Model
             $data['no_hp'] = getCSVInputValue($item, 'no_hp');
             $data['unique_code'] = generateToken();
             
-            // Validate required fields
-            if (empty($data['nis']) || empty($data['nama_siswa']) || empty($data['id_kelas'])) {
+            // Validate required fields (check for empty string or null, but allow 0 as valid)
+            if ($data['nis'] === '' || $data['nis'] === null || 
+                $data['nama_siswa'] === '' || $data['nama_siswa'] === null || 
+                $data['id_kelas'] === '' || $data['id_kelas'] === null || $data['id_kelas'] === 0) {
                log_message('error', 'CSV item missing required fields at index: ' . $index);
                return false;
             }
