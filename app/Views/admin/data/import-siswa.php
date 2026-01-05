@@ -256,7 +256,7 @@
                     console.error('Response:', xhr.responseText);
                     swal({
                         title: 'Import Gagal',
-                        text: 'Terjadi kesalahan saat mengimport data siswa pada baris ke-' + index + '. Periksa console browser untuk detail error.',
+                        text: 'Terjadi kesalahan saat mengimport data siswa pada baris CSV ke-' + (index + 1) + ' (data ke-' + index + '). Periksa console browser untuk detail error.',
                         icon: "error"
                     }).then(function(ok) {
                         if (ok) {

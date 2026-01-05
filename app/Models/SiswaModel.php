@@ -254,11 +254,11 @@ class SiswaModel extends Model
             $data['no_hp'] = getCSVInputValue($item, 'no_hp');
             $data['unique_code'] = generateToken();
             
-            // Validate required fields (check for empty string or null, but allow 0 as valid)
-            if ($data['nis'] === '' || $data['nis'] === null || 
+            // Validate required fields - NIS and id_kelas must be positive integers, nama_siswa must not be empty
+            if ($data['nis'] === '' || $data['nis'] === null || $data['nis'] === 0 ||
                 $data['nama_siswa'] === '' || $data['nama_siswa'] === null || 
                 $data['id_kelas'] === '' || $data['id_kelas'] === null || $data['id_kelas'] === 0) {
-               log_message('error', 'CSV item missing required fields at index: ' . $index);
+               log_message('error', 'CSV item missing required fields at index: ' . $index . ' (NIS: ' . $data['nis'] . ', Name: ' . $data['nama_siswa'] . ', Class ID: ' . $data['id_kelas'] . ')');
                return false;
             }
             
