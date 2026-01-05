@@ -69,6 +69,18 @@
                                     <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modalKelas">List Kelas</button>
                                     <button class="btn btn-success btn-block" name="submit" value="csv_siswa_template">Download CSV Template</button>
                                 </form>
+                                <hr>
+                                <div class="alert alert-info mt-3">
+                                    <strong>Petunjuk Import CSV:</strong>
+                                    <ol class="mb-0 pl-3">
+                                        <li>Download CSV Template terlebih dahulu</li>
+                                        <li>Isi data siswa sesuai format template</li>
+                                        <li>Gunakan encoding <strong>UTF-8</strong></li>
+                                        <li>Pastikan ID Kelas sesuai dengan List Kelas</li>
+                                        <li>Jangan gunakan tanda kutip ganda (") dalam data</li>
+                                        <li>Upload file CSV dengan drag & drop atau klik tombol</li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>
