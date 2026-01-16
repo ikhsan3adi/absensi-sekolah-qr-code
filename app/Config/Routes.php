@@ -158,6 +158,15 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->get('/', 'GeneralSettings::index');
       $routes->post('update', 'GeneralSettings::generalSettingsPost');
    });
+
+   // Backup & Restore
+   $routes->group('backup', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('', 'Backup::index');
+      $routes->get('db/backup', 'Backup::dbBackup');
+      $routes->post('db/restore', 'Backup::dbRestore');
+      $routes->get('photos/backup', 'Backup::photosBackup');
+      $routes->post('photos/restore', 'Backup::photosRestore');
+   });
 });
 
 // Teacher
