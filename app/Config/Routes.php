@@ -60,6 +60,12 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->post('editKelasPost', 'KelasController::editKelasPost');
       $routes->post('deleteKelasPost', 'KelasController::deleteKelasPost');
       $routes->post('list-data', 'KelasController::listData');
+
+      // Bulk Import
+      $routes->get('bulk', 'KelasController::bulkPost');
+      $routes->post('downloadCSVFilePost', 'KelasController::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'KelasController::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'KelasController::importCSVItemPost');
    });
 
    // Jurusan
@@ -71,6 +77,12 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->post('editJurusanPost', 'JurusanController::editJurusanPost');
       $routes->post('deleteJurusanPost', 'JurusanController::deleteJurusanPost');
       $routes->post('list-data', 'JurusanController::listData');
+
+      // Bulk Import
+      $routes->get('bulk', 'JurusanController::bulkPost');
+      $routes->post('downloadCSVFilePost', 'JurusanController::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'JurusanController::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'JurusanController::importCSVItemPost');
    });
 
    // admin lihat data siswa

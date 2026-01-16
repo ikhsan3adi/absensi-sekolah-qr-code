@@ -154,6 +154,7 @@ class KelasController extends BaseController
      *
      * @return mixed
      */
+
     public function deleteKelasPost($id = null)
     {
         $id = inputPost('id');
@@ -169,6 +170,91 @@ class KelasController extends BaseController
             } else {
                 $this->session->setFlashdata('error', 'Gagal menghapus data');
             }
+        }
+    }
+
+    /*
+     *-------------------------------------------------------------------------------------------------
+     * IMPORT KELAS
+     *-------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * Bulk Post Upload
+     */
+    public function bulkPost()
+    {
+        $data = [
+            'title' => 'Import Kelas',
+            'ctx' => 'kelas',
+        ];
+
+        return view('/admin/kelas/import_kelas', $data);
+    }
+
+    /**
+     * Generate CSV Object Post
+     */
+    public function generateCSVObjectPost()
+    {
+        $uploadModel = new \App\Models\UploadModel();
+        //delete old txt files
+        $files = glob(FCPATH . 'uploads/tmp/*.txt');
+        if (!empty($files)) {
+            foreach ($files as $item) {
+                @unlink($item);
+            }
+        }
+        $file = $uploadModel->uploadCSVFile('file');
+        if (!empty($file) && !empty($file['path'])) {
+            $obj = $this->kelasModel->generateCSVObject($file['path']);
+            if (!empty($obj)) {
+                $data = [
+                    'result' => 1,
+                    'numberOfItems' => $obj->numberOfItems,
+                    'txtFileName' => $obj->txtFileName,
+                ];
+                echo json_encode($data);
+                exit();
+            }
+        }
+        echo json_encode(['result' => 0]);
+    }
+
+    /**
+     * Import CSV Item Post
+     */
+    public function importCSVItemPost()
+    {
+        $txtFileName = inputPost('txtFileName');
+        $index = inputPost('index');
+        $result = $this->kelasModel->importCSVItem($txtFileName, $index);
+        if (!empty($result)) {
+            $data = [
+                'result' => 1,
+                'status' => $result['status'],
+                'kelas' => $result['data'],
+                'index' => $index
+            ];
+            echo json_encode($data);
+        } else {
+            $data = [
+                'result' => 0,
+                'index' => $index
+            ];
+            echo json_encode($data);
+        }
+    }
+
+    /**
+     * Download CSV File Post
+     */
+    public function downloadCSVFilePost()
+    {
+        $submit = inputPost('submit');
+        $response = \Config\Services::response();
+        if ($submit == 'csv_kelas_template') {
+            return $response->download(FCPATH . 'assets/file/csv_kelas_template.csv', null);
         }
     }
 }
