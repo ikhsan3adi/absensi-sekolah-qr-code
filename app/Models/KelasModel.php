@@ -103,10 +103,104 @@ class KelasModel extends BaseModel
       return false;
    }
 
+
    public function getAllKelas()
    {
       return $this->select('tb_kelas.*, tb_jurusan.jurusan, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
          ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
          ->findAll();
+   }
+
+   //generate CSV object
+   public function generateCSVObject($filePath)
+   {
+      $array = array();
+      $fields = array();
+      $txtName = uniqid() . '.txt';
+      $i = 0;
+      $handle = fopen($filePath, 'r');
+      if ($handle) {
+         while (($row = fgetcsv($handle)) !== false) {
+            if (empty($fields)) {
+               $fields = $row;
+               // Remove BOM from the first element if present
+               if (isset($fields[0])) {
+                  $fields[0] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $fields[0]);
+               }
+               // Trim all fields
+               $fields = array_map('trim', $fields);
+               continue;
+            }
+            foreach ($row as $k => $value) {
+               if (isset($fields[$k])) {
+                  $array[$i][$fields[$k]] = trim($value);
+               }
+            }
+            $i++;
+         }
+         if (!feof($handle)) {
+            return false;
+         }
+         fclose($handle);
+         if (!empty($array)) {
+            $txtFile = fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
+            fwrite($txtFile, serialize($array));
+            fclose($txtFile);
+            $obj = new \stdClass();
+            $obj->numberOfItems = countItems($array);
+            $obj->txtFileName = $txtName;
+            @unlink($filePath);
+            return $obj;
+         }
+      }
+      return false;
+   }
+
+   //import csv item
+   public function importCSVItem($txtFileName, $index)
+   {
+      $filePath = FCPATH . 'uploads/tmp/' . $txtFileName;
+      $file = fopen($filePath, 'r');
+      $content = fread($file, filesize($filePath));
+      $array = @unserialize($content);
+      if (!empty($array)) {
+         $i = 1;
+         foreach ($array as $item) {
+            if ($i == $index) {
+               $tingkat = getCSVInputValue($item, 'tingkat');
+               $jurusanName = getCSVInputValue($item, 'jurusan');
+               $indexKelas = getCSVInputValue($item, 'index_kelas');
+
+               // Lookup id_jurusan
+               $jurusanModel = new JurusanModel();
+               $jurusan = $jurusanModel->where('jurusan', $jurusanName)->first();
+
+               if (!empty($jurusan)) {
+                  $insertData = [
+                     'tingkat' => $tingkat,
+                     'id_jurusan' => $jurusan['id'],
+                     'index_kelas' => $indexKelas,
+                     'id_wali_kelas' => null, // Optional based on CSV
+                  ];
+
+                  $returnData = array_merge($insertData, ['jurusan' => $jurusanName]);
+
+                  // Check for duplicate
+                  $exists = $this->builder->where('tingkat', $tingkat)
+                     ->where('id_jurusan', $jurusan['id'])
+                     ->where('index_kelas', $indexKelas)
+                     ->countAllResults();
+
+                  if ($exists > 0) {
+                     return ['status' => 'duplicate', 'data' => $returnData];
+                  }
+
+                  $this->builder->insert($insertData);
+                  return ['status' => 'success', 'data' => $returnData];
+               }
+            }
+            $i++;
+         }
+      }
    }
 }

@@ -60,6 +60,12 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->post('editKelasPost', 'KelasController::editKelasPost');
       $routes->post('deleteKelasPost', 'KelasController::deleteKelasPost');
       $routes->post('list-data', 'KelasController::listData');
+
+      // Bulk Import
+      $routes->get('bulk', 'KelasController::bulkPost');
+      $routes->post('downloadCSVFilePost', 'KelasController::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'KelasController::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'KelasController::importCSVItemPost');
    });
 
    // Jurusan
@@ -71,6 +77,12 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->post('editJurusanPost', 'JurusanController::editJurusanPost');
       $routes->post('deleteJurusanPost', 'JurusanController::deleteJurusanPost');
       $routes->post('list-data', 'JurusanController::listData');
+
+      // Bulk Import
+      $routes->get('bulk', 'JurusanController::bulkPost');
+      $routes->post('downloadCSVFilePost', 'JurusanController::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'JurusanController::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'JurusanController::importCSVItemPost');
    });
 
    // admin lihat data siswa
@@ -107,6 +119,14 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('guru/edit', 'Admin\DataGuru::updateGuru');
    // admin hapus data guru
    $routes->delete('guru/delete/(:any)', 'Admin\DataGuru::delete/$1');
+   $routes->get('guru/bulk', 'Admin\DataGuru::bulkPost');
+
+   // POST Data Guru
+   $routes->group('guru', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->post('downloadCSVFilePost', 'DataGuru::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'DataGuru::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'DataGuru::importCSVItemPost');
+   });
 
 
    // admin lihat data absen siswa
@@ -157,6 +177,15 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->group('general-settings', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
       $routes->get('/', 'GeneralSettings::index');
       $routes->post('update', 'GeneralSettings::generalSettingsPost');
+   });
+
+   // Backup & Restore
+   $routes->group('backup', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('', 'Backup::index');
+      $routes->get('db/backup', 'Backup::dbBackup');
+      $routes->post('db/restore', 'Backup::dbRestore');
+      $routes->get('photos/backup', 'Backup::photosBackup');
+      $routes->post('photos/restore', 'Backup::photosRestore');
    });
 });
 

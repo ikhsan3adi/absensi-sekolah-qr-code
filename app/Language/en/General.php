@@ -1,0 +1,1 @@
+<?php return ['processing' => 'Processing', 'uploading' => 'Uploading', 'completed' => 'Completed', 'csv_file' => 'CSV File', 'drag_drop_file_here' => 'Drag and drop file here', 'browse_files' => 'Browse Files', 'generate' => 'Generate', 'download_csv_template' => 'Download CSV Template'];

@@ -129,6 +129,12 @@ switch ($context) {
                   <p>Pengaturan</p>
                </a>
             </li>
+            <li class="nav-item <?= $context == 'backup' ? 'active' : ''; ?>">
+               <a class="nav-link" href="<?= base_url('admin/backup'); ?>">
+                  <i class="material-icons">backup</i>
+                  <p>Backup & Restore</p>
+               </a>
+            </li>
          <?php endif; ?>
          <!-- <li class="nav-item active-pro mb-3">
             <a class="nav-link" href="./upgrade.html">

@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\GuruModel;
+use App\Models\UploadModel;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -194,5 +195,89 @@ class DataGuru extends BaseController
          'error' => true
       ]);
       return redirect()->to('/admin/guru');
+   }
+
+   /*
+    *-------------------------------------------------------------------------------------------------
+    * IMPORT GURU
+    *-------------------------------------------------------------------------------------------------
+    */
+
+   /**
+    * Bulk Post Upload
+    */
+   public function bulkPost()
+   {
+      $data = [
+         'title' => 'Import Guru',
+         'ctx' => 'guru',
+      ];
+
+      return view('/admin/data/import-guru', $data);
+   }
+
+   /**
+    * Generate CSV Object Post
+    */
+   public function generateCSVObjectPost()
+   {
+      $uploadModel = new UploadModel();
+      //delete old txt files
+      $files = glob(FCPATH . 'uploads/tmp/*.txt');
+      if (!empty($files)) {
+         foreach ($files as $item) {
+            @unlink($item);
+         }
+      }
+      $file = $uploadModel->uploadCSVFile('file');
+      if (!empty($file) && !empty($file['path'])) {
+         $obj = $this->guruModel->generateCSVObject($file['path']);
+         if (!empty($obj)) {
+            $data = [
+               'result' => 1,
+               'numberOfItems' => $obj->numberOfItems,
+               'txtFileName' => $obj->txtFileName,
+            ];
+            echo json_encode($data);
+            exit();
+         }
+      }
+      echo json_encode(['result' => 0]);
+   }
+
+   /**
+    * Import CSV Item Post
+    */
+   public function importCSVItemPost()
+   {
+      $txtFileName = inputPost('txtFileName');
+      $index = inputPost('index');
+      $guru = $this->guruModel->importCSVItem($txtFileName, $index);
+      if (!empty($guru)) {
+         $data = [
+            'result' => 1,
+            'guru' => $guru,
+            'index' => $index
+         ];
+         echo json_encode($data);
+      } else {
+         $data = [
+            'result' => 0,
+            'index' => $index
+         ];
+         echo json_encode($data);
+      }
+   }
+
+   /**
+    * Download CSV File Post
+    */
+   public function downloadCSVFilePost()
+   {
+      $submit = inputPost('submit');
+      $response = \Config\Services::response();
+      if ($submit == 'csv_guru_template') {
+         return $response->download(FCPATH . 'assets/file/csv_guru_template.csv', null);
+      }
    }
 }

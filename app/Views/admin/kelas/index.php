@@ -25,7 +25,13 @@
 
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <a class="btn-custom-tools" id="refreshBtn" onclick="fetchKelasJurusanData('kelas', '#dataKelas')" href="javascript:void(0)">
+                        <a class="btn-custom-tools" href="<?= base_url('admin/kelas/bulk'); ?>">
+                          <i class="material-icons">cloud_upload</i> Import
+                        </a>
+                      </div>
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <a class="btn-custom-tools" id="refreshBtn"
+                          onclick="fetchKelasJurusanData('kelas', '#dataKelas')" href="javascript:void(0)">
                           <i class="material-icons">refresh</i> Refresh
 
                         </a>
@@ -52,10 +58,15 @@
                         <a class="btn-custom-tools" id="tabBtn" href="<?= base_url('admin/jurusan/tambah'); ?>">
                           <i class="material-icons">add</i> Tambah data jurusan
                         </a>
-
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <a class="btn-custom-tools" id="refreshBtn2" onclick="fetchKelasJurusanData('jurusan', '#dataJurusan')" href="javascript:void(0)">
+                        <a class="btn-custom-tools" href="<?= base_url('admin/jurusan/bulk'); ?>">
+                          <i class="material-icons">cloud_upload</i> Import
+                        </a>
+                      </div>
+                      <div class="col-12 col-sm-auto nav nav-tabs">
+                        <a class="btn-custom-tools" id="refreshBtn2"
+                          onclick="fetchKelasJurusanData('jurusan', '#dataJurusan')" href="javascript:void(0)">
                           <i class="material-icons">refresh</i> Refresh
 
                         </a>
@@ -78,11 +89,11 @@
 
 <?= $this->section('scripts') ?>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     fetchKelasJurusanData('kelas', '#dataKelas');
     fetchKelasJurusanData('jurusan', '#dataJurusan');
   });
 
-  
+
 </script>
 <?= $this->endSection() ?>
