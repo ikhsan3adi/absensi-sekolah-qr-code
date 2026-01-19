@@ -1,28 +1,26 @@
-<h1 align="center">
-  Aplikasi Web Sistem Absensi Sekolah<br>Berbasis QR Code (+ Dukungan RFID)
-</h1>
+# Aplikasi Web Sistem Absensi Sekolah Berbasis $QR \space Code$ <br> (+ Dukungan RFID)
 
-<p align="center">
-    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
-    </a>
-    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/stargazers">
-        <img src="https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Repo stars">
-    </a>
-    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/graphs/contributors">
-        <img src="https://img.shields.io/github/contributors-anon/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Contributors">
-    </a>
-    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/watchers">
-        <img src="https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub watchers">
-    </a>
-    <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/network/members">
-        <img src="https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub forks"
-    </a>
-</p>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
+</a>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/stargazers">
+    <img src="https://img.shields.io/github/stars/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Repo stars">
+</a>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors-anon/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Contributors">
+</a>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/watchers">
+    <img src="https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub watchers">
+</a>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/network/members">
+    <img src="https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub forks">
+</a>
+
+---
 
 ![Preview](./screenshots/hero.png)
 
-Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
+Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk $mengotomatisasi$ proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
 > [Instalasi & Cara Penggunaan](#cara-penggunaan)
 
@@ -194,6 +192,7 @@ composer install
   ```
 
 - Edit file `.env` dan sesuaikan konfigurasi database:
+
   ```env
   database.default.hostname = localhost
   database.default.database = db_absensi
@@ -342,9 +341,22 @@ Setelah login sebagai wali kelas, Anda dapat:
 
 Aplikasi mendukung import data secara massal menggunakan file CSV:
 
-- **Import Data Guru** - Buka menu Data Guru > Import Guru. Download template [csv_guru_template.csv](./public/assets/file/csv_guru_template.csv) dan upload setelah diisi.
-- **Import Data Jurusan** - Buka menu Kelas & Jurusan > Jurusan > Import Jurusan. Download template [csv_jurusan_template.csv](./public/assets/file/csv_jurusan_template.csv) dan upload setelah diisi.
-- **Import Data Kelas** - Buka menu Kelas & Jurusan > Import Kelas. Download template [csv_kelas_template.csv](./public/assets/file/csv_kelas_template.csv) dan upload setelah diisi.
+- **Import Data Siswa** - Buka menu Data Siswa > Import CSV. Download template [csv_guru_template.csv](./public/assets/file/csv_siswa_template.csv) dan upload setelah diisi. Contoh [csv_siswa_example.csv](./public/assets/file/csv_siswa_example.csv)
+  > Pastikan id kelas cocok dengan data kelas yang ada di database
+
+- **Import Data Guru** - Buka menu Data Guru > Import CSV. Download template [csv_guru_template.csv](./public/assets/file/csv_guru_template.csv) dan upload setelah diisi.
+  > Perhatikan untuk impor data guru & siswa:
+  >
+  > ```csv
+  > ...,jenis_kelamin,... <- kolom
+  > ...,Laki-laki,...     # contoh nilai valid
+  > ...,Perempuan,...     # pastikan sama persis
+  > ```
+
+- **Import Data Jurusan dan Kelas** - Buka menu Kelas & Jurusan > Jurusan > Import (Jurusan/Kelas). Download template [csv_jurusan_template.csv](./public/assets/file/csv_jurusan_template.csv) atau [csv_kelas_template.csv](./public/assets/file/csv_kelas_template.csv) dan upload setelah diisi.
+  > Penting untuk memastikan kolom jurusan pada csv kelas harus **SUDAH ADA** dan **$PERSIS \space SAMA$** dengan yang ada di database jurusan.
+  >
+  > Direkomendasikan untuk impor jurusan dahulu lalu impor kelas
 
 **Catatan:** Gunakan encoding UTF-8 dan delimiter koma (,). Sistem akan mengabaikan data duplikat.
 
