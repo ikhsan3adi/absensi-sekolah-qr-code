@@ -335,7 +335,6 @@ final class GuruModelTest extends CIUnitTestCase
 
     public function testCekGuruReturnsFirstMatchForOrCondition(): void
     {
-        // Test that cekGuru works with either unique_code OR rfid_code
         $this->model->createGuru('1234567890123456', 'John Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test', '08123456789', 'RFID123');
         
         $guru = $this->db->table('tb_guru')->where('nuptk', '1234567890123456')->get()->getRowArray();
@@ -346,5 +345,148 @@ final class GuruModelTest extends CIUnitTestCase
         $this->assertNotNull($resultByUniqueCode);
         $this->assertNotNull($resultByRfid);
         $this->assertEquals($resultByUniqueCode['id_guru'], $resultByRfid['id_guru']);
+    }
+
+    public function testGenerateCSVObjectSuccessfully(): void
+    {
+        $csvContent = "nuptk,nama_guru,jenis_kelamin,alamat,no_hp\n" .
+                      "1234567890123456,Guru One,L,Jl. Test 1,08111111111\n" .
+                      "9876543210987654,Guru Two,P,Jl. Test 2,08222222222\n";
+
+        $tmpDir = FCPATH . 'uploads/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        $tempFile = $tmpDir . 'test_guru_' . uniqid() . '.csv';
+        file_put_contents($tempFile, $csvContent);
+
+        $result = $this->model->generateCSVObject($tempFile);
+
+        $this->assertNotEmpty($result);
+        $this->assertEquals(2, $result->numberOfItems);
+        $this->assertNotEmpty($result->txtFileName);
+
+        $txtFile = $tmpDir . $result->txtFileName;
+        $this->assertFileExists($txtFile);
+
+        @unlink($txtFile);
+    }
+
+    public function testGenerateCSVObjectWithBOM(): void
+    {
+        $csvContent = "\xEF\xBB\xBFnuptk,nama_guru,jenis_kelamin,alamat,no_hp\n" .
+                      "1234567890123456,Guru Test,L,Jl. Test,08111111111\n";
+
+        $tmpDir = FCPATH . 'uploads/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        $tempFile = $tmpDir . 'test_guru_bom_' . uniqid() . '.csv';
+        file_put_contents($tempFile, $csvContent);
+
+        $result = $this->model->generateCSVObject($tempFile);
+
+        $this->assertNotEmpty($result);
+        $this->assertEquals(1, $result->numberOfItems);
+
+        $txtFile = FCPATH . 'uploads/tmp/' . $result->txtFileName;
+        @unlink($txtFile);
+    }
+
+    public function testImportCSVItemSuccessfully(): void
+    {
+        $testData = [
+            [
+                'nuptk' => '1234567890123456',
+                'nama_guru' => 'Imported Guru',
+                'jenis_kelamin' => 'L',
+                'alamat' => 'Jl. Import Test',
+                'no_hp' => '08123456789'
+            ]
+        ];
+
+        $tmpDir = FCPATH . 'uploads/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        $txtFileName = 'test_' . uniqid() . '.txt';
+        $txtFile = fopen($tmpDir . $txtFileName, 'w');
+        fwrite($txtFile, serialize($testData));
+        fclose($txtFile);
+
+        $result = $this->model->importCSVItem($txtFileName, 1);
+
+        $this->assertNotEmpty($result);
+        $this->assertEquals('1234567890123456', $result['nuptk']);
+        $this->assertEquals('Imported Guru', $result['nama_guru']);
+        $this->assertNotEmpty($result['unique_code']);
+
+        $guru = $this->db->table('tb_guru')
+            ->where('nuptk', '1234567890123456')
+            ->get()
+            ->getRowArray();
+
+        $this->assertNotNull($guru);
+        $this->assertEquals('Imported Guru', $guru['nama_guru']);
+
+        @unlink($tmpDir . $txtFileName);
+    }
+
+    public function testImportCSVItemWithMultipleRecords(): void
+    {
+        $testData = [
+            [
+                'nuptk' => '1111111111111111',
+                'nama_guru' => 'First Guru',
+                'jenis_kelamin' => 'L',
+                'alamat' => 'Jl. First',
+                'no_hp' => '08111111111'
+            ],
+            [
+                'nuptk' => '2222222222222222',
+                'nama_guru' => 'Second Guru',
+                'jenis_kelamin' => 'P',
+                'alamat' => 'Jl. Second',
+                'no_hp' => '08222222222'
+            ]
+        ];
+
+        $tmpDir = FCPATH . 'uploads/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        $txtFileName = 'test_multi_' . uniqid() . '.txt';
+        $txtFile = fopen($tmpDir . $txtFileName, 'w');
+        fwrite($txtFile, serialize($testData));
+        fclose($txtFile);
+
+        $result = $this->model->importCSVItem($txtFileName, 2);
+
+        $this->assertNotEmpty($result);
+        $this->assertEquals('2222222222222222', $result['nuptk']);
+        $this->assertEquals('Second Guru', $result['nama_guru']);
+
+        @unlink($tmpDir . $txtFileName);
+    }
+
+    public function testGenerateCSVObjectWithEmptyFile(): void
+    {
+        $csvContent = "nuptk,nama_guru,jenis_kelamin,alamat,no_hp\n";
+
+        $tmpDir = FCPATH . 'uploads/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0777, true);
+        }
+
+        $tempFile = $tmpDir . 'test_empty_' . uniqid() . '.csv';
+        file_put_contents($tempFile, $csvContent);
+
+        $result = $this->model->generateCSVObject($tempFile);
+
+        $this->assertFalse($result);
     }
 }

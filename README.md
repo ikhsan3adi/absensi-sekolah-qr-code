@@ -44,7 +44,12 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 - **Tambah, Ubah, Hapus(CRUD) data kelas.**
 - **Lihat, Tambah, Ubah, Hapus(CRUD) data petugas.** (khusus petugas yang login sebagai **`superadmin`**).
 - **Generate Laporan.** Generate laporan dalam bentuk pdf.
-- **Import Banyak Siswa.** Menggunakan CSV delimiter koma (,), Contoh: [CSV](https://github.com/ikhsan3adi/absensi-sekolah-qr-code/blob/141ef728f01b14b89b43aee2c0c38680b0b60528/public/assets/file/csv_siswa_example.csv).
+- **Import Data.** Import data secara massal menggunakan file CSV:
+  - Import data siswa dalam jumlah banyak
+  - Import data guru
+  - Import data kelas
+  - Import data jurusan
+- **Backup & Restore.** Backup dan restore database serta file foto/QR code.
 
 > [!NOTE]
 >
@@ -332,6 +337,103 @@ Setelah login sebagai wali kelas, Anda dapat:
 - Guru yang belum ditugaskan sebagai wali kelas tidak akan melihat menu Dashboard Wali Kelas
 - Wali kelas hanya dapat melihat dan mengelola data siswa di kelasnya sendiri
 - Akun superadmin memiliki akses penuh ke semua fitur, termasuk fitur wali kelas
+
+### Import Data dari CSV
+
+Aplikasi ini mendukung import data secara massal menggunakan file CSV untuk mempermudah proses input data.
+
+#### Import Data Guru
+
+Untuk mengimpor data guru secara massal:
+
+1. Login sebagai **superadmin**
+2. Buka menu **Data Guru**
+3. Klik tombol **Import Guru**
+4. Download template CSV dengan klik tombol **Download Template**
+5. Isi file CSV sesuai format yang ditentukan
+6. Upload file CSV yang sudah diisi
+7. Sistem akan memproses dan mengimpor data guru secara otomatis
+
+**Format CSV untuk Data Guru:**
+
+```csv
+nuptk,nama_guru,jenis_kelamin,alamat,no_hp
+1234567890123456,Budi Santoso,L,Jl. Pendidikan No. 1,08123456789
+9876543210987654,Siti Nurhaliza,P,Jl. Guru Raya No. 5,08198765432
+```
+
+**Keterangan Field:**
+- `nuptk`: Nomor Unik Pendidik dan Tenaga Kependidikan (16 digit)
+- `nama_guru`: Nama lengkap guru
+- `jenis_kelamin`: Jenis kelamin (L untuk Laki-laki, P untuk Perempuan)
+- `alamat`: Alamat lengkap guru
+- `no_hp`: Nomor HP guru (untuk notifikasi WhatsApp)
+
+#### Import Data Jurusan
+
+Untuk mengimpor data jurusan:
+
+1. Login sebagai **superadmin**
+2. Buka menu **Kelas & Jurusan**
+3. Pilih tab **Jurusan**
+4. Klik tombol **Import Jurusan**
+5. Download template CSV
+6. Isi file CSV dengan data jurusan
+7. Upload file CSV
+
+**Format CSV untuk Data Jurusan:**
+
+```csv
+jurusan
+Rekayasa Perangkat Lunak
+Teknik Komputer Jaringan
+Akuntansi dan Keuangan Lembaga
+Otomatisasi dan Tata Kelola Perkantoran
+```
+
+**Keterangan Field:**
+- `jurusan`: Nama jurusan (maksimal 32 karakter)
+
+**Catatan:** Sistem akan mengabaikan data jurusan yang sudah ada (duplikat) dan hanya mengimpor data baru.
+
+#### Import Data Kelas
+
+Untuk mengimpor data kelas:
+
+1. Login sebagai **superadmin**
+2. Buka menu **Kelas & Jurusan**
+3. Klik tombol **Import Kelas**
+4. Download template CSV
+5. Isi file CSV dengan data kelas
+6. Upload file CSV
+
+**Format CSV untuk Data Kelas:**
+
+```csv
+tingkat,jurusan,index_kelas
+X,Teknik Komputer Jaringan,1
+X,Teknik Komputer Jaringan,2
+XI,Rekayasa Perangkat Lunak,1
+XII,Rekayasa Perangkat Lunak,3
+```
+
+**Keterangan Field:**
+- `tingkat`: Tingkat kelas (X, XI, XII)
+- `jurusan`: Nama jurusan (harus sudah terdaftar di sistem)
+- `index_kelas`: Index/urutan kelas (1, 2, 3, dst)
+
+**Catatan:** 
+- Jurusan harus sudah terdaftar di sistem sebelum import kelas
+- Sistem akan mengabaikan data kelas yang sudah ada (duplikat)
+- Format nama kelas hasil import: `[tingkat] [jurusan] [index_kelas]` contoh: `X Teknik Komputer Jaringan 1`
+
+#### Tips Import Data CSV
+
+- Gunakan encoding UTF-8 untuk file CSV
+- Pastikan tidak ada baris kosong di antara data
+- Gunakan koma (,) sebagai delimiter
+- Hindari tanda kutip ganda yang tidak perlu kecuali data mengandung koma
+- Download dan gunakan template yang disediakan untuk menghindari kesalahan format
 
 ### Konfigurasi
 
