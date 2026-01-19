@@ -335,6 +335,7 @@ final class GuruModelTest extends CIUnitTestCase
 
     public function testCekGuruReturnsFirstMatchForOrCondition(): void
     {
+        // Test that cekGuru works with either unique_code OR rfid_code
         $this->model->createGuru('1234567890123456', 'John Teacher', JenisKelamin::LAKI_LAKI->value, 'Jl. Test', '08123456789', 'RFID123');
         
         $guru = $this->db->table('tb_guru')->where('nuptk', '1234567890123456')->get()->getRowArray();
