@@ -270,7 +270,9 @@ Password: superadmin
 Email: adminsuper@gmail.com
 ```
 
-> **⚠️ PENTING:** Segera ubah password default setelah login pertama kali!
+> [!CAUTION]
+>
+> Segera ubah password default setelah login pertama kali!
 
 #### 9. Setup Tambahan
 
@@ -436,9 +438,9 @@ docker-compose down
 
 Dengan aplikasi web sistem absensi sekolah berbasis QR code ini, diharapkan proses absensi di sekolah menjadi lebih efisien dan terotomatisasi. Proyek ini dapat diadaptasi dan dikembangkan lebih lanjut sesuai dengan kebutuhan dan persyaratan sekolah Anda.
 
-Jangan lupa beri star ya...⭐⭐⭐
+Jangan lupa beri star 👍
 
-## Contributing 🤝
+## Contributing
 
 Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini. Jika Anda menemukan masalah, bug, atau memiliki saran untuk peningkatan, silakan buat issue baru dalam repositori ini atau ajukan pull request.
 
@@ -456,7 +458,7 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
  </picture>
 </a>
 
-## Kontributor 🛠️
+## Kontributor
 
 - [@ikhsan3adi](https://www.github.com/ikhsan3adi)
 - [@reactmore](https://www.github.com/reactmore)
