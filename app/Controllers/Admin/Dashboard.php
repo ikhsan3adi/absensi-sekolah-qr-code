@@ -118,4 +118,47 @@ class Dashboard extends BaseController
 
       return view('admin/dashboard', $data);
    }
+
+   public function filterData()
+   {
+      $idKelas = $this->request->getPost('id_kelas');
+      $now = Time::now();
+      $today = $now->toDateString();
+
+      // Statistik Siswa
+      $jumlahKehadiranSiswa = [
+         'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $idKelas)),
+         'sakit' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $idKelas)),
+         'izin' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $idKelas)),
+         'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $idKelas))
+      ];
+
+      // Grafik Siswa (7 Hari)
+      $siswaKehadiranArray = [];
+      for ($i = 6; $i >= 0; $i--) {
+         $date = $now->subDays($i)->toDateString();
+         $query = $this->presensiSiswaModel
+            ->join('tb_siswa', 'tb_presensi_siswa.id_siswa = tb_siswa.id_siswa', 'left')
+            ->where(['tb_presensi_siswa.tanggal' => "$date", 'tb_presensi_siswa.id_kehadiran' => '1']);
+
+         if ($idKelas) {
+            $query->where('tb_siswa.id_kelas', $idKelas);
+         }
+
+         array_push($siswaKehadiranArray, count($query->findAll()));
+      }
+
+      $data = [
+         'hadir' => $jumlahKehadiranSiswa['hadir'],
+         'sakit' => $jumlahKehadiranSiswa['sakit'],
+         'izin' => $jumlahKehadiranSiswa['izin'],
+         'alfa' => $jumlahKehadiranSiswa['alfa'],
+      ];
+
+      return json_encode([
+         'result' => 1,
+         'htmlContent' => view('admin/_dashboard_siswa_stats', $data),
+         'chartData' => $siswaKehadiranArray
+      ]);
+   }
 }
