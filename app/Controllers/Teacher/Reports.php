@@ -40,7 +40,7 @@ class Reports extends BaseController
 
         $data = [
             'title' => 'Laporan Presensi Kelas',
-            'ctx' => 'laporan',
+            'ctx' => 'laporan-kelas',
             'kelas' => $kelas
         ];
 

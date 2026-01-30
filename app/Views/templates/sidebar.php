@@ -72,7 +72,7 @@ switch ($context) {
                   <p>Dashboard Wali Kelas</p>
                </a>
             </li>
-            <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
+            <li class="nav-item <?= $context == 'laporan-kelas' ? 'active' : ''; ?>">
                <a class="nav-link" href="<?= base_url('teacher/laporan'); ?>">
                   <i class="material-icons">print</i>
                   <p>Laporan Kelas</p>

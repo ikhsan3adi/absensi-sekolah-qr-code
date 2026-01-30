@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
    <div class="container-fluid">
       <div class="navbar-wrapper">
          <p class="navbar-brand"><b><?= $title; ?></b></p>
@@ -50,7 +50,13 @@
                   <span>User : <?= user()->toArray()['username']; ?></span>
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="<?= base_url('/logout'); ?>">Log out</a>
+                  <a class="dropdown-item" href="#">
+                     Role: <?= getUserRole(user()->toArray()['is_superadmin']); ?>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
+                     Log out
+                  </a>
                </div>
             </li>
          </ul>

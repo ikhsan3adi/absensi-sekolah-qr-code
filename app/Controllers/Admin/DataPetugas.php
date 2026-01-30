@@ -164,7 +164,8 @@ class DataPetugas extends BaseController
             'ctx' => 'petugas',
             'title' => 'Edit Data Petugas',
             'validation' => $this->validator,
-            'oldInput' => $this->request->getVar()
+            'oldInput' => $this->request->getVar(),
+            'guru' => $this->guruModel->getAllGuru()
          ];
          return view('admin/petugas/edit-data-petugas', $data);
       }
@@ -177,7 +178,15 @@ class DataPetugas extends BaseController
       $role = $this->request->getVar('role');
       $id_guru = $this->request->getVar('id_guru') ?: null;
 
-      $result = $this->petugasModel->savePetugas($idPetugas, $email, $username, $passwordHash, $role, $id_guru, $petugasLama['active']);
+      $result = $this->petugasModel->savePetugas(
+         $idPetugas,
+         $email,
+         $username,
+         $passwordHash,
+         $role,
+         $id_guru,
+         $petugasLama['active']
+      );
 
       if ($result) {
          session()->setFlashdata([
