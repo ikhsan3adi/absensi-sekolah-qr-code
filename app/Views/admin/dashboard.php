@@ -90,19 +90,19 @@
                     </div>
                     <div class="card-body">
                         <div class="row text-center">
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-success"><b>Hadir</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['hadir']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-warning"><b>Sakit</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['sakit']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-info"><b>Izin</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['izin']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-danger"><b>Alfa</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['alfa']; ?></h3>
                             </div>
@@ -118,19 +118,19 @@
                     </div>
                     <div class="card-body">
                         <div class="row text-center">
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-success"><b>Hadir</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['hadir']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-warning"><b>Sakit</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['sakit']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-info"><b>Izin</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['izin']; ?></h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-3">
                                 <h4 class="text-danger"><b>Alfa</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['alfa']; ?></h3>
                             </div>
@@ -182,7 +182,7 @@
 <!-- Chartist JS -->
 <script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         initDashboardPageCharts();
     });
 
@@ -195,7 +195,7 @@
             const chartKehadiranSiswa = {
                 labels: [
                     <?php
-                    foreach ($dateRange as  $value) {
+                    foreach ($dateRange as $value) {
                         echo "'$value',";
                     }
                     ?>
@@ -237,7 +237,7 @@
             const chartKehadiranGuru = {
                 labels: [
                     <?php
-                    foreach ($dateRange as  $value) {
+                    foreach ($dateRange as $value) {
                         echo "'$value',";
                     }
                     ?>
