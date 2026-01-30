@@ -14,13 +14,13 @@
 
    <style>
       .bg {
-         background: url(<?= base_url("assets/img/bg2.jpg") ?>) center;
-         opacity: 0.1;
+         background: url(<?= base_url("assets/img/city-profile.jpg") ?>) center;
+         opacity: 0.4;
          background-size: cover;
          height: 100vh;
          width: 100%;
-         position: absolute;
-         left: 0;
+         position: fixed;
+         bottom: 0;
          top: 0;
       }
 
@@ -33,14 +33,14 @@
 
       video#previewKamera {
          width: 100%;
-         height: 400px;
+         height: auto;
+         max-height: 400px;
          margin: 0;
       }
 
       .previewParent {
          width: auto;
          height: auto;
-         margin: auto;
          margin: auto;
          border: 2px solid grey;
       }
@@ -60,13 +60,13 @@
    <div class="bg bg-image"></div>
 
    <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
+   <nav class="navbar navbar-expand-lg navbar-absolute fixed-top">
       <div class="container-fluid">
-         <div class="navbar-wrapper row w-100">
-            <div class="col-6">
-               <p class="navbar-brand"><b><?= $title ?? "Login" ?></b></p>
+         <div class="navbar-wrapper row w-100 mx-0">
+            <div class="col-md-6 d-flex justify-content-center justify-content-md-start">
+               <p class="navbar-brand my-auto text-center ml-0"><b><?= $title ?? "Login" ?></b></p>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-md-6 d-flex justify-content-center justify-content-md-end">
                <?= $this->renderSection("navaction") ?>
             </div>
          </div>
