@@ -50,8 +50,8 @@
                                 <i class="material-icons">grade</i>
                             </a>
                         </div>
-                        <p class="card-category">Jumlah kelas</p>
-                        <h3 class="card-title"><?= count($kelas); ?></h3>
+                        <p class="card-category">Kelas / Jurusan</p>
+                        <h3 class="card-title"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -152,25 +152,25 @@
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col-3">
-                                <h4 class="text-success"><b>Hadir</b></h4>
+                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
                                 <h3>
                                     <?= $jumlahKehadiranGuru['hadir']; ?>
                                 </h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-warning"><b>Sakit</b></h4>
+                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
                                 <h3>
                                     <?= $jumlahKehadiranGuru['sakit']; ?>
                                 </h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-info"><b>Izin</b></h4>
+                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
                                 <h3>
                                     <?= $jumlahKehadiranGuru['izin']; ?>
                                 </h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-danger"><b>Alfa</b></h4>
+                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
                                 <h3>
                                     <?= $jumlahKehadiranGuru['alfa']; ?>
                                 </h3>
