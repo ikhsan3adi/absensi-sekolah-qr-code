@@ -20,120 +20,115 @@
             <a class="btn btn-primary ml-3 pl-3 py-3" href="<?= base_url('admin/siswa/bulk'); ?>">
                <i class="material-icons mr-2">add</i> Import CSV
             </a>
-            <button class="btn btn-danger ml-3 pl-3 py-3 btn-table-delete"
-               onclick="deleteSelectedSiswa('Data yang sudah dihapus tidak bisa kembalikan');"><i
+            <button class="btn btn-danger ml-3 pl-3 py-3 btn-table-delete" onclick="deleteSelectedSiswa('Data yang sudah dihapus tidak bisa kembalikan');"><i
                   class="material-icons mr-2">delete_forever</i>Bulk Delete</button>
             <div class="card">
-               <div class="card-header card-header-tabs card-header-primary">
-                  <div class="nav-tabs-navigation">
-                     <div class="row">
-                        <div class="col-md-2">
-                           <h4 class="card-title"><b>Daftar Siswa</b></h4>
-                           <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
+               <div class="card-header card-header-primary">
+                  <h4 class="card-title"><b>Daftar Siswa</b></h4>
+                  <p class="card-category">Angkatan <?= $generalSettings->school_year; ?></p>
+               </div>
+               <div class="card-body">
+                  <div class="row mb-3 pt-2">
+                     <div class="col-md-3">
+                        <div class="form-group mb-0">
+                           <label class="bmd-label-floating text-primary" style="font-size: 14px; position: initial; margin-bottom: 5px;">Tingkat</label>
+                           <select name="kelas" id="filterKelasSiswa" class="custom-select">
+                              <option value="">-- Semua Tingkat --</option>
+                              <?php foreach ($tingkat as $value): ?>
+                                 <option value="<?= $value['tingkat']; ?>"><?= $value['tingkat']; ?></option>
+                              <?php endforeach; ?>
+                           </select>
                         </div>
-                        <div class="col-md-4">
-                           <div class="nav-tabs-wrapper">
-                              <span class="nav-tabs-title">Kelas:</span>
-                              <ul class="nav nav-tabs" data-tabs="tabs">
-                                 <li class="nav-item">
-                                    <a class="nav-link active" onclick="kelas = null; trig()" href="#"
-                                       data-toggle="tab">
-                                       <i class="material-icons">check</i> Semua
-                                       <div class="ripple-container"></div>
-                                    </a>
-                                 </li>
-                                 <?php
-                                 $tempKelas = [];
-                                 foreach ($kelas as $value): ?>
-                                    <?php if (is_array($value) && isset($value['tingkat']) && !in_array($value['tingkat'], $tempKelas)): ?>
-                                       <li class="nav-item">
-                                          <a class="nav-link" onclick="kelas = '<?= $value['tingkat']; ?>'; trig()" href="#"
-                                             data-toggle="tab">
-                                             <i class="material-icons">school</i> <?= $value['tingkat']; ?>
-                                             <div class="ripple-container"></div>
-                                          </a>
-                                       </li>
-                                       <?php array_push($tempKelas, $value['tingkat']) ?>
-                                    <?php endif; ?>
-                                 <?php endforeach; ?>
-                              </ul>
-                           </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="form-group mb-0">
+                           <label class="bmd-label-floating text-primary" style="font-size: 14px; position: initial; margin-bottom: 5px;">Jurusan</label>
+                           <select name="jurusan" id="filterJurusanSiswa" class="custom-select">
+                              <option value="">-- Semua Jurusan --</option>
+                              <?php foreach ($jurusan as $value): ?>
+                                 <option value="<?= $value['jurusan']; ?>"><?= $value['jurusan']; ?></option>
+                              <?php endforeach; ?>
+                           </select>
                         </div>
-                        <div class="col-md-6">
-                           <div class="nav-tabs-wrapper">
-                              <span class="nav-tabs-title">Jurusan:</span>
-                              <ul class="nav nav-tabs" data-tabs="tabs">
-                                 <li class="nav-item">
-                                    <a class="nav-link active" onclick="jurusan = null; trig()" href="#"
-                                       data-toggle="tab">
-                                       <i class="material-icons">check</i> Semua
-                                       <div class="ripple-container"></div>
-                                    </a>
-                                 </li>
-                                 <?php foreach ($jurusan as $value): ?>
-                                    <li class="nav-item">
-                                       <a class="nav-link" onclick="jurusan = '<?= $value['jurusan']; ?>'; trig();"
-                                          href="#" data-toggle="tab">
-                                          <i class="material-icons">work</i> <?= $value['jurusan']; ?>
-                                          <div class="ripple-container"></div>
-                                       </a>
-                                    </li>
-                                 <?php endforeach; ?>
-                              </ul>
-                           </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="form-group mb-0">
+                           <label class="bmd-label-floating text-primary" style="font-size: 14px; position: initial; margin-bottom: 5px;">Indeks Kelas</label>
+                           <select name="index" id="filterIndexSiswa" class="custom-select">
+                              <option value="">-- Semua Indeks --</option>
+                              <?php foreach ($index_kelas as $value): ?>
+                                 <option value="<?= $value['index_kelas']; ?>"><?= $value['index_kelas']; ?></option>
+                              <?php endforeach; ?>
+                           </select>
                         </div>
                      </div>
                   </div>
-               </div>
-               <div id="dataSiswa">
-                  <p class="text-center mt-3">Daftar siswa muncul disini</p>
+                  <div id="dataSiswa">
+                     <p class="text-center mt-3">Daftar siswa muncul disini</p>
+                  </div>
                </div>
             </div>
          </div>
       </div>
    </div>
-</div>
-<?= $this->endSection() ?>
+   <?= $this->endSection() ?>
 
-<?= $this->section('scripts') ?>
-<script>
-   var kelas = null;
-   var jurusan = null;
+   <?= $this->section('scripts') ?>
+   <script>
+      var kelas = null;
+      var jurusan = null;
+      var index = null;
 
-   getDataSiswa(kelas, jurusan);
+      getDataSiswa(kelas, jurusan, index);
 
-   function trig() {
-      getDataSiswa(kelas, jurusan);
-   }
-
-   function getDataSiswa(_kelas = null, _jurusan = null) {
-      jQuery.ajax({
-         url: "<?= base_url('/admin/siswa'); ?>",
-         type: 'post',
-         data: {
-            'kelas': _kelas,
-            'jurusan': _jurusan
-         },
-         success: function (response, status, xhr) {
-            // console.log(status);
-            $('#dataSiswa').html(response);
-
-            $('html, body').animate({
-               scrollTop: $("#dataSiswa").offset().top
-            }, 500);
-         },
-         error: function (xhr, status, thrown) {
-            console.log(thrown);
-            $('#dataSiswa').html(thrown);
-         }
+      $('#filterKelasSiswa').on('change', function () {
+         kelas = $(this).val() || null;
+         trig();
       });
-   }
 
-   document.addEventListener('DOMContentLoaded', function () {
-      $("#checkAll").click(function (e) {
-         console.log(e);
-         $('input:checkbox').not(this).prop('checked', this.checked);
+      $('#filterJurusanSiswa').on('change', function () {
+         jurusan = $(this).val() || null;
+         trig();
       });
-   });
-</script>
-<?= $this->endSection() ?>
+
+      $('#filterIndexSiswa').on('change', function () {
+         index = $(this).val() || null;
+         trig();
+      });
+
+      function trig() {
+         getDataSiswa(kelas, jurusan, index);
+      }
+
+      function getDataSiswa(_kelas = null, _jurusan = null, _index = null) {
+         jQuery.ajax({
+            url: "<?= base_url('/admin/siswa'); ?>",
+            type: 'post',
+            data: {
+               'kelas': _kelas,
+               'jurusan': _jurusan,
+               'index': _index
+            },
+            success: function (response, status, xhr) {
+               // console.log(status);
+               $('#dataSiswa').html(response);
+
+               $('html, body').animate({
+                  scrollTop: $("#dataSiswa").offset().top
+               }, 500);
+            },
+            error: function (xhr, status, thrown) {
+               console.log(thrown);
+               $('#dataSiswa').html(thrown);
+            }
+         });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+         $("#checkAll").click(function (e) {
+            console.log(e);
+            $('input:checkbox').not(this).prop('checked', this.checked);
+         });
+      });
+   </script>
+   <?= $this->endSection() ?>

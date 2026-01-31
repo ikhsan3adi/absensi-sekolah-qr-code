@@ -65,8 +65,9 @@ class DataSiswa extends BaseController
       $data = [
          'title' => 'Data Siswa',
          'ctx' => 'siswa',
-         'kelas' => $this->kelasModel->getDataKelas(),
-         'jurusan' => $this->jurusanModel->getDataJurusan()
+         'tingkat' => $this->kelasModel->getDistinctTingkat(),
+         'jurusan' => $this->jurusanModel->getDataJurusan(),
+         'index_kelas' => $this->kelasModel->getDistinctIndexKelas()
       ];
 
       return view('admin/data/data-siswa', $data);
@@ -76,8 +77,9 @@ class DataSiswa extends BaseController
    {
       $kelas = $this->request->getVar('kelas') ?? null;
       $jurusan = $this->request->getVar('jurusan') ?? null;
+      $index = $this->request->getVar('index') ?? null;
 
-      $result = $this->siswaModel->getAllSiswaWithKelas($kelas, $jurusan);
+      $result = $this->siswaModel->getAllSiswaWithKelas($kelas, $jurusan, $index);
 
       $data = [
          'data' => $result,

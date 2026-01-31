@@ -113,6 +113,16 @@ class KelasModel extends BaseModel
          ->findAll();
    }
 
+   public function getDistinctTingkat()
+   {
+      return $this->builder->select('tingkat')->distinct()->orderBy('tingkat')->get()->getResultArray();
+   }
+
+   public function getDistinctIndexKelas()
+   {
+      return $this->builder->select('index_kelas')->distinct()->orderBy('index_kelas')->get()->getResultArray();
+   }
+
    //generate CSV object
    public function generateCSVObject($filePath)
    {
