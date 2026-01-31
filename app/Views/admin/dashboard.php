@@ -50,8 +50,8 @@
                                 <i class="material-icons">grade</i>
                             </a>
                         </div>
-                        <p class="card-category">Jumlah kelas</p>
-                        <h3 class="card-title"><?= count($kelas); ?></h3>
+                        <p class="card-category">Kelas / Jurusan</p>
+                        <h3 class="card-title"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -91,19 +91,19 @@
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col-3">
-                                <h4 class="text-success"><b>Hadir</b></h4>
+                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['hadir']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-warning"><b>Sakit</b></h4>
+                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['sakit']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-info"><b>Izin</b></h4>
+                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['izin']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-danger"><b>Alfa</b></h4>
+                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
                                 <h3><?= $jumlahKehadiranSiswa['alfa']; ?></h3>
                             </div>
                         </div>
@@ -119,19 +119,19 @@
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col-3">
-                                <h4 class="text-success"><b>Hadir</b></h4>
+                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['hadir']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-warning"><b>Sakit</b></h4>
+                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['sakit']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-info"><b>Izin</b></h4>
+                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['izin']; ?></h3>
                             </div>
                             <div class="col-3">
-                                <h4 class="text-danger"><b>Alfa</b></h4>
+                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
                                 <h3><?= $jumlahKehadiranGuru['alfa']; ?></h3>
                             </div>
                         </div>
@@ -190,7 +190,8 @@
 
         if ($('#kehadiranSiswa').length != 0) {
             /* ----------==========     Chart tingkat kehadiran siswa    ==========---------- */
-            const dataKehadiranSiswa = [<?php foreach ($grafikKehadiranSiswa as $value) echo "$value,"; ?>];
+            const dataKehadiranSiswa = [<?php foreach ($grafikKehadiranSiswa as $value)
+                echo "$value,"; ?>];
 
             const chartKehadiranSiswa = {
                 labels: [
@@ -232,7 +233,8 @@
 
         if ($('#kehadiranGuru').length != 0) {
             /* ----------==========     Chart tingkat kehadiran guru    ==========---------- */
-            const dataKehadiranGuru = [<?php foreach ($grafikkKehadiranGuru as $value) echo "$value,"; ?>];
+            const dataKehadiranGuru = [<?php foreach ($grafikkKehadiranGuru as $value)
+                echo "$value,"; ?>];
 
             const chartKehadiranGuru = {
                 labels: [
