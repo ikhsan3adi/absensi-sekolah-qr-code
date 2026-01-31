@@ -46,7 +46,9 @@ class KelasModel extends BaseModel
       return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
          ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')
          ->join('tb_guru', 'tb_kelas.id_wali_kelas = tb_guru.id_guru', 'left')
-         ->orderBy('tb_kelas.id_kelas')
+         ->orderBy('tb_kelas.id_jurusan')
+         ->orderBy('tb_kelas.tingkat')
+         ->orderBy('tb_kelas.index_kelas')
          ->get()->getResult('array');
    }
 
@@ -109,6 +111,16 @@ class KelasModel extends BaseModel
       return $this->select('tb_kelas.*, tb_jurusan.jurusan, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
          ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id', 'left')
          ->findAll();
+   }
+
+   public function getDistinctTingkat()
+   {
+      return $this->builder->select('tingkat')->distinct()->orderBy('tingkat')->get()->getResultArray();
+   }
+
+   public function getDistinctIndexKelas()
+   {
+      return $this->builder->select('index_kelas')->distinct()->orderBy('index_kelas')->get()->getResultArray();
    }
 
    //generate CSV object

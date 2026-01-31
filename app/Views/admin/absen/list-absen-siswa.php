@@ -21,7 +21,7 @@
     </div>
 
     <div id="dataSiswa" class="card-body table-responsive pb-5">
-        <?php if (!empty($data)) : ?>
+        <?php if (!empty($data)): ?>
             <table class="table table-hover">
                 <thead class="text-primary">
                     <th><b>No.</b></th>
@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                     <?php $no = 1; ?>
-                    <?php foreach ($data as $value) : ?>
+                    <?php foreach ($data as $value): ?>
                         <?php
                         $idKehadiran = intval($value['id_kehadiran'] ?? ($lewat ? 5 : 4));
                         $kehadiran = kehadiran($idKehadiran);
@@ -45,7 +45,7 @@
                             <td><?= $value['nis']; ?></td>
                             <td><b><?= $value['nama_siswa']; ?></b></td>
                             <td>
-                                <p class="p-2 w-100 btn btn-<?= $kehadiran['color']; ?> text-center">
+                                <p class="p-2 my-auto w-100 badge badge-<?= $kehadiran['color']; ?> text-center">
                                     <b><?= $kehadiran['text']; ?></b>
                                 </p>
                             </td>
@@ -53,29 +53,30 @@
                             <td><b><?= $value['jam_keluar'] ?? '-'; ?></b></td>
                             <td><?= $value['keterangan'] ?? '-'; ?></td>
                             <td>
-                                <?php if (!$lewat && (user()->toArray()['is_superadmin'] == 1 || user()->toArray()['is_superadmin'] == 3)) : ?>
-                                    <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_siswa']; ?>)" class="btn btn-info p-2" id="<?= $value['nis']; ?>">
+                                <?php if (!$lewat && (user()->toArray()['is_superadmin'] == 1 || user()->toArray()['is_superadmin'] == 3)): ?>
+                                    <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_siswa']; ?>)" class="btn btn-info p-2"
+                                        id="<?= $value['nis']; ?>">
                                         <i class="material-icons">edit</i>
                                         Edit
                                     </button>
-                                <?php else : ?>
+                                <?php else: ?>
                                     <button class="btn btn-disabled p-2">No Action</button>
                                 <?php endif; ?>
                             </td>
                         </tr>
-                    <?php $no++;
+                        <?php $no++;
                     endforeach ?>
                 </tbody>
             </table>
-        <?php
-        else :
-        ?>
+            <?php
+        else:
+            ?>
             <div class="row">
                 <div class="col">
                     <h4 class="text-center text-danger">Data tidak ditemukan</h4>
                 </div>
             </div>
-        <?php
+            <?php
         endif; ?>
     </div>
 </div>

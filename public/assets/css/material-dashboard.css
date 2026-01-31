@@ -16236,7 +16236,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   color: #3c4858;
   padding-left: 10px;
   padding-right: 10px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-size: 13px;
   padding: 10px 15px;
 }

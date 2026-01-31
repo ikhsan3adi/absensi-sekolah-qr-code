@@ -45,7 +45,7 @@ class SiswaModel extends Model
       return $this->where([$this->primaryKey => $id])->first();
    }
 
-   public function getAllSiswaWithKelas($kelas = null, $jurusan = null)
+   public function getAllSiswaWithKelas($kelas = null, $jurusan = null, $index = null)
    {
       $query = $this->select('tb_siswa.*, tb_kelas.tingkat, tb_kelas.index_kelas, tb_jurusan.jurusan, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
          ->join(
@@ -58,14 +58,14 @@ class SiswaModel extends Model
             'LEFT'
          );
 
-      if (!empty($kelas) && !empty($jurusan)) {
-         $query = $this->where(['tb_jurusan.jurusan' => $jurusan, 'tb_kelas.tingkat' => $kelas]);
-      } else if (empty($kelas) && !empty($jurusan)) {
-         $query = $this->where(['tb_jurusan.jurusan' => $jurusan]);
-      } else if (!empty($kelas) && empty($jurusan)) {
-         $query = $this->where(['tb_kelas.tingkat' => $kelas]);
-      } else {
-         $query = $this;
+      if (!empty($kelas)) {
+         $query->where('tb_kelas.tingkat', $kelas);
+      }
+      if (!empty($jurusan)) {
+         $query->where('tb_jurusan.jurusan', $jurusan);
+      }
+      if (!empty($index)) {
+         $query->where('tb_kelas.index_kelas', $index);
       }
 
       return $query->orderBy('nama_siswa')->findAll();

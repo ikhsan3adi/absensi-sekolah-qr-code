@@ -5,20 +5,21 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 
 use App\Models\GuruModel;
+use App\Models\JurusanModel;
 use App\Models\SiswaModel;
 use App\Models\KelasModel;
 use App\Models\PetugasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
-use Config\AbsensiSekolah as ConfigAbsensiSekolah;
 
 class Dashboard extends BaseController
 {
    protected SiswaModel $siswaModel;
    protected GuruModel $guruModel;
 
-   protected KelasModel $KelasModel;
+   protected KelasModel $kelasModel;
+   protected JurusanModel $jurusanModel;
 
    protected PresensiSiswaModel $presensiSiswaModel;
    protected PresensiGuruModel $presensiGuruModel;
@@ -29,7 +30,8 @@ class Dashboard extends BaseController
    {
       $this->siswaModel = new SiswaModel();
       $this->guruModel = new GuruModel();
-      $this->KelasModel = new KelasModel();
+      $this->kelasModel = new KelasModel();
+      $this->jurusanModel = new JurusanModel();
       $this->presensiSiswaModel = new PresensiSiswaModel();
       $this->presensiGuruModel = new PresensiGuruModel();
       $this->petugasModel = new PetugasModel();
@@ -91,7 +93,8 @@ class Dashboard extends BaseController
          'siswa' => $this->siswaModel->getAllSiswaWithKelas(),
          'guru' => $this->guruModel->getAllGuru(),
 
-         'kelas' => $this->KelasModel->getDataKelas(),
+         'kelas' => $this->kelasModel->getDataKelas(),
+         'jurusan' => $this->jurusanModel->getDataJurusan(),
 
          'dateRange' => $dateRange,
          'dateNow' => $now->toLocalizedString('d MMMM Y'),

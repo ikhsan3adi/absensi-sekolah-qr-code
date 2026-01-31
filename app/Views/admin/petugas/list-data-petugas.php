@@ -18,7 +18,7 @@
                   <td><?= $value['username']; ?></td>
                   <td><b><?= $value['email']; ?></b></td>
                   <td>
-                     <?= $value['is_superadmin'] == '1' ? 'Super Admin' : ($value['is_superadmin'] == '2' ? 'Kepsep' : ($value['is_superadmin'] == '3' ? 'Staf Petugas' : 'Scanner')); ?>
+                     <?= getUserRole($value['is_superadmin']); ?>
                   </td>
                   <td><?= $value['nama_guru'] ?? '-'; ?></td>
                   <td>
@@ -58,7 +58,7 @@
                      <?php endif; ?>
                   </td>
                </tr>
-               <?php $i++;
+            <?php $i++;
             endforeach; ?>
          </tbody>
       </table>

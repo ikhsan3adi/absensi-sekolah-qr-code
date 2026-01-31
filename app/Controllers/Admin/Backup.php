@@ -14,7 +14,7 @@ class Backup extends BaseController
     public function index()
     {
         $data = [
-            'context' => 'backup',
+            'ctx' => 'backup',
             'title' => 'Backup & Restore',
         ];
 

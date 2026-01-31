@@ -83,7 +83,7 @@
     text-align: center;
 }
 
-.spinner-bounce > div {
+.spinner-bounce>div {
     width: 18px;
     height: 18px;
     background-color: #9c27b0;
@@ -104,21 +104,123 @@
 }
 
 @-webkit-keyframes sk-bouncedelay {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         -webkit-transform: scale(0)
     }
+
     40% {
         -webkit-transform: scale(1.0)
     }
 }
 
 @keyframes sk-bouncedelay {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         -webkit-transform: scale(0);
         transform: scale(0);
     }
+
     40% {
         -webkit-transform: scale(1.0);
         transform: scale(1.0);
+    }
+}
+
+.col-xxl,
+.col-xxl-auto,
+.col-xxl-1,
+.col-xxl-2,
+.col-xxl-3,
+.col-xxl-4,
+.col-xxl-5,
+.col-xxl-6,
+.col-xxl-7,
+.col-xxl-8,
+.col-xxl-9,
+.col-xxl-10,
+.col-xxl-11,
+.col-xxl-12 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 1400px) {
+    .col-xxl {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+
+    .col-xxl-auto {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: 100%;
+    }
+
+    .col-xxl-1 {
+        flex: 0 0 8.333333%;
+        max-width: 8.333333%;
+    }
+
+    .col-xxl-2 {
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+
+    .col-xxl-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .col-xxl-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+
+    .col-xxl-5 {
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+
+    .col-xxl-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .col-xxl-7 {
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+    }
+
+    .col-xxl-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+
+    .col-xxl-9 {
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+
+    .col-xxl-10 {
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+
+    .col-xxl-11 {
+        flex: 0 0 91.666667%;
+        max-width: 91.666667%;
+    }
+
+    .col-xxl-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
