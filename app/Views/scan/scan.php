@@ -106,8 +106,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                         <li>Jika berhasil scan maka akan muncul data siswa/guru dibawah preview kamera</li>
                         <li>Klik tombol <b><span class="text-success">Absen masuk</span> / <span class="text-warning">Absen
                                  pulang</span></b> untuk mengubah waktu absensi</li>
-                        <li>Untuk melihat data absensi, klik tombol <span class="text-primary"><i class="material-icons" style="font-size: 16px;">dashboard</i> Dashboard Petugas</span></li>
-                        <li>Untuk mengakses halaman petugas anda harus login terlebih dahulu</li>
+                        <li>Untuk melihat data absensi, klik tombol <span class="text-primary"><i class="material-icons" style="font-size: 16px;">dashboard</i> Dashboard</span></li>
                      </ul>
                   </div>
                </div>

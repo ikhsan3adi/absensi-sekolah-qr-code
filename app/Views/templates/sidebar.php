@@ -12,6 +12,7 @@ switch ($context) {
       break;
 
    case 'qr':
+   case 'backup':
       $sidebarColor = 'danger';
       break;
 
@@ -30,6 +31,8 @@ switch ($context) {
    <div class="logo">
       <a class="simple-text logo-normal">
          <b>Operator<br>Petugas Absensi</b>
+         <br>
+         <small><?= $generalSettings->school_name; ?></small>
       </a>
    </div>
    <div class="sidebar-wrapper">
