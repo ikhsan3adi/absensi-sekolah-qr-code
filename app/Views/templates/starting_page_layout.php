@@ -64,7 +64,7 @@
       <div class="container-fluid">
          <div class="navbar-wrapper row w-100 mx-0">
             <div class="col-md-6 d-flex justify-content-center justify-content-md-start">
-               <p class="navbar-brand my-auto text-center ml-0"><b><?= $title ?? "Login" ?></b></p>
+               <p class="navbar-brand my-auto text-center mx-0"><b><?= $title ?? "Login" ?></b></p>
             </div>
             <div class="col-md-6 d-flex justify-content-center justify-content-md-end">
                <?= $this->renderSection("navaction") ?>
