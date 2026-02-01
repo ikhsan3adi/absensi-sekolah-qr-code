@@ -18,7 +18,7 @@
 
 ---
 
-![Preview](./screenshots/hero.png)
+![Preview](./screenshots/new-hero.png)
 
 Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk $mengotomatisasi$ proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
