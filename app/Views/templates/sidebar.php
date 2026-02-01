@@ -20,6 +20,29 @@ switch ($context) {
       $sidebarColor = 'azure';
       break;
 }
+
+if (is_admin_staff()) {
+   $menuItems = [
+      ['title' => 'Dashboard', 'url' => 'admin/dashboard', 'icon' => 'dashboard', 'context' => 'dashboard', 'visible' => true],
+      ['title' => 'Absensi Siswa', 'url' => 'admin/absen-siswa', 'icon' => 'checklist', 'context' => 'absen-siswa', 'visible' => true],
+      ['title' => 'Absensi Guru', 'url' => 'admin/absen-guru', 'icon' => 'checklist', 'context' => 'absen-guru', 'visible' => true],
+      ['title' => 'Data Siswa', 'url' => 'admin/siswa', 'icon' => 'person', 'context' => 'siswa', 'visible' => is_superadmin()],
+      ['title' => 'Data Guru', 'url' => 'admin/guru', 'icon' => 'person_4', 'context' => 'guru', 'visible' => is_superadmin()],
+      ['title' => 'Data Kelas & Jurusan', 'url' => 'admin/kelas', 'icon' => 'school', 'context' => 'kelas', 'visible' => is_superadmin()],
+      ['title' => 'Generate QR Code', 'url' => 'admin/generate', 'icon' => 'qr_code', 'context' => 'qr', 'visible' => is_superadmin()],
+      ['title' => 'Generate Laporan', 'url' => 'admin/laporan', 'icon' => 'print', 'context' => 'laporan', 'visible' => can_view_report()],
+      ['title' => 'Data Petugas', 'url' => 'admin/petugas', 'icon' => 'computer', 'context' => 'petugas', 'visible' => is_superadmin()],
+      ['title' => 'Pengaturan', 'url' => 'admin/general-settings', 'icon' => 'settings', 'context' => 'general_settings', 'visible' => is_superadmin()],
+      ['title' => 'Backup & Restore', 'url' => 'admin/backup', 'icon' => 'backup', 'context' => 'backup', 'visible' => is_superadmin()],
+   ];
+} else {
+   $menuItems = [
+      ['title' => 'Dashboard Wali Kelas', 'url' => 'teacher/dashboard', 'icon' => 'dashboard', 'context' => 'dashboard', 'visible' => true],
+      ['title' => 'Laporan Kelas', 'url' => 'teacher/laporan', 'icon' => 'print', 'context' => 'laporan-kelas', 'visible' => true],
+      ['title' => 'QR Code Siswa', 'url' => 'teacher/qr', 'icon' => 'qr_code', 'context' => 'qr', 'visible' => true],
+      ['title' => 'Manajemen Kehadiran', 'url' => 'teacher/attendance', 'icon' => 'event_note', 'context' => 'attendance', 'visible' => true],
+   ];
+}
 ?>
 <div class="sidebar" data-color="<?= $sidebarColor; ?>" data-image="<?= base_url('assets/img/sidebar/sidebar-3.jpg'); ?>">
    <!-- data-background-color="black/red" -->
@@ -37,107 +60,18 @@ switch ($context) {
    </div>
    <div class="sidebar-wrapper">
       <ul class="nav">
-         <?php if (empty(user()->id_guru)): ?>
-            <li class="nav-item <?= $context == 'dashboard' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/dashboard'); ?>">
-                  <i class="material-icons">dashboard</i>
-                  <p>Dashboard</p>
+         <?php
+         foreach ($menuItems as $item):
+            if (!$item['visible'])
+               continue;
+            ?>
+            <li class="nav-item <?= $context == $item['context'] ? 'active' : ''; ?>">
+               <a class="nav-link font-weight-bold" href="<?= base_url($item['url']); ?>">
+                  <i class="material-icons"><?= $item['icon']; ?></i>
+                  <p><?= $item['title']; ?></p>
                </a>
             </li>
-            <li class="nav-item <?= $context == 'absen-siswa' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/absen-siswa'); ?>">
-                  <i class="material-icons">checklist</i>
-                  <p>Absensi Siswa</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'absen-guru' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/absen-guru'); ?>">
-                  <i class="material-icons">checklist</i>
-                  <p>Absensi Guru</p>
-               </a>
-            </li>
-         <?php endif; ?>
-
-         <?php if (!empty(user()->id_guru)): ?>
-            <li class="nav-item <?= $context == 'dashboard' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('teacher/dashboard'); ?>">
-                  <i class="material-icons">dashboard</i>
-                  <p>Dashboard Wali Kelas</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'laporan-kelas' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('teacher/laporan'); ?>">
-                  <i class="material-icons">print</i>
-                  <p>Laporan Kelas</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'qr' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('teacher/qr'); ?>">
-                  <i class="material-icons">qr_code</i>
-                  <p>QR Code Siswa</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'attendance' ? 'active' : '' ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('teacher/attendance'); ?>">
-                  <i class="material-icons">event_note</i>
-                  <p>Manajemen Kehadiran</p>
-               </a>
-            </li>
-         <?php endif; ?>
-
-         <?php if (user()->toArray()['is_superadmin'] != 0): ?>
-            <li class="nav-item <?= $context == 'laporan' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/laporan'); ?>">
-                  <i class="material-icons">print</i>
-                  <p>Generate Laporan</p>
-               </a>
-            </li>
-         <?php endif; ?>
-
-         <?php if (user()->toArray()['is_superadmin'] == 1): ?>
-            <li class="nav-item <?= $context == 'siswa' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/siswa'); ?>">
-                  <i class="material-icons">person</i>
-                  <p>Data Siswa</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'guru' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/guru'); ?>">
-                  <i class="material-icons">person_4</i>
-                  <p>Data Guru</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'kelas' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/kelas'); ?>">
-                  <i class="material-icons">school</i>
-                  <p>Data Kelas & Jurusan</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'qr' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/generate'); ?>">
-                  <i class="material-icons">qr_code</i>
-                  <p>Generate QR Code</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'petugas' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/petugas'); ?>">
-                  <i class="material-icons">computer</i>
-                  <p>Data Petugas</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'general_settings' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/general-settings'); ?>">
-                  <i class="material-icons">settings</i>
-                  <p>Pengaturan</p>
-               </a>
-            </li>
-            <li class="nav-item <?= $context == 'backup' ? 'active' : ''; ?>">
-               <a class="nav-link font-weight-bold" href="<?= base_url('admin/backup'); ?>">
-                  <i class="material-icons">backup</i>
-                  <p>Backup & Restore</p>
-               </a>
-            </li>
-         <?php endif; ?>
+         <?php endforeach; ?>
       </ul>
    </div>
 </div>
