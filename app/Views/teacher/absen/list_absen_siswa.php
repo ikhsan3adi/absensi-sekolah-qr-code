@@ -7,8 +7,7 @@
             </div>
         </div>
         <div class="col">
-            <a href="#" class="btn btn-primary pl-3 mr-3 mt-3" onclick="getSiswa(lastIdKelas, lastKelas)"
-                data-toggle="tab">
+            <a href="#" class="btn btn-primary pl-3 mr-3 mt-3" onclick="getSiswa(lastIdKelas, lastKelas)" data-toggle="tab">
                 <i class="material-icons mr-2">refresh</i> Refresh
             </a>
         </div>
@@ -46,7 +45,7 @@
                             <td><?= $value['nis']; ?></td>
                             <td><b><?= $value['nama_siswa']; ?></b></td>
                             <td>
-                                <p class="p-2 w-100 btn btn-<?= $kehadiran['color']; ?> text-center">
+                                <p class="p-2 my-auto w-100 badge badge-<?= $kehadiran['color']; ?> text-center">
                                     <b><?= $kehadiran['text']; ?></b>
                                 </p>
                             </td>
@@ -54,9 +53,8 @@
                             <td><b><?= $value['jam_keluar'] ?? '-'; ?></b></td>
                             <td><?= $value['keterangan'] ?? '-'; ?></td>
                             <td>
-                                <button data-toggle="modal" data-target="#ubahModal"
-                                    onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_siswa']; ?>)"
-                                    class="btn btn-info p-2" id="<?= $value['nis']; ?>">
+                                <button data-toggle="modal" data-target="#ubahModal" onclick="getDataKehadiran(<?= $value['id_presensi'] ?? '-1'; ?>, <?= $value['id_siswa']; ?>)" class="btn btn-info p-2"
+                                    id="<?= $value['nis']; ?>">
                                     <i class="material-icons">edit</i>
                                     Edit
                                 </button>
