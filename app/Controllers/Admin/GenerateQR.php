@@ -25,11 +25,9 @@ class GenerateQR extends BaseController
 
    public function index()
    {
-
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!can_view_report()) {
          return redirect()->to('admin');
       }
-
 
       $siswa = $this->siswaModel->getAllSiswaWithKelas();
       $kelas = $this->kelasModel->getDataKelas();

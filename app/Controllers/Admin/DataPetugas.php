@@ -7,6 +7,7 @@ use App\Controllers\BaseController;
 use App\Models\PetugasModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Myth\Auth\Password;
+use App\Libraries\enums\UserRole;
 
 class DataPetugas extends BaseController
 {
@@ -48,7 +49,7 @@ class DataPetugas extends BaseController
 
    public function index()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 
@@ -74,14 +75,15 @@ class DataPetugas extends BaseController
 
    public function registerPetugas()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 
       $data = [
          'title' => 'Register Petugas',
          'ctx' => 'petugas',
-         'guru' => $this->guruModel->getAllGuru()
+         'guru' => $this->guruModel->getAllGuru(),
+         'roles' => UserRole::ALL_ROLES
       ];
 
       return view('admin/petugas/register', $data);
@@ -89,7 +91,7 @@ class DataPetugas extends BaseController
 
    public function registerPetugasPost()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 
@@ -137,7 +139,8 @@ class DataPetugas extends BaseController
          'data' => $petugas,
          'ctx' => 'petugas',
          'title' => 'Edit Data Petugas',
-         'guru' => $this->guruModel->getAllGuru()
+         'guru' => $this->guruModel->getAllGuru(),
+         'roles' => UserRole::ALL_ROLES
       ];
 
       return view('admin/petugas/edit-data-petugas', $data);
@@ -165,7 +168,8 @@ class DataPetugas extends BaseController
             'title' => 'Edit Data Petugas',
             'validation' => $this->validator,
             'oldInput' => $this->request->getVar(),
-            'guru' => $this->guruModel->getAllGuru()
+            'guru' => $this->guruModel->getAllGuru(),
+            'roles' => UserRole::ALL_ROLES
          ];
          return view('admin/petugas/edit-data-petugas', $data);
       }
@@ -224,7 +228,7 @@ class DataPetugas extends BaseController
 
    public function toggleActivation($id)
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 

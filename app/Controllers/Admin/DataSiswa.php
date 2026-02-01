@@ -58,7 +58,7 @@ class DataSiswa extends BaseController
    {
 
       // hanya super admin
-      if (user()->toArray()['is_superadmin'] != 1) {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 

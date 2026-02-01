@@ -21,7 +21,7 @@ class QRCode extends BaseController
     public function index()
     {
         $user = user();
-        if (empty($user->id_guru)) {
+        if (!is_wali_kelas()) {
             return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
         }
 
@@ -46,7 +46,7 @@ class QRCode extends BaseController
     public function download()
     {
         $user = user();
-        if (empty($user->id_guru)) {
+        if (!is_wali_kelas()) {
             return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
         }
 
