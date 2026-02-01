@@ -17,8 +17,7 @@
 
                      <?php if (session()->getFlashdata('msg')): ?>
                         <div class="pb-2">
-                           <div
-                              class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success' ?> ">
+                           <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success' ?> ">
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                  <i class="material-icons">close</i>
                               </button>
@@ -31,9 +30,7 @@
 
                      <div class="form-group mt-4">
                         <label for="username">Username</label>
-                        <input type="text" id="username"
-                           class="form-control <?= $validation->getError('username') ? 'is-invalid' : ''; ?>"
-                           name="username" placeholder="username123"
+                        <input type="text" id="username" class="form-control <?= $validation->getError('username') ? 'is-invalid' : ''; ?>" name="username" placeholder="username123"
                            value="<?= old('username') ?? $oldInput['username'] ?? $data['username'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('username'); ?>
@@ -42,9 +39,7 @@
 
                      <div class="form-group mt-4">
                         <label for="email">Email</label>
-                        <input type="email" id="email"
-                           class="form-control <?= $validation->getError('email') ? 'is-invalid' : ''; ?>" name="email"
-                           placeholder="email@example.com"
+                        <input type="email" id="email" class="form-control <?= $validation->getError('email') ? 'is-invalid' : ''; ?>" name="email" placeholder="email@example.com"
                            value="<?= old('email') ?? $oldInput['email'] ?? $data['email'] ?>">
                         <div class="invalid-feedback">
                            <?= $validation->getError('email'); ?>
@@ -53,9 +48,7 @@
 
                      <div class="form-group mt-4">
                         <label for="password">Password baru</label>
-                        <input type="password" id="password"
-                           class="form-control <?= $validation->getError('password') ? 'is-invalid' : ''; ?>"
-                           name="password">
+                        <input type="password" id="password" class="form-control <?= $validation->getError('password') ? 'is-invalid' : ''; ?>" name="password">
                         <div class="invalid-feedback">
                            <?= $validation->getError('password'); ?>
                         </div>
@@ -64,21 +57,13 @@
                      <div class="row">
                         <div class="col-md-6">
                            <label for="role">Role</label>
-                           <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>"
-                              id="role" name="role">
+                           <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>" id="role" name="role">
                               <option value="">--Pilih role--</option>
-                              <option value="0" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == "0" ? 'selected' : ''; ?>>
-                                 Scanner
-                              </option>
-                              <option value="1" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == "1" ? 'selected' : ''; ?>>
-                                 Super Admin
-                              </option>
-                              <option value="2" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == "2" ? 'selected' : ''; ?>>
-                                 Kepsek
-                              </option>
-                              <option value="3" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == "3" ? 'selected' : ''; ?>>
-                                 Staf Petugas
-                              </option>
+                              <?php foreach ($roles as $role): ?>
+                                 <option value="<?= $role->value ?>" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == (string) $role->value ? 'selected' : ''; ?>>
+                                    <?= $role->label() ?>
+                                 </option>
+                              <?php endforeach; ?>
                            </select>
                            <div class="invalid-feedback">
                               <?= $validation->getError('role'); ?>

@@ -18,10 +18,8 @@
 
                             <div class="form-group mt-4">
                                 <label for="email"><?= lang('Auth.email') ?></label>
-                                <input type="email" id="email"
-                                    class="form-control <?php if (session('errors.email')): ?>is-invalid<?php endif ?>"
-                                    name="email" aria-describedby="emailHelp" placeholder="example@email.com"
-                                    value="<?= old('email') ?>">
+                                <input type="email" id="email" class="form-control <?php if (session('errors.email')): ?>is-invalid<?php endif ?>" name="email" aria-describedby="emailHelp"
+                                    placeholder="example@email.com" value="<?= old('email') ?>">
                                 <?php if (session('errors.email')): ?>
                                     <div class="invalid-feedback">
                                         <?= session('errors.email') ?>
@@ -31,9 +29,8 @@
 
                             <div class="form-group mt-4">
                                 <label for="username"><?= lang('Auth.username') ?></label>
-                                <input type="text" id="username"
-                                    class="form-control <?php if (session('errors.username')): ?>is-invalid<?php endif ?>"
-                                    name="username" placeholder="yourusername" value="<?= old('username') ?>">
+                                <input type="text" id="username" class="form-control <?php if (session('errors.username')): ?>is-invalid<?php endif ?>" name="username" placeholder="yourusername"
+                                    value="<?= old('username') ?>">
                                 <div class="invalid-feedback">
                                     <?= session('errors.username') ?>
                                 </div>
@@ -41,9 +38,7 @@
 
                             <div class="form-group mt-4">
                                 <label for="password"><?= lang('Auth.password') ?></label>
-                                <input type="password" id="password" name="password"
-                                    class="form-control <?php if (session('errors.password')): ?>is-invalid<?php endif ?>"
-                                    autocomplete="off">
+                                <input type="password" id="password" name="password" class="form-control <?php if (session('errors.password')): ?>is-invalid<?php endif ?>" autocomplete="off">
                                 <div class="invalid-feedback">
                                     <?= session('errors.password') ?>
                                 </div>
@@ -51,8 +46,7 @@
 
                             <div class="form-group mt-4">
                                 <label for="pass_confirm"><?= lang('Auth.repeatPassword') ?></label>
-                                <input type="password" id="pass_confirm" name="pass_confirm"
-                                    class="form-control <?php if (session('errors.pass_confirm')): ?>is-invalid<?php endif ?>"
+                                <input type="password" id="pass_confirm" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')): ?>is-invalid<?php endif ?>"
                                     autocomplete="off">
                                 <div class="invalid-feedback">
                                     <?= session('errors.pass_confirm') ?>
@@ -63,23 +57,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group mt-4">
                                         <label for="role">Role</label>
-                                        <select
-                                            class="custom-select <?php if (session('errors.role')): ?>is-invalid<?php endif ?>"
-                                            id="role"
-                                            name="role">
+                                        <select class="custom-select <?php if (session('errors.role')): ?>is-invalid<?php endif ?>" id="role" name="role">
                                             <option value="">--Pilih role--</option>
-                                            <option value="0" <?= old('role') == "0" ? 'selected' : ''; ?>>
-                                                Scanner
-                                            </option>
-                                            <option value="1" <?= old('role') == "1" ? 'selected' : ''; ?>>
-                                                Super Admin
-                                            </option>
-                                            <option value="2" <?= old('role') == "2" ? 'selected' : ''; ?>>
-                                                Kepsek
-                                            </option>
-                                            <option value="3" <?= old('role') == "3" ? 'selected' : ''; ?>>
-                                                Staf Petugas
-                                            </option>
+                                            <?php foreach ($roles as $role): ?>
+                                                <option value="<?= $role->value ?>" <?= old('role') == (string) $role->value ? 'selected' : ''; ?>>
+                                                    <?= $role->label() ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                         <div class="invalid-feedback">
                                             <?= session('errors.role') ?>
@@ -99,8 +83,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit"
-                                class="btn btn-info btn-block mt-4"><?= lang('Auth.register') ?></button>
+                            <button type="submit" class="btn btn-info btn-block mt-4"><?= lang('Auth.register') ?></button>
                         </form>
                     </div>
                 </div>

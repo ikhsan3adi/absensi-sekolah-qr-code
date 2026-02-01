@@ -12,6 +12,7 @@ use App\Models\PetugasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
+use App\Libraries\enums\UserRole;
 
 class Dashboard extends BaseController
 {
@@ -39,21 +40,13 @@ class Dashboard extends BaseController
 
    public function index()
    {
-
-      // jika bukan admin dan kepala sekolah, maka hentikan
-
-      $user = user();
-      $userRole = (int) $user->is_superadmin;
-
-      if (!empty($user->id_guru)) {
+      if (is_wali_kelas()) {
          return redirect()->to('teacher/dashboard');
       }
 
-      if ($userRole < 1) {
+      if (user_role() === UserRole::Scanner) {
          return redirect()->to('scan');
       }
-
-
 
       $now = Time::now();
 
