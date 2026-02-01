@@ -245,7 +245,7 @@ Email: adminsuper@gmail.com
   - Petugas scanner QR Code
   - Hanya memiliki akses ke halaman scanner QR Code*
 
-\* Akses dapat bertambah jika dihubungkan ke data guru / di-assign sebagai wali kelas
+\* Akses dapat berubah jika dihubungkan ke data guru / di-assign sebagai wali kelas
 
 </details>
 

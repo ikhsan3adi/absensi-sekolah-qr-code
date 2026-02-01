@@ -27,7 +27,7 @@ class KelasController extends BaseController
      */
     public function index()
     {
-        if (user()->toArray()['is_superadmin'] != '1') {
+        if (!is_superadmin()) {
             return redirect()->to('admin');
         }
 

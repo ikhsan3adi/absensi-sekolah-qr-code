@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Router\RouteCollection;
+use App\Libraries\enums\UserRole;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -34,13 +35,17 @@ $routes->set404Override();
 
 // Scan
 $routes->get('/', function () {
-   switch (user()->toArray()['is_superadmin']) {
-      case '0':
-      case '3':
-         return redirect()->to(base_url('scan')); // scanner, staf petugas
-      default:
-         return redirect()->to(base_url('admin')); // super admin, kepsek
+   helper('user');
+   if (is_wali_kelas()) {
+      return redirect()->to(base_url('teacher/dashboard'));
    }
+
+   $role = user_role();
+   if ($role === UserRole::Scanner || $role === UserRole::StafPetugas) {
+      return redirect()->to(base_url('scan'));
+   }
+
+   return redirect()->to(base_url('admin'));
 });
 
 $routes->group('scan', function (RouteCollection $routes) {
