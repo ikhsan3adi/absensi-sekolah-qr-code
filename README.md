@@ -1,4 +1,4 @@
-# Aplikasi Web Sistem Absensi Sekolah Berbasis $QR \space Code$ <br> (+ Dukungan RFID)
+# Aplikasi Web Sistem Absensi Sekolah Berbasis $QR \ Code$ <br> (+ Dukungan RFID)
 
 <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
@@ -9,11 +9,11 @@
 <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/graphs/contributors">
     <img src="https://img.shields.io/github/contributors-anon/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub Contributors">
 </a>
-<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/watchers">
-    <img src="https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub watchers">
-</a>
 <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/network/members">
     <img src="https://img.shields.io/github/forks/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub forks">
+</a>
+<a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/watchers">
+    <img src="https://img.shields.io/github/watchers/ikhsan3adi/absensi-sekolah-qr-code?style=for-the-badge&labelColor=%239f39b5&color=%2300bcd4&logo=github" alt="GitHub watchers">
 </a>
 
 ---
@@ -67,87 +67,28 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk $m
 
 ### Sistem Presensi
 
-#### 1. Halaman Scanner (QR Code & RFID)
-
-|                                (OLD) QR Scanner                                 |                            (NEW) QR Code + RFID                             |
-| :-----------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
-| <img src="./screenshots/qr-scanner.jpeg" height="320px" alt="QR Scanner (OLD)"> | <img src="./screenshots/new-scanner.png" height="320px" alt="RFID Scanner"> |
-
-Halaman presensi yang mendukung **QR Code Scanner** (menggunakan kamera) dan **RFID Reader** (tap kartu).
-
-#### 2. Hasil Presensi Masuk/Pulang (OLD)
-
-![Hasil Scan Absensi](./screenshots/absen.jpg)
-
-#### 3. Notifikasi WhatsApp
-
-<p align="center">
-  <img src="./screenshots/notif-wa.png" width="320px" alt="Notifikasi WA">
-</p>
-
-Notifikasi otomatis dikirim ke nomor HP siswa/guru setelah berhasil presensi.
+|                        <img src="./screenshots/new-scanner-1.9.10.png" height="320px" alt="RFID Scanner"> <br> (NEW) QR Code + RFID                         |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                    ![Hasil Scan Absensi](./screenshots/absen.jpg) <br> Hasil Presensi Masuk/Pulang (OLD)                                    |
+| <img src="./screenshots/notif-wa.png" width="320px" alt="Notifikasi WA"> <br> Notifikasi otomatis dikirim ke nomor HP siswa/guru setelah berhasil presensi. |  |
 
 ---
 
-### Dashboard Admin/Petugas
+### Dashboard Admin
 
-|               Login Petugas                |                 Dashboard Utama                 |
-| :----------------------------------------: | :---------------------------------------------: |
-| ![Halaman Login](./screenshots/login.jpeg) | ![Dashboard Admin](./screenshots/dashboard.png) |
+|  ![Dashboard Admin](./screenshots/admin-dashboard-1.9.10.png) <br> Dashboard Utama   |                         ![Absen Siswa](./screenshots/absen-siswa-1.9.10.png) <br> Absensi Siswa                         |        ![Absen Guru](./screenshots/absen-guru-1.9.10.png) <br> Absensi Guru        |
+| :----------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
+|     ![Generate Laporan](./screenshots/laporan-1.9.10.png) <br> Generate Laporan      |                         ![CRUD Data Siswa](./screenshots/data-siswa-1.9.10.png) <br> Data Siswa                         |        ![CRUD Data Guru](./screenshots/data-guru-1.9.10.png) <br> Data Guru        |
+|      ![Generate QR](./screenshots/generate-qr-1.9.10.png) <br> Generate QR Code      | ![Data Kelas & Jurusan](./screenshots/kelas-jurusan-1.9.10.png) <br> Data kelas, jurusan, dan **penugasan Wali Kelas**. | ![Backup & Restore](./screenshots/backup-restore-1.9.10.png) <br> Backup & Restore |
+| ![Ubah Data Kehadiran](./screenshots/ubah-kehadiran.jpeg) <br> Edit Status Kehadiran |                           ![Login Petugas](./screenshots/login-1.9.10.png) <br> Login Petugas                           |         ![Pengaturan](./screenshots/pengaturan-1.9.10.png) <br> Pengaturan         |
 
-Dashboard admin untuk monitoring kehadiran siswa dan guru.
-
----
-
-### Manajemen Data Absensi
-
-#### 1. Data Absensi Siswa & Guru
-
-|         Absensi Siswa (Dengan Data Kelas)          |                   Absensi Guru                   |
-| :------------------------------------------------: | :----------------------------------------------: |
-| ![CRUD Absen Siswa](./screenshots/absen-siswa.png) | ![CRUD Absen Guru](./screenshots/absen-guru.png) |
-
-#### 2. Edit Status Kehadiran
-
-<p align="center">
-  <img src="./screenshots/ubah-kehadiran.jpeg" height="320px" alt="Ubah Data Kehadiran">
-</p>
-
-Petugas dapat mengubah status kehadiran (Hadir, Sakit, Izin, Alpha, dll).
-
----
-
-### Manajemen Data Master
-
-#### 1. Data Siswa & Guru
-
-|                    Data Siswa                    |                   Data Guru                    |
-| :----------------------------------------------: | :--------------------------------------------: |
-| ![CRUD Data Siswa](./screenshots/data-siswa.png) | ![CRUD Data Guru](./screenshots/data-guru.png) |
-
-#### 2. Data Kelas & Jurusan
-
-<img src="./screenshots/kelas-jurusan.png" height="320px" alt="Kelas & Jurusan">
-
-Kelola data kelas, jurusan, dan **penugasan Wali Kelas**.
-
----
-
-### Fitur Tambahan
-
-#### 1. Generate QR Code & Laporan
-
-|               Generate QR Code                |                Generate Laporan                |
-| :-------------------------------------------: | :--------------------------------------------: |
-| ![Generate QR](./screenshots/generate-qr.png) | ![Generate Laporan](./screenshots/laporan.png) |
 
 ---
 
 ### Dashboard Wali Kelas
 
-|                                 Dashboard Wali Kelas                                 |                          Manajemen Kehadiran Kelas                           |
+|        ![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas-1.9.10.png)        | ![Manajemen Kehadiran Kelas](./screenshots/wali-kelas-kehadiran-1.9.10.png)  |
 | :----------------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
-|           ![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas.png)            |     ![Manajemen Kehadiran Kelas](./screenshots/wali-kelas-kehadiran.png)     |
 | Dashboard khusus untuk guru wali kelas dengan statistik kehadiran siswa di kelasnya. | Wali kelas dapat melihat dan mengelola kehadiran siswa di kelas yang diampu. |
 
 ---
@@ -281,6 +222,32 @@ Email: adminsuper@gmail.com
 - **Untuk notifikasi WhatsApp**: Lihat bagian [Konfigurasi](#konfigurasi) di bawah
 
 > 📖 **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
+
+### Daftar Roles
+
+<details>
+<summary>Klik untuk melihat daftar roles</summary>
+
+- **Super Admin**
+  - Admin utama dengan akses penuh
+
+- **Staf Petugas**
+  - Admin
+  - Dapat mengakses fitur absensi / manajemen kehadiran
+  - Dapat mengakses fitur generate laporan
+  - Dapat mengakses fitur generate QR
+
+- **Kepsek**
+  - Kepala Sekolah dengan akses terbatas*
+  - Dapat mengakses fitur generate laporan
+
+- **Scanner**
+  - Petugas scanner QR Code
+  - Hanya memiliki akses ke halaman scanner QR Code*
+
+\* Akses dapat bertambah jika dihubungkan ke data guru / di-assign sebagai wali kelas
+
+</details>
 
 ### Cara Menggunakan Akun Wali Kelas
 
