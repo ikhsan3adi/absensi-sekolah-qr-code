@@ -33,7 +33,15 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 // Scan
-$routes->get('/', 'Scan::index');
+$routes->get('/', function () {
+   switch (user()->toArray()['is_superadmin']) {
+      case '0':
+      case '3':
+         return redirect()->to(base_url('scan')); // scanner, staf petugas
+      default:
+         return redirect()->to(base_url('admin')); // super admin, kepsek
+   }
+});
 
 $routes->group('scan', function (RouteCollection $routes) {
    $routes->get('', 'Scan::index');
