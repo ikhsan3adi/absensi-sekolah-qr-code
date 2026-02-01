@@ -15,7 +15,7 @@
             </div>
         <?php else: ?>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card card-stats">
                         <div class="card-header card-header-info card-header-icon">
                             <div class="card-icon">
@@ -30,17 +30,14 @@
                             <div class="stats">
                                 <i class="material-icons">person</i> Total Siswa: <?= $summary['total_siswa']; ?>
                                 <span class="mx-2">|</span>
-                                <i class="material-icons text-primary">qr_code</i> <a class="text-primary"
-                                    href="<?= base_url('teacher/qr'); ?>">Download QR Code Siswa</a>
+                                <i class="material-icons text-primary">qr_code</i> <a class="text-primary" href="<?= base_url('teacher/qr'); ?>">Download QR Code Siswa</a>
 
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title"><b>Statistik Kehadiran Kelas Hari Ini</b></h4>
@@ -48,19 +45,19 @@
                         </div>
                         <div class="card-body">
                             <div class="row text-center">
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <h4 class="text-success"><b>Hadir</b></h4>
                                     <h3><?= $summary['hadir_hari_ini']; ?></h3>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <h4 class="text-warning"><b>Sakit</b></h4>
                                     <h3><?= $summary['sakit_hari_ini']; ?></h3>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <h4 class="text-info"><b>Izin</b></h4>
                                     <h3><?= $summary['izin_hari_ini']; ?></h3>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <h4 class="text-danger"><b>Alfa</b></h4>
                                     <h3><?= $summary['alfa_hari_ini']; ?></h3>
                                 </div>
@@ -68,9 +65,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="col-md-12">
                     <div class="card card-chart">
                         <div class="card-header card-header-info">
@@ -82,8 +77,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="stats">
-                                <i class="material-icons text-info">assessment</i> <a class="text-info"
-                                    href="<?= base_url('teacher/laporan'); ?>">Download Laporan</a>
+                                <i class="material-icons text-info">assessment</i> <a class="text-info" href="<?= base_url('teacher/laporan'); ?>">Download Laporan</a>
                             </div>
                         </div>
                     </div>

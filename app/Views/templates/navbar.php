@@ -1,8 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
    <div class="container-fluid">
       <div class="navbar-wrapper">
-         <p class="navbar-brand"><b><?= $title; ?></b></p>
+         <p class="navbar-brand my-auto"><b><?= $title; ?></b></p>
       </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
          <span class="sr-only">Toggle navigation</span>
@@ -21,14 +21,14 @@
                 </div>
             </form> -->
          <ul class="navbar-nav">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                      Dashboard
                   </p>
                </a>
-            </li>
+            </li> -->
             <li class="nav-item dropdown">
                <a class="nav-link" href="javascript:;" id="navbarDropdownScan" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">qr_code</i>
@@ -42,7 +42,8 @@
                </div>
             </li>
             <li class="nav-item dropdown">
-               <a class="nav-link <?= user()->toArray()['is_superadmin'] == '1' ? 'text-danger' : ''; ?>" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <a class="nav-link <?= user()->toArray()['is_superadmin'] == '1' ? 'text-danger' : ''; ?>" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                      Account
@@ -50,7 +51,19 @@
                   <span>User : <?= user()->toArray()['username']; ?></span>
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="<?= base_url('/logout'); ?>">Log out</a>
+                  <a class="dropdown-item" href="#">
+                     Email: <?= user()->toArray()['email']; ?>
+                  </a>
+                  <a class="dropdown-item" href="#">
+                     Role:
+                     <span class="h6 text-capitalize ml-2 my-auto badge badge-<?= user()->toArray()['is_superadmin'] == '1' ? 'danger' : 'success'; ?>">
+                        <?= getUserRole(user()->toArray()['is_superadmin']); ?>
+                     </span>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
+                     Log Out
+                  </a>
                </div>
             </li>
          </ul>

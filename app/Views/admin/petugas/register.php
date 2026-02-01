@@ -63,11 +63,27 @@
                                 <div class="col-md-6">
                                     <div class="form-group mt-4">
                                         <label for="role">Role</label>
-                                        <select class="custom-select" id="role" name="role">
-                                            <option value="0" <?= old('role') == '0' ? 'selected' : ''; ?>>Petugas</option>
-                                            <option value="1" <?= old('role') == '1' ? 'selected' : ''; ?>>Superadmin
+                                        <select
+                                            class="custom-select <?php if (session('errors.role')): ?>is-invalid<?php endif ?>"
+                                            id="role"
+                                            name="role">
+                                            <option value="">--Pilih role--</option>
+                                            <option value="0" <?= old('role') == "0" ? 'selected' : ''; ?>>
+                                                Scanner
+                                            </option>
+                                            <option value="1" <?= old('role') == "1" ? 'selected' : ''; ?>>
+                                                Super Admin
+                                            </option>
+                                            <option value="2" <?= old('role') == "2" ? 'selected' : ''; ?>>
+                                                Kepsek
+                                            </option>
+                                            <option value="3" <?= old('role') == "3" ? 'selected' : ''; ?>>
+                                                Staf Petugas
                                             </option>
                                         </select>
+                                        <div class="invalid-feedback">
+                                            <?= session('errors.role') ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

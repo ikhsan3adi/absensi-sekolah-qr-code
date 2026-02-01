@@ -3,8 +3,8 @@
       <nav class="float-left">
          <ul>
             <li>
-               <a href="https://www.instagram.com/ikhsan3adi/">
-                  Instagram
+               <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code">
+                  Github
                </a>
             </li>
          </ul>

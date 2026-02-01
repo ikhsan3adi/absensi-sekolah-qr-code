@@ -19,7 +19,7 @@
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">
                         <a class="btn-custom-tools" id="tabBtn" href="<?= base_url('admin/kelas/tambah'); ?>">
-                          <i class="material-icons">add</i> Tambah data kelas
+                          <i class="material-icons">add</i> Baru
                           <div class="ripple-container"></div>
                         </a>
 
@@ -30,8 +30,7 @@
                         </a>
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <a class="btn-custom-tools" id="refreshBtn"
-                          onclick="fetchKelasJurusanData('kelas', '#dataKelas')" href="javascript:void(0)">
+                        <a class="btn-custom-tools" id="refreshBtn" onclick="fetchKelasJurusanData('kelas', '#dataKelas')" href="javascript:void(0)">
                           <i class="material-icons">refresh</i> Refresh
 
                         </a>
@@ -56,7 +55,7 @@
                     <div class="col-auto row">
                       <div class="col-12 col-sm-auto nav nav-tabs">
                         <a class="btn-custom-tools" id="tabBtn" href="<?= base_url('admin/jurusan/tambah'); ?>">
-                          <i class="material-icons">add</i> Tambah data jurusan
+                          <i class="material-icons">add</i> Baru
                         </a>
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
@@ -65,8 +64,7 @@
                         </a>
                       </div>
                       <div class="col-12 col-sm-auto nav nav-tabs">
-                        <a class="btn-custom-tools" id="refreshBtn2"
-                          onclick="fetchKelasJurusanData('jurusan', '#dataJurusan')" href="javascript:void(0)">
+                        <a class="btn-custom-tools" id="refreshBtn2" onclick="fetchKelasJurusanData('jurusan', '#dataJurusan')" href="javascript:void(0)">
                           <i class="material-icons">refresh</i> Refresh
 
                         </a>

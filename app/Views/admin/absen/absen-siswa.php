@@ -22,9 +22,8 @@
                            $idKelas = $value['id_kelas'];
                            $namaKelas = $value['kelas'];
                            ?>
-                           <div class="col-md-3">
-                              <button id="kelas-<?= $idKelas; ?>"
-                                 onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
+                           <div class="col-sm-6 col-lg-4">
+                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100 px-1">
                                  <?= $namaKelas; ?>
                               </button>
                            </div>
@@ -36,8 +35,7 @@
                      <div class="col-md-3">
                         <div class="pt-3 pl-3 pb-2">
                            <h4><b>Tanggal</b></h4>
-                           <input class="form-control" type="date" name="tangal" id="tanggal"
-                              value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
+                           <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
                         </div>
                      </div>
                   </div>
