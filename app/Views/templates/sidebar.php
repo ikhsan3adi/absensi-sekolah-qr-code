@@ -138,12 +138,6 @@ switch ($context) {
                </a>
             </li>
          <?php endif; ?>
-         <!-- <li class="nav-item active-pro mb-3">
-            <a class="nav-link" href="./upgrade.html">
-               <i class="material-icons">unarchive</i>
-               <p>Bottom sidebar</p>
-            </a>
-         </li> -->
       </ul>
    </div>
 </div>

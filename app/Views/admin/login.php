@@ -15,7 +15,7 @@
             <div class="col-xxl-5 col-lg-7 col-md-8 col-sm-10 m-auto">
                <div class="card">
                   <div class="card-header card-header-primary mb-48">
-                     <h4 class="card-title">Login petugas</h4>
+                     <h4 class="card-title">Login</h4>
                      <p class="card-category">Silahkan masukkan username dan password anda</p>
                   </div>
 
