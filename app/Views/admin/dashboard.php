@@ -1,4 +1,53 @@
 <?= $this->extend('templates/admin_page_layout') ?>
+<?= $this->section('styles') ?>
+<style>
+    .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+    }
+
+    .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    /* Custom colors for Chartist lines */
+    /* Hadir - Green */
+    .ct-chart .ct-series-a .ct-line,
+    .ct-chart .ct-series-a .ct-point {
+        stroke: #4caf50 !important;
+    }
+
+    /* Sakit - Orange */
+    .ct-chart .ct-series-b .ct-line,
+    .ct-chart .ct-series-b .ct-point {
+        stroke: #ff9800 !important;
+    }
+
+    /* Izin - Cyan */
+    .ct-chart .ct-series-c .ct-line,
+    .ct-chart .ct-series-c .ct-point {
+        stroke: #00bcd4 !important;
+    }
+
+    /* Alfa - Red */
+    .ct-chart .ct-series-d .ct-line,
+    .ct-chart .ct-series-d .ct-point {
+        stroke: #f44336 !important;
+    }
+</style>
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <div class="content">
     <div class="container-fluid">
@@ -51,7 +100,7 @@
                             </a>
                         </div>
                         <p class="card-category">Kelas / Jurusan</p>
-                        <h3 class="card-title"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
+                        <h3 class="card-title text-nowrap"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -81,25 +130,26 @@
                 </div>
             </div>
         </div>
-        <!-- STATS SISWA -->
+
+        <!-- STATS HARI INI -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <!-- FILTER KELAS -->
                 <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title"><b>Filter Kelas</b></h4>
+                    </div>
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-4">
-                                <h4 class="card-title m-0"><b>Filter Kelas</b></h4>
-                            </div>
-                            <div class="col-7">
+                            <div class="col-10">
                                 <select name="id_kelas" id="filterKelas" class="custom-select">
-                                    <option value="">-- Semua Kelas --</option>
+                                    <option value="">-- Semua Kelas (<?= count($siswa) ?> siswa) --</option>
                                     <?php foreach ($kelas as $k): ?>
-                                        <option value="<?= $k['id_kelas'] ?>"><?= $k['kelas'] ?></option>
+                                        <option value="<?= $k['id_kelas'] ?>"><?= $k['kelas'] ?> (<?= $k['jumlah_siswa'] ?? 0 ?> siswa)</option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div id="filterLoader" class="col-md-1" style="display: none;">
+                            <div id="filterLoader" class="col-2" style="display: none;">
                                 <div class="spinner-border spinner-border-sm text-primary" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
@@ -107,6 +157,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title"><b id="titleSiswaStats">Absensi Siswa Hari Ini</b></h4>
@@ -118,18 +170,79 @@
                             'sakit' => $jumlahKehadiranSiswa['sakit'],
                             'izin' => $jumlahKehadiranSiswa['izin'],
                             'alfa' => $jumlahKehadiranSiswa['alfa'],
+                            'total' => $totalSiswa
                         ]) ?>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="kehadiranSiswa"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title"><b>Absensi Guru Hari Ini</b></h4>
+                        <p class="card-category">
+                            <?= $dateNow; ?>
+                        </p>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title" id="titleSiswaChart">Tingkat kehadiran siswa</h4>
-                        <p class="card-category">Jumlah kehadiran siswa dalam 7 hari terakhir</p>
+                        <div class="row text-center">
+                            <div class="col-2">
+                                <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
+                                <h4 class="text-nowrap">
+                                    <?= $jumlahKehadiranGuru['hadir']; ?>
+                                </h4>
+                            </div>
+                            <div class="col-2">
+                                <h5 class="text-warning text-nowrap"><b>Sakit</b></h5>
+                                <h4 class="text-nowrap">
+                                    <?= $jumlahKehadiranGuru['sakit']; ?>
+                                </h4>
+                            </div>
+                            <div class="col-2">
+                                <h5 class="text-info text-nowrap"><b>Izin</b></h5>
+                                <h4 class="text-nowrap">
+                                    <?= $jumlahKehadiranGuru['izin']; ?>
+                                </h4>
+                            </div>
+                            <div class="col-2">
+                                <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
+                                <h4 class="text-nowrap">
+                                    <?= $jumlahKehadiranGuru['alfa']; ?>
+                                </h4>
+                            </div>
+                            <div class="col-1">
+                                <div class="border-right mx-auto h-100" style="width: 0;"></div>
+                            </div>
+                            <div class="col-2 col-sm-3">
+                                <h5 class="text-primary text-nowrap"><b>Total</b></h5>
+                                <h4 class="text-nowrap">
+                                    <?= $totalSiswa; ?>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHART SISWA -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title" id="titleSiswaChart">Tingkat Kehadiran Siswa</h4>
+                        <p class="card-category">
+                            Statistik kehadiran 7 hari terakhir | <?= $dateNow; ?>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="ct-chart" id="kehadiranSiswa"></div>
+                        <!-- CHART LEGEND -->
+                        <div class="chart-legend mb-3">
+                            <span class="legend-item"><span class="legend-dot bg-success"></span> Hadir</span>
+                            <span class="legend-item"><span class="legend-dot bg-warning"></span> Sakit</span>
+                            <span class="legend-item"><span class="legend-dot bg-info"></span> Izin</span>
+                            <span class="legend-item"><span class="legend-dot bg-danger"></span> Alfa</span>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -140,53 +253,25 @@
             </div>
         </div>
 
-        <!-- STATS GURU -->
+        <!-- CHART GURU -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="card">
+            <div class="col-12">
+                <div class="card card-chart">
                     <div class="card-header card-header-success">
-                        <h4 class="card-title"><b>Absensi Guru Hari Ini</b></h4>
-                        <p class="card-category"><?= $dateNow; ?>
+                        <h4 class="card-title">Tingkat Kehadiran Guru</h4>
+                        <p class="card-category">
+                            Statistik kehadiran 7 hari terakhir | <?= $dateNow; ?>
                         </p>
                     </div>
                     <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-3">
-                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
-                                <h3>
-                                    <?= $jumlahKehadiranGuru['hadir']; ?>
-                                </h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
-                                <h3>
-                                    <?= $jumlahKehadiranGuru['sakit']; ?>
-                                </h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
-                                <h3>
-                                    <?= $jumlahKehadiranGuru['izin']; ?>
-                                </h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
-                                <h3>
-                                    <?= $jumlahKehadiranGuru['alfa']; ?>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card card-chart">
-                    <div class="card-header card-header-success">
                         <div class="ct-chart" id="kehadiranGuru"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Tingkat kehadiran guru</h4>
-                        <p class="card-category">Jumlah kehadiran guru dalam 7 hari terakhir</p>
+                        <!-- CHART LEGEND -->
+                        <div class="chart-legend mb-3">
+                            <span class="legend-item"><span class="legend-dot bg-success"></span> Hadir</span>
+                            <span class="legend-item"><span class="legend-dot bg-warning"></span> Sakit</span>
+                            <span class="legend-item"><span class="legend-dot bg-info"></span> Izin</span>
+                            <span class="legend-item"><span class="legend-dot bg-danger"></span> Alfa</span>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -226,11 +311,10 @@
                         // Update Titles
                         const className = $('#filterKelas option:selected').text();
                         if (idKelas == "") {
-                            $('#titleSiswaStats').text("Absensi Siswa Hari Ini");
-                            $('#titleSiswaChart').text("Tingkat kehadiran siswa");
+                            $('#titleSiswaChart').text("Tingkat Kehadiran Siswa");
                         } else {
-                            $('#titleSiswaStats').text("Absensi Siswa " + className + " Hari Ini");
-                            $('#titleSiswaChart').text("Tingkat kehadiran siswa " + className);
+                            const kelasName = className.split(' (')[0];
+                            $('#titleSiswaChart').text("Tingkat Kehadiran Siswa " + kelasName);
                         }
                     }
                 },
@@ -245,27 +329,49 @@
     });
 
     let kehadiranSiswaChart;
+    let kehadiranGuruChart;
+
+    const optionsBase = {
+        lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+        }),
+        low: 0,
+        height: '360px',
+        chartPadding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        },
+        plugins: [
+            //! THIS DOESNT WORK!
+            // TODO: CHARTIST WILL BE REPLACED BY SOME BETTER LIB
+            // Chartist.plugins.tooltip(),
+            // Chartist.plugins.ctPointLabels({
+            //     textAnchor: 'middle',
+            //     labelInterpolationFnc: function (value) { return value ? value : 0 }
+            // })
+        ]
+    };
+
+    const chartLabels = [
+        <?php foreach ($dateRange as $value): ?>
+                                '<?= $value ?>',
+        <?php endforeach; ?>
+    ];
 
     function updateSiswaChart(newData) {
         if (kehadiranSiswaChart) {
             const data = {
-                labels: [
-                    <?php
-                    foreach ($dateRange as $value) {
-                        echo "'$value',";
-                    }
-                    ?>
-                ],
-                series: [newData]
+                labels: chartLabels,
+                series: [newData.hadir, newData.sakit, newData.izin, newData.alfa]
             };
 
-            let highestData = 0;
-            newData.forEach(e => {
-                if (e >= highestData) highestData = e;
-            });
+            const highestData = Math.max(...data.series.flat(), 0);
 
             const options = {
-                high: highestData + (highestData / 4) || 10, // Avoid 0 high
+                ...optionsBase,
+                high: highestData + Math.max(highestData / 4, 5),
             };
 
             kehadiranSiswaChart.update(data, options);
@@ -273,92 +379,48 @@
         }
     }
 
-    function initDashboardPageCharts() {
-
-        if ($('#kehadiranSiswa').length != 0) {
-            /* ----------==========     Chart tingkat kehadiran siswa    ==========---------- */
-            const dataKehadiranSiswa = [<?php foreach ($grafikKehadiranSiswa as $value)
-                echo "$value,"; ?>];
-
-            const chartKehadiranSiswa = {
-                labels: [
-                    <?php
-                    foreach ($dateRange as $value) {
-                        echo "'$value',";
-                    }
-                    ?>
-                ],
-                series: [dataKehadiranSiswa]
+    function updateGuruChart(newData) {
+        if (kehadiranGuruChart) {
+            const data = {
+                labels: chartLabels,
+                series: [newData.hadir, newData.sakit, newData.izin, newData.alfa]
             };
 
-            var highestData = 0;
+            const highestData = Math.max(...data.series.flat(), 0);
 
-            dataKehadiranSiswa.forEach(e => {
-                if (e >= highestData) {
-                    highestData = e;
-                }
-            })
+            const options = {
+                ...optionsBase,
+                high: highestData + Math.max(highestData / 4, 5),
+            };
 
-            const optionsChart = {
-                lineSmooth: Chartist.Interpolation.cardinal({
-                    tension: 0
-                }),
-                low: 0,
-                high: highestData + (highestData / 4),
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            }
+            kehadiranGuruChart.update(data, options);
+            md.startAnimationForLineChart(kehadiranGuruChart);
+        }
+    }
 
-            kehadiranSiswaChart = new Chartist.Line('#kehadiranSiswa', chartKehadiranSiswa, optionsChart);
+    function initDashboardPageCharts() {
+        if ($('#kehadiranSiswa').length != 0) {
+            const dataSiswa = {
+                hadir: [<?php echo implode(',', $grafikKehadiranSiswa['hadir']); ?>],
+                sakit: [<?php echo implode(',', $grafikKehadiranSiswa['sakit']); ?>],
+                izin: [<?php echo implode(',', $grafikKehadiranSiswa['izin']); ?>],
+                alfa: [<?php echo implode(',', $grafikKehadiranSiswa['alfa']); ?>]
+            };
 
-            md.startAnimationForLineChart(kehadiranSiswaChart);
+            kehadiranSiswaChart = new Chartist.Line('#kehadiranSiswa', {}, optionsBase);
+            updateSiswaChart(dataSiswa);
         }
 
         if ($('#kehadiranGuru').length != 0) {
-            /* ----------==========     Chart tingkat kehadiran guru    ==========---------- */
-            const dataKehadiranGuru = [<?php foreach ($grafikkKehadiranGuru as $value)
-                echo "$value,"; ?>];
-
-            const chartKehadiranGuru = {
-                labels: [
-                    <?php
-                    foreach ($dateRange as $value) {
-                        echo "'$value',";
-                    }
-                    ?>
-                ],
-                series: [dataKehadiranGuru]
+            const dataGuru = {
+                hadir: [<?php echo implode(',', $grafikKehadiranGuru['hadir']); ?>],
+                sakit: [<?php echo implode(',', $grafikKehadiranGuru['sakit']); ?>],
+                izin: [<?php echo implode(',', $grafikKehadiranGuru['izin']); ?>],
+                alfa: [<?php echo implode(',', $grafikKehadiranGuru['alfa']); ?>]
             };
 
-            var highestData = 0;
-
-            dataKehadiranGuru.forEach(e => {
-                if (e >= highestData) {
-                    highestData = e;
-                }
-            })
-
-            const optionsChart = {
-                lineSmooth: Chartist.Interpolation.cardinal({
-                    tension: 0
-                }),
-                low: 0,
-                high: highestData + (highestData / 4),
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            }
-
-            var kehadiranGuruChart = new Chartist.Line('#kehadiranGuru', chartKehadiranGuru, optionsChart);
-
-            md.startAnimationForLineChart(kehadiranGuruChart);
+            kehadiranGuruChart = new Chartist.Line('#kehadiranGuru', {}, optionsBase);
+            updateGuruChart(dataGuru);
         }
     }
 </script>

@@ -111,8 +111,12 @@ class SiswaModel extends Model
       ]);
    }
 
-   public function getSiswaCountByKelas($kelasId)
+   public function getSiswaCountByKelas($kelasId = null)
    {
+      if (empty($kelasId)) {
+         return $this->countAllResults();
+      }
+
       $tree = array();
       $kelasId = cleanNumber($kelasId);
       if (!empty($kelasId)) {
@@ -121,7 +125,7 @@ class SiswaModel extends Model
 
       $kelasIds = $tree;
       if (countItems($kelasIds) < 1) {
-         return array();
+         return 0;
       }
 
       return $this->whereIn('tb_siswa.id_kelas', $kelasIds, false)->countAllResults();

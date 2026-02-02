@@ -51,11 +51,7 @@ class Dashboard extends BaseController
       $now = Time::now();
 
       $dateRange = [];
-      $siswaKehadiranArray = [];
-      $guruKehadiranArray = [];
-
       for ($i = 6; $i >= 0; $i--) {
-         $date = $now->subDays($i)->toDateString();
          if ($i == 0) {
             $formattedDate = "Hari ini";
          } else {
@@ -63,21 +59,19 @@ class Dashboard extends BaseController
             $formattedDate = "{$t->getDay()} " . substr($t->toFormattedDateString(), 0, 3);
          }
          array_push($dateRange, $formattedDate);
-         array_push(
-            $siswaKehadiranArray,
-            count($this->presensiSiswaModel
-               ->join('tb_siswa', 'tb_presensi_siswa.id_siswa = tb_siswa.id_siswa', 'left')
-               ->where(['tb_presensi_siswa.tanggal' => "$date", 'tb_presensi_siswa.id_kehadiran' => '1'])->findAll())
-         );
-         array_push(
-            $guruKehadiranArray,
-            count($this->presensiGuruModel
-               ->join('tb_guru', 'tb_presensi_guru.id_guru = tb_guru.id_guru', 'left')
-               ->where(['tb_presensi_guru.tanggal' => "$date", 'tb_presensi_guru.id_kehadiran' => '1'])->findAll())
-         );
       }
 
       $today = $now->toDateString();
+
+      // Get attendance trends using new methods
+      $grafikKehadiranSiswa = $this->presensiSiswaModel->getAttendanceTrend();
+      $grafikKehadiranGuru = $this->presensiGuruModel->getAttendanceTrend();
+
+      // Prepare kelas data with student count
+      $kelasData = $this->kelasModel->getDataKelas();
+      foreach ($kelasData as &$k) {
+         $k['jumlah_siswa'] = $this->siswaModel->getSiswaCountByKelas($k['id_kelas']);
+      }
 
       $data = [
          'title' => 'Dashboard',
@@ -86,14 +80,14 @@ class Dashboard extends BaseController
          'siswa' => $this->siswaModel->getAllSiswaWithKelas(),
          'guru' => $this->guruModel->getAllGuru(),
 
-         'kelas' => $this->kelasModel->getDataKelas(),
+         'kelas' => $kelasData,
          'jurusan' => $this->jurusanModel->getDataJurusan(),
 
          'dateRange' => $dateRange,
          'dateNow' => $now->toLocalizedString('d MMMM Y'),
 
-         'grafikKehadiranSiswa' => $siswaKehadiranArray,
-         'grafikkKehadiranGuru' => $guruKehadiranArray,
+         'grafikKehadiranSiswa' => $grafikKehadiranSiswa,
+         'grafikKehadiranGuru' => $grafikKehadiranGuru,
 
          'jumlahKehadiranSiswa' => [
             'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today)),
@@ -108,6 +102,9 @@ class Dashboard extends BaseController
             'izin' => count($this->presensiGuruModel->getPresensiByKehadiran('3', $today)),
             'alfa' => count($this->presensiGuruModel->getPresensiByKehadiran('4', $today))
          ],
+
+         'totalSiswa' => $this->siswaModel->getSiswaCountByKelas(),
+         'totalGuru' => $this->guruModel->countAllResults(),
 
          'petugas' => $this->petugasModel->getAllPetugas(),
       ];
@@ -129,32 +126,25 @@ class Dashboard extends BaseController
          'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $idKelas))
       ];
 
-      // Grafik Siswa (7 Hari)
-      $siswaKehadiranArray = [];
-      for ($i = 6; $i >= 0; $i--) {
-         $date = $now->subDays($i)->toDateString();
-         $query = $this->presensiSiswaModel
-            ->join('tb_siswa', 'tb_presensi_siswa.id_siswa = tb_siswa.id_siswa', 'left')
-            ->where(['tb_presensi_siswa.tanggal' => "$date", 'tb_presensi_siswa.id_kehadiran' => '1']);
+      // Grafik Siswa (7 Hari) - using getAttendanceTrend
+      $grafikKehadiranSiswa = $this->presensiSiswaModel->getAttendanceTrend(7, $idKelas ?: null);
 
-         if ($idKelas) {
-            $query->where('tb_siswa.id_kelas', $idKelas);
-         }
-
-         array_push($siswaKehadiranArray, count($query->findAll()));
-      }
+      // Jumlah siswa per kelas
+      $jumlahSiswa = $this->siswaModel->getSiswaCountByKelas($idKelas);
 
       $data = [
          'hadir' => $jumlahKehadiranSiswa['hadir'],
          'sakit' => $jumlahKehadiranSiswa['sakit'],
          'izin' => $jumlahKehadiranSiswa['izin'],
          'alfa' => $jumlahKehadiranSiswa['alfa'],
+         'totalSiswa' => $jumlahSiswa,
       ];
 
       return json_encode([
          'result' => 1,
          'htmlContent' => view('admin/_dashboard_siswa_stats', $data),
-         'chartData' => $siswaKehadiranArray
+         'chartData' => $grafikKehadiranSiswa,
+         'totalSiswa' => $jumlahSiswa
       ]);
    }
 }
