@@ -40,6 +40,7 @@
                                 <i class="material-icons">person</i> Total Siswa: <?= $summary['total_siswa']; ?>
                                 <span class="mx-2">|</span>
                                 <i class="material-icons text-primary">qr_code</i> <a class="text-primary" href="<?= base_url('teacher/qr'); ?>">Download QR Code Siswa</a>
+                                <<<<<<< HEAD=======>>>>>>> master
                             </div>
                         </div>
                     </div>
