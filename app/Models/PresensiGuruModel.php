@@ -26,7 +26,8 @@ class PresensiGuruModel extends Model implements PresensiInterface
    {
       $result = $this->where(['id_guru' => $id, 'tanggal' => $date])->first();
 
-      if (empty($result)) return false;
+      if (empty($result))
+         return false;
 
       return $result[$this->primaryKey];
    }
@@ -104,6 +105,27 @@ class PresensiGuruModel extends Model implements PresensiInterface
          $this->where(['tb_presensi_guru.id_kehadiran' => $idKehadiran]);
          return $this->findAll();
       }
+   }
+
+   /**
+    * Get attendance trend for last N days
+    * @return array ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []]
+    */
+   public function getAttendanceTrend(int $days = 7): array
+   {
+      $now = Time::now();
+      $result = ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []];
+
+      for ($i = $days - 1; $i >= 0; $i--) {
+         $date = $now->subDays($i)->toDateString();
+
+         $result['hadir'][] = count($this->getPresensiByKehadiran('1', $date));
+         $result['sakit'][] = count($this->getPresensiByKehadiran('2', $date));
+         $result['izin'][] = count($this->getPresensiByKehadiran('3', $date));
+         $result['alfa'][] = count($this->getPresensiByKehadiran('4', $date));
+      }
+
+      return $result;
    }
 
    public function updatePresensi(

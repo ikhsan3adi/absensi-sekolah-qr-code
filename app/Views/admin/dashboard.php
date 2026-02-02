@@ -1,9 +1,18 @@
 <?= $this->extend('templates/admin_page_layout') ?>
+<?= $this->section('styles') ?>
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <div class="content">
     <div class="container-fluid">
         <!-- REKAP JUMLAH DATA -->
-        <div class="row">
+        <div class="row d-none d-sm-flex">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
@@ -51,7 +60,7 @@
                             </a>
                         </div>
                         <p class="card-category">Kelas / Jurusan</p>
-                        <h3 class="card-title"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
+                        <h3 class="card-title text-nowrap"><?= count($kelas) . ' / ' . count($jurusan); ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -81,74 +90,196 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row d-sm-none">
+            <div class="col-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"><b>Absensi Siswa Hari Ini</b></h4>
-                        <p class="card-category"><?= $dateNow; ?></p>
+                        <a href="<?= base_url('admin/siswa'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah siswa</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <i class="material-icons">person</i>
+                                        <?= count($siswa); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-3">
-                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
-                                <h3><?= $jumlahKehadiranSiswa['hadir']; ?></h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
-                                <h3><?= $jumlahKehadiranSiswa['sakit']; ?></h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
-                                <h3><?= $jumlahKehadiranSiswa['izin']; ?></h3>
-                            </div>
-                            <div class="col-3">
-                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
-                                <h3><?= $jumlahKehadiranSiswa['alfa']; ?></h3>
-                            </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-primary">check</i>
+                            Terdaftar
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <a href="<?= base_url('admin/guru'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah guru</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <i class="material-icons">person_4</i>
+                                        <?= count($guru); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-success">check</i>
+                            Terdaftar
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <a href="<?= base_url('admin/kelas'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Kelas / Jurusan</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <?= count($kelas) . ' / ' . count($jurusan); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">home</i>
+                            <?= $generalSettings->school_name; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <a href="<?= base_url('admin/petugas'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah petugas</p>
+                                    <h3 class="card-title">
+                                        <i class="material-icons">settings</i>
+
+                                        <?= count($petugas); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">person</i>
+                            Admin
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- STATS SISWA HARI INI -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap: 12px;">
+                            <div>
+                                <h4 class="card-title"><b id="titleSiswaStats">Absensi Siswa Hari Ini</b></h4>
+                                <p class="card-category"><?= $dateNow; ?></p>
+                            </div>
+                            <!-- FILTER KELAS -->
+                            <div class="text-right">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div id="filterLoader" style="display: none;">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <select name="id_kelas" id="filterKelas" class="custom-select">
+                                            <option value="">-- Semua Kelas (<?= count($siswa) ?> siswa) --
+                                            </option>
+                                            <?php foreach ($kelas as $k): ?>
+                                                <option value="<?= $k['id_kelas'] ?>" data-kelas="<?= $k['kelas'] ?>">
+                                                    <?= $k['kelas'] ?> (
+                                                    <?= $k['jumlah_siswa'] ?? 0 ?> siswa)
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="siswaStatsContainer">
+                        <?= view('admin/_dashboard_siswa_stats', [
+                            'hadir' => $jumlahKehadiranSiswa['hadir'],
+                            'sakit' => $jumlahKehadiranSiswa['sakit'],
+                            'izin' => $jumlahKehadiranSiswa['izin'],
+                            'alfa' => $jumlahKehadiranSiswa['alfa'],
+                            'totalSiswa' => $totalSiswa
+                        ]) ?>
+                    </div>
+                </div>
+            </div>
+            <!-- STATS GURU HARI INI -->
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header card-header-success">
                         <h4 class="card-title"><b>Absensi Guru Hari Ini</b></h4>
                         <p class="card-category"><?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-3">
-                                <h4 class="text-success text-nowrap"><b>Hadir</b></h4>
-                                <h3><?= $jumlahKehadiranGuru['hadir']; ?></h3>
+                        <div class="row text-center flex-nowrap">
+                            <div class="col-2">
+                                <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
+                                <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['hadir']; ?></h4>
                             </div>
-                            <div class="col-3">
-                                <h4 class="text-warning text-nowrap"><b>Sakit</b></h4>
-                                <h3><?= $jumlahKehadiranGuru['sakit']; ?></h3>
+                            <div class="col-2">
+                                <h5 class="text-warning text-nowrap"><b>Sakit</b></h5>
+                                <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['sakit']; ?></h4>
                             </div>
-                            <div class="col-3">
-                                <h4 class="text-info text-nowrap"><b>Izin</b></h4>
-                                <h3><?= $jumlahKehadiranGuru['izin']; ?></h3>
+                            <div class="col-2">
+                                <h5 class="text-info text-nowrap"><b>Izin</b></h5>
+                                <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['izin']; ?></h4>
                             </div>
-                            <div class="col-3">
-                                <h4 class="text-danger text-nowrap"><b>Alfa</b></h4>
-                                <h3><?= $jumlahKehadiranGuru['alfa']; ?></h3>
+                            <div class="col-2">
+                                <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
+                                <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['alfa']; ?></h4>
+                            </div>
+                            <div class="col-1">
+                                <div class="border-right mx-auto h-100" style="width: 0;"></div>
+                            </div>
+                            <div class="col-2 col-sm-3">
+                                <h5 class="text-primary text-nowrap"><b>Total</b></h5>
+                                <h4 class="text-nowrap"><?= $totalGuru; ?></h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- GRAFIK CHART -->
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="card card-chart">
+            <!-- CHART SISWA -->
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="kehadiranSiswa"></div>
+                        <h4 class="card-title" id="titleSiswaChart">Tingkat Kehadiran Siswa</h4>
+                        <p class="card-category">Statistik kehadiran 7 hari terakhir | <?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Tingkat kehadiran siswa</h4>
-                        <p class="card-category">Jumlah kehadiran siswa dalam 7 hari terakhir</p>
+                        <div class="chart-container">
+                            <canvas id="kehadiranSiswa"></canvas>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -157,14 +288,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card card-chart">
+            <!-- CHART GURU -->
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="card-header card-header-success">
-                        <div class="ct-chart" id="kehadiranGuru"></div>
+                        <h4 class="card-title">Tingkat Kehadiran Guru</h4>
+                        <p class="card-category">Statistik kehadiran 7 hari terakhir | <?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Tingkat kehadiran guru</h4>
-                        <p class="card-category">Jumlah kehadiran guru dalam 7 hari terakhir</p>
+                        <div class="chart-container">
+                            <canvas id="kehadiranGuru"></canvas>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -179,100 +313,192 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
-<!-- Chartist JS -->
-<script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>
+<!-- Chart.js CDN -->
+<script src="<?= base_url('assets/js/plugins/chartjs/chart.umd.min.js') ?>"></script>
 <script>
-    $(document).ready(function () {
-        initDashboardPageCharts();
-    });
+    let kehadiranSiswaChart;
+    let kehadiranGuruChart;
 
-    function initDashboardPageCharts() {
+    const chartLabels = <?= json_encode($dateRange) ?>;
 
-        if ($('#kehadiranSiswa').length != 0) {
-            /* ----------==========     Chart tingkat kehadiran siswa    ==========---------- */
-            const dataKehadiranSiswa = [<?php foreach ($grafikKehadiranSiswa as $value)
-                echo "$value,"; ?>];
+    const chartColors = {
+        hadir: { border: '#4caf50', bg: 'rgba(76, 175, 80, 1)' },
+        sakit: { border: '#ff9800', bg: 'rgba(255, 152, 0, 1)' },
+        izin: { border: '#00bcd4', bg: 'rgba(0, 188, 212, 1)' },
+        alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' }
+    };
 
-            const chartKehadiranSiswa = {
-                labels: [
-                    <?php
-                    foreach ($dateRange as $value) {
-                        echo "'$value',";
+    function createChartConfig(data) {
+        return {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        label: 'Hadir',
+                        data: data.hadir,
+                        borderColor: chartColors.hadir.border,
+                        backgroundColor: chartColors.hadir.bg,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Sakit',
+                        data: data.sakit,
+                        borderColor: chartColors.sakit.border,
+                        backgroundColor: chartColors.sakit.bg,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Izin',
+                        data: data.izin,
+                        borderColor: chartColors.izin.border,
+                        backgroundColor: chartColors.izin.bg,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Alfa',
+                        data: data.alfa,
+                        borderColor: chartColors.alfa.border,
+                        backgroundColor: chartColors.alfa.bg,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
                     }
-                    ?>
-                ],
-                series: [dataKehadiranSiswa]
-            };
-
-            var highestData = 0;
-
-            dataKehadiranSiswa.forEach(e => {
-                if (e >= highestData) {
-                    highestData = e;
-                }
-            })
-
-            const optionsChart = {
-                lineSmooth: Chartist.Interpolation.cardinal({
-                    tension: 0
-                }),
-                low: 0,
-                high: highestData + (highestData / 4),
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' orang';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        stacked: false,
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function (value) {
+                                if (Number.isInteger(value)) return value;
+                            }
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        stacked: false,
+                        grid: { display: false }
+                    }
                 }
             }
+        };
+    }
 
-            var kehadiranSiswaChart = new Chartist.Line('#kehadiranSiswa', chartKehadiranSiswa, optionsChart);
-
-            md.startAnimationForLineChart(kehadiranSiswaChart);
-        }
-
-        if ($('#kehadiranGuru').length != 0) {
-            /* ----------==========     Chart tingkat kehadiran guru    ==========---------- */
-            const dataKehadiranGuru = [<?php foreach ($grafikkKehadiranGuru as $value)
-                echo "$value,"; ?>];
-
-            const chartKehadiranGuru = {
-                labels: [
-                    <?php
-                    foreach ($dateRange as $value) {
-                        echo "'$value',";
-                    }
-                    ?>
-                ],
-                series: [dataKehadiranGuru]
-            };
-
-            var highestData = 0;
-
-            dataKehadiranGuru.forEach(e => {
-                if (e >= highestData) {
-                    highestData = e;
-                }
-            })
-
-            const optionsChart = {
-                lineSmooth: Chartist.Interpolation.cardinal({
-                    tension: 0
-                }),
-                low: 0,
-                high: highestData + (highestData / 4),
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            }
-
-            var kehadiranGuruChart = new Chartist.Line('#kehadiranGuru', chartKehadiranGuru, optionsChart);
-
-            md.startAnimationForLineChart(kehadiranGuruChart);
+    function updateSiswaChart(newData) {
+        if (kehadiranSiswaChart) {
+            kehadiranSiswaChart.data.datasets[0].data = newData.hadir;
+            kehadiranSiswaChart.data.datasets[1].data = newData.sakit;
+            kehadiranSiswaChart.data.datasets[2].data = newData.izin;
+            kehadiranSiswaChart.data.datasets[3].data = newData.alfa;
+            kehadiranSiswaChart.update('active');
         }
     }
+
+    function initDashboardPageCharts() {
+        const siswaCtx = document.getElementById('kehadiranSiswa');
+        if (siswaCtx) {
+            const dataSiswa = {
+                hadir: <?= json_encode($grafikKehadiranSiswa['hadir']) ?>,
+                sakit: <?= json_encode($grafikKehadiranSiswa['sakit']) ?>,
+                izin: <?= json_encode($grafikKehadiranSiswa['izin']) ?>,
+                alfa: <?= json_encode($grafikKehadiranSiswa['alfa']) ?>
+            };
+            kehadiranSiswaChart = new Chart(siswaCtx, createChartConfig(dataSiswa));
+        }
+
+        const guruCtx = document.getElementById('kehadiranGuru');
+        if (guruCtx) {
+            const dataGuru = {
+                hadir: <?= json_encode($grafikKehadiranGuru['hadir']) ?>,
+                sakit: <?= json_encode($grafikKehadiranGuru['sakit']) ?>,
+                izin: <?= json_encode($grafikKehadiranGuru['izin']) ?>,
+                alfa: <?= json_encode($grafikKehadiranGuru['alfa']) ?>
+            };
+            kehadiranGuruChart = new Chart(guruCtx, createChartConfig(dataGuru));
+        }
+    }
+
+    $(document).ready(function () {
+        initDashboardPageCharts();
+
+        $('#filterKelas').on('change', function () {
+            const idKelas = $(this).val();
+            const loader = $('#filterLoader');
+
+            loader.show();
+
+            $.ajax({
+                url: '<?= base_url('admin/dashboard/filter-data') ?>',
+                type: 'POST',
+                data: setAjaxData({ id_kelas: idKelas }),
+                success: function (response) {
+                    const obj = JSON.parse(response);
+                    if (obj.result == 1) {
+                        $('#siswaStatsContainer').html(obj.htmlContent);
+                        updateSiswaChart(obj.chartData);
+
+                        // Update Titles
+                        // const className = $('#filterKelas option:selected').attr('data-kelas');
+                        // if (idKelas == "") {
+                        //     $('#titleSiswaStats').text("Absensi Siswa Hari Ini");
+                        //     $('#titleSiswaChart').text("Tingkat Kehadiran Siswa");
+                        // } else {
+                        //     $('#titleSiswaStats').text("Absensi Siswa " + className + " Hari Ini");
+                        //     $('#titleSiswaChart').text("Tingkat Kehadiran Siswa " + className);
+                        // }
+                    }
+                },
+                error: function (xhr, status, thrown) {
+                    console.error(thrown);
+                },
+                complete: function () {
+                    loader.hide();
+                }
+            });
+        });
+    });
 </script>
 <?= $this->endSection() ?>

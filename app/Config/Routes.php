@@ -63,6 +63,7 @@ $routes->group('admin', function (RouteCollection $routes) {
    // Admin dashboard
    $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
+   $routes->post('dashboard/filter-data', 'Admin\Dashboard::filterData');
 
    // Kelas
    $routes->group('kelas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {

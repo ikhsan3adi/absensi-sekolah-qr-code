@@ -1,4 +1,4 @@
-# Aplikasi Web Sistem Absensi Sekolah Berbasis $QR \ Code$ <br> (+ Dukungan RFID)
+# Aplikasi Web Sistem Absensi Sekolah Berbasis `QR Code` <br> (+ Dukungan RFID)
 
 <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
@@ -20,7 +20,7 @@
 
 ![Preview](./screenshots/new-hero.png)
 
-Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk $mengotomatisasi$ proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
+Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk mengotomatisasi proses absensi di lingkungan sekolah. Aplikasi ini dikembangkan dengan menggunakan framework CodeIgniter 4 dan didesain untuk mempermudah pengelolaan dan pencatatan kehadiran siswa dan guru.
 
 > [Instalasi & Cara Penggunaan](#cara-penggunaan)
 
@@ -221,7 +221,7 @@ Email: adminsuper@gmail.com
 - **Untuk RFID**: Hubungkan RFID reader USB ke komputer
 - **Untuk notifikasi WhatsApp**: Lihat bagian [Konfigurasi](#konfigurasi) di bawah
 
-> 📖 **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
+> **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
 ### Daftar Roles
 
@@ -413,7 +413,9 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 
 ## Donasi ❤
 
-[![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann&labelColor=%239f39b5&color=%2300bcd4)](https://saweria.co/xiboxann)
+Klik link dibawah untuk mendukung pengembangan
+
+[![Donate saweria](https://img.shields.io/badge/Donate-To_Support_Us-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann&labelColor=%239f39b5&color=%2300bcd4)](https://saweria.co/xiboxann)
 
 ## Star History
 

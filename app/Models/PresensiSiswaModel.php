@@ -27,12 +27,13 @@ class PresensiSiswaModel extends Model implements PresensiInterface
    {
       $result = $this->where(['id_siswa' => $id, 'tanggal' => $date])->first();
 
-      if (empty($result)) return false;
+      if (empty($result))
+         return false;
 
       return $result[$this->primaryKey];
    }
 
-   public function absenMasuk(string $id,  $date, $time, $idKelas = '')
+   public function absenMasuk(string $id, $date, $time, $idKelas = '')
    {
       $this->save([
          'id_siswa' => $id,
@@ -83,13 +84,17 @@ class PresensiSiswaModel extends Model implements PresensiInterface
          ->getResultArray();
    }
 
-   public function getPresensiByKehadiran(string $idKehadiran, $tanggal)
+   public function getPresensiByKehadiran(string $idKehadiran, $tanggal, $idKelas = null)
    {
       $this->join(
          'tb_siswa',
          "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = '$tanggal'",
          'right'
       );
+
+      if ($idKelas) {
+         $this->where('tb_siswa.id_kelas', $idKelas);
+      }
 
       if ($idKehadiran == '4') {
          $result = $this->findAll();
@@ -107,6 +112,27 @@ class PresensiSiswaModel extends Model implements PresensiInterface
          $this->where(['tb_presensi_siswa.id_kehadiran' => $idKehadiran]);
          return $this->findAll();
       }
+   }
+
+   /**
+    * Get attendance trend for last N days
+    * @return array ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []]
+    */
+   public function getAttendanceTrend(int $days = 7, $idKelas = null): array
+   {
+      $now = Time::now();
+      $result = ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []];
+
+      for ($i = $days - 1; $i >= 0; $i--) {
+         $date = $now->subDays($i)->toDateString();
+
+         $result['hadir'][] = count($this->getPresensiByKehadiran('1', $date, $idKelas));
+         $result['sakit'][] = count($this->getPresensiByKehadiran('2', $date, $idKelas));
+         $result['izin'][] = count($this->getPresensiByKehadiran('3', $date, $idKelas));
+         $result['alfa'][] = count($this->getPresensiByKehadiran('4', $date, $idKelas));
+      }
+
+      return $result;
    }
 
    public function updatePresensi(
