@@ -249,32 +249,6 @@ Email: adminsuper@gmail.com
 
 </details>
 
-### Daftar Roles
-
-<details>
-<summary>Klik untuk melihat daftar roles</summary>
-
-- **Super Admin**
-  - Admin utama dengan akses penuh
-
-- **Staf Petugas**
-  - Admin
-  - Dapat mengakses fitur absensi / manajemen kehadiran
-  - Dapat mengakses fitur generate laporan
-  - Dapat mengakses fitur generate QR
-
-- **Kepsek**
-  - Kepala Sekolah dengan akses terbatas*
-  - Dapat mengakses fitur generate laporan
-
-- **Scanner**
-  - Petugas scanner QR Code
-  - Hanya memiliki akses ke halaman scanner QR Code*
-
-\* Akses dapat berubah jika dihubungkan ke data guru / di-assign sebagai wali kelas
-
-</details>
-
 ### Cara Menggunakan Akun Wali Kelas
 
 Fitur Wali Kelas memungkinkan guru untuk mengelola kehadiran siswa di kelas yang diampu. Berikut cara mengaktifkan dan menggunakan fitur ini:
