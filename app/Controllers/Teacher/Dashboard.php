@@ -53,11 +53,11 @@ class Dashboard extends BaseController
             'ctx' => 'dashboard',
             'kelas' => $kelas,
             'summary' => [
-                'total_siswa' => $this->siswaModel->where('id_kelas', $kelas['id_kelas'])->countAllResults(),
-                'hadir_hari_ini' => $this->presensiSiswaModel->where(['id_kelas' => $kelas['id_kelas'], 'tanggal' => $today, 'id_kehadiran' => '1'])->countAllResults(),
-                'sakit_hari_ini' => $this->presensiSiswaModel->where(['id_kelas' => $kelas['id_kelas'], 'tanggal' => $today, 'id_kehadiran' => '2'])->countAllResults(),
-                'izin_hari_ini' => $this->presensiSiswaModel->where(['id_kelas' => $kelas['id_kelas'], 'tanggal' => $today, 'id_kehadiran' => '3'])->countAllResults(),
-                'alfa_hari_ini' => $this->presensiSiswaModel->where(['id_kelas' => $kelas['id_kelas'], 'tanggal' => $today, 'id_kehadiran' => '4'])->countAllResults(),
+                'total_siswa' => $this->siswaModel->getSiswaCountByKelas($kelas['id_kelas']),
+                'hadir_hari_ini' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $kelas['id_kelas'])),
+                'sakit_hari_ini' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $kelas['id_kelas'])),
+                'izin_hari_ini' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $kelas['id_kelas'])),
+                'alfa_hari_ini' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $kelas['id_kelas']))
             ]
         ];
 

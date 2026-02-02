@@ -12,7 +12,7 @@
 <div class="content">
     <div class="container-fluid">
         <!-- REKAP JUMLAH DATA -->
-        <div class="row">
+        <div class="row d-none d-sm-flex">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
@@ -90,41 +90,134 @@
                 </div>
             </div>
         </div>
-
-        <!-- STATS HARI INI -->
-        <div class="row">
-            <div class="col-md-4">
-                <!-- FILTER KELAS -->
+        <div class="row d-sm-none">
+            <div class="col-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"><b>Filter Kelas</b></h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-10">
-                                <select name="id_kelas" id="filterKelas" class="custom-select">
-                                    <option value="">-- Semua Kelas (<?= count($siswa) ?> siswa) --</option>
-                                    <?php foreach ($kelas as $k): ?>
-                                        <option value="<?= $k['id_kelas'] ?>" data-kelas="<?= $k['kelas'] ?>">
-                                            <?= $k['kelas'] ?> (<?= $k['jumlah_siswa'] ?? 0 ?> siswa)
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div id="filterLoader" class="col-2" style="display: none;">
-                                <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
+                        <a href="<?= base_url('admin/siswa'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah siswa</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <i class="material-icons">person</i>
+                                        <?= count($siswa); ?>
+                                    </h3>
                                 </div>
                             </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-primary">check</i>
+                            Terdaftar
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <a href="<?= base_url('admin/guru'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah guru</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <i class="material-icons">person_4</i>
+                                        <?= count($guru); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-success">check</i>
+                            Terdaftar
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <a href="<?= base_url('admin/kelas'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Kelas / Jurusan</p>
+                                    <h3 class="card-title text-nowrap">
+                                        <?= count($kelas) . ' / ' . count($jurusan); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">home</i>
+                            <?= $generalSettings->school_name; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <a href="<?= base_url('admin/petugas'); ?>" class="text-white">
+                            <div class="d-flex justify-content-end">
+                                <div class="text-right">
+                                    <p class="card-category">Jumlah petugas</p>
+                                    <h3 class="card-title">
+                                        <i class="material-icons">settings</i>
+
+                                        <?= count($petugas); ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">person</i>
+                            Admin
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- STATS SISWA HARI INI -->
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"><b id="titleSiswaStats">Absensi Siswa Hari Ini</b></h4>
-                        <p class="card-category"><?= $dateNow; ?></p>
+                        <div class="d-flex flex-wrap align-items-center justify-content-between" style="gap: 12px;">
+                            <div>
+                                <h4 class="card-title"><b id="titleSiswaStats">Absensi Siswa Hari Ini</b></h4>
+                                <p class="card-category"><?= $dateNow; ?></p>
+                            </div>
+                            <!-- FILTER KELAS -->
+                            <div class="text-right">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div id="filterLoader" style="display: none;">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <select name="id_kelas" id="filterKelas" class="custom-select">
+                                            <option value="">-- Semua Kelas (<?= count($siswa) ?> siswa) --
+                                            </option>
+                                            <?php foreach ($kelas as $k): ?>
+                                                <option value="<?= $k['id_kelas'] ?>" data-kelas="<?= $k['kelas'] ?>">
+                                                    <?= $k['kelas'] ?> (
+                                                    <?= $k['jumlah_siswa'] ?? 0 ?> siswa)
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body" id="siswaStatsContainer">
                         <?= view('admin/_dashboard_siswa_stats', [
@@ -137,14 +230,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <!-- STATS GURU HARI INI -->
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header card-header-success">
                         <h4 class="card-title"><b>Absensi Guru Hari Ini</b></h4>
                         <p class="card-category"><?= $dateNow; ?></p>
                     </div>
                     <div class="card-body">
-                        <div class="row text-center">
+                        <div class="row text-center flex-nowrap">
                             <div class="col-2">
                                 <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
                                 <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['hadir']; ?></h4>
@@ -174,9 +268,9 @@
             </div>
         </div>
 
-        <!-- CHART SISWA -->
         <div class="row">
-            <div class="col-md-12">
+            <!-- CHART SISWA -->
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title" id="titleSiswaChart">Tingkat Kehadiran Siswa</h4>
@@ -194,11 +288,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- CHART GURU -->
-        <div class="row">
-            <div class="col-12">
+            <!-- CHART GURU -->
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header card-header-success">
                         <h4 class="card-title">Tingkat Kehadiran Guru</h4>
@@ -317,7 +408,7 @@
                 },
                 scales: {
                     y: {
-                        stacked: true,
+                        stacked: false,
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1,
@@ -328,7 +419,7 @@
                         grid: { color: 'rgba(0, 0, 0, 0.05)' }
                     },
                     x: {
-                        stacked: true,
+                        stacked: false,
                         grid: { display: false }
                     }
                 }
@@ -390,14 +481,14 @@
                         updateSiswaChart(obj.chartData);
 
                         // Update Titles
-                        const className = $('#filterKelas option:selected').attr('data-kelas');
-                        if (idKelas == "") {
-                            $('#titleSiswaStats').text("Absensi Siswa Hari Ini");
-                            $('#titleSiswaChart').text("Tingkat Kehadiran Siswa");
-                        } else {
-                            $('#titleSiswaStats').text("Absensi Siswa " + className + " Hari Ini");
-                            $('#titleSiswaChart').text("Tingkat Kehadiran Siswa " + className);
-                        }
+                        // const className = $('#filterKelas option:selected').attr('data-kelas');
+                        // if (idKelas == "") {
+                        //     $('#titleSiswaStats').text("Absensi Siswa Hari Ini");
+                        //     $('#titleSiswaChart').text("Tingkat Kehadiran Siswa");
+                        // } else {
+                        //     $('#titleSiswaStats').text("Absensi Siswa " + className + " Hari Ini");
+                        //     $('#titleSiswaChart').text("Tingkat Kehadiran Siswa " + className);
+                        // }
                     }
                 },
                 error: function (xhr, status, thrown) {

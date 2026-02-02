@@ -52,7 +52,7 @@
                             <p class="card-category"><?= date('d F Y'); ?></p>
                         </div>
                         <div class="card-body">
-                            <div class="row text-center">
+                            <div class="row text-center flex-nowrap">
                                 <div class="col-2">
                                     <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
                                     <h4 class="text-nowrap"><?= $summary['hadir_hari_ini']; ?></h4>
@@ -192,7 +192,7 @@
                         },
                         scales: {
                             y: {
-                                stacked: true,
+                                stacked: false,
                                 beginAtZero: true,
                                 ticks: {
                                     stepSize: 1,
@@ -203,7 +203,7 @@
                                 grid: { color: 'rgba(0, 0, 0, 0.05)' }
                             },
                             x: {
-                                stacked: true,
+                                stacked: false,
                                 grid: { display: false }
                             }
                         }

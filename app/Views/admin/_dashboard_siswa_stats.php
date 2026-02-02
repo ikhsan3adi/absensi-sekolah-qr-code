@@ -1,4 +1,4 @@
-<div class="row text-center">
+<div class="row text-center flex-nowrap">
   <div class="col-2">
     <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
     <h4 class="text-nowrap"><?= $hadir; ?></h4>
