@@ -1,4 +1,13 @@
 <?= $this->extend('templates/admin_page_layout') ?>
+<?= $this->section('styles') ?>
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <div class="content">
     <div class="container-fluid">
@@ -31,7 +40,6 @@
                                 <i class="material-icons">person</i> Total Siswa: <?= $summary['total_siswa']; ?>
                                 <span class="mx-2">|</span>
                                 <i class="material-icons text-primary">qr_code</i> <a class="text-primary" href="<?= base_url('teacher/qr'); ?>">Download QR Code Siswa</a>
-
                             </div>
                         </div>
                     </div>
@@ -45,21 +53,28 @@
                         </div>
                         <div class="card-body">
                             <div class="row text-center">
-                                <div class="col-3">
-                                    <h4 class="text-success"><b>Hadir</b></h4>
-                                    <h3><?= $summary['hadir_hari_ini']; ?></h3>
+                                <div class="col-2">
+                                    <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
+                                    <h4 class="text-nowrap"><?= $summary['hadir_hari_ini']; ?></h4>
                                 </div>
-                                <div class="col-3">
-                                    <h4 class="text-warning"><b>Sakit</b></h4>
-                                    <h3><?= $summary['sakit_hari_ini']; ?></h3>
+                                <div class="col-2">
+                                    <h5 class="text-warning text-nowrap"><b>Sakit</b></h5>
+                                    <h4 class="text-nowrap"><?= $summary['sakit_hari_ini']; ?></h4>
                                 </div>
-                                <div class="col-3">
-                                    <h4 class="text-info"><b>Izin</b></h4>
-                                    <h3><?= $summary['izin_hari_ini']; ?></h3>
+                                <div class="col-2">
+                                    <h5 class="text-info text-nowrap"><b>Izin</b></h5>
+                                    <h4 class="text-nowrap"><?= $summary['izin_hari_ini']; ?></h4>
                                 </div>
-                                <div class="col-3">
-                                    <h4 class="text-danger"><b>Alfa</b></h4>
-                                    <h3><?= $summary['alfa_hari_ini']; ?></h3>
+                                <div class="col-2">
+                                    <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
+                                    <h4 class="text-nowrap"><?= $summary['alfa_hari_ini']; ?></h4>
+                                </div>
+                                <div class="col-1">
+                                    <div class="border-right mx-auto h-100" style="width: 0;"></div>
+                                </div>
+                                <div class="col-2 col-sm-3">
+                                    <h5 class="text-primary text-nowrap"><b>Total</b></h5>
+                                    <h4 class="text-nowrap"><?= $summary['total_siswa']; ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -67,13 +82,15 @@
                 </div>
 
                 <div class="col-md-12">
-                    <div class="card card-chart">
+                    <div class="card">
                         <div class="card-header card-header-info">
-                            <div class="ct-chart" id="kehadiranSiswaKelas"></div>
+                            <h4 class="card-title">Tingkat Kehadiran Kelas (7 Hari Terakhir)</h4>
+                            <p class="card-category">Statistik kehadiran siswa per status</p>
                         </div>
                         <div class="card-body">
-                            <h4 class="card-title">Tingkat Kehadiran Kelas (7 Hari Terakhir)</h4>
-                            <p class="card-category">Jumlah siswa hadir per hari</p>
+                            <div class="chart-container">
+                                <canvas id="kehadiranSiswaKelas"></canvas>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
@@ -90,35 +107,114 @@
 
 <?= $this->section('scripts') ?>
 <?php if (!isset($no_class)): ?>
-    <!-- Chartist JS -->
-    <script src="<?= base_url('assets/js/plugins/chartist.min.js') ?>"></script>
+    <!-- Chart.js -->
+    <script src="<?= base_url('assets/js/plugins/chartjs/chart.umd.min.js') ?>"></script>
     <script>
+        const chartLabels = <?= json_encode($dateRange) ?>;
+
+        const chartColors = {
+            hadir: { border: '#4caf50', bg: 'rgba(76, 175, 80, 1)' },
+            sakit: { border: '#ff9800', bg: 'rgba(255, 152, 0, 1)' },
+            izin: { border: '#00bcd4', bg: 'rgba(0, 188, 212, 1)' },
+            alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' }
+        };
+
+        function initTeacherCharts() {
+            const ctx = document.getElementById('kehadiranSiswaKelas');
+            if (ctx) {
+                const data = {
+                    hadir: <?= json_encode($grafikKehadiran['hadir']) ?>,
+                    sakit: <?= json_encode($grafikKehadiran['sakit']) ?>,
+                    izin: <?= json_encode($grafikKehadiran['izin']) ?>,
+                    alfa: <?= json_encode($grafikKehadiran['alfa']) ?>
+                };
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [
+                            {
+                                label: 'Hadir',
+                                data: data.hadir,
+                                borderColor: chartColors.hadir.border,
+                                backgroundColor: chartColors.hadir.bg
+                            },
+                            {
+                                label: 'Sakit',
+                                data: data.sakit,
+                                borderColor: chartColors.sakit.border,
+                                backgroundColor: chartColors.sakit.bg
+                            },
+                            {
+                                label: 'Izin',
+                                data: data.izin,
+                                borderColor: chartColors.izin.border,
+                                backgroundColor: chartColors.izin.bg
+                            },
+                            {
+                                label: 'Alfa',
+                                data: data.alfa,
+                                borderColor: chartColors.alfa.border,
+                                backgroundColor: chartColors.alfa.bg
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                enabled: true,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleFont: { size: 14 },
+                                bodyFont: { size: 13 },
+                                padding: 12,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function (context) {
+                                        return context.dataset.label + ': ' + context.parsed.y + ' siswa';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function (value) {
+                                        if (Number.isInteger(value)) return value;
+                                    }
+                                },
+                                grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                            },
+                            x: {
+                                stacked: true,
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
         $(document).ready(function () {
             initTeacherCharts();
         });
-
-        function initTeacherCharts() {
-            if ($('#kehadiranSiswaKelas').length != 0) {
-                const dataKehadiran = [<?php foreach ($kehadiranArray as $v)
-                    echo "$v,"; ?>];
-                const chartData = {
-                    labels: [<?php foreach ($dateRange as $d)
-                        echo "'$d',"; ?>],
-                    series: [dataKehadiran]
-                };
-
-                var max = Math.max(...dataKehadiran);
-                const options = {
-                    lineSmooth: Chartist.Interpolation.cardinal({ tension: 0 }),
-                    low: 0,
-                    high: max + (max / 4) + 5,
-                    chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-                };
-
-                var chart = new Chartist.Line('#kehadiranSiswaKelas', chartData, options);
-                md.startAnimationForLineChart(chart);
-            }
-        }
     </script>
 <?php endif; ?>
 <?= $this->endSection() ?>

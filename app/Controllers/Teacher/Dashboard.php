@@ -61,11 +61,9 @@ class Dashboard extends BaseController
             ]
         ];
 
-        // Weekly chart data
+        // Weekly chart data using getAttendanceTrend
         $dateRange = [];
-        $kehadiranArray = [];
         for ($i = 6; $i >= 0; $i--) {
-            $date = $now->subDays($i)->toDateString();
             if ($i == 0) {
                 $formattedDate = "Hari ini";
             } else {
@@ -73,14 +71,13 @@ class Dashboard extends BaseController
                 $formattedDate = "{$t->getDay()} " . substr($t->toFormattedDateString(), 0, 3);
             }
             array_push($dateRange, $formattedDate);
-            array_push(
-                $kehadiranArray,
-                $this->presensiSiswaModel->where(['id_kelas' => $kelas['id_kelas'], 'tanggal' => $date, 'id_kehadiran' => '1'])->countAllResults()
-            );
         }
 
+        // Get attendance trend for all 4 statuses
+        $grafikKehadiran = $this->presensiSiswaModel->getAttendanceTrend(7, $kelas['id_kelas']);
+
         $data['dateRange'] = $dateRange;
-        $data['kehadiranArray'] = $kehadiranArray;
+        $data['grafikKehadiran'] = $grafikKehadiran;
 
         return view('teacher/dashboard', $data);
     }
