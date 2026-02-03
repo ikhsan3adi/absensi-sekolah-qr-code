@@ -33,7 +33,7 @@ services:
             SERVICE_NAME: mysql
         volumes:
             - dbdata:/var/lib/mysql
-            - ./presensi.sql:/docker-entrypoint-initdb.d/presensi.sql
+            # - ./presensi.sql:/docker-entrypoint-initdb.d/presensi.sql
         networks:
             - app-network
 

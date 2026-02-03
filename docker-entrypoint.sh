@@ -11,6 +11,10 @@ fi
 echo "Running database migrations..."
 php spark migrate --all
 
+# Run database seeds
+echo "Running database seeds..."
+php spark db:seed DatabaseSeeder
+
 # Fix permissions for writable and public/uploads directory to ensure www-data can write
 if [ -d "writable" ]; then
     chown -R www-data:www-data writable

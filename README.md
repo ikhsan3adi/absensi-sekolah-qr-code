@@ -58,6 +58,7 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 > - [Myth Auth Library](https://github.com/lonnieezell/myth-auth)
 > - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
 > - [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
+> - [Chart.js](https://www.chartjs.org/)
 >
 > ---
 >
@@ -96,6 +97,14 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 ## Skema Database Inti
 
 <img src="./screenshots/core-absensi-db-schema.svg" alt="Skema Database">
+
+---
+
+## Donasi ❤
+
+Klik link dibawah untuk mendukung pengembangan
+
+[![Donate saweria](https://img.shields.io/badge/Donate-To_Support_Us-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann&labelColor=%239f39b5&color=%2300bcd4)](https://saweria.co/xiboxann)
 
 ---
 
@@ -355,7 +364,7 @@ Aplikasi mendukung import data secara massal menggunakan file CSV:
 >
 > - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan (khusus untuk superadmin).
 > - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
-> - Jika ingin mengubah email, username & password dari superadmin, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
+> - Jika ingin mengubah email, username & password dari superadmin, **sebelum melakukan seed database**, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
 >
 >   ```php
 >   // INSERT INITIAL SUPERADMIN
@@ -386,12 +395,6 @@ Perintah ini akan membangun image dan menjalankan container untuk aplikasi web, 
 ### 3. Konfigurasi
 
 Aplikasi sudah dikonfigurasi untuk terhubung dengan database container secara otomatis.
-Default credential database:
-
-- **Host**: `db`
-- **Username**: `root`
-- **Password**: `root`
-- **Database**: `db_absensi`
 
 ### 4. Menghentikan Container
 
@@ -400,6 +403,8 @@ Untuk menghentikan container:
 ```bash
 docker-compose down
 ```
+
+---
 
 ## Kesimpulan
 
@@ -410,12 +415,6 @@ Jangan lupa beri star 👍
 ## Contributing
 
 Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini. Jika Anda menemukan masalah, bug, atau memiliki saran untuk peningkatan, silakan buat issue baru dalam repositori ini atau ajukan pull request.
-
-## Donasi ❤
-
-Klik link dibawah untuk mendukung pengembangan
-
-[![Donate saweria](https://img.shields.io/badge/Donate-To_Support_Us-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann&labelColor=%239f39b5&color=%2300bcd4)](https://saweria.co/xiboxann)
 
 ## Star History
 
