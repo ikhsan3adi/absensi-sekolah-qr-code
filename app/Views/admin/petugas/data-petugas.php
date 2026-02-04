@@ -32,6 +32,12 @@
                                           <div class="ripple-container"></div>
                                        </a>
                                     </div>
+                                    <div class="nav-item">
+                                       <a class="nav-link" href="<?= base_url('admin/petugas/bulk'); ?>">
+                                          <i class="material-icons">cloud_upload</i> Bulk Import
+                                          <div class="ripple-container"></div>
+                                       </a>
+                                    </div>
                                  </div>
                                  <div class="col-12 col-sm-auto nav nav-tabs">
                                     <div class="nav-item">
