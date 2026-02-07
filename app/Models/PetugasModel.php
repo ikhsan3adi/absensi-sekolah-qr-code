@@ -78,7 +78,7 @@ class PetugasModel extends Model
          if (!empty($array)) {
             $txtFile = fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
 
-            fwrite($txtFile, serialize($array));
+            fwrite($txtFile, json_encode($array));
             fclose($txtFile);
 
             $obj = new \stdClass();
@@ -100,6 +100,11 @@ class PetugasModel extends Model
    //import csv item
    public function importCSVItem($txtFileName, $index)
    {
+      // Validate txtFileName to prevent path traversal and disallow unsafe characters
+      if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $txtFileName) || strpos($txtFileName, '..') !== false) {
+         return null;
+      }
+
       $filePath = FCPATH . 'uploads/tmp/' . $txtFileName;
       if (!file_exists($filePath)) {
          return null;
@@ -107,7 +112,7 @@ class PetugasModel extends Model
       $file = fopen($filePath, 'r');
       $content = fread($file, filesize($filePath));
       fclose($file);
-      $array = @unserialize($content);
+      $array = json_decode($content, true);
       if (!empty($array)) {
          $i = 1;
          foreach ($array as $item) {
@@ -115,13 +120,37 @@ class PetugasModel extends Model
                $data = array();
                $data['username'] = getCSVInputValue($item, 'username');
                $data['email'] = getCSVInputValue($item, 'email');
+
+               // Validate input data
+               if (empty($data['username']) || strlen($data['username']) < 3) {
+                  return null; // Username too short or empty
+               }
+               if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                  return null; // Invalid email
+               }
+
                // Password needs hashing
                $password = getCSVInputValue($item, 'password');
+               if (empty($password) || strlen($password) < 6) {
+                  return null; // Password too short or empty
+               }
                $data['password_hash'] = \Myth\Auth\Password::hash($password);
 
                $data['is_superadmin'] = getCSVInputValue($item, 'role', 'int'); // 1 or 0
                $idGuru = getCSVInputValue($item, 'id_guru', 'int');
-               $data['id_guru'] = !empty($idGuru) ? $idGuru : null;
+               
+               // Validate id_guru foreign key reference
+               if (!empty($idGuru)) {
+                  $guruModel = new GuruModel();
+                  $guru = $guruModel->find($idGuru);
+                  if ($guru === null) {
+                     return null; // Guru does not exist
+                  }
+                  $data['id_guru'] = $idGuru;
+               } else {
+                  $data['id_guru'] = null;
+               }
+
                $data['active'] = 1;
 
                // Check if email or username already exists

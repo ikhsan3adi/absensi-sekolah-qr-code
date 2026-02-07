@@ -277,11 +277,17 @@ class DataPetugas extends BaseController
     */
    public function generateCSVObjectPost()
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       //delete old txt files
       $files = glob(FCPATH . 'uploads/tmp/*.txt');
       if (!empty($files)) {
          foreach ($files as $item) {
-            @unlink($item);
+            if (file_exists($item) && !unlink($item)) {
+               log_message('error', 'Failed to delete temporary file: {file}', ['file' => $item]);
+            }
          }
       }
       $file = $this->uploadModel->uploadCSVFile('file');

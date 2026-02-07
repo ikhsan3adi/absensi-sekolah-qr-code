@@ -155,7 +155,7 @@
                     }
 
                 } catch (e) {
-                    alert("Invalid CSV file! Make sure there are no double quotes in your content. Double quotes can brake the CSV structure.");
+                    alert("Invalid CSV file! Make sure there are no double quotes in your content. Double quotes can break the CSV structure.");
                 }
             }
         });
@@ -174,7 +174,10 @@
                 success: function(response) {
                     var objSub = JSON.parse(response);
                     if (objSub.result == 1) {
-                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-success">&nbsp;' + objSub.index + '.&nbsp;' + objSub.petugas.username + '.&nbsp; - ' + objSub.petugas.email +'</li>');
+                        var $liSuccess = $('<li class="list-group-item list-group-item-success"></li>');
+                        $liSuccess.html('&nbsp;' + objSub.index + '.&nbsp;');
+                        $liSuccess.append(document.createTextNode(objSub.petugas.username + '.  - ' + objSub.petugas.email));
+                        $("#csv_uploaded_files").prepend($liSuccess);
                     } else {
                         var msg = objSub.message ? objSub.message : '(Gagal/Duplicate)';
                         $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-danger">&nbsp;' + objSub.index + '. ' + msg + '</li>');
@@ -188,8 +191,19 @@
                     addCSVItem(numberOfItems, txtFileName, index);
                 },
                 error: function(xhr, status, thrown) {
+                    var errorMsg = 'Ada Kesalahan Pada CSV';
+                    try {
+                        var errorResponse = JSON.parse(xhr.responseText);
+                        if (errorResponse.message) {
+                            errorMsg += ': ' + errorResponse.message;
+                        }
+                    } catch (e) {
+                        if (xhr.responseText) {
+                            errorMsg += '. Status: ' + status;
+                        }
+                    }
                     swal({
-                        text: 'Ada Kesalahan Pada CSV silahkan Cek Log',
+                        text: errorMsg,
                         icon: "warning"
                     }).then(function(willDelete) {
                         if (willDelete) {
