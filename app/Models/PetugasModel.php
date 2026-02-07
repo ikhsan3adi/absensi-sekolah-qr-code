@@ -77,12 +77,20 @@ class PetugasModel extends Model
          fclose($handle);
          if (!empty($array)) {
             $txtFile = fopen(FCPATH . 'uploads/tmp/' . $txtName, 'w');
+
             fwrite($txtFile, serialize($array));
             fclose($txtFile);
+
             $obj = new \stdClass();
             $obj->numberOfItems = countItems($array);
             $obj->txtFileName = $txtName;
-            @unlink($filePath);
+
+            if (file_exists($filePath) && !unlink($filePath)) {
+               if (function_exists('log_message')) {
+                  log_message('error', 'Failed to delete CSV file: ' . $filePath);
+               }
+            }
+
             return $obj;
          }
       }
@@ -94,7 +102,7 @@ class PetugasModel extends Model
    {
       $filePath = FCPATH . 'uploads/tmp/' . $txtFileName;
       if (!file_exists($filePath)) {
-          return null;
+         return null;
       }
       $file = fopen($filePath, 'r');
       $content = fread($file, filesize($filePath));
@@ -110,18 +118,25 @@ class PetugasModel extends Model
                // Password needs hashing
                $password = getCSVInputValue($item, 'password');
                $data['password_hash'] = \Myth\Auth\Password::hash($password);
-               
+
                $data['is_superadmin'] = getCSVInputValue($item, 'role', 'int'); // 1 or 0
                $idGuru = getCSVInputValue($item, 'id_guru', 'int');
                $data['id_guru'] = !empty($idGuru) ? $idGuru : null;
-               
+               $data['active'] = 1;
+
                // Check if email or username already exists
-               if ($this->where('email', $data['email'])->orWhere('username', $data['username'])->countAllResults() > 0) {
-                   return null; // Or handle error gracefully
+               $existing = $this->where('email', $data['email'])->orWhere('username', $data['username'])->first();
+
+               if (!empty($existing)) {
+                  return null; // Or handle error gracefully
                }
 
                $this->insert($data);
-               return $data;
+
+               $responseData = $data;
+               unset($responseData['password_hash']);
+
+               return $responseData;
             }
             $i++;
          }

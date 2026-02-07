@@ -293,11 +293,10 @@ class DataPetugas extends BaseController
                'numberOfItems' => $obj->numberOfItems,
                'txtFileName' => $obj->txtFileName,
             ];
-            echo json_encode($data);
-            exit();
+            return $this->response->setJSON($data);
          }
       }
-      echo json_encode(['result' => 0]);
+      return $this->response->setJSON(['result' => 0]);
    }
 
    /**
@@ -305,32 +304,46 @@ class DataPetugas extends BaseController
     */
    public function importCSVItemPost()
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       $txtFileName = inputPost('txtFileName');
       $index = inputPost('index');
+
+      if (!is_numeric($index) || (int) $index < 1) {
+         return $this->response->setJSON([
+            'result' => 0,
+            'index' => $index,
+            'message' => 'Invalid index'
+         ]);
+      }
+      $index = (int) $index;
+
       try {
-          $petugas = $this->petugasModel->importCSVItem($txtFileName, $index);
-          if (!empty($petugas)) {
-             $data = [
-                'result' => 1,
-                'petugas' => $petugas,
-                'index' => $index
-             ];
-             echo json_encode($data);
-          } else {
-             $data = [
-                'result' => 0,
-                'index' => $index,
-                'message' => 'Duplicate or invalid data'
-             ];
-             echo json_encode($data);
-          }
+         $petugas = $this->petugasModel->importCSVItem($txtFileName, $index);
+         if (!empty($petugas)) {
+            $data = [
+               'result' => 1,
+               'petugas' => $petugas,
+               'index' => $index
+            ];
+            return $this->response->setJSON($data);
+         } else {
+            $data = [
+               'result' => 0,
+               'index' => $index,
+               'message' => 'Duplicate or invalid data'
+            ];
+            return $this->response->setJSON($data);
+         }
       } catch (\Exception $e) {
-          $data = [
-             'result' => 0,
-             'index' => $index,
-             'message' => 'Error: ' . $e->getMessage()
-          ];
-          echo json_encode($data);
+         $data = [
+            'result' => 0,
+            'index' => $index,
+            'message' => 'Error: ' . $e->getMessage()
+         ];
+         return $this->response->setJSON($data);
       }
    }
 
@@ -339,9 +352,13 @@ class DataPetugas extends BaseController
     */
    public function downloadCSVFilePost()
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       $file = FCPATH . 'assets/file/csv_petugas_template.csv';
-      if(file_exists($file)){
-          return $this->response->download($file, null);
+      if (file_exists($file)) {
+         return $this->response->download($file, null);
       }
       return redirect()->back()->with('error', 'Template file not found.');
    }
