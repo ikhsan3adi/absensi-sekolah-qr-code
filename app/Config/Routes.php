@@ -174,18 +174,21 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->post('laporan/siswa', 'Admin\GenerateLaporan::generateLaporanSiswa');
    $routes->post('laporan/guru', 'Admin\GenerateLaporan::generateLaporanGuru');
 
-   // superadmin lihat data petugas
-   $routes->get('petugas', 'Admin\DataPetugas::index');
-   $routes->post('petugas', 'Admin\DataPetugas::ambilDataPetugas');
-   // superadmin tambah data petugas
-   $routes->get('petugas/register', 'Admin\DataPetugas::registerPetugas');
-   $routes->post('petugas/register', 'Admin\DataPetugas::registerPetugasPost');
-   // superadmin edit data petugas
-   $routes->get('petugas/edit/(:any)', 'Admin\DataPetugas::formEditPetugas/$1');
-   $routes->post('petugas/edit', 'Admin\DataPetugas::updatePetugas');
-   // superadmin hapus data petugas
-   $routes->delete('petugas/delete/(:any)', 'Admin\DataPetugas::delete/$1');
-   $routes->get('petugas/activate/(:any)', 'Admin\DataPetugas::toggleActivation/$1');
+   // superadmin data petugas
+   $routes->group('petugas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'DataPetugas::index');
+      $routes->post('/', 'DataPetugas::ambilDataPetugas');
+      $routes->get('register', 'DataPetugas::registerPetugas');
+      $routes->post('register', 'DataPetugas::registerPetugasPost');
+      $routes->get('edit/(:any)', 'DataPetugas::formEditPetugas/$1');
+      $routes->post('edit', 'DataPetugas::updatePetugas');
+      $routes->delete('delete/(:any)', 'DataPetugas::delete/$1');
+      $routes->get('activate/(:any)', 'DataPetugas::toggleActivation/$1');
+      $routes->get('bulk', 'DataPetugas::bulkPost');
+      $routes->post('downloadCSVFilePost', 'DataPetugas::downloadCSVFilePost');
+      $routes->post('generateCSVObjectPost', 'DataPetugas::generateCSVObjectPost');
+      $routes->post('importCSVItemPost', 'DataPetugas::importCSVItemPost');
+   });
 
    // Settings
    $routes->group('general-settings', ['namespace' => 'App\Controllers\Admin'], function ($routes) {

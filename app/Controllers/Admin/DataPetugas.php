@@ -13,6 +13,7 @@ class DataPetugas extends BaseController
 {
    protected PetugasModel $petugasModel;
    protected \App\Models\GuruModel $guruModel;
+   protected \App\Models\UploadModel $uploadModel;
 
    protected $petugasValidationRules = [
       'email' => [
@@ -45,6 +46,7 @@ class DataPetugas extends BaseController
    {
       $this->petugasModel = new PetugasModel();
       $this->guruModel = new \App\Models\GuruModel();
+      $this->uploadModel = new \App\Models\UploadModel();
    }
 
    public function index()
@@ -246,5 +248,118 @@ class DataPetugas extends BaseController
       ]);
 
       return redirect()->to('/admin/petugas');
+   }
+
+   /*
+    *-------------------------------------------------------------------------------------------------
+    * IMPORT PETUGAS
+    *-------------------------------------------------------------------------------------------------
+    */
+
+   /**
+    * Bulk Post Upload
+    */
+   public function bulkPost()
+   {
+      if (user()->toArray()['is_superadmin'] != '1') {
+         return redirect()->to('admin');
+      }
+
+      $data['title'] = 'Import Petugas';
+      $data['ctx'] = 'petugas';
+      $data['guru'] = $this->guruModel->getAllGuru();
+
+      return view('admin/petugas/import-petugas', $data);
+   }
+
+   /**
+    * Generate CSV Object Post
+    */
+   public function generateCSVObjectPost()
+   {
+      //delete old txt files
+      $files = glob(FCPATH . 'uploads/tmp/*.txt');
+      if (!empty($files)) {
+         foreach ($files as $item) {
+            @unlink($item);
+         }
+      }
+      $file = $this->uploadModel->uploadCSVFile('file');
+      if (!empty($file) && !empty($file['path'])) {
+         $obj = $this->petugasModel->generateCSVObject($file['path']);
+         if (!empty($obj)) {
+            $data = [
+               'result' => 1,
+               'numberOfItems' => $obj->numberOfItems,
+               'txtFileName' => $obj->txtFileName,
+            ];
+            return $this->response->setJSON($data);
+         }
+      }
+      return $this->response->setJSON(['result' => 0]);
+   }
+
+   /**
+    * Import CSV Item Post
+    */
+   public function importCSVItemPost()
+   {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
+      $txtFileName = inputPost('txtFileName');
+      $index = inputPost('index');
+
+      if (!is_numeric($index) || (int) $index < 1) {
+         return $this->response->setJSON([
+            'result' => 0,
+            'index' => $index,
+            'message' => 'Invalid index'
+         ]);
+      }
+      $index = (int) $index;
+
+      try {
+         $petugas = $this->petugasModel->importCSVItem($txtFileName, $index);
+         if (!empty($petugas)) {
+            $data = [
+               'result' => 1,
+               'petugas' => $petugas,
+               'index' => $index
+            ];
+            return $this->response->setJSON($data);
+         } else {
+            $data = [
+               'result' => 0,
+               'index' => $index,
+               'message' => 'Duplicate or invalid data'
+            ];
+            return $this->response->setJSON($data);
+         }
+      } catch (\Exception $e) {
+         $data = [
+            'result' => 0,
+            'index' => $index,
+            'message' => 'Error: ' . $e->getMessage()
+         ];
+         return $this->response->setJSON($data);
+      }
+   }
+
+   /**
+    * Download CSV File Post
+    */
+   public function downloadCSVFilePost()
+   {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
+      $file = FCPATH . 'assets/file/csv_petugas_template.csv';
+      if (file_exists($file)) {
+         return $this->response->download($file, null);
+      }
+      return redirect()->back()->with('error', 'Template file not found.');
    }
 }
