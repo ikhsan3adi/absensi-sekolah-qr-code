@@ -16001,6 +16001,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   background: #fff;
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
     0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar .caret {
@@ -16021,8 +16023,9 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .sidebar .sidebar-wrapper {
   position: relative;
-  height: calc(100vh - 75px);
-  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   width: 260px;
   z-index: 4;
   padding-bottom: 30px;
@@ -20238,7 +20241,8 @@ Copyright (c) 2015 Daniel Eden
   .sidebar,
   .off-canvas-sidebar nav .navbar-collapse {
     position: fixed;
-    display: block;
+    display: flex;
+    flex-direction: column;
     top: 0;
     height: 100vh;
     width: 260px;
@@ -20247,7 +20251,7 @@ Copyright (c) 2015 Daniel Eden
     z-index: 1032;
     visibility: visible;
     background-color: #9a9a9a;
-    overflow-y: visible;
+    overflow-y: hidden;
     border-top: none;
     text-align: left;
     padding-right: 0px;
