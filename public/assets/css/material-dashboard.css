@@ -16010,7 +16010,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
-  border-top: 4px solid\9;
+  border-top: 4px solid;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -16226,7 +16226,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   line-height: 30px;
   width: 30px;
   text-align: center;
-  color: #a9afbb;
 }
 
 .sidebar .nav li a,
@@ -16261,7 +16260,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   content: "";
   display: block;
   background: #ffffff;
-  opacity: 0.93;
+  opacity: 0.75;
 }
 
 .sidebar .logo {
@@ -16361,7 +16360,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .sidebar[data-background-color="black"] .sidebar-background:after {
   background: #000;
-  opacity: 0.8;
+  opacity: 0.65;
 }
 
 .sidebar[data-background-color="black"] .nav li .dropdown-menu .dropdown-item {

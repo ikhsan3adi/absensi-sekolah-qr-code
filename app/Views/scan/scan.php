@@ -19,7 +19,7 @@ $oppBtn = '';
 $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
 ?>
 <div class="main-panel">
-   <div class="content pt-5 pt-md-2 px-0 px-sm-1 px-md-2">
+   <div class="content pt-2 px-0 px-sm-1 px-md-2">
       <div class="container-fluid px-0 px-md-2">
          <div class="row mx-auto">
             <div class="col-lg-6 col-xxl-5 order-1 order-lg-2">
@@ -43,6 +43,11 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                            <input type="checkbox" id="toggleKamera" checked>
                            <span class="toggle"></span>
                            <b class="text-dark">Gunakan Kamera (Scan QR)</b>
+                        </label>
+                        <label class="ml-2">
+                           <input type="checkbox" id="toggleRFID">
+                           <span class="toggle"></span>
+                           <b class="text-dark">RFID</b>
                         </label>
                      </div>
 
@@ -68,7 +73,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                      </div>
                   </div>
 
-                  <div class="row mt-3">
+                  <div class="row mt-3" id="rfidSection" style="display: none;">
                      <div class="col-12 text-center">
                         <div id="rfidStatus" class="mb-2">
                            <span class="badge badge-pill badge-secondary" id="statusBadge">
@@ -83,12 +88,12 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                      </div>
                   </div>
 
-                  <div id="hasilScan" style="padding: 2.9rem;"></div>
+                  <div id="hasilScan" class="px-5 pb-4 pt-1"></div>
                   <br>
                </div>
             </div>
             <div class="col-lg-3 col-xxl-3 order-2 order-lg-1">
-               <div class="card">
+               <div class="card" id="tips-card">
                   <div class="card-body">
                      <h3 class="mt-2"><b>Tips</b></h3>
                      <ul class="pl-3">
@@ -99,7 +104,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                </div>
             </div>
             <div class="col-lg-3 col-xxl-4 order-last">
-               <div class="card">
+               <div class="card" id="usage-card">
                   <div class="card-body">
                      <h3 class="mt-2"><b>Penggunaan</b></h3>
                      <ul class="pl-3">
@@ -140,6 +145,15 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
       } else {
          codeReader.reset();
          $('#cameraSection').slideUp();
+      }
+   });
+
+   $(document).on('change', '#toggleRFID', function () {
+      if (this.checked) {
+         $('#rfidSection').slideDown();
+         $('#rfidInput').focus();
+      } else {
+         $('#rfidSection').slideUp();
       }
    });
 
@@ -205,7 +219,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                      }, 2500);
                   }
                })
-               .catch(err => console.error(err));
+               .catch(err => console.warn(err));
 
          })
          .catch(err => console.error(err));
@@ -274,8 +288,12 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
          }
       }
 
-      rfidInput.focus();
-      updateStatus(true);
+      if ($('#toggleRFID').is(':checked')) {
+         rfidInput.focus();
+         updateStatus(true);
+      } else {
+         updateStatus(false);
+      }
 
       rfidInput.on('focus', function () {
          updateStatus(true);
@@ -285,7 +303,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
          updateStatus(false);
          // Auto refocus after a short delay if not focusing on other inputs
          setTimeout(() => {
-            if (!$('#pilihKamera').is(':focus')) {
+            if ($('#toggleRFID').is(':checked') && !$('#pilihKamera').is(':focus')) {
                rfidInput.focus();
             }
          }, 3000);
@@ -293,7 +311,7 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
 
       // Ensure focus remains on rfidInput if clicked elsewhere (except camera select)
       $(document).on('click', function (e) {
-         if (!$(e.target).closest('#pilihKamera').length) {
+         if ($('#toggleRFID').is(':checked') && !$(e.target).closest('#pilihKamera, #toggleKamera, #toggleRFID').length) {
             rfidInput.focus();
          }
       });

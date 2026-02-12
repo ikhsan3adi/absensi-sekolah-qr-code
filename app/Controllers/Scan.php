@@ -96,7 +96,7 @@ class Scan extends BaseController
       // absen masuk
       switch ($type) {
          case TipeUser::Guru:
-            $idGuru =  $result['id_guru'];
+            $idGuru = $result['id_guru'];
             $data['type'] = TipeUser::Guru;
 
             $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
@@ -113,8 +113,8 @@ class Scan extends BaseController
             break;
 
          case TipeUser::Siswa:
-            $idSiswa =  $result['id_siswa'];
-            $idKelas =  $result['id_kelas'];
+            $idSiswa = $result['id_siswa'];
+            $idKelas = $result['id_kelas'];
             $data['type'] = TipeUser::Siswa;
 
             $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, Time::today()->toDateString());
@@ -163,7 +163,7 @@ class Scan extends BaseController
       // absen pulang
       switch ($type) {
          case TipeUser::Guru:
-            $idGuru =  $result['id_guru'];
+            $idGuru = $result['id_guru'];
             $data['type'] = TipeUser::Guru;
 
             $sudahAbsen = $this->presensiGuruModel->cekAbsen($idGuru, $date);
@@ -179,7 +179,7 @@ class Scan extends BaseController
             break;
 
          case TipeUser::Siswa:
-            $idSiswa =  $result['id_siswa'];
+            $idSiswa = $result['id_siswa'];
             $data['type'] = TipeUser::Siswa;
 
             $sudahAbsen = $this->presensiSiswaModel->cekAbsen($idSiswa, $date);
