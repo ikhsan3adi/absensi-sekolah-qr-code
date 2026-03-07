@@ -31,6 +31,7 @@ class AddGuruToPerizinan extends Migration
     public function down()
     {
         $db = \Config\Database::connect();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         
         // Use a more standard query to check for foreign key existence
         $sql = "SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS 
@@ -55,5 +56,6 @@ class AddGuruToPerizinan extends Migration
                 'null'       => false,
             ],
         ]);
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

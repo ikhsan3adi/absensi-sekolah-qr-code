@@ -229,11 +229,13 @@ class CreateDB extends Migration
 
     public function down()
     {
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         // Drop tables in reverse order (respecting foreign key constraints)
         $this->forge->dropTable('tb_presensi_siswa', true);
         $this->forge->dropTable('tb_presensi_guru', true);
         $this->forge->dropTable('tb_siswa', true);
         $this->forge->dropTable('tb_guru', true);
         $this->forge->dropTable('tb_kehadiran', true);
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
