@@ -30,9 +30,15 @@ class AddGuruToPerizinan extends Migration
 
     public function down()
     {
-        // Check if the foreign key exists before dropping
         $db = \Config\Database::connect();
-        $result = $db->query("SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = '" . $db->getDatabase() . "' AND TABLE_NAME = 'tb_perizinan' AND CONSTRAINT_NAME = 'tb_perizinan_id_guru_foreign'")->getRow();
+        
+        // Use a more standard query to check for foreign key existence
+        $sql = "SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS 
+                WHERE TABLE_SCHEMA = ? 
+                AND TABLE_NAME = 'tb_perizinan' 
+                AND CONSTRAINT_NAME = 'tb_perizinan_id_guru_foreign'";
+        
+        $result = $db->query($sql, [$db->getDatabase()])->getRow();
 
         if ($result) {
             $this->db->query('ALTER TABLE tb_perizinan DROP FOREIGN KEY tb_perizinan_id_guru_foreign');
