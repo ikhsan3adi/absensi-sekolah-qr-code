@@ -20,6 +20,8 @@ class AddJamPulangStandard extends Migration
 
     public function down()
     {
-        $this->forge->dropColumn('general_settings', 'jam_pulang_standard');
+        if ($this->db->fieldExists('jam_pulang_standard', 'general_settings')) {
+            $this->forge->dropColumn('general_settings', 'jam_pulang_standard');
+        }
     }
 }

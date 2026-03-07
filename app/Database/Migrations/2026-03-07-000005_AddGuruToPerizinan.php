@@ -30,8 +30,17 @@ class AddGuruToPerizinan extends Migration
 
     public function down()
     {
-        $this->db->query('ALTER TABLE tb_perizinan DROP FOREIGN KEY tb_perizinan_id_guru_foreign');
-        $this->forge->dropColumn('tb_perizinan', 'id_guru');
+        // Check if the foreign key exists before dropping
+        $db = \Config\Database::connect();
+        $result = $db->query("SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = '" . $db->getDatabase() . "' AND TABLE_NAME = 'tb_perizinan' AND CONSTRAINT_NAME = 'tb_perizinan_id_guru_foreign'")->getRow();
+
+        if ($result) {
+            $this->db->query('ALTER TABLE tb_perizinan DROP FOREIGN KEY tb_perizinan_id_guru_foreign');
+        }
+
+        if ($this->db->fieldExists('id_guru', 'tb_perizinan')) {
+            $this->forge->dropColumn('tb_perizinan', 'id_guru');
+        }
         
         $this->forge->modifyColumn('tb_perizinan', [
             'id_siswa' => [

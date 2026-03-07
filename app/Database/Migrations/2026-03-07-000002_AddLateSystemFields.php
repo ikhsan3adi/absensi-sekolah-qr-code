@@ -41,8 +41,14 @@ class AddLateSystemFields extends Migration
 
     public function down()
     {
-        $this->forge->dropColumn('general_settings', 'jam_masuk_limit');
-        $this->forge->dropColumn('tb_siswa', 'poin_pelanggaran');
-        $this->forge->dropColumn('tb_presensi_siswa', 'menit_keterlambatan');
+        if ($this->db->fieldExists('jam_masuk_limit', 'general_settings')) {
+            $this->forge->dropColumn('general_settings', 'jam_masuk_limit');
+        }
+        if ($this->db->fieldExists('poin_pelanggaran', 'tb_siswa')) {
+            $this->forge->dropColumn('tb_siswa', 'poin_pelanggaran');
+        }
+        if ($this->db->fieldExists('menit_keterlambatan', 'tb_presensi_siswa')) {
+            $this->forge->dropColumn('tb_presensi_siswa', 'menit_keterlambatan');
+        }
     }
 }
