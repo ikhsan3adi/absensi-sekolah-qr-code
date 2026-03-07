@@ -63,6 +63,12 @@ $routes->group('izin', function (RouteCollection $routes) {
    $routes->post('get-siswa', 'Perizinan::getSiswaByNis');
 });
 
+// Portal Cek Kehadiran Mandiri
+$routes->group('cek-kehadiran', function (RouteCollection $routes) {
+   $routes->get('', 'CekKehadiran::index');
+   $routes->post('view', 'CekKehadiran::view');
+});
+
 
 
 // Admin

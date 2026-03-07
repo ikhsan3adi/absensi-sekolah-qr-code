@@ -1,6 +1,11 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
+<a href="<?= base_url('/cek-kehadiran'); ?> " class="btn btn-default pull-right pl-3 mr-2">
+   <i class="material-icons mr-2">visibility</i>
+   Cek Kehadiran
+</a>
+
 <a href="<?= base_url('/izin'); ?> " class="btn btn-info pull-right pl-3 mr-2">
    <i class="material-icons mr-2">event_available</i>
    Ajukan Izin

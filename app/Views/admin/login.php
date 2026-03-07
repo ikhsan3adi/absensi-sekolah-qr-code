@@ -71,9 +71,14 @@
 
                         <div class="text-center mt-3">
                            <p class="mb-1">Atau ajukan ketidakhadiran:</p>
-                           <a href="<?= base_url('izin') ?>" class="btn btn-info btn-block">
-                              <i class="material-icons mr-2">event_available</i> Ajukan Izin / Sakit
-                           </a>
+                           <div class="d-flex flex-column">
+                              <a href="<?= base_url('izin') ?>" class="btn btn-info btn-block mb-2">
+                                 <i class="material-icons mr-2">event_available</i> Ajukan Izin / Sakit
+                              </a>
+                              <a href="<?= base_url('cek-kehadiran') ?>" class="btn btn-default btn-block">
+                                 <i class="material-icons mr-2">visibility</i> Cek Kehadiran Siswa
+                              </a>
+                           </div>
                         </div>
 
                         <?php if ($config->activeResetter): ?>
