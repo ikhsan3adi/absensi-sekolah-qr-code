@@ -38,8 +38,13 @@
                                         <tr>
                                             <td><?= $index + 1 ?></td>
                                             <td>
-                                                <b><?= $p['nama_siswa'] ?></b><br>
-                                                <small><?= $p['nis'] ?> | <?= $p['tingkat'] ?> <?= $p['jurusan'] ?> <?= $p['index_kelas'] ?></small>
+                                                <?php if (!empty($p['id_siswa'])): ?>
+                                                    <b><?= $p['nama_siswa'] ?></b> <span class="badge badge-default">Siswa</span><br>
+                                                    <small><?= $p['nis'] ?> | <?= $p['tingkat'] ?> <?= $p['jurusan'] ?> <?= $p['index_kelas'] ?></small>
+                                                <?php else: ?>
+                                                    <b><?= $p['nama_guru'] ?></b> <span class="badge badge-primary">Guru</span><br>
+                                                    <small>NUPTK: <?= $p['nuptk'] ?></small>
+                                                <?php endif; ?>
                                             </td>
                                             <td>
                                                 <?= date('d/m/Y', strtotime($p['tanggal_mulai'])) ?> 

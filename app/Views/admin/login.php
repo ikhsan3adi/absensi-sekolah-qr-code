@@ -1,10 +1,10 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
-<!-- <a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
+<a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
     <i class="material-icons mr-2">qr_code</i>
     Scan QR
-</a> -->
+</a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content'); ?>
@@ -69,8 +69,15 @@
 
                         <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
 
+                        <div class="text-center mt-3">
+                           <p class="mb-1">Atau ajukan ketidakhadiran:</p>
+                           <a href="<?= base_url('izin') ?>" class="btn btn-info btn-block">
+                              <i class="material-icons mr-2">event_available</i> Ajukan Izin / Sakit
+                           </a>
+                        </div>
+
                         <?php if ($config->activeResetter): ?>
-                           <p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
+                           <p class="mt-3"><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
                         <?php endif; ?>
                         <div class="clearfix"></div>
                      </form>

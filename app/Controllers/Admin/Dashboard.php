@@ -62,6 +62,9 @@ class Dashboard extends BaseController
       }
 
       $today = $now->toDateString();
+      
+      $jamPulangStandard = $this->generalSettings->jam_pulang_standard ?? '14:00:00';
+      $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
 
       // Get attendance trends using new methods
       $grafikKehadiranSiswa = $this->presensiSiswaModel->getAttendanceTrend();
@@ -107,6 +110,16 @@ class Dashboard extends BaseController
          'totalGuru' => $this->guruModel->countAllResults(),
 
          'petugas' => $this->petugasModel->getAllPetugas(),
+         
+         'topLateStudents' => $this->siswaModel->select('tb_siswa.*, tb_kelas.tingkat, tb_kelas.index_kelas, tb_jurusan.jurusan')
+            ->join('tb_kelas', 'tb_kelas.id_kelas = tb_siswa.id_kelas')
+            ->join('tb_jurusan', 'tb_jurusan.id = tb_kelas.id_jurusan')
+            ->where('poin_pelanggaran >', 0)
+            ->orderBy('poin_pelanggaran', 'DESC')
+            ->limit(5)
+            ->get()->getResultArray(),
+
+         'absenteeAlerts' => $this->presensiSiswaModel->getConsecutiveAbsences(3),
       ];
 
       return view('admin/dashboard', $data);

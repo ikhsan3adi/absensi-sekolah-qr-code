@@ -12,14 +12,19 @@
     <h4 class="text-nowrap"><?= $izin; ?></h4>
   </div>
   <div class="col-2">
-    <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
-    <h4 class="text-nowrap"><?= $alfa; ?></h4>
+    <?php if (isset($isAfterSchool) && $isAfterSchool): ?>
+        <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
+        <h4 class="text-nowrap"><?= $alfa; ?></h4>
+    <?php else: ?>
+        <h5 class="text-muted text-nowrap"><b>Belum Absen</b></h5>
+        <h4 class="text-nowrap"><?= $alfa; ?></h4>
+    <?php endif; ?>
   </div>
   <div class="col-1">
     <div class="border-right mx-auto h-100" style="width: 0;"></div>
   </div>
-  <div class="col-2 col-sm-3">
-    <h5 class="text-primary text-nowrap"><b>Total</b></h5>
+  <div class="col-3">
+    <h5 class="text-primary text-nowrap"><b>Total Siswa</b></h5>
     <h4 class="text-nowrap"><?= $totalSiswa; ?></h4>
   </div>
 </div>

@@ -10,6 +10,7 @@ services:
         environment:
             SERVICE_NAME: app
             SERVICE_TAGS: dev
+            TZ: Asia/Makassar
         working_dir: /var/www/html
         volumes:
             - ./:/var/www/html
@@ -31,6 +32,7 @@ services:
             MYSQL_PASSWORD: root
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
+            TZ: Asia/Makassar
         volumes:
             - dbdata:/var/lib/mysql
             # - ./presensi.sql:/docker-entrypoint-initdb.d/presensi.sql
@@ -46,6 +48,15 @@ services:
             PMA_PORT: 3306
         ports:
             - "8081:80"
+        networks:
+            - app-network
+
+    adminer:
+        image: adminer
+        container_name: absensi-adminer
+        restart: unless-stopped
+        ports:
+            - "8082:8080"
         networks:
             - app-network
 

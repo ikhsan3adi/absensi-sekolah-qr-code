@@ -80,6 +80,15 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->delete('delete/(:any)', 'Perizinan::delete/$1');
    });
 
+   // Hari Libur
+   $routes->group('holiday', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'Holiday::index');
+      $routes->get('generate-weekend', 'Holiday::generateWeekend');
+      $routes->post('save', 'Holiday::save');
+      $routes->post('bulk-delete', 'Holiday::bulkDelete');
+      $routes->delete('delete/(:any)', 'Holiday::delete/$1');
+   });
+
    // Kelas
    $routes->group('kelas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
       $routes->get('/', 'KelasController::index');

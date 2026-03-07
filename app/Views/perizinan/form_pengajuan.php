@@ -33,11 +33,29 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="bmd-label-floating">NIS Siswa</label>
+                                            <label>Saya adalah:</label>
+                                            <div class="form-check form-check-radio">
+                                                <label class="form-check-label mr-3">
+                                                    <input class="form-check-input" type="radio" name="type" id="typeSiswa" value="siswa" checked> Siswa
+                                                    <span class="circle"><span class="check"></span></span>
+                                                </label>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="type" id="typeGuru" value="guru"> Guru
+                                                    <span class="circle"><span class="check"></span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label id="labelId" class="bmd-label-floating">NIS Siswa</label>
                                             <div class="input-group">
                                                 <input type="text" name="nis" id="nis" class="form-control" required value="<?= old('nis') ?>">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary btn-sm my-0" type="button" id="btnCekNis">Cek NIS</button>
+                                                    <button class="btn btn-primary btn-sm my-0" type="button" id="btnCekNis">Verifikasi</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -47,8 +65,8 @@
                                 <div class="row" id="containerSiswa" style="display:none;">
                                     <div class="col-md-12">
                                         <div class="alert alert-info py-2">
-                                            Nama Siswa: <b id="namaSiswa"></b>
-                                            <input type="hidden" name="id_siswa" id="id_siswa">
+                                            Nama: <b id="namaSiswa"></b>
+                                            <input type="hidden" name="id_target" id="id_target">
                                         </div>
                                     </div>
                                 </div>
@@ -112,14 +130,26 @@
     document.addEventListener('DOMContentLoaded', function() {
         const btnCekNis = document.getElementById('btnCekNis');
         const inputNis = document.getElementById('nis');
+        const labelId = document.getElementById('labelId');
         const containerSiswa = document.getElementById('containerSiswa');
         const namaSiswa = document.getElementById('namaSiswa');
-        const idSiswa = document.getElementById('id_siswa');
+        const idTarget = document.getElementById('id_target');
         const btnSubmit = document.getElementById('btnSubmit');
+        const typeRadios = document.querySelectorAll('input[name="type"]');
+
+        typeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                labelId.innerText = this.value === 'guru' ? 'NUPTK Guru' : 'NIS Siswa';
+                containerSiswa.style.display = 'none';
+                btnSubmit.disabled = true;
+            });
+        });
 
         btnCekNis.addEventListener('click', function() {
-            const nis = inputNis.value;
-            if (!nis) return swal("Peringatan", "Masukkan NIS terlebih dahulu", "warning");
+            const idValue = inputNis.value;
+            const typeValue = document.querySelector('input[name="type"]:checked').value;
+
+            if (!idValue) return swal("Peringatan", "Masukkan nomor identitas terlebih dahulu", "warning");
 
             fetch('<?= base_url('izin/get-siswa') ?>', {
                     method: 'POST',
@@ -127,16 +157,16 @@
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: 'nis=' + nis + '&<?= csrf_token() ?>=<?= csrf_hash() ?>'
+                    body: `nis=${idValue}&type=${typeValue}&<?= csrf_token() ?>=<?= csrf_hash() ?>`
                 })
                 .then(response => response.json())
                 .then(result => {
                     if (result.status === 'success') {
                         containerSiswa.style.display = 'block';
-                        namaSiswa.innerText = result.data.nama_siswa;
-                        idSiswa.value = result.data.id_siswa;
+                        namaSiswa.innerText = result.data.nama;
+                        idTarget.value = result.data.id;
                         btnSubmit.disabled = false;
-                        swal("Berhasil", "Data siswa ditemukan: " + result.data.nama_siswa, "success");
+                        swal("Berhasil", "Data ditemukan: " + result.data.nama, "success");
                     } else {
                         containerSiswa.style.display = 'none';
                         btnSubmit.disabled = true;

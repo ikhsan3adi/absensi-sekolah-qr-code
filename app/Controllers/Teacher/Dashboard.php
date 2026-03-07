@@ -79,6 +79,15 @@ class Dashboard extends BaseController
         $data['dateRange'] = $dateRange;
         $data['grafikKehadiran'] = $grafikKehadiran;
 
+        // Get top late students in this class
+        $data['topLateStudents'] = $this->siswaModel->where('id_kelas', $kelas['id_kelas'])
+            ->where('poin_pelanggaran >', 0)
+            ->orderBy('poin_pelanggaran', 'DESC')
+            ->limit(5)
+            ->findAll();
+
+        $data['absenteeAlerts'] = $this->presensiSiswaModel->getConsecutiveAbsences(3, $kelas['id_kelas']);
+
         return view('teacher/dashboard', $data);
     }
     /**

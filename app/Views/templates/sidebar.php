@@ -34,6 +34,7 @@ if (is_wali_kelas()) {
       ['title' => 'Dashboard', 'url' => 'admin/dashboard', 'icon' => 'dashboard', 'context' => 'dashboard', 'visible' => true],
       ['title' => 'Absensi Siswa', 'url' => 'admin/absen-siswa', 'icon' => 'checklist', 'context' => 'absen-siswa', 'visible' => true],
       ['title' => 'Absensi Guru', 'url' => 'admin/absen-guru', 'icon' => 'checklist', 'context' => 'absen-guru', 'visible' => true],
+      ['title' => 'Hari Libur', 'url' => 'admin/holiday', 'icon' => 'event_busy', 'context' => 'holiday', 'visible' => is_superadmin()],
       ['title' => 'Data Perizinan', 'url' => 'admin/perizinan', 'icon' => 'event_available', 'context' => 'perizinan', 'visible' => true],
       ['title' => 'Data Siswa', 'url' => 'admin/siswa', 'icon' => 'person', 'context' => 'siswa', 'visible' => is_superadmin()],
       ['title' => 'Data Guru', 'url' => 'admin/guru', 'icon' => 'person_4', 'context' => 'guru', 'visible' => is_superadmin()],
