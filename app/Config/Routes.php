@@ -76,6 +76,7 @@ $routes->group('admin', function (RouteCollection $routes) {
    // Admin dashboard
    $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
+   $routes->get('dashboard/live-stats', 'Admin\Dashboard::getLiveStats');
    $routes->post('dashboard/filter-data', 'Admin\Dashboard::filterData');
 
    // Perizinan
@@ -240,6 +241,7 @@ $routes->group('admin', function (RouteCollection $routes) {
 $routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' => 'login'], function (RouteCollection $routes) {
    $routes->get('/', 'Dashboard::index');
    $routes->get('dashboard', 'Dashboard::index');
+   $routes->get('dashboard/live-stats', 'Dashboard::getLiveStats');
    $routes->get('laporan', 'Reports::index');
    $routes->post('laporan/generate', 'Reports::generate');
 

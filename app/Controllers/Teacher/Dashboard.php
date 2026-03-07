@@ -90,6 +90,38 @@ class Dashboard extends BaseController
 
         return view('teacher/dashboard', $data);
     }
+
+    public function getLiveStats()
+    {
+        $user = user();
+        $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
+        
+        if (empty($kelas)) {
+            return $this->response->setJSON(['error' => 'No class assigned']);
+        }
+
+        $now = \CodeIgniter\I18n\Time::now();
+        $today = $now->toDateString();
+
+        $summary = [
+            'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $kelas['id_kelas'])),
+            'sakit' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $kelas['id_kelas'])),
+            'izin' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $kelas['id_kelas'])),
+            'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $kelas['id_kelas']))
+        ];
+
+        $schoolConfigurations = new \Config\School();
+        $generalSettings = $schoolConfigurations::$generalSettings;
+        $jamPulangStandard = $generalSettings->jam_pulang_standard ?? '14:00:00';
+        $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
+
+        return $this->response->setJSON([
+            'stats' => $summary,
+            'isAfterSchool' => $isAfterSchool,
+            'lastUpdate' => $now->toTimeString()
+        ]);
+    }
+
     /**
      * Show attendance management page for the Wali Kelas.
      */

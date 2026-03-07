@@ -60,19 +60,19 @@
                             <div class="row text-center flex-nowrap">
                                 <div class="col-2">
                                     <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['hadir_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="hadirCount"><?= $summary['hadir_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
                                     <h5 class="text-warning text-nowrap"><b>Sakit</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['sakit_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="sakitCount"><?= $summary['sakit_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
                                     <h5 class="text-info text-nowrap"><b>Izin</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['izin_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="izinCount"><?= $summary['izin_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
-                                    <h5 class="text-<?= $isFinal ? 'danger' : 'default' ?> text-nowrap"><b><?= $isFinal ? 'Alfa' : 'Belum Scan' ?></b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['alfa_hari_ini']; ?></h4>
+                                    <h5 class="text-<?= $isFinal ? 'danger' : 'default' ?> text-nowrap" id="alfaLabel"><b><?= $isFinal ? 'Alfa' : 'Belum Scan' ?></b></h5>
+                                    <h4 class="text-nowrap" id="alfaCount"><?= $summary['alfa_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-1">
                                     <div class="border-right mx-auto h-100" style="width: 0;"></div>
@@ -289,6 +289,29 @@
 
         $(document).ready(function () {
             initTeacherCharts();
+
+            // Fitur Live Monitoring (Update setiap 10 detik)
+            setInterval(function() {
+                $.ajax({
+                    url: "<?= base_url('teacher/dashboard/live-stats') ?>",
+                    type: "GET",
+                    success: function(response) {
+                        if ($('#hadirCount').length) {
+                            $('#hadirCount').text(response.stats.hadir);
+                            $('#sakitCount').text(response.stats.sakit);
+                            $('#izinCount').text(response.stats.izin);
+                            $('#alfaCount').text(response.stats.alfa);
+                            
+                            const alfaLabel = $('#alfaLabel');
+                            if (response.isAfterSchool) {
+                                alfaLabel.removeClass('text-default').addClass('text-danger').html('<b>Alfa</b>');
+                            } else {
+                                alfaLabel.removeClass('text-danger').addClass('text-default').html('<b>Belum Scan</b>');
+                            }
+                        }
+                    }
+                });
+            }, 10000);
         });
     </script>
 <?php endif; ?>

@@ -125,6 +125,32 @@ class Dashboard extends BaseController
       return view('admin/dashboard', $data);
    }
 
+   public function getLiveStats()
+   {
+      $now = Time::now();
+      $today = $now->toDateString();
+      $idKelas = $this->request->getGet('id_kelas');
+
+      $jumlahKehadiranSiswa = [
+         'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $idKelas)),
+         'sakit' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $idKelas)),
+         'izin' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $idKelas)),
+         'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $idKelas))
+      ];
+
+      $totalSiswa = $this->siswaModel->getSiswaCountByKelas($idKelas);
+      
+      $jamPulangStandard = $this->generalSettings->jam_pulang_standard ?? '14:00:00';
+      $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
+
+      return $this->response->setJSON([
+         'stats' => $jumlahKehadiranSiswa,
+         'totalSiswa' => $totalSiswa,
+         'isAfterSchool' => $isAfterSchool,
+         'lastUpdate' => $now->toTimeString()
+      ]);
+   }
+
    public function filterData()
    {
       $idKelas = $this->request->getPost('id_kelas');

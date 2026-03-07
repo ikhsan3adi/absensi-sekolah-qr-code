@@ -557,6 +557,31 @@
     $(document).ready(function () {
         initDashboardPageCharts();
 
+        // Fitur Live Monitoring (Update setiap 10 detik)
+        setInterval(function() {
+            const idKelas = $('#filterKelas').val();
+            $.ajax({
+                url: "<?= base_url('admin/dashboard/live-stats') ?>",
+                type: "GET",
+                data: { id_kelas: idKelas },
+                success: function(response) {
+                    if ($('#hadirCount').length) {
+                        $('#hadirCount').text(response.stats.hadir);
+                        $('#sakitCount').text(response.stats.sakit);
+                        $('#izinCount').text(response.stats.izin);
+                        $('#alfaCount').text(response.stats.alfa);
+                        
+                        const alfaLabel = $('#alfaLabel');
+                        if (response.isAfterSchool) {
+                            alfaLabel.removeClass('text-muted').addClass('text-danger').html('<b>Alfa</b>');
+                        } else {
+                            alfaLabel.removeClass('text-danger').addClass('text-muted').html('<b>Belum Absen</b>');
+                        }
+                    }
+                }
+            });
+        }, 10000);
+
         $('#filterKelas').on('change', function () {
             const idKelas = $(this).val();
             const loader = $('#filterLoader');
