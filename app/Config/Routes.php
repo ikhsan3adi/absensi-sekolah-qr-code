@@ -56,6 +56,13 @@ $routes->group('scan', function (RouteCollection $routes) {
    $routes->post('cek', 'Scan::cekKode');
 });
 
+// Perizinan Publik
+$routes->group('izin', function (RouteCollection $routes) {
+   $routes->get('', 'Perizinan::index');
+   $routes->post('submit', 'Perizinan::submit');
+   $routes->post('get-siswa', 'Perizinan::getSiswaByNis');
+});
+
 
 
 // Admin
@@ -64,6 +71,14 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('', 'Admin\Dashboard::index');
    $routes->get('dashboard', 'Admin\Dashboard::index');
    $routes->post('dashboard/filter-data', 'Admin\Dashboard::filterData');
+
+   // Perizinan
+   $routes->group('perizinan', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'Perizinan::index');
+      $routes->post('list', 'Perizinan::list');
+      $routes->post('konfirmasi', 'Perizinan::konfirmasi');
+      $routes->delete('delete/(:any)', 'Perizinan::delete/$1');
+   });
 
    // Kelas
    $routes->group('kelas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
@@ -221,6 +236,10 @@ $routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' =>
    $routes->post('attendance/get-list', 'Dashboard::getAttendanceList');
    $routes->post('attendance/get-edit-modal', 'Dashboard::getEditModal');
    $routes->post('attendance/update-single', 'Dashboard::updateSingleAttendance');
+
+   // Perizinan
+   $routes->get('perizinan', 'Perizinan::index');
+   $routes->post('perizinan/konfirmasi', 'Perizinan::konfirmasi');
 });
 
 

@@ -123,20 +123,32 @@ class GuruModel extends Model
                $nama = getCSVInputValue($item, 'nama_guru');
                $noHp = getCSVInputValue($item, 'no_hp');
 
+               $jk = strtolower(getCSVInputValue($item, 'jenis_kelamin'));
+               if (in_array($jk, ['l', 'laki-laki', 'laki laki', 'laki'])) {
+                  $jk = 'Laki-laki';
+               } elseif (in_array($jk, ['p', 'perempuan', 'wanita'])) {
+                  $jk = 'Perempuan';
+               } else {
+                  $jk = 'Laki-laki'; // Default jika tidak dikenal
+               }
+
                $data = array();
                $data['nuptk'] = $nuptk;
                $data['nama_guru'] = $nama;
-               $data['jenis_kelamin'] = getCSVInputValue($item, 'jenis_kelamin');
+               $data['jenis_kelamin'] = $jk;
                $data['alamat'] = getCSVInputValue($item, 'alamat');
                $data['no_hp'] = $noHp;
                // Logic from createGuru
                $data['unique_code'] = sha1($nama . md5($nuptk . $nama . $noHp)) . substr(sha1($nuptk . rand(0, 100)), 0, 24);
 
-               $this->insert($data);
-               return $data;
+               if ($this->insert($data)) {
+                  return $data;
+               }
+               return false;
             }
             $i++;
          }
       }
+      return false;
    }
 }

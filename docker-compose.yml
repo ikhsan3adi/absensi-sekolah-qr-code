@@ -16,7 +16,7 @@ services:
         networks:
             - app-network
         ports:
-            - "8080:80"
+            - "1994:80"
 
     db:
         image: mysql:8.0

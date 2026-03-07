@@ -24,6 +24,7 @@ switch ($context) {
 if (is_wali_kelas()) {
    $menuItems = [
       ['title' => 'Dashboard Wali Kelas', 'url' => 'teacher/dashboard', 'icon' => 'dashboard', 'context' => 'dashboard', 'visible' => true],
+      ['title' => 'Pengajuan Izin', 'url' => 'teacher/perizinan', 'icon' => 'event_available', 'context' => 'perizinan', 'visible' => true],
       ['title' => 'Laporan Kelas', 'url' => 'teacher/laporan', 'icon' => 'print', 'context' => 'laporan-kelas', 'visible' => true],
       ['title' => 'QR Code Siswa', 'url' => 'teacher/qr', 'icon' => 'qr_code', 'context' => 'qr', 'visible' => true],
       ['title' => 'Manajemen Kehadiran', 'url' => 'teacher/attendance', 'icon' => 'event_note', 'context' => 'attendance', 'visible' => true],
@@ -33,6 +34,7 @@ if (is_wali_kelas()) {
       ['title' => 'Dashboard', 'url' => 'admin/dashboard', 'icon' => 'dashboard', 'context' => 'dashboard', 'visible' => true],
       ['title' => 'Absensi Siswa', 'url' => 'admin/absen-siswa', 'icon' => 'checklist', 'context' => 'absen-siswa', 'visible' => true],
       ['title' => 'Absensi Guru', 'url' => 'admin/absen-guru', 'icon' => 'checklist', 'context' => 'absen-guru', 'visible' => true],
+      ['title' => 'Data Perizinan', 'url' => 'admin/perizinan', 'icon' => 'event_available', 'context' => 'perizinan', 'visible' => true],
       ['title' => 'Data Siswa', 'url' => 'admin/siswa', 'icon' => 'person', 'context' => 'siswa', 'visible' => is_superadmin()],
       ['title' => 'Data Guru', 'url' => 'admin/guru', 'icon' => 'person_4', 'context' => 'guru', 'visible' => is_superadmin()],
       ['title' => 'Data Kelas & Jurusan', 'url' => 'admin/kelas', 'icon' => 'school', 'context' => 'kelas', 'visible' => is_superadmin()],
