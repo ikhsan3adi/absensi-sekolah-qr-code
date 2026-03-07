@@ -41,6 +41,7 @@ if (is_wali_kelas()) {
       ['title' => 'Data Kelas & Jurusan', 'url' => 'admin/kelas', 'icon' => 'school', 'context' => 'kelas', 'visible' => is_superadmin()],
       ['title' => 'Generate QR Code', 'url' => 'admin/generate', 'icon' => 'qr_code', 'context' => 'qr', 'visible' => can_generate_qr()],
       ['title' => 'Generate Laporan', 'url' => 'admin/laporan', 'icon' => 'print', 'context' => 'laporan', 'visible' => can_view_report()],
+      ['title' => 'Audit Log', 'url' => 'admin/audit-log', 'icon' => 'history', 'context' => 'audit-log', 'visible' => is_superadmin()],
       ['title' => 'Data Petugas', 'url' => 'admin/petugas', 'icon' => 'computer', 'context' => 'petugas', 'visible' => is_superadmin()],
       ['title' => 'Pengaturan', 'url' => 'admin/general-settings', 'icon' => 'settings', 'context' => 'general_settings', 'visible' => is_superadmin() || is_kepsek()],
       ['title' => 'Backup & Restore', 'url' => 'admin/backup', 'icon' => 'backup', 'context' => 'backup', 'visible' => is_superadmin()],

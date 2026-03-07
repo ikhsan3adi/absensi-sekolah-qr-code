@@ -96,6 +96,9 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->delete('delete/(:any)', 'Holiday::delete/$1');
    });
 
+   // Audit Log
+   $routes->get('audit-log', 'Admin\Dashboard::auditLog');
+
    // Kelas
    $routes->group('kelas', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
       $routes->get('/', 'KelasController::index');

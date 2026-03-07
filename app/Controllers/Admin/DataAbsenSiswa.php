@@ -96,6 +96,7 @@ class DataAbsenSiswa extends BaseController
       $keterangan = $this->request->getVar('keterangan');
 
       $cek = $this->presensiSiswa->cekAbsen($idSiswa, $tanggal);
+      $oldData = $cek ? $this->presensiSiswa->find($cek) : null;
 
       $result = $this->presensiSiswa->updatePresensi(
          $cek == false ? NULL : $cek,
@@ -111,6 +112,16 @@ class DataAbsenSiswa extends BaseController
       $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
 
       if ($result) {
+         // Record Audit Log
+         $auditLogModel = new \App\Models\AuditLogModel();
+         $newData = [
+            'id_kehadiran' => $idKehadiran,
+            'jam_masuk' => $jamMasuk,
+            'jam_keluar' => $jamKeluar,
+            'keterangan' => $keterangan
+         ];
+         $auditLogModel->log("Ubah Kehadiran Siswa: {$response['nama_siswa']}", "tb_presensi_siswa", $cek ?: null, $oldData, $newData);
+         
          $response['status'] = TRUE;
       } else {
          $response['status'] = FALSE;

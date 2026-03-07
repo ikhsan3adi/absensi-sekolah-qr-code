@@ -125,6 +125,17 @@ class Dashboard extends BaseController
       return view('admin/dashboard', $data);
    }
 
+   public function auditLog()
+   {
+      $auditLogModel = new \App\Models\AuditLogModel();
+      $data = [
+         'title' => 'Audit Log - Riwayat Perubahan',
+         'ctx' => 'audit-log',
+         'logs' => $auditLogModel->getLogs()
+      ];
+      return view('admin/audit_log', $data);
+   }
+
    public function getLiveStats()
    {
       $now = Time::now();

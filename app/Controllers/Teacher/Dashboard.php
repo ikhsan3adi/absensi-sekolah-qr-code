@@ -191,6 +191,7 @@ class Dashboard extends BaseController
 
         // Check if attendance exists
         $cek = $this->presensiSiswaModel->cekAbsen($idSiswa, $tanggal);
+        $oldData = $cek ? $this->presensiSiswaModel->find($cek) : null;
 
         // Update or Insert (updatePresensi handles logic if first arg is ID or null/false)
         /* 
@@ -211,6 +212,17 @@ class Dashboard extends BaseController
 
         $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
         $response['status'] = $result ? true : false;
+
+        if ($result) {
+            $auditLogModel = new \App\Models\AuditLogModel();
+            $newData = [
+                'id_kehadiran' => $idKehadiran,
+                'jam_masuk' => $jamMasuk,
+                'jam_keluar' => $jamKeluar,
+                'keterangan' => $keterangan
+            ];
+            $auditLogModel->log("Wali Kelas Ubah Kehadiran: {$response['nama_siswa']}", "tb_presensi_siswa", $cek ?: null, $oldData, $newData);
+        }
 
         return $this->response->setJSON($response);
     }
