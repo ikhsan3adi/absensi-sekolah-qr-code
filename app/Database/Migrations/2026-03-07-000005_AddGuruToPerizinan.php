@@ -44,7 +44,7 @@ class AddGuruToPerizinan extends Migration
             $this->db->query('ALTER TABLE tb_perizinan DROP FOREIGN KEY tb_perizinan_id_guru_foreign');
         }
 
-        if ($this->db->fieldExists('id_guru', 'tb_perizinan')) {
+        if ($db->fieldExists('id_guru', 'tb_perizinan')) {
             $this->forge->dropColumn('tb_perizinan', 'id_guru');
         }
         

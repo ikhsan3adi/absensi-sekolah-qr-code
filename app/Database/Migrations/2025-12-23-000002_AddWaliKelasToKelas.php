@@ -49,7 +49,7 @@ class AddWaliKelasToKelas extends Migration
             $this->db->query('ALTER TABLE users DROP FOREIGN KEY fk_users_id_guru');
         }
 
-        if ($db->fieldExists('id_guru', 'users')) {
+        if ($this->db->fieldExists('id_guru', 'users')) {
             $this->forge->dropColumn('users', 'id_guru');
         }
 

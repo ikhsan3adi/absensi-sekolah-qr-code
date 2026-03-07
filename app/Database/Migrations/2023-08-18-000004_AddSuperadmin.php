@@ -22,6 +22,8 @@ class AddSuperadmin extends Migration
 
     public function down()
     {
-        $this->forge->dropColumn('users', 'is_superadmin');
+        if ($this->db->fieldExists('is_superadmin', 'users')) {
+            $this->forge->dropColumn('users', 'is_superadmin');
+        }
     }
 }
