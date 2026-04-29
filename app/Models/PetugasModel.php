@@ -24,27 +24,57 @@ class PetugasModel extends Model
 
    public function getAllPetugas()
    {
-      return $this->select('users.*, tb_guru.nama_guru')
+      return $this->select('users.*, auth_identities.name as email, tb_guru.nama_guru')
+         ->join('auth_identities', 'users.id = auth_identities.user_id AND auth_identities.type = "email_password"', 'left')
          ->join('tb_guru', 'users.id_guru = tb_guru.id_guru', 'left')
          ->findAll();
    }
 
    public function getPetugasById($id)
    {
-      return $this->where([$this->primaryKey => $id])->first();
+      return $this->select('users.*, auth_identities.name as email')
+         ->join('auth_identities', 'users.id = auth_identities.user_id AND auth_identities.type = "email_password"', 'left')
+         ->where(['users.' . $this->primaryKey => $id])
+         ->first();
    }
 
-   public function savePetugas($idPetugas, $email, $username, $passwordHash, $role, $id_guru = null, $active = 1)
+   public function savePetugas($idPetugas, $email, $username, $password, $role, $id_guru = null, $active = 1)
    {
-      return $this->save([
-         $this->primaryKey => $idPetugas,
-         'email' => $email,
+      $users = auth()->getProvider();
+
+      if ($idPetugas) {
+         $user = $users->find($idPetugas);
+      } else {
+         $user = new \CodeIgniter\Shield\Entities\User();
+      }
+
+      $user->fill([
          'username' => $username,
-         'password_hash' => $passwordHash,
-         'is_superadmin' => $role ?? '0',
-         'id_guru' => $id_guru,
-         'active' => $active
+         'email'    => $email,
       ]);
+
+      if (!empty($password)) {
+         $user->password = $password;
+      }
+
+      $user->is_superadmin = $role ?? '0';
+      $user->id_guru       = $id_guru;
+      $user->active        = $active;
+
+      if ($users->save($user)) {
+         if (!$idPetugas) {
+            $newId = $users->getInsertID();
+            $savedUser = $users->find($newId);
+            if ($role == '1') {
+               $savedUser->addGroup('superadmin');
+            } else {
+               $savedUser->addGroup('admin');
+            }
+         }
+         return true;
+      }
+
+      return false;
    }
 
    //generate CSV object
@@ -134,7 +164,6 @@ class PetugasModel extends Model
                if (empty($password) || strlen($password) < 6) {
                   return null; // Password too short or empty
                }
-               $data['password_hash'] = \Myth\Auth\Password::hash($password);
 
                $data['is_superadmin'] = getCSVInputValue($item, 'role', 'int'); // 1 or 0
                $idGuru = getCSVInputValue($item, 'id_guru', 'int');
@@ -153,19 +182,38 @@ class PetugasModel extends Model
 
                $data['active'] = 1;
 
-               // Check if email or username already exists
-               $existing = $this->where('email', $data['email'])->orWhere('username', $data['username'])->first();
+               // Check if email or username already exists using Shield
+               $users = auth()->getProvider();
+               $existing = $users->where('email', $data['email'])->orWhere('username', $data['username'])->first();
 
                if (!empty($existing)) {
                   return null; // Or handle error gracefully
                }
 
-               $this->insert($data);
+               // Create user using Shield
+               $user = new \CodeIgniter\Shield\Entities\User([
+                  'username' => $data['username'],
+                  'email'    => $data['email'],
+                  'password' => $password,
+               ]);
+               $user->is_superadmin = $data['is_superadmin'] ?? '0';
+               $user->id_guru       = $data['id_guru'];
+               $user->active        = $data['active'];
 
-               $responseData = $data;
-               unset($responseData['password_hash']);
+               if ($users->save($user)) {
+                  $newId = $users->getInsertID();
+                  $savedUser = $users->find($newId);
+                  if ($user->is_superadmin == '1') {
+                     $savedUser->addGroup('superadmin');
+                  } else {
+                     $savedUser->addGroup('admin');
+                  }
+                  
+                  $responseData = $data;
+                  return $responseData;
+               }
 
-               return $responseData;
+               return null;
             }
             $i++;
          }
