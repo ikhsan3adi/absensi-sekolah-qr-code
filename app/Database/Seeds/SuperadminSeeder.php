@@ -16,10 +16,13 @@ class SuperadminSeeder extends Seeder
 
         $userProvider = auth()->getProvider();
 
-        // Check if superadmin already exists
-        $existingSuperadmin = $userProvider->where('username', $username)
-            ->orWhere('email', $email)
-            ->first();
+        // Check if superadmin already exists by email or username
+        $existingSuperadmin = $userProvider->findByCredentials(['email' => $email]);
+
+        if (!$existingSuperadmin) {
+            // Also check by username
+            $existingSuperadmin = $userProvider->where('username', $username)->first();
+        }
 
         if (!$existingSuperadmin) {
             // Create user entity
@@ -29,17 +32,17 @@ class SuperadminSeeder extends Seeder
                 'password' => $password,
             ]);
 
-            // Custom columns from myth auth / previous DB
-            $user->is_superadmin = 1;
             $user->active = 1;
 
             // Save user
             $userProvider->save($user);
 
-            // Get the user again to add to group
+            // Get the user again to add to groups
             $user = $userProvider->findById($userProvider->getInsertID());
-            $user->addGroup('superadmin');
-            
+
+            // Superadmin gets: superadmin (primary), admin (convenience)
+            $user->addGroup('superadmin', 'admin');
+
             echo "\nSuperadmin created successfully!\n";
             echo "Username: {$username}\n";
             echo "Password: {$password}\n";

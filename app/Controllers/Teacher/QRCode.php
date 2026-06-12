@@ -21,8 +21,8 @@ class QRCode extends BaseController
     public function index()
     {
         $user = user();
-        if (!is_wali_kelas()) {
-            return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
+        if (!is_guru()) {
+            return redirect()->to('admin')->with('error', 'Anda bukan Guru.');
         }
 
         $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
@@ -35,7 +35,7 @@ class QRCode extends BaseController
 
         $data = [
             'title' => 'Download QR Code Siswa',
-            'ctx' => 'qr',
+            'ctx' => 'teacher-qr',
             'kelas' => $kelas,
             'siswa' => $siswa
         ];
@@ -46,8 +46,8 @@ class QRCode extends BaseController
     public function download()
     {
         $user = user();
-        if (!is_wali_kelas()) {
-            return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
+        if (!is_guru()) {
+            return redirect()->to('admin')->with('error', 'Anda bukan Guru.');
         }
 
         $kelas = $this->kelasModel->getKelasByWali($user->id_guru);

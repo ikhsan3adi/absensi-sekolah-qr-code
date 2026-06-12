@@ -10,9 +10,8 @@ class UserModel extends ShieldUserModel
     {
         parent::initialize();
 
-        // Add custom fields for compatibility
+        // Add custom field for teacher relationship
         $this->allowedFields = array_merge($this->allowedFields, [
-            'is_superadmin',
             'id_guru',
         ]);
     }

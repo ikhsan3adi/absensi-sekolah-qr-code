@@ -4,6 +4,9 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
+/**
+ * @@deprecated
+ */
 class AddSuperadmin extends Migration
 {
     public function up()

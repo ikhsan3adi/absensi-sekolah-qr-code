@@ -3,7 +3,7 @@
 namespace Tests\Support\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use Myth\Auth\Password;
+use CodeIgniter\Shield\Entities\User;
 
 class SuperadminSeeder extends Seeder
 {
@@ -14,18 +14,29 @@ class SuperadminSeeder extends Seeder
 
     public function run(): void
     {
-        // Hash the password
-        $encryptedPassword = Password::hash(self::$password);
+        $userProvider = auth()->getProvider();
 
-        // Prepare data
-        $data = [
-            'email'         => self::$email,
-            'username'      => self::$username,
-            'is_superadmin' => 1,
-            'password_hash' => $encryptedPassword,
-            'active'        => 1,
-        ];
-        
-        $this->db->table('users')->insert($data);
+        // Check if superadmin already exists by email or username
+        $existing = $userProvider->findByCredentials(['email' => self::$email]);
+
+        if (!$existing) {
+            $existing = $userProvider->where('username', self::$username)->first();
+        }
+
+        if (!$existing) {
+            // Create user using Shield
+            $user = new User([
+                'username' => self::$username,
+                'email'    => self::$email,
+                'password' => self::$password,
+            ]);
+            $user->active = 1;
+
+            $userProvider->save($user);
+
+            // Add to groups
+            $user = $userProvider->findById($userProvider->getInsertID());
+            $user->addGroup('superadmin', 'admin');
+        }
     }
 }

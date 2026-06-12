@@ -43,23 +43,23 @@ class AuthGroups extends ShieldAuthGroups
     public array $groups = [
         'superadmin' => [
             'title'       => 'Super Admin',
-            'description' => 'Complete control of the site.',
+            'description' => 'Akses penuh ke seluruh fitur aplikasi.',
         ],
         'admin' => [
-            'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+            'title'       => 'Staf Petugas',
+            'description' => 'Mengelola absensi, generate QR, dan laporan.',
         ],
-        'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+        'kepsek' => [
+            'title'       => 'Kepala Sekolah',
+            'description' => 'Melihat laporan absensi.',
         ],
-        'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
+        'scanner' => [
+            'title'       => 'Scanner',
+            'description' => 'Hanya dapat melakukan scan QR untuk presensi.',
         ],
-        'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+        'guru' => [
+            'title'       => 'Guru',
+            'description' => 'Guru yang dapat menjadi wali kelas dan mengelola presensi siswanya.',
         ],
     ];
 
@@ -72,13 +72,18 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        'dashboard.view-admin'  => 'Dapat melihat dashboard admin',
+        'admin.access'          => 'Dapat mengakses area admin',
+        'students.manage'       => 'Dapat mengelola data siswa',
+        'teachers.manage'       => 'Dapat mengelola data guru',
+        'classes.manage'        => 'Dapat mengelola data kelas dan jurusan',
+        'attendance.edit'       => 'Dapat mengubah data presensi',
+        'attendance.view'       => 'Dapat melihat laporan presensi',
+        'qr.generate'           => 'Dapat generate QR Code',
+        'petugas.manage'        => 'Dapat mengelola akun petugas',
+        'settings.manage'       => 'Dapat mengelola pengaturan aplikasi',
+        'backup.manage'         => 'Dapat melakukan backup dan restore',
+        'teacher.access'        => 'Dapat mengakses dashboard wali kelas',
     ];
 
     /**
@@ -91,27 +96,38 @@ class AuthGroups extends ShieldAuthGroups
      */
     public array $matrix = [
         'superadmin' => [
+            'dashboard.view-admin',
             'admin.*',
-            'users.*',
-            'beta.*',
+            'students.*',
+            'teachers.*',
+            'classes.*',
+            'attendance.*',
+            'qr.*',
+            'petugas.*',
+            'settings.*',
+            'backup.*',
+            'teacher.*',
         ],
         'admin' => [
+            'dashboard.view-admin',
             'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'beta.access',
+            'attendance.edit',
+            'attendance.view',
+            'qr.generate',
         ],
-        'developer' => [
+        'kepsek' => [
+            'dashboard.view-admin',
             'admin.access',
-            'admin.settings',
-            'users.create',
-            'users.edit',
-            'beta.access',
+            'attendance.view',
         ],
-        'user' => [],
-        'beta' => [
-            'beta.access',
+        'scanner' => [
+            'admin.access',
+            'attendance.view',
+        ],
+        'guru' => [
+            'teacher.access',
+            'attendance.edit',
+            'attendance.view',
         ],
     ];
 }

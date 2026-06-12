@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="form-group mt-4">
-                                <label for="pass_confirm"><?= lang('Auth.repeatPassword') ?></label>
+                                <label for="pass_confirm"><?= lang('Auth.passwordConfirm') ?></label>
                                 <input type="password" id="pass_confirm" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')): ?>is-invalid<?php endif ?>"
                                     autocomplete="off">
                                 <div class="invalid-feedback">

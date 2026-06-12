@@ -25,9 +25,6 @@ class JurusanController extends BaseController
      */
     public function index()
     {
-        if (!is_superadmin()) {
-            return redirect()->to('admin');
-        }
         return redirect()->to('admin/kelas');
     }
 

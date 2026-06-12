@@ -55,7 +55,7 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 >
 > - [CodeIgniter 4](https://github.com/codeigniter4/CodeIgniter4)
 > - [Material Dashboard Bootstrap 4](https://www.creative-tim.com/product/material-dashboard-bs4)
-> - [Myth Auth Library](https://github.com/lonnieezell/myth-auth)
+> - [CodeIgniter Shield](https://github.com/codeigniter4/shield)
 > - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
 > - [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
 > - [Chart.js](https://www.chartjs.org/)
@@ -177,7 +177,9 @@ php spark migrate --all
 - `tb_siswa` - Data siswa
 - `tb_presensi_guru` - Presensi guru
 - `tb_presensi_siswa` - Presensi siswa
-- `users` - Akun pengguna (ditambah kolom `is_superadmin`, `id_guru`)
+- `users` - Akun pengguna
+- `auth_identities` - Identitas autentikasi (email, password hash)
+- `auth_groups_users` - Groups pengguna (role)
 - `general_settings` - Pengaturan aplikasi
 
 #### 6. Jalankan Seeder
@@ -233,31 +235,20 @@ Email: adminsuper@gmail.com
 
 > **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
-### Daftar Roles
+### Daftar Groups & Permissions
 
-<details>
-<summary>Klik untuk melihat daftar roles</summary>
+Role pengguna dikelola menggunakan **CodeIgniter Shield groups**. Tiap user bisa memiliki lebih dari satu group.
 
-- **Super Admin**
-  - Admin utama dengan akses penuh
+| Group | Title | Hak Akses |
+|-------|-------|-----------|
+| `superadmin` | Super Admin | Akses penuh semua fitur |
+| `admin` | Staf Petugas | Kelola absensi, generate QR & laporan |
+| `kepsek` | Kepala Sekolah | Melihat laporan absensi |
+| `scanner` | Scanner | Hanya scan QR Code |
+| `guru` | Guru / Wali Kelas | Kelola presensi siswanya |
 
-- **Staf Petugas**
-  - Admin
-  - Dapat mengakses fitur absensi / manajemen kehadiran
-  - Dapat mengakses fitur generate laporan
-  - Dapat mengakses fitur generate QR
-
-- **Kepsek**
-  - Kepala Sekolah dengan akses terbatas*
-  - Dapat mengakses fitur generate laporan
-
-- **Scanner**
-  - Petugas scanner QR Code
-  - Hanya memiliki akses ke halaman scanner QR Code*
-
-\* Akses dapat berubah jika dihubungkan ke data guru / di-assign sebagai wali kelas
-
-</details>
+User dengan group `guru` secara otomatis mendapatkan akses ke dashboard wali kelas.
+Untuk menjadi wali kelas, guru harus ditugaskan ke kelas melalui fitur "Edit Kelas" di menu admin.
 
 ### Cara Menggunakan Akun Wali Kelas
 
@@ -436,3 +427,4 @@ Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini.
 - [@kevindoni](https://www.github.com/kevindoni)
 - [@pandigresik](https://github.com/pandigresik)
 - [@hex4coder](https://github.com/hex4coder)
+- [@mdestafadilah](https://github.com/mdestafadilah)

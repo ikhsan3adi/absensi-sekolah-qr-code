@@ -97,7 +97,8 @@ class DataPetugas extends BaseController
          return redirect()->to('admin');
       }
 
-      $this->petugasValidationRules['email']['rules'] .= '|is_unique[users.email]';
+      // Shield stores email in auth_identities.secret, not users.email
+      $this->petugasValidationRules['email']['rules'] .= '|is_unique[auth_identities.secret]';
       $this->petugasValidationRules['username']['rules'] .= '|is_unique[users.username]';
       $this->petugasValidationRules['password']['rules'] = 'required|min_length[6]';
 
@@ -158,7 +159,7 @@ class DataPetugas extends BaseController
       }
 
       if ($petugasLama['email'] != $this->request->getVar('email')) {
-         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[users.email]';
+         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[auth_identities.secret]';
       }
 
       // validasi
@@ -259,13 +260,15 @@ class DataPetugas extends BaseController
     */
    public function bulkPost()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 
-      $data['title'] = 'Import Petugas';
-      $data['ctx'] = 'petugas';
-      $data['guru'] = $this->guruModel->getAllGuru();
+      $data = [
+         'title' => 'Import Petugas',
+         'ctx' => 'petugas',
+         'guru' => $this->guruModel->getAllGuru(),
+      ];
 
       return view('admin/petugas/import-petugas', $data);
    }
