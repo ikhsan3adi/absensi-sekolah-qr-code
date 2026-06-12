@@ -29,6 +29,7 @@ $routes->set404Override();
  * Route Definitions
  * --------------------------------------------------------------------
  */
+service('auth')->routes($routes);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
@@ -207,7 +208,7 @@ $routes->group('admin', function (RouteCollection $routes) {
 });
 
 // Teacher
-$routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' => 'login'], function (RouteCollection $routes) {
+$routes->group('teacher', ['namespace' => 'App\Controllers\Teacher', 'filter' => 'session'], function (RouteCollection $routes) {
    $routes->get('/', 'Dashboard::index');
    $routes->get('dashboard', 'Dashboard::index');
    $routes->get('laporan', 'Reports::index');

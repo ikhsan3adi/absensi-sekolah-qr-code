@@ -13,7 +13,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
-        "myth/auth": "dev-develop",
+        "codeigniter4/shield": "^1.0.0.beta8",
         "endroid/qr-code": "^4.8"
     },
     "require-dev": {

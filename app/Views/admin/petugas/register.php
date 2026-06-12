@@ -11,7 +11,15 @@
                     </div>
                     <div class="card-body mx-5 my-3">
 
-                        <?= view('Myth\Auth\Views\_message_block') ?>
+                        <?php if (session()->has('errors')) : ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                <?php foreach (session('errors') as $error) : ?>
+                                    <li><?= $error ?></li>
+                                <?php endforeach ?>
+                                </ul>
+                            </div>
+                        <?php endif ?>
 
                         <form action="<?= base_url('admin/petugas/register') ?>" method="post">
                             <?= csrf_field() ?>

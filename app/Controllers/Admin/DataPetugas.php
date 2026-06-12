@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 
 use App\Models\PetugasModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
-use Myth\Auth\Password;
+
 use App\Libraries\enums\UserRole;
 
 class DataPetugas extends BaseController
@@ -108,11 +108,10 @@ class DataPetugas extends BaseController
       $email = $this->request->getVar('email');
       $username = $this->request->getVar('username');
       $password = $this->request->getVar('password');
-      $passwordHash = Password::hash($password);
       $role = $this->request->getVar('role');
       $id_guru = $this->request->getVar('id_guru') ?: null;
 
-      $result = $this->petugasModel->savePetugas(null, $email, $username, $passwordHash, $role, $id_guru, 1);
+      $result = $this->petugasModel->savePetugas(null, $email, $username, $password, $role, $id_guru, 1);
 
       if ($result) {
          session()->setFlashdata([
@@ -180,7 +179,6 @@ class DataPetugas extends BaseController
 
       $email = $this->request->getVar('email');
       $username = $this->request->getVar('username');
-      $passwordHash = $password ? Password::hash($password) : $petugasLama['password_hash'];
       $role = $this->request->getVar('role');
       $id_guru = $this->request->getVar('id_guru') ?: null;
 
@@ -188,7 +186,7 @@ class DataPetugas extends BaseController
          $idPetugas,
          $email,
          $username,
-         $passwordHash,
+         $password,
          $role,
          $id_guru,
          $petugasLama['active']

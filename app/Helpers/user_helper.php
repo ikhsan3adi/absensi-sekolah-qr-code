@@ -2,6 +2,13 @@
 
 use App\Libraries\enums\UserRole;
 
+if (! function_exists('user')) {
+    function user()
+    {
+        return auth()->user();
+    }
+}
+
 function user_role(): UserRole
 {
     $u = user();
