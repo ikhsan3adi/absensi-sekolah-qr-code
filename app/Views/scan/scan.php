@@ -1,10 +1,25 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
-<a href="<?= base_url('/admin'); ?> " class="btn btn-primary pull-right pl-3">
-   <i class="material-icons mr-2">dashboard</i>
-   Dashboard
-</a>
+<?php
+   $user = auth()->user();
+   $dashUrl = '/admin';
+   if ($user && $user->inGroup('superadmin')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('admin')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('kepsek')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('guru')) {
+      $dashUrl = '/teacher/dashboard';
+   } elseif ($user && $user->inGroup('scanner')) {
+      $dashUrl = '/scan';
+   }
+?>
+<a href="<?= base_url($dashUrl); ?>" class="btn btn-primary pull-right pl-3">
+	   <i class="material-icons mr-2">dashboard</i>
+	   Dashboard
+	</a>
 
 <a href="<?= base_url('/logout'); ?> " class="btn btn-danger pull-right pl-3">
    <i class="material-icons mr-2">exit_to_app</i>

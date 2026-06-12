@@ -35,7 +35,7 @@ class GenerateQR extends BaseController
 
       $data = [
          'title' => 'Generate QR Code',
-         'ctx' => 'qr',
+         'ctx' => 'admin-qr',
          'siswa' => $siswa,
          'kelas' => $kelas,
          'guru' => $guru

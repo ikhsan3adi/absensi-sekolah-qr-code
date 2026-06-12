@@ -127,6 +127,18 @@ class App extends BaseConfig
 
     /**
      * --------------------------------------------------------------------------
+     * Permitted URI Chars
+     * --------------------------------------------------------------------------
+     *
+     * This specifies the characters allowed in the URI.
+     * It is used by the Router to reject requests with invalid characters.
+     *
+     * @see https://codeigniter.com/user_guide/incoming/routing.html
+     */
+    public string $permittedURIChars = 'a-z 0-9~%.:_\\-';
+
+    /**
+     * --------------------------------------------------------------------------
      * URI PROTOCOL
      * --------------------------------------------------------------------------
      *

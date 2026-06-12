@@ -16,47 +16,50 @@
                <div class="card">
                   <div class="card-header card-header-primary mb-48">
                      <h4 class="card-title">Login</h4>
-                     <p class="card-category">Silahkan masukkan username dan password anda</p>
+                     <p class="card-category">Silahkan masukkan email dan password anda</p>
                   </div>
 
                   <div class="card-body mx-5 my-3">
                      <?= view('\App\Views\admin\_message_block') ?>
+
                      <form action="<?= url_to('login') ?>" method="post">
                         <?= csrf_field() ?>
+
                         <div class="row">
                            <div class="col-md-12">
-                              <?php if ($config->validFields === ['email']): ?>
-                                 <div class="form-group">
-                                    <label class="bmd-label-floating"><?= lang('Auth.email') ?></label>
-                                    <input type="email" class="form-control <?php if (session('errors.login')): ?>is-invalid<?php endif ?>" name="login" autofocus>
-                                    <div class="invalid-feedback">
-                                       <?= session('errors.login') ?>
-                                    </div>
+                              <div class="form-group">
+                                 <label class="bmd-label-floating"><?= lang('Auth.email') ?></label>
+                                 <input type="email"
+                                    class="form-control <?php if (session('errors.login')): ?>is-invalid<?php endif ?>"
+                                    name="email"
+                                    inputmode="email"
+                                    autocomplete="email"
+                                    value="<?= old('email') ?>"
+                                    required>
+                                 <div class="invalid-feedback">
+                                    <?= session('errors.login') ?>
                                  </div>
-                              <?php else: ?>
-                                 <div class="form-group">
-                                    <label class="bmd-label-floating"><?= lang('Auth.emailOrUsername') ?></label>
-                                    <input type="text" class="form-control <?php if (session('errors.login')): ?>is-invalid<?php endif ?>" name="login" autofocus>
-                                    <div class="invalid-feedback">
-                                       <?= session('errors.login') ?>
-                                    </div>
-                                 </div>
-                              <?php endif; ?>
+                              </div>
                            </div>
                         </div>
+
                         <div class="row mt-3">
                            <div class="col-md-12">
                               <div class="form-group">
                                  <label class="bmd-label-floating">Password</label>
-                                 <input type="password" name="password" class="form-control  <?php if (session('errors.password')): ?>is-invalid<?php endif ?>">
+                                 <input type="password"
+                                    name="password"
+                                    class="form-control <?php if (session('errors.password')): ?>is-invalid<?php endif ?>"
+                                    autocomplete="current-password"
+                                    required>
                                  <div class="invalid-feedback">
                                     <?= session('errors.password') ?>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <!-- <button type="submit" class="btn btn-primary col-md-12">Login</button> -->
-                        <?php if ($config->allowRemembering): ?>
+
+                        <?php if (setting('Auth.sessionConfig')['allowRemembering']): ?>
                            <div class="form-check">
                               <label class="form-check-label">
                                  <input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')): ?> checked <?php endif ?>>
@@ -67,11 +70,14 @@
 
                         <br>
 
-                        <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
+                        <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
 
-                        <?php if ($config->activeResetter): ?>
-                           <p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
+                        <?php if (setting('Auth.allowMagicLinkLogins')): ?>
+                           <p class="text-center mt-3">
+                              <a href="<?= url_to('magic-link') ?>"><?= lang('Auth.forgotPassword') ?></a>
+                           </p>
                         <?php endif; ?>
+
                         <div class="clearfix"></div>
                      </form>
                   </div>

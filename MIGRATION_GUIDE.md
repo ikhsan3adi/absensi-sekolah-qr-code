@@ -2,16 +2,17 @@
 
 Panduan lengkap untuk mengelola database migrations dan seeders pada aplikasi Absensi Sekolah QR Code.
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 - [Tentang Migrations](#tentang-migrations)
+- [Migrasi Auth Library](#migrasi-auth-library)
+- [Struktur Groups & Permissions](#struktur-groups--permissions)
 - [Tentang Seeders](#tentang-seeders)
 - [Urutan Migration](#urutan-migration)
 - [Cara Penggunaan](#cara-penggunaan)
-- [Struktur Database](#struktur-database)
 - [Troubleshooting](#troubleshooting)
 
-## 🗂️ Tentang Migrations
+## Tentang Migrations
 
 Migration adalah cara version control untuk database. File migration berada di `app/Database/Migrations/` dan dijalankan berurutan berdasarkan timestamp filename.
 
@@ -24,7 +25,7 @@ Migration adalah cara version control untuk database. File migration berada di `
 2. **2023-08-18-000002_CreateKelasTable.php**
    - Membuat tabel `tb_kelas` (kelas)
    - Kolom: id_kelas, tingkat, id_jurusan, index_kelas, timestamps
-   - Foreign key: id_jurusan → tb_jurusan(id)
+   - Foreign key: id_jurusan -> tb_jurusan(id)
 
 3. **2023-08-18-000003_CreateDB.php**
    - Membuat 5 tabel utama:
@@ -36,7 +37,9 @@ Migration adalah cara version control untuk database. File migration berada di `
    - Menambahkan foreign keys antar tabel
 
 4. **2023-08-18-000004_AddSuperadmin.php**
-   - Menambah kolom `is_superadmin` ke tabel `users` (Myth\Auth)
+   - [LEGACY] Migration lama dari MythAuth
+   - Menambah kolom `is_superadmin` ke tabel `users`
+   - Kolom ini telah dihapus oleh migrasi ke-8
 
 5. **2024-07-24-083011_GeneralSettings.php**
    - Membuat tabel `general_settings` untuk konfigurasi aplikasi
@@ -49,9 +52,107 @@ Migration adalah cara version control untuk database. File migration berada di `
 7. **2025-12-23-000002_AddWaliKelasToKelas.php**
    - Menambah kolom `id_wali_kelas` ke tabel `tb_kelas`
    - Menambah kolom `id_guru` ke tabel `users`
-   - Foreign keys: id_wali_kelas → tb_guru(id_guru), id_guru → tb_guru(id_guru)
+   - Foreign keys: id_wali_kelas -> tb_guru(id_guru), id_guru -> tb_guru(id_guru)
 
-## 🌱 Tentang Seeders
+8. **2025-12-24-000001_MigrateIsSuperadminToGroups.php**
+   - **BREAKING CHANGE**: Migrasi dari MythAuth ke CodeIgniter Shield groups
+   - Membaca nilai `is_superadmin` dari setiap user dan memetakannya ke Shield group:
+     - `0` (Scanner) -> group `scanner`
+     - `1` (Super Admin) -> group `superadmin` + `admin`
+     - `2` (Kepsek) -> group `kepsek`
+     - `3` (Staf Petugas) -> group `admin`
+   - Jika user memiliki `id_guru` (profil guru), ditambahkan group `guru`
+   - Menghapus kolom `is_superadmin` dari tabel `users`
+
+## Migrasi Auth Library
+
+Aplikasi ini sebelumnya menggunakan **MythAuth** untuk autentikasi dan otorisasi. Telah dimigrasi ke **CodeIgniter Shield**.
+
+### Perubahan Database
+
+- Kolom `is_superadmin` pada tabel `users` dihapus
+- Role disimpan di tabel `auth_groups_users` (milik Shield) sebagai group name string
+- User dapat memiliki multiple groups (contoh: superadmin + admin, atau admin + guru)
+- Group `guru` otomatis ditambahkan saat user memiliki `id_guru`
+
+### Perubahan Code
+
+- `$user->is_superadmin` tidak lagi tersedia. Gunakan `$user->inGroup('superadmin')` atau `auth()->user()->can('permission.name')`
+- `user_role()` mengembalikan string group name, bukan objek UserRole
+- `is_wali_kelas()` sekarang cek ke tabel `tb_kelas.id_wali_kelas`, bukan cek `id_guru`
+- `is_guru()` fungsi baru untuk cek apakah user memiliki profil guru (`id_guru`)
+
+### Helper Functions yang Tersedia
+
+```php
+user()              // auth()->user()
+user_role()         // Group name string (superadmin > admin > kepsek > scanner > guru)
+getUserRole()       // Label untuk display
+is_superadmin()     // Cek group superadmin
+is_guru()           // Cek kepemilikan id_guru
+is_wali_kelas()     // Cek tb_kelas.id_wali_kelas
+is_kepsek()         // Cek group kepsek
+can_edit_attendance()  // Cek permission attendance.edit
+can_generate_qr()      // Cek permission qr.generate
+can_view_report()      // Cek permission attendance.view
+```
+
+## Struktur Groups & Permissions
+
+Groups dan permissions didefinisikan di `app/Config/AuthGroups.php`.
+
+### Groups
+
+| Group Key | Title | Deskripsi |
+|-----------|-------|-----------|
+| superadmin | Super Admin | Akses penuh ke seluruh fitur aplikasi |
+| admin | Staf Petugas | Mengelola absensi, generate QR, dan laporan |
+| kepsek | Kepala Sekolah | Melihat laporan absensi |
+| scanner | Scanner | Hanya scan QR untuk presensi |
+| guru | Guru | Guru/Wali Kelas, mengelola presensi siswanya |
+
+### Permissions
+
+| Permission | Grup Pemilik |
+|------------|-------------|
+| dashboard.view-admin | superadmin, admin, kepsek |
+| students.manage | superadmin |
+| teachers.manage | superadmin |
+| classes.manage | superadmin |
+| attendance.edit | superadmin, admin, guru |
+| attendance.view | superadmin, admin, kepsek, guru |
+| qr.generate | superadmin, admin |
+| petugas.manage | superadmin |
+| settings.manage | superadmin |
+| backup.manage | superadmin |
+| teacher.access | superadmin, guru |
+
+### Route-Level Protection
+
+Tiap route group dilindungi oleh `PermissionFilter` milik Shield:
+
+```
+admin/absen-siswa/*     -> permission:attendance.edit
+admin/siswa/*           -> permission:students.manage
+admin/guru/*            -> permission:teachers.manage
+admin/kelas/*           -> permission:classes.manage
+admin/petugas/*         -> permission:petugas.manage
+admin/generate/*        -> permission:qr.generate
+admin/laporan/*         -> permission:attendance.view
+admin/general-settings/* -> permission:settings.manage
+admin/backup/*          -> permission:backup.manage
+teacher/*               -> permission:teacher.access
+```
+
+### Catatan Multiple Groups
+
+User dapat memiliki lebih dari satu group. Saat menyimpan petugas:
+
+- `savePetugas()` menggunakan `syncGroups()` yang mengganti seluruh group user
+- Jika `id_guru` diisi, group `guru` otomatis ditambahkan
+- Contoh: superadmin yang juga guru akan memiliki groups: superadmin, admin, guru
+
+## Tentang Seeders
 
 Seeder digunakan untuk mengisi data awal ke database. File seeder berada di `app/Database/Seeds/`.
 
@@ -73,6 +174,8 @@ Seeder digunakan untuk mengisi data awal ke database. File seeder berada di `app
    - Username: `superadmin`
    - Password: `superadmin`
    - Email: `adminsuper@gmail.com`
+   - Menggunakan Shield `auth()->getProvider()` (bukan MythAuth)
+   - Menambahkan user ke group `superadmin` dan `admin`
 
 6. **GeneralSettingsSeeder.php**
    - Mengisi pengaturan umum aplikasi
@@ -85,26 +188,27 @@ Seeder digunakan untuk mengisi data awal ke database. File seeder berada di `app
 8. **SiswaSeeder.php** (Optional)
    - Contoh seeder untuk data siswa (sudah ada)
 
-## 📊 Urutan Migration
+## Urutan Migration
 
 Migration akan dijalankan berdasarkan urutan timestamp berikut:
 
 ```
 1. CreateJurusanTable        (tb_jurusan)
-2. CreateKelasTable          (tb_kelas) → referensi tb_jurusan
+2. CreateKelasTable          (tb_kelas) -> referensi tb_jurusan
 3. CreateDB                  (5 tabel + foreign keys)
    - tb_kehadiran
    - tb_guru
-   - tb_siswa            → referensi tb_kelas
-   - tb_presensi_guru    → referensi tb_guru, tb_kehadiran
-   - tb_presensi_siswa   → referensi tb_siswa, tb_kelas, tb_kehadiran
-4. AddSuperadmin            (kolom is_superadmin ke users)
+   - tb_siswa            -> referensi tb_kelas
+   - tb_presensi_guru    -> referensi tb_guru, tb_kehadiran
+   - tb_presensi_siswa   -> referensi tb_siswa, tb_kelas, tb_kehadiran
+4. AddSuperadmin            (LEGACY - migration MythAuth)
 5. GeneralSettings          (general_settings)
 6. AddRfidToSiswaGuru       (kolom rfid_code ke tb_siswa & tb_guru)
 7. AddWaliKelasToKelas      (kolom id_wali_kelas ke tb_kelas, id_guru ke users)
+8. MigrateIsSuperadminToGroups (BREAKING - hapus is_superadmin, migrasi ke Shield)
 ```
 
-## 🚀 Cara Penggunaan
+## Cara Penggunaan
 
 ### Fresh Installation (Database Baru)
 
@@ -193,7 +297,13 @@ php spark migrate:rollback -all
 php spark migrate:rollback -b 3
 ```
 
-## 🔧 Troubleshooting
+## Troubleshooting
+
+### Error: Unknown column 'email' in 'where clause'
+
+**Penyebab**: Shield menyimpan email di tabel `auth_identities.secret`, bukan kolom `users.email`.
+
+**Solusi**: Gunakan `$userProvider->findByCredentials(['email' => $email])` untuk mencari user by email, bukan `$userProvider->where('email', ...)`.
 
 ### Error: Foreign key constraint fails
 
@@ -228,12 +338,13 @@ php spark migrate:refresh
 
 ### Error: Class "Myth\Auth\Password" not found
 
-**Penyebab**: Library Myth\Auth belum terinstall.
+**Penyebab**: MythAuth sudah tidak digunakan. Semua kode autentikasi telah migrasi ke CodeIgniter Shield.
 
-**Solusi**:
+**Solusi**: Pastikan `composer.json` hanya memiliki `codeigniter4/shield` (tidak perlu `myth/auth`). Jalankan ulang migration:
 
 ```bash
-composer require myth/auth
+composer install
+php spark migrate --all
 ```
 
 ### Seeder Tidak Jalan
@@ -267,7 +378,7 @@ php spark migrate:refresh
 php spark db:seed DatabaseSeeder
 ```
 
-## 📝 Best Practices
+## Best Practices
 
 1. **Selalu backup database** sebelum menjalankan migration di production
 2. **Test migration** di environment development terlebih dahulu
@@ -277,7 +388,7 @@ php spark db:seed DatabaseSeeder
 6. **Version control** semua migration dan seeder files
 7. **Dokumentasikan perubahan** di CHANGELOG atau commit message
 
-## 🔐 Keamanan
+## Keamanan
 
 1. **Ubah password superadmin** setelah instalasi pertama:
    - Edit `app/Database/Seeds/SuperadminSeeder.php` sebelum seed
@@ -287,13 +398,13 @@ php spark db:seed DatabaseSeeder
 
 3. **Gunakan environment variables** untuk credentials database
 
-## 📚 Referensi
+## Referensi
 
 - [CodeIgniter 4 Migrations Documentation](https://codeigniter.com/user_guide/dbmgmt/migration.html)
 - [CodeIgniter 4 Database Seeding](https://codeigniter.com/user_guide/dbmgmt/seeds.html)
-- [Myth\Auth Library](https://github.com/lonnieezell/myth-auth)
+- [CodeIgniter Shield Documentation](https://codeigniter4.github.io/shield/)
 
-## 📞 Support
+## Support
 
 Jika mengalami masalah:
 
@@ -304,4 +415,4 @@ Jika mengalami masalah:
 
 ---
 
-**Last Updated**: 2025-12-26
+**Last Updated**: 2026-06-12

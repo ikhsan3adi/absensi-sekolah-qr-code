@@ -60,7 +60,7 @@
                            <select class="custom-select <?= $validation->getError('role') ? 'is-invalid' : ''; ?>" id="role" name="role">
                               <option value="">--Pilih role--</option>
                               <?php foreach ($roles as $role): ?>
-                                 <option value="<?= $role->value ?>" <?= (old('role') ?? $oldInput['role'] ?? $data['is_superadmin']) == (string) $role->value ? 'selected' : ''; ?>>
+                                 <option value="<?= $role->value ?>" <?= (old('role') ?? $oldInput['role'] ?? ($data['groups'][0] ?? 'scanner')) == $role->value ? 'selected' : ''; ?>>
                                     <?= $role->label() ?>
                                  </option>
                               <?php endforeach; ?>

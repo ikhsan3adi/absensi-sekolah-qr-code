@@ -12,7 +12,6 @@ class PetugasModel extends Model
          'email',
          'username',
          'password_hash',
-         'is_superadmin',
          'id_guru',
          'active'
       ];
@@ -22,32 +21,129 @@ class PetugasModel extends Model
 
    protected $primaryKey = 'id';
 
+   /**
+    * Map old form role integer values to Shield group names.
+    */
+   private const ROLE_GROUP_MAP = [
+      '0' => 'scanner',
+      '1' => 'superadmin',
+      '2' => 'kepsek',
+      '3' => 'admin',
+   ];
+
+   /**
+    * Get all petugas (staff users) with group info.
+    */
    public function getAllPetugas()
    {
-      return $this->select('users.*, tb_guru.nama_guru')
+      $db = \Config\Database::connect();
+      $subquery = '(SELECT DISTINCT id_wali_kelas FROM ' . $db->protectIdentifiers('tb_kelas') . ' WHERE id_wali_kelas IS NOT NULL)';
+
+      $users = $this->select('users.*, auth_identities.secret as email, tb_guru.nama_guru')
+         ->select("CASE WHEN wk.id_wali_kelas IS NOT NULL THEN 1 ELSE 0 END as is_wali_kelas", false)
+         ->join('auth_identities', 'users.id = auth_identities.user_id AND auth_identities.type = "email_password"', 'left')
          ->join('tb_guru', 'users.id_guru = tb_guru.id_guru', 'left')
+         ->join($subquery . ' wk', 'users.id_guru = wk.id_wali_kelas', 'left')
          ->findAll();
+
+      // Enrich with group information
+      $groupModel = model(\CodeIgniter\Shield\Models\GroupModel::class);
+      $userIds = array_column($users, 'id');
+      $groupsByUser = $groupModel->getGroupsByUserIds($userIds);
+
+      foreach ($users as &$user) {
+         $user['groups'] = $groupsByUser[$user['id']] ?? [];
+      }
+
+      return $users;
    }
 
+   /**
+    * Get a single petugas by ID with group info.
+    */
    public function getPetugasById($id)
    {
-      return $this->where([$this->primaryKey => $id])->first();
+      $user = $this->select('users.*, auth_identities.secret as email')
+         ->join('auth_identities', 'users.id = auth_identities.user_id AND auth_identities.type = "email_password"', 'left')
+         ->where(['users.' . $this->primaryKey => $id])
+         ->first();
+
+      if ($user) {
+         $groupModel = model(\CodeIgniter\Shield\Models\GroupModel::class);
+         $userGroups = $groupModel->getForUser(new \CodeIgniter\Shield\Entities\User(['id' => $user['id']]));
+         $user['groups'] = $userGroups;
+      }
+
+      return $user;
    }
 
-   public function savePetugas($idPetugas, $email, $username, $passwordHash, $role, $id_guru = null, $active = 1)
+   /**
+    * Save (create or update) a petugas user.
+    *
+    * @param int|null  $idPetugas
+    * @param string    $email
+    * @param string    $username
+    * @param string    $password
+    * @param string    $role      Old integer role value ('0','1','2','3') or group name
+    * @param int|null  $id_guru
+    * @param int       $active
+    * @return bool
+    */
+   public function savePetugas($idPetugas, $email, $username, $password, $role, $id_guru = null, $active = 1)
    {
-      return $this->save([
-         $this->primaryKey => $idPetugas,
-         'email' => $email,
+      $users = auth()->getProvider();
+
+      if ($idPetugas) {
+         $user = $users->find($idPetugas);
+      } else {
+         $user = new \CodeIgniter\Shield\Entities\User();
+      }
+
+      $user->fill([
          'username' => $username,
-         'password_hash' => $passwordHash,
-         'is_superadmin' => $role ?? '0',
-         'id_guru' => $id_guru,
-         'active' => $active
+         'email'    => $email,
       ]);
+
+      if (!empty($password)) {
+         $user->password = $password;
+      }
+
+      $user->id_guru = $id_guru;
+      $user->active  = $active;
+
+      // Map role value to Shield group name
+      $targetGroup = self::ROLE_GROUP_MAP[$role] ?? $role;
+      // Validate it's a known group, fallback to 'admin'
+      $validGroups = array_keys(setting('AuthGroups.groups'));
+      if (!in_array($targetGroup, $validGroups, true)) {
+         $targetGroup = 'admin';
+      }
+
+      if ($users->save($user)) {
+         if (!$idPetugas) {
+            $newId = $users->getInsertID();
+            $savedUser = $users->find($newId);
+         } else {
+            $savedUser = $users->find($idPetugas);
+         }
+
+         // Sync groups: primary role group + 'guru' if has id_guru
+         $groupsToSync = [$targetGroup];
+         if (!empty($id_guru)) {
+            $groupsToSync[] = 'guru';
+         }
+
+         $savedUser->syncGroups(...$groupsToSync);
+
+         return true;
+      }
+
+      return false;
    }
 
-   //generate CSV object
+   /**
+    * Generate CSV object from uploaded file.
+    */
    public function generateCSVObject($filePath)
    {
       $array = array();
@@ -97,7 +193,9 @@ class PetugasModel extends Model
       return false;
    }
 
-   //import csv item
+   /**
+    * Import a single CSV item and create a user.
+    */
    public function importCSVItem($txtFileName, $index)
    {
       // Validate txtFileName to prevent path traversal and disallow unsafe characters
@@ -134,9 +232,8 @@ class PetugasModel extends Model
                if (empty($password) || strlen($password) < 6) {
                   return null; // Password too short or empty
                }
-               $data['password_hash'] = \Myth\Auth\Password::hash($password);
 
-               $data['is_superadmin'] = getCSVInputValue($item, 'role', 'int'); // 1 or 0
+               $roleValue = getCSVInputValue($item, 'role', 'int'); // 1 or 0 (old format)
                $idGuru = getCSVInputValue($item, 'id_guru', 'int');
                
                // Validate id_guru foreign key reference
@@ -153,19 +250,44 @@ class PetugasModel extends Model
 
                $data['active'] = 1;
 
-               // Check if email or username already exists
-               $existing = $this->where('email', $data['email'])->orWhere('username', $data['username'])->first();
-
-               if (!empty($existing)) {
-                  return null; // Or handle error gracefully
+               // Check if email or username already exists using Shield
+               $users = auth()->getProvider();
+               $existing = $users->findByCredentials(['email' => $data['email']]);
+               if (!$existing) {
+                  $existing = $users->where('username', $data['username'])->first();
                }
 
-               $this->insert($data);
+               if (!empty($existing)) {
+                  return null;
+               }
 
-               $responseData = $data;
-               unset($responseData['password_hash']);
+               // Create user using Shield
+               $user = new \CodeIgniter\Shield\Entities\User([
+                  'username' => $data['username'],
+                  'email'    => $data['email'],
+                  'password' => $password,
+               ]);
+               $user->id_guru = $data['id_guru'];
+               $user->active  = $data['active'];
 
-               return $responseData;
+               if ($users->save($user)) {
+                  $newId = $users->getInsertID();
+                  $savedUser = $users->find($newId);
+
+                  // Map role to group
+                  $targetGroup = self::ROLE_GROUP_MAP[(string) $roleValue] ?? 'admin';
+                  
+                  $groupsToSync = [$targetGroup];
+                  if (!empty($data['id_guru'])) {
+                     $groupsToSync[] = 'guru';
+                  }
+                  $savedUser->syncGroups(...$groupsToSync);
+                  
+                  $responseData = $data;
+                  return $responseData;
+               }
+
+               return null;
             }
             $i++;
          }
