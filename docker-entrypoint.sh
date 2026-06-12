@@ -7,20 +7,13 @@ if [ ! -d "vendor" ] || [ -z "$(ls -A vendor)" ]; then
     composer install --no-interaction --optimize-autoloader
 fi
 
-# Use .env.docker as .env inside container (overrides CI4's DotEnv which
-# overwrites Docker env vars with .env values for dotted names)
-if [ -f .env.docker ]; then
-    echo "Using .env.docker as .env for Docker environment..."
-    cp .env.docker .env
-fi
-
 # Wait for database to be ready
 echo "Waiting for database connection..."
-# Read database config from the .env file we just prepared (or existing .env)
-DB_HOST="$(grep -oP '^database\.default\.hostname\s*=\s*\K.*' .env | head -1 | xargs || echo 'db')"
-DB_USER="$(grep -oP '^database\.default\.username\s*=\s*\K.*' .env | head -1 | xargs || echo 'root')"
-DB_PASS="$(grep -oP '^database\.default\.password\s*=\s*\K.*' .env | head -1 | xargs || echo '')"
-DB_PORT="$(grep -oP '^database\.default\.port\s*=\s*\K.*' .env | head -1 | xargs || echo '3306')"
+# Read database config from .env.docker (always available in Docker), fallback .env
+DB_HOST="$(grep -oP '^database\.default\.hostname\s*=\s*\K.*' .env.docker 2>/dev/null | head -1 | xargs || echo 'db')"
+DB_USER="$(grep -oP '^database\.default\.username\s*=\s*\K.*' .env.docker 2>/dev/null | head -1 | xargs || echo 'root')"
+DB_PASS="$(grep -oP '^database\.default\.password\s*=\s*\K.*' .env.docker 2>/dev/null | head -1 | xargs || echo '')"
+DB_PORT="$(grep -oP '^database\.default\.port\s*=\s*\K.*' .env.docker 2>/dev/null | head -1 | xargs || echo '3306')"
 
 echo "DB Host: $DB_HOST, DB User: $DB_USER, DB Port: $DB_PORT"
 
@@ -38,8 +31,8 @@ echo "Running database migrations..."
 php spark migrate --all
 
 # Run database seeds
-echo "Running database seeds..."
-php spark db:seed DatabaseSeeder
+# echo "Running database seeds..."
+# php spark db:seed DatabaseSeeder
 
 # Fix permissions for writable and public/uploads directory to ensure www-data can write
 if [ -d "writable" ]; then

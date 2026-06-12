@@ -15,6 +15,9 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
+      # Map .env.docker as .env inside container so CI4 reads Docker config.
+      # Host's .env (with 127.0.0.1) stays untouched for local php spark serve.
+      - ./.env.docker:/var/www/html/.env
     networks:
       - app-network
     ports:
