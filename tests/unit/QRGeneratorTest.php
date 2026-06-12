@@ -47,7 +47,8 @@ class QRGeneratorTest extends CIUnitTestCase
             ->getRowArray();
 
         $generator = new QRGenerator;
-        $generator->setQrCodeFilePath(QRGenerator::UPLOADS_PATH . "test/");
+        // Use tmp/ directory (writable) instead of test/
+        $generator->setQrCodeFilePath(QRGenerator::UPLOADS_PATH . "tmp/test/");
 
         $result = $generator->generate(
             $siswa['nama_siswa'],
@@ -57,7 +58,7 @@ class QRGeneratorTest extends CIUnitTestCase
 
         $this->assertIsString($result);
         $this->assertTrue(file_exists($result));
-        $this->assertStringContainsString('public/uploads/test/', $result);
+        $this->assertStringContainsString('public/uploads/tmp/test/', $result);
         $this->assertStringContainsString('.png', $result);
     }
 }
