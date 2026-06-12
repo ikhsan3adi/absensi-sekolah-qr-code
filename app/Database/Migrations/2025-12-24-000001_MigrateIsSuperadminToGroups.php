@@ -73,7 +73,7 @@ class MigrateIsSuperadminToGroups extends Migration
 
         // Drop the is_superadmin column
         $this->forge->dropColumn('users', 'is_superadmin');
-        echo "Dropped 'is_superadmin' column from users table.\n";
+        // echo "Dropped 'is_superadmin' column from users table.\n";
     }
 
     public function down()
@@ -136,6 +136,6 @@ class MigrateIsSuperadminToGroups extends Migration
                 ->update(['is_superadmin' => $isSuperadmin]);
         }
 
-        echo "Rolled back: restored 'is_superadmin' column and mapped groups back.\n";
+        // echo "Rolled back: restored 'is_superadmin' column and mapped groups back.\n";
     }
 }

@@ -11,7 +11,7 @@ class AddSuperadmin extends Migration
 {
     public function up()
     {
-        // Add is_superadmin column to users table (Myth\Auth)
+        // Add is_superadmin column to users table (legacy)
         $this->forge->addColumn('users', [
             'is_superadmin' => [
                 'type'       => 'TINYINT',

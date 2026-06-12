@@ -24,7 +24,7 @@ class AddWaliKelasToKelas extends Migration
         // Add foreign key for id_wali_kelas to tb_kelas
         $this->db->query('ALTER TABLE tb_kelas ADD CONSTRAINT fk_tb_kelas_id_wali_kelas FOREIGN KEY (id_wali_kelas) REFERENCES tb_guru(id_guru) ON UPDATE NO ACTION ON DELETE RESTRICT');
 
-        // Add id_guru column to users table (Myth\Auth)
+        // Add id_guru column to users table
         $this->forge->addColumn('users', [
             'id_guru' => [
                 'type'       => 'INT',
