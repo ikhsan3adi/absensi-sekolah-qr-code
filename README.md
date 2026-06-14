@@ -1,5 +1,11 @@
 # Aplikasi Web Sistem Absensi Sekolah Berbasis `QR Code` <br> (+ Dukungan RFID)
 
+<a href="https://trendshift.io/repositories/11254" target="_blank" title="24 July 2024">
+  <img src="https://trendshift.io/api/badge/repositories/11254" alt="ikhsan3adi%2Fabsensi-sekolah-qr-code | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
+</a>
+
+<br />
+
 <a href="https://github.com/ikhsan3adi/absensi-sekolah-qr-code/actions/workflows/ci.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/ikhsan3adi/absensi-sekolah-qr-code/ci.yml?branch=master&style=for-the-badge&label=Continuous%20Integration&labelColor=%239f39b5&logo=github" alt="Continuous Integration">
 </a>
