@@ -1,4 +1,5 @@
 <?= $this->extend('templates/admin_page_layout') ?>
+<?php helper('audit'); ?>
 
 <?= $this->section('content') ?>
 <div class="content">
@@ -30,13 +31,15 @@
                                     <?php if (empty($logs)): ?>
                                         <tr><td colspan="6" class="text-center">Belum ada riwayat aktivitas.</td></tr>
                                     <?php endif; ?>
-                                    <?php foreach ($logs as $l): ?>
+                                    <?php foreach ($logs as $l):
+                                        [$oldHtml, $newHtml] = render_json_diff_side_by_side($l['data_lama'], $l['data_baru']);
+                                    ?>
                                         <tr>
                                             <td><small><?= date('d/m/Y H:i', strtotime($l['created_at'])) ?></small></td>
                                             <td><b><?= $l['username'] ?? 'System' ?></b></td>
                                             <td><?= $l['aksi'] ?></td>
-                                            <td><small class="text-muted"><?= $l['data_lama'] ?: '-' ?></small></td>
-                                            <td><small class="text-info"><?= $l['data_baru'] ?: '-' ?></small></td>
+                                            <td><small><?= $oldHtml ?></small></td>
+                                            <td><small><?= $newHtml ?></small></td>
                                             <td><small><?= $l['ip_address'] ?></small></td>
                                         </tr>
                                     <?php endforeach; ?>
