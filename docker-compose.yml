@@ -10,7 +10,7 @@ services:
         environment:
             SERVICE_NAME: app
             SERVICE_TAGS: dev
-            TZ: Asia/Makassar
+            TZ: Asia/Jakarta
         working_dir: /var/www/html
         volumes:
             - ./:/var/www/html
@@ -32,7 +32,7 @@ services:
             MYSQL_PASSWORD: root
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
-            TZ: Asia/Makassar
+            TZ: Asia/Jakarta
         volumes:
             - dbdata:/var/lib/mysql
             # - ./presensi.sql:/docker-entrypoint-initdb.d/presensi.sql

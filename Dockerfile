@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     tzdata
 
 # Set timezone
-ENV TZ=Asia/Makassar
+ENV TZ=Asia/Jakarta
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Clear cache
