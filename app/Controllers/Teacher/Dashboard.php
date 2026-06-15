@@ -28,8 +28,8 @@ class Dashboard extends BaseController
     public function index()
     {
         $user = user();
-        if (!is_wali_kelas()) {
-            return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
+        if (!is_guru()) {
+            return redirect()->to('admin')->with('error', 'Anda bukan Guru.');
         }
 
         // Get class where the teacher is Wali Kelas
@@ -38,7 +38,7 @@ class Dashboard extends BaseController
         if (empty($kelas)) {
             $data = [
                 'title' => 'Dashboard Wali Kelas',
-                'ctx' => 'dashboard',
+                'ctx' => 'teacher-dashboard',
                 'no_class' => true
             ];
             return view('teacher/dashboard', $data);
@@ -50,7 +50,7 @@ class Dashboard extends BaseController
         // Basic stats
         $data = [
             'title' => 'Dashboard Wali Kelas',
-            'ctx' => 'dashboard',
+            'ctx' => 'teacher-dashboard',
             'kelas' => $kelas,
             'summary' => [
                 'total_siswa' => $this->siswaModel->getSiswaCountByKelas($kelas['id_kelas']),
@@ -128,8 +128,8 @@ class Dashboard extends BaseController
     public function attendance()
     {
         $user = user();
-        if (!is_wali_kelas()) {
-            return redirect()->to('teacher/dashboard')->with('error', 'Anda bukan Wali Kelas.');
+        if (!is_guru()) {
+            return redirect()->to('teacher/dashboard')->with('error', 'Anda bukan Guru.');
         }
 
         $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
@@ -139,7 +139,7 @@ class Dashboard extends BaseController
 
         $data = [
             'title' => 'Manajemen Kehadiran',
-            'ctx' => 'attendance',
+            'ctx' => 'teacher-attendance',
             'kelas' => $kelas,
             'date' => Time::now()->toDateString()
         ];

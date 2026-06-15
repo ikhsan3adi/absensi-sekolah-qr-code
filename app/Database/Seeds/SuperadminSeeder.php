@@ -3,7 +3,7 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use Myth\Auth\Password;
+use CodeIgniter\Shield\Entities\User;
 
 class SuperadminSeeder extends Seeder
 {
@@ -14,29 +14,35 @@ class SuperadminSeeder extends Seeder
         $username = 'superadmin';
         $password = 'superadmin';
 
-        // Hash the password
-        $encryptedPassword = Password::hash($password);
+        $userProvider = auth()->getProvider();
 
-        // Prepare data
-        $data = [
-            'email'         => $email,
-            'username'      => $username,
-            'is_superadmin' => 1,
-            'password_hash' => $encryptedPassword,
-            'active'        => 1,
-        ];
-
-        // Check if superadmin already exists
-        $existingSuperadmin = $this->db->table('users')
-            ->where('username', $username)
-            ->orWhere('email', $email)
-            ->get()
-            ->getRow();
+        // Check if superadmin already exists by email or username
+        $existingSuperadmin = $userProvider->findByCredentials(['email' => $email]);
 
         if (!$existingSuperadmin) {
-            // Insert superadmin
-            $this->db->table('users')->insert($data);
-            
+            // Also check by username
+            $existingSuperadmin = $userProvider->where('username', $username)->first();
+        }
+
+        if (!$existingSuperadmin) {
+            // Create user entity
+            $user = new User([
+                'username' => $username,
+                'email'    => $email,
+                'password' => $password,
+            ]);
+
+            $user->active = 1;
+
+            // Save user
+            $userProvider->save($user);
+
+            // Get the user again to add to groups
+            $user = $userProvider->findById($userProvider->getInsertID());
+
+            // Superadmin gets: superadmin (primary), admin (convenience)
+            $user->addGroup('superadmin', 'admin');
+
             echo "\nSuperadmin created successfully!\n";
             echo "Username: {$username}\n";
             echo "Password: {$password}\n";

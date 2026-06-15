@@ -27,10 +27,15 @@ class KehadiranSeeder extends Seeder
             ],
         ];
 
-        // Using Query Builder for batch insert
-        $this->db->table('tb_kehadiran')->insertBatch($data);
+        // Check if data already exists (prevent duplicates on re-seed)
+        $existing = $this->db->table('tb_kehadiran')->countAllResults();
 
-        // Reset AUTO_INCREMENT to 5 for next entries
-        $this->db->query('ALTER TABLE tb_kehadiran AUTO_INCREMENT = 5');
+        if ($existing === 0) {
+            // Using Query Builder for batch insert
+            $this->db->table('tb_kehadiran')->insertBatch($data);
+
+            // Reset AUTO_INCREMENT to 5 for next entries
+            $this->db->query('ALTER TABLE tb_kehadiran AUTO_INCREMENT = 5');
+        }
     }
 }

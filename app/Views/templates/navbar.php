@@ -47,18 +47,31 @@
                   <p class="d-lg-none d-md-block">
                      Account
                   </p>
-                  <span>User : <?= user()->toArray()['username']; ?></span>
+                  <span>User : <?= user()->username; ?></span>
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                   <a class="dropdown-item" href="#">
-                     Email: <?= user()->toArray()['email']; ?>
+                     Email: <?= user()->email; ?>
                   </a>
-                  <a class="dropdown-item" href="#">
-                     Role:
-                     <span class="h6 text-capitalize ml-2 my-auto badge badge-<?= is_superadmin() ? 'danger' : 'success'; ?>">
-                        <?= user_role()->label(); ?>
-                     </span>
-                  </a>
+                  <div class="dropdown-item">
+                     <div>Role:</div>
+                     <?php foreach (user()->getGroups() ?? [] as $g): ?>
+                        <?php
+                           $badge = match($g) {
+                              'superadmin' => 'danger',
+                              'admin'      => 'success',
+                              'kepsek'     => 'warning',
+                              'scanner'    => 'info',
+                              'guru'       => 'secondary',
+                              default      => 'secondary',
+                           };
+                        ?>
+                        <span class="h6 badge badge-<?= $badge ?> text-capitalize mx-1 my-auto"><?= getUserRole($g) ?></span>
+                     <?php endforeach; ?>
+                     <?php if (is_wali_kelas()): ?>
+                        <span class="h6 badge badge-primary text-capitalize mx-1 my-auto">Wali Kelas</span>
+                     <?php endif; ?>
+                  </div>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
                      Log Out

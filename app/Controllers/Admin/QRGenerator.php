@@ -153,79 +153,88 @@ class QRGenerator extends BaseController
       return $this->qrCodeFilePath . $filename;
    }
 
-   public function downloadQrSiswa($idSiswa = null)
+   protected function serveQr(string $filePath, bool $download)
    {
-      $siswa = (new SiswaModel)->find($idSiswa);
-      if (!$siswa) {
-         session()->setFlashdata([
-            'msg' => 'Siswa tidak ditemukan',
-            'error' => true
-         ]);
-         return redirect()->back();
+      if (!$filePath || !file_exists($filePath)) {
+         throw new \RuntimeException('File QR tidak ditemukan');
       }
 
-      try {
+      if ($download) {
+         return $this->response->download($filePath, null, true);
+      }
+
+      $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+      $mime = $ext === 'svg' ? 'image/svg+xml' : 'image/png';
+
+      return $this->response
+         ->setHeader('Content-Type', $mime)
+         ->setHeader('Content-Length', (string) filesize($filePath))
+         ->setBody(file_get_contents($filePath));
+   }
+
+   protected function generateAndServe(int|string $id, string $type, bool $download)
+   {
+      if ($type === 'siswa') {
+         $siswa = (new SiswaModel)->find($id);
+         if (!$siswa) {
+            session()->setFlashdata(['msg' => 'Siswa tidak ditemukan', 'error' => true]);
+            return redirect()->back();
+         }
          $kelas = $this->getKelasJurusanSlug($siswa['id_kelas']) ?? 'tmp';
          $this->qrCodeFilePath .= "qr-siswa/$kelas/";
-
          if (!file_exists($this->qrCodeFilePath)) {
             mkdir($this->qrCodeFilePath, recursive: true);
          }
-
-         return $this->response->download(
-            $this->generate(
-               nama: $siswa['nama_siswa'],
-               nomor: $siswa['nis'],
-               unique_code: $siswa['unique_code'],
-            ),
-            null,
-            true,
+         $filePath = $this->generate(
+            nama: $siswa['nama_siswa'],
+            nomor: $siswa['nis'],
+            unique_code: $siswa['unique_code'],
          );
+      } else {
+         $guru = (new GuruModel)->find($id);
+         if (!$guru) {
+            session()->setFlashdata(['msg' => 'Data tidak ditemukan', 'error' => true]);
+            return redirect()->back();
+         }
+         $this->qrCode->setForegroundColor($this->foregroundColor2);
+         $this->label->setTextColor($this->foregroundColor2);
+         $this->qrCodeFilePath .= 'qr-guru/';
+         if (!file_exists($this->qrCodeFilePath)) {
+            mkdir($this->qrCodeFilePath, recursive: true);
+         }
+         $filePath = $this->generate(
+            nama: $guru['nama_guru'],
+            nomor: $guru['nuptk'],
+            unique_code: $guru['unique_code'],
+         );
+      }
+
+      try {
+         return $this->serveQr($filePath, $download);
       } catch (\Throwable $th) {
-         session()->setFlashdata([
-            'msg' => $th->getMessage(),
-            'error' => true
-         ]);
+         session()->setFlashdata(['msg' => $th->getMessage(), 'error' => true]);
          return redirect()->back();
       }
    }
 
+   public function downloadQrSiswa($idSiswa = null)
+   {
+      return $this->generateAndServe($idSiswa, 'siswa', true);
+   }
+
+   public function viewQrSiswa($idSiswa = null)
+   {
+      return $this->generateAndServe($idSiswa, 'siswa', false);
+   }
+
    public function downloadQrGuru($idGuru = null)
    {
-      $guru = (new GuruModel)->find($idGuru);
-      if (!$guru) {
-         session()->setFlashdata([
-            'msg' => 'Data tidak ditemukan',
-            'error' => true
-         ]);
-         return redirect()->back();
-      }
-      try {
-         $this->qrCode->setForegroundColor($this->foregroundColor2);
-         $this->label->setTextColor($this->foregroundColor2);
+      return $this->generateAndServe($idGuru, 'guru', true);
+   }
 
-         $this->qrCodeFilePath .= 'qr-guru/';
-
-         if (!file_exists($this->qrCodeFilePath)) {
-            mkdir($this->qrCodeFilePath, recursive: true);
-         }
-
-         return $this->response->download(
-            $this->generate(
-               nama: $guru['nama_guru'],
-               nomor: $guru['nuptk'],
-               unique_code: $guru['unique_code'],
-            ),
-            null,
-            true,
-         );
-      } catch (\Throwable $th) {
-         session()->setFlashdata([
-            'msg' => $th->getMessage(),
-            'error' => true
-         ]);
-         return redirect()->back();
-      }
+   public function viewQrGuru($idGuru = null)
+   {
+      return $this->generateAndServe($idGuru, 'guru', false);
    }
 
    public function downloadAllQrSiswa()

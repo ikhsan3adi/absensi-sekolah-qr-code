@@ -12,9 +12,14 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
-use Myth\Auth\Filters\LoginFilter;
-use Myth\Auth\Filters\RoleFilter;
-use Myth\Auth\Filters\PermissionFilter;
+use CodeIgniter\Shield\Filters\SessionAuth;
+use CodeIgniter\Shield\Filters\TokenAuth;
+use CodeIgniter\Shield\Filters\ChainAuth;
+use CodeIgniter\Shield\Filters\AuthRates;
+use CodeIgniter\Shield\Filters\GroupFilter;
+use CodeIgniter\Shield\Filters\PermissionFilter;
+use CodeIgniter\Shield\Filters\ForcePasswordResetFilter;
+use CodeIgniter\Shield\Filters\JWTAuth;
 
 class Filters extends BaseFilters
 {
@@ -38,9 +43,14 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
 
-        'login'         => LoginFilter::class,
-        'role'          => RoleFilter::class,
-        'permission'    => PermissionFilter::class,
+        'session'     => SessionAuth::class,
+        'tokens'      => TokenAuth::class,
+        'chain'       => ChainAuth::class,
+        'auth-rates'  => AuthRates::class,
+        'group'       => GroupFilter::class,
+        'permission'  => PermissionFilter::class,
+        'force-reset' => ForcePasswordResetFilter::class,
+        'jwt'         => JWTAuth::class,
     ];
 
     /**
@@ -80,7 +90,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             'honeypot',
-            'login' => ['except' => ['login', 'izin', 'izin/*', 'cek-kehadiran', 'cek-kehadiran/*']]
+            'session' => ['except' => ['login', 'izin', 'izin/*', 'cek-kehadiran', 'cek-kehadiran/*']]
             // 'csrf',
             // 'invalidchars',
         ],
@@ -116,11 +126,14 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'login' => [
+        'session' => [
             'before' => [
-                'admin/',
+                'admin',
                 'admin/*',
-                'register/',
+                'scan',
+                'scan/*',
+                'teacher',
+                'teacher/*',
             ]
         ]
     ];

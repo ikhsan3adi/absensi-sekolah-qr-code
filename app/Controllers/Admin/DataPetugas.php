@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 
 use App\Models\PetugasModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
-use Myth\Auth\Password;
+
 use App\Libraries\enums\UserRole;
 
 class DataPetugas extends BaseController
@@ -97,7 +97,8 @@ class DataPetugas extends BaseController
          return redirect()->to('admin');
       }
 
-      $this->petugasValidationRules['email']['rules'] .= '|is_unique[users.email]';
+      // Shield stores email in auth_identities.secret, not users.email
+      $this->petugasValidationRules['email']['rules'] .= '|is_unique[auth_identities.secret]';
       $this->petugasValidationRules['username']['rules'] .= '|is_unique[users.username]';
       $this->petugasValidationRules['password']['rules'] = 'required|min_length[6]';
 
@@ -108,11 +109,10 @@ class DataPetugas extends BaseController
       $email = $this->request->getVar('email');
       $username = $this->request->getVar('username');
       $password = $this->request->getVar('password');
-      $passwordHash = Password::hash($password);
       $role = $this->request->getVar('role');
       $id_guru = $this->request->getVar('id_guru') ?: null;
 
-      $result = $this->petugasModel->savePetugas(null, $email, $username, $passwordHash, $role, $id_guru, 1);
+      $result = $this->petugasModel->savePetugas(null, $email, $username, $password, $role, $id_guru, 1);
 
       if ($result) {
          session()->setFlashdata([
@@ -159,7 +159,7 @@ class DataPetugas extends BaseController
       }
 
       if ($petugasLama['email'] != $this->request->getVar('email')) {
-         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[users.email]';
+         $this->petugasValidationRules['email']['rules'] = 'required|is_unique[auth_identities.secret]';
       }
 
       // validasi
@@ -180,7 +180,6 @@ class DataPetugas extends BaseController
 
       $email = $this->request->getVar('email');
       $username = $this->request->getVar('username');
-      $passwordHash = $password ? Password::hash($password) : $petugasLama['password_hash'];
       $role = $this->request->getVar('role');
       $id_guru = $this->request->getVar('id_guru') ?: null;
 
@@ -188,7 +187,7 @@ class DataPetugas extends BaseController
          $idPetugas,
          $email,
          $username,
-         $passwordHash,
+         $password,
          $role,
          $id_guru,
          $petugasLama['active']
@@ -261,13 +260,15 @@ class DataPetugas extends BaseController
     */
    public function bulkPost()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (!is_superadmin()) {
          return redirect()->to('admin');
       }
 
-      $data['title'] = 'Import Petugas';
-      $data['ctx'] = 'petugas';
-      $data['guru'] = $this->guruModel->getAllGuru();
+      $data = [
+         'title' => 'Import Petugas',
+         'ctx' => 'petugas',
+         'guru' => $this->guruModel->getAllGuru(),
+      ];
 
       return view('admin/petugas/import-petugas', $data);
    }

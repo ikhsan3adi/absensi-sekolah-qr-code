@@ -28,8 +28,8 @@ class Reports extends BaseController
     public function index()
     {
         $user = user();
-        if (!is_wali_kelas()) {
-            return redirect()->to('admin')->with('error', 'Anda bukan Wali Kelas.');
+        if (!is_guru()) {
+            return redirect()->to('admin')->with('error', 'Anda bukan Guru.');
         }
 
         $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
@@ -40,7 +40,7 @@ class Reports extends BaseController
 
         $data = [
             'title' => 'Laporan Presensi Kelas',
-            'ctx' => 'laporan-kelas',
+            'ctx' => 'teacher-laporan',
             'kelas' => $kelas
         ];
 

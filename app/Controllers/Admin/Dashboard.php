@@ -12,7 +12,6 @@ use App\Models\PetugasModel;
 use App\Models\PresensiGuruModel;
 use App\Models\PresensiSiswaModel;
 use CodeIgniter\I18n\Time;
-use App\Libraries\enums\UserRole;
 
 class Dashboard extends BaseController
 {
@@ -40,14 +39,6 @@ class Dashboard extends BaseController
 
    public function index()
    {
-      if (is_wali_kelas()) {
-         return redirect()->to('teacher/dashboard');
-      }
-
-      if (user_role() === UserRole::Scanner) {
-         return redirect()->to('scan');
-      }
-
       $now = Time::now();
 
       $dateRange = [];
@@ -78,7 +69,7 @@ class Dashboard extends BaseController
 
       $data = [
          'title' => 'Dashboard',
-         'ctx' => 'dashboard',
+         'ctx' => 'admin-dashboard',
 
          'siswa' => $this->siswaModel->getAllSiswaWithKelas(),
          'guru' => $this->guruModel->getAllGuru(),

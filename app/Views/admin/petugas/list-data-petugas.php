@@ -18,7 +18,22 @@
                   <td><?= $value['username']; ?></td>
                   <td><b><?= $value['email']; ?></b></td>
                   <td>
-                     <?= getUserRole($value['is_superadmin']); ?>
+                     <?php foreach (($value['groups'] ?? []) as $g): ?>
+                        <?php
+                           $badge = match($g) {
+                              'superadmin' => 'danger',
+                              'admin'      => 'success',
+                              'kepsek'     => 'warning',
+                              'scanner'    => 'info',
+                              'guru'       => 'secondary',
+                              default      => 'secondary',
+                           };
+                        ?>
+                        <span class="h6 mr-1 my-auto badge badge-<?= $badge ?> text-capitalize"><?= getUserRole($g) ?></span>
+                     <?php endforeach; ?>
+                     <?php if (!empty($value['is_wali_kelas'])): ?>
+                        <span class="h6 mr-1 my-auto badge badge-primary text-capitalize">Wali Kelas</span>
+                     <?php endif; ?>
                   </td>
                   <td><?= $value['nama_guru'] ?? '-'; ?></td>
                   <td>

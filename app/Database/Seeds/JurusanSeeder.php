@@ -8,14 +8,19 @@ class JurusanSeeder extends Seeder
 {
     public function run()
     {
-        $data = [
-            ['jurusan' => 'OTKP'],
-            ['jurusan' => 'BDP'],
-            ['jurusan' => 'AKL'],
-            ['jurusan' => 'RPL'],
-        ];
+        // Check if data already exists (prevent duplicates on re-seed)
+        $existing = $this->db->table('tb_jurusan')->countAllResults();
 
-        // Using Query Builder for batch insert
-        $this->db->table('tb_jurusan')->insertBatch($data);
+        if ($existing === 0) {
+            $data = [
+                ['jurusan' => 'OTKP'],
+                ['jurusan' => 'BDP'],
+                ['jurusan' => 'AKL'],
+                ['jurusan' => 'RPL'],
+            ];
+
+            // Using Query Builder for batch insert
+            $this->db->table('tb_jurusan')->insertBatch($data);
+        }
     }
 }

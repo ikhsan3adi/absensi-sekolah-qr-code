@@ -56,12 +56,6 @@ class DataSiswa extends BaseController
 
    public function index()
    {
-
-      // hanya super admin
-      if (!is_superadmin()) {
-         return redirect()->to('admin');
-      }
-
       $data = [
          'title' => 'Data Siswa',
          'ctx' => 'siswa',

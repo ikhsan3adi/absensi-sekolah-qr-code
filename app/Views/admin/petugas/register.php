@@ -11,7 +11,15 @@
                     </div>
                     <div class="card-body mx-5 my-3">
 
-                        <?= view('Myth\Auth\Views\_message_block') ?>
+                        <?php if (session()->has('errors')) : ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                <?php foreach (session('errors') as $error) : ?>
+                                    <li><?= $error ?></li>
+                                <?php endforeach ?>
+                                </ul>
+                            </div>
+                        <?php endif ?>
 
                         <form action="<?= base_url('admin/petugas/register') ?>" method="post">
                             <?= csrf_field() ?>
@@ -45,7 +53,7 @@
                             </div>
 
                             <div class="form-group mt-4">
-                                <label for="pass_confirm"><?= lang('Auth.repeatPassword') ?></label>
+                                <label for="pass_confirm"><?= lang('Auth.passwordConfirm') ?></label>
                                 <input type="password" id="pass_confirm" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')): ?>is-invalid<?php endif ?>"
                                     autocomplete="off">
                                 <div class="invalid-feedback">

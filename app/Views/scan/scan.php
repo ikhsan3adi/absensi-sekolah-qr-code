@@ -1,6 +1,21 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
+<?php
+   $user = auth()->user();
+   $dashUrl = '/admin';
+   if ($user && $user->inGroup('superadmin')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('admin')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('kepsek')) {
+      $dashUrl = '/admin';
+   } elseif ($user && $user->inGroup('guru')) {
+      $dashUrl = '/teacher/dashboard';
+   } elseif ($user && $user->inGroup('scanner')) {
+      $dashUrl = '/scan';
+   }
+?>
 <a href="<?= base_url('/cek-kehadiran'); ?> " class="btn btn-default pull-right pl-3 mr-2">
    <i class="material-icons mr-2">visibility</i>
    Cek Kehadiran
@@ -11,7 +26,7 @@
    Ajukan Izin
 </a>
 
-<a href="<?= base_url('/admin'); ?> " class="btn btn-primary pull-right pl-3">
+<a href="<?= base_url($dashUrl); ?>" class="btn btn-primary pull-right pl-3">
    <i class="material-icons mr-2">dashboard</i>
    Dashboard
 </a>

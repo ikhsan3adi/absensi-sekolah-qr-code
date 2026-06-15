@@ -44,11 +44,6 @@ class DataGuru extends BaseController
 
    public function index()
    {
-      if (!is_superadmin()) {
-         return redirect()->to('admin');
-      }
-
-
       $data = [
          'title' => 'Data Guru',
          'ctx' => 'guru',
