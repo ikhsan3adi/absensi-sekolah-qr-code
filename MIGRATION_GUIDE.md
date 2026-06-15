@@ -64,6 +64,32 @@ Migration adalah cara version control untuk database. File migration berada di `
    - Jika user memiliki `id_guru` (profil guru), ditambahkan group `guru`
    - Menghapus kolom `is_superadmin` dari tabel `users`
 
+9. **2026-03-07-000001_CreatePerizinanTable.php**
+   - Membuat tabel `tb_perizinan` (pengajuan izin/sakit digital)
+   - Kolom: id_perizinan, nis, nuptk, tipe (Izin/Sakit), tanggal_mulai, tanggal_selesai, alasan, bukti (file path), status (Pending/Disetujui/Ditolak), created_at, updated_at
+
+10. **2026-03-07-000002_AddLateSystemFields.php**
+    - Menambah kolom ke tabel `tb_presensi_siswa`:
+      - `poin_keterlambatan` - Akumulasi poin keterlambatan (integer, default 0)
+      - `late_minutes` - Jumlah menit keterlambatan
+    - Menambah kolom `batas_jam_masuk` ke tabel `general_settings`
+
+11. **2026-03-07-000003_CreateHariLiburTable.php**
+    - Membuat tabel `tb_hari_libur` (manajemen hari libur)
+    - Kolom: id, tanggal_mulai, tanggal_selesai, keterangan, created_at, updated_at
+
+12. **2026-03-07-000004_AddJamPulangStandard.php**
+    - Menambah kolom `batas_jam_pulang` ke tabel `general_settings`
+    - Digunakan untuk menentukan batas waktu status "Belum Scan" berubah menjadi "Alfa"
+
+13. **2026-03-07-000005_AddGuruToPerizinan.php**
+    - Menambah kolom `nip` ke tabel `tb_perizinan` untuk mendukung pengajuan izin guru
+    - Foreign key: nip -> tb_guru(nip)
+
+14. **2026-03-07-000006_CreateAuditLogsTable.php**
+    - Membuat tabel `audit_logs` (log aktivitas sistem)
+    - Kolom: id, user_id, action, resource, resource_id, old_values (JSON), new_values (JSON), ip_address, user_agent, created_at
+
 ## Migrasi Auth Library
 
 Aplikasi ini sebelumnya menggunakan **MythAuth** untuk autentikasi dan otorisasi. Telah dimigrasi ke **CodeIgniter Shield**.
@@ -206,6 +232,12 @@ Migration akan dijalankan berdasarkan urutan timestamp berikut:
 6. AddRfidToSiswaGuru       (kolom rfid_code ke tb_siswa & tb_guru)
 7. AddWaliKelasToKelas      (kolom id_wali_kelas ke tb_kelas, id_guru ke users)
 8. MigrateIsSuperadminToGroups (BREAKING - hapus is_superadmin, migrasi ke Shield)
+9. CreatePerizinanTable        (tb_perizinan)
+10. AddLateSystemFields         (kolom poin_keterlambatan, late_minutes, batas_jam_masuk)
+11. CreateHariLiburTable        (tb_hari_libur)
+12. AddJamPulangStandard        (kolom batas_jam_pulang)
+13. AddGuruToPerizinan          (kolom nip di tb_perizinan)
+14. CreateAuditLogsTable        (audit_logs)
 ```
 
 ## Cara Penggunaan
