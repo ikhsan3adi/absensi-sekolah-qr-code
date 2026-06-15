@@ -53,7 +53,7 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <span class="badge badge-<?= $p['tipe_izin'] == 'Sakit' ? 'warning' : 'info' ?>">
+                                                <span class="p-2 badge badge-<?= $p['tipe_izin'] == 'Sakit' ? 'warning' : 'info' ?>">
                                                     <?= $p['tipe_izin'] ?>
                                                 </span>
                                             </td>
@@ -65,19 +65,19 @@
                                             </td>
                                             <td>
                                                 <?php if ($p['status'] == 'Pending'): ?>
-                                                    <span class="badge badge-default">Pending</span>
+                                                    <span class="badge badge-default p-2">Pending</span>
                                                 <?php elseif ($p['status'] == 'Disetujui'): ?>
-                                                    <span class="badge badge-success">Disetujui</span>
+                                                    <span class="badge badge-success p-2">Disetujui</span>
                                                 <?php else: ?>
-                                                    <span class="badge badge-danger">Ditolak</span>
+                                                    <span class="badge badge-danger p-2">Ditolak</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td class="td-actions">
                                                 <?php if ($p['status'] == 'Pending'): ?>
-                                                    <button type="button" class="btn btn-success btn-round btn-sm btn-konfirmasi" data-id="<?= $p['id_perizinan'] ?>" data-status="Disetujui">
+                                                    <button type="button" class="btn btn-success btn-sm btn-konfirmasi" data-id="<?= $p['id_perizinan'] ?>" data-status="Disetujui">
                                                         <i class="material-icons">check</i> Setujui
                                                     </button>
-                                                    <button type="button" class="btn btn-danger btn-round btn-sm btn-konfirmasi" data-id="<?= $p['id_perizinan'] ?>" data-status="Ditolak">
+                                                    <button type="button" class="btn btn-danger btn-sm btn-konfirmasi" data-id="<?= $p['id_perizinan'] ?>" data-status="Ditolak">
                                                         <i class="material-icons">close</i> Tolak
                                                     </button>
                                                 <?php endif; ?>

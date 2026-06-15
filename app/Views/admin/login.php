@@ -1,10 +1,10 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
-<a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
+<!--<a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
     <i class="material-icons mr-2">qr_code</i>
     Scan QR
-</a>
+</a>-->
 <?= $this->endSection() ?>
 
 <?= $this->section('content'); ?>

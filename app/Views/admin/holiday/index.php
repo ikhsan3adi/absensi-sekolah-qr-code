@@ -3,6 +3,12 @@
 <?= $this->section('content') ?>
 <div class="content">
     <div class="container-fluid">
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+        <?php endif; ?>
         <div class="row">
             <!-- Form Tambah -->
             <div class="col-md-4">
@@ -12,25 +18,18 @@
                         <p class="card-category">Tandai tanggal libur sekolah</p>
                     </div>
                     <div class="card-body">
-                        <?php if (session()->getFlashdata('error')): ?>
-                            <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
-                        <?php endif; ?>
-                        <?php if (session()->getFlashdata('success')): ?>
-                            <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
-                        <?php endif; ?>
-
-                        <form action="<?= base_url('admin/holiday/save') ?>" method="post">
+                        <form action="<?= base_url('admin/holiday/save') ?>" method="post" class="mt-3">
                             <?= csrf_field() ?>
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <label class="label-control">Tanggal Mulai</label>
                                 <input type="date" name="tanggal_mulai" class="form-control" required value="<?= date('Y-m-d') ?>">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <label class="label-control">Tanggal Selesai</label>
                                 <input type="date" name="tanggal_selesai" class="form-control" required value="<?= date('Y-m-d') ?>">
                                 <small class="text-muted">Gunakan tanggal yang sama jika hanya libur 1 hari.</small>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <label class="bmd-label-floating">Keterangan (Contoh: Libur Semester Ganjil)</label>
                                 <input type="text" name="keterangan" class="form-control" required>
                             </div>
