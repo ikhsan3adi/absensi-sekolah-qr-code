@@ -100,12 +100,6 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 
 ---
 
-## Skema Database Inti
-
-<img src="./screenshots/core-absensi-db-schema.svg" alt="Skema Database">
-
----
-
 ## Donasi ❤
 
 Klik link dibawah untuk mendukung pengembangan
