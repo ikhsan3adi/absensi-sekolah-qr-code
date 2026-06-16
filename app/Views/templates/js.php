@@ -15,3 +15,13 @@ $assetVersion = '1.0.0';
 <script src="<?= base_url('assets/js/plugins/file-uploader/js/jquery.dm-uploader.min.js?v=' . $assetVersion); ?>"></script>
 <script src="<?= base_url('assets/js/plugins/file-uploader/js/ui.js?v=' . $assetVersion); ?>"></script>
 <script src="<?= base_url('assets/js/custom.js?v=' . $assetVersion) ?>" type="text/javascript"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('<?= base_url('sw.js') ?>')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker registration failed', err));
+    });
+  }
+</script>

@@ -20,6 +20,8 @@ class GeneralSettingsModel extends BaseModel
       return [
          'school_name' => inputPost('school_name'),
          'school_year' => inputPost('school_year'),
+         'jam_masuk_limit' => inputPost('jam_masuk_limit'),
+         'jam_pulang_standard' => inputPost('jam_pulang_standard'),
          'copyright' => inputPost('copyright'),
       ];
    }

@@ -79,6 +79,7 @@ class DataAbsenGuru extends BaseController
       $keterangan = $this->request->getVar('keterangan');
 
       $cek = $this->presensiGuru->cekAbsen($idGuru, $tanggal);
+      $oldData = $cek ? $this->presensiGuru->find($cek) : null;
 
       $result = $this->presensiGuru->updatePresensi(
          $cek == false ? NULL : $cek,
@@ -93,6 +94,16 @@ class DataAbsenGuru extends BaseController
       $response['nama_guru'] = $this->guruModel->getGuruById($idGuru)['nama_guru'];
 
       if ($result) {
+         // Record Audit Log
+         $auditLogModel = new \App\Models\AuditLogModel();
+         $newData = [
+            'id_kehadiran' => $idKehadiran,
+            'jam_masuk' => $jamMasuk,
+            'jam_keluar' => $jamKeluar,
+            'keterangan' => $keterangan
+         ];
+         $auditLogModel->log("Ubah Kehadiran Guru: {$response['nama_guru']}", "tb_presensi_guru", $cek ?: null, $oldData, $newData);
+
          $response['status'] = TRUE;
       } else {
          $response['status'] = FALSE;

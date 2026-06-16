@@ -220,12 +220,18 @@
                         </div>
                     </div>
                     <div class="card-body" id="siswaStatsContainer">
+                        <?php 
+                            $now = \CodeIgniter\I18n\Time::now();
+                            $limit = $generalSettings->jam_pulang_standard ?? '14:00:00';
+                            $isAfterSchool = $now->toTimeString() > $limit;
+                        ?>
                         <?= view('admin/_dashboard_siswa_stats', [
                             'hadir' => $jumlahKehadiranSiswa['hadir'],
                             'sakit' => $jumlahKehadiranSiswa['sakit'],
                             'izin' => $jumlahKehadiranSiswa['izin'],
                             'alfa' => $jumlahKehadiranSiswa['alfa'],
-                            'totalSiswa' => $totalSiswa
+                            'totalSiswa' => $totalSiswa,
+                            'isAfterSchool' => $isAfterSchool
                         ]) ?>
                     </div>
                 </div>
@@ -252,17 +258,90 @@
                                 <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['izin']; ?></h4>
                             </div>
                             <div class="col-2">
-                                <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
-                                <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['alfa']; ?></h4>
+                                <?php if ($isAfterSchool): ?>
+                                    <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
+                                    <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['alfa']; ?></h4>
+                                <?php else: ?>
+                                    <h5 class="text-muted text-nowrap"><b>Belum Scan</b></h5>
+                                    <h4 class="text-nowrap"><?= $jumlahKehadiranGuru['alfa']; ?></h4>
+                                <?php endif; ?>
                             </div>
                             <div class="col-1">
                                 <div class="border-right mx-auto h-100" style="width: 0;"></div>
                             </div>
-                            <div class="col-2 col-sm-3">
-                                <h5 class="text-primary text-nowrap"><b>Total</b></h5>
+                            <div class="col-3">
+                                <h5 class="text-primary text-nowrap"><b>Total Guru</b></h5>
                                 <h4 class="text-nowrap"><?= $totalGuru; ?></h4>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- TOP TERLAMBAT -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title"><b>Top 5 Poin Keterlambatan</b></h4>
+                        <p class="card-category">Siswa dengan akumulasi menit terbanyak</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                                <th>NIS</th>
+                                <th>Nama Siswa</th>
+                                <th>Poin</th>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($topLateStudents)): ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center">Belum ada data.</td>
+                                    </tr>
+                                <?php endif; ?>
+                                <?php foreach ($topLateStudents as $ls): ?>
+                                    <tr>
+                                        <td><?= $ls['nis'] ?></td>
+                                        <td><b><?= $ls['nama_siswa'] ?></b><br><small><?= $ls['tingkat'] ?> <?= $ls['jurusan'] ?> <?= $ls['index_kelas'] ?></small></td>
+                                        <td><span class="badge badge-warning"><?= $ls['poin_pelanggaran'] ?></span></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABSENTEE ALERT -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title"><b>Peringatan: Tidak Hadir 3 Hari+</b></h4>
+                        <p class="card-category">Siswa yang membolos selama 3 hari berturut-turut</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-danger">
+                                <th>Nama Siswa</th>
+                                <th>Kelas</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($absenteeAlerts)): ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center">Tidak ada peringatan saat ini.</td>
+                                    </tr>
+                                <?php endif; ?>
+                                <?php foreach ($absenteeAlerts as $aa): ?>
+                                    <tr>
+                                        <td><b><?= $aa['nama_siswa'] ?></b><br><small><?= $aa['nis'] ?></small></td>
+                                        <td><?= $aa['tingkat'] ?> <?= $aa['jurusan'] ?> <?= $aa['index_kelas'] ?></td>
+                                        <td><span class="badge badge-danger">Alfa <?= $aa['days_count'] ?> Hari</span></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -325,7 +404,8 @@
         hadir: { border: '#4caf50', bg: 'rgba(76, 175, 80, 1)' },
         sakit: { border: '#ff9800', bg: 'rgba(255, 152, 0, 1)' },
         izin: { border: '#00bcd4', bg: 'rgba(0, 188, 212, 1)' },
-        alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' }
+        alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' },
+        belum_absen: { border: '#999', bg: 'rgba(153, 153, 153, 0.8)' }
     };
 
     function createChartConfig(data) {
@@ -359,6 +439,16 @@
                         data: data.izin,
                         borderColor: chartColors.izin.border,
                         backgroundColor: chartColors.izin.bg,
+                        tension: 0.3,
+                        fill: false,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Belum Absen',
+                        data: data.belum_absen,
+                        borderColor: chartColors.belum_absen.border,
+                        backgroundColor: chartColors.belum_absen.bg,
                         tension: 0.3,
                         fill: false,
                         pointRadius: 4,
@@ -432,7 +522,8 @@
             kehadiranSiswaChart.data.datasets[0].data = newData.hadir;
             kehadiranSiswaChart.data.datasets[1].data = newData.sakit;
             kehadiranSiswaChart.data.datasets[2].data = newData.izin;
-            kehadiranSiswaChart.data.datasets[3].data = newData.alfa;
+            kehadiranSiswaChart.data.datasets[3].data = newData.belum_absen;
+            kehadiranSiswaChart.data.datasets[4].data = newData.alfa;
             kehadiranSiswaChart.update('active');
         }
     }
@@ -444,7 +535,8 @@
                 hadir: <?= json_encode($grafikKehadiranSiswa['hadir']) ?>,
                 sakit: <?= json_encode($grafikKehadiranSiswa['sakit']) ?>,
                 izin: <?= json_encode($grafikKehadiranSiswa['izin']) ?>,
-                alfa: <?= json_encode($grafikKehadiranSiswa['alfa']) ?>
+                alfa: <?= json_encode($grafikKehadiranSiswa['alfa']) ?>,
+                belum_absen: <?= json_encode($grafikKehadiranSiswa['belum_absen']) ?>
             };
             kehadiranSiswaChart = new Chart(siswaCtx, createChartConfig(dataSiswa));
         }
@@ -455,7 +547,8 @@
                 hadir: <?= json_encode($grafikKehadiranGuru['hadir']) ?>,
                 sakit: <?= json_encode($grafikKehadiranGuru['sakit']) ?>,
                 izin: <?= json_encode($grafikKehadiranGuru['izin']) ?>,
-                alfa: <?= json_encode($grafikKehadiranGuru['alfa']) ?>
+                alfa: <?= json_encode($grafikKehadiranGuru['alfa']) ?>,
+                belum_absen: <?= json_encode($grafikKehadiranGuru['belum_absen']) ?>
             };
             kehadiranGuruChart = new Chart(guruCtx, createChartConfig(dataGuru));
         }
@@ -463,6 +556,31 @@
 
     $(document).ready(function () {
         initDashboardPageCharts();
+
+        // Fitur Live Monitoring (Update setiap 10 detik)
+        setInterval(function() {
+            const idKelas = $('#filterKelas').val();
+            $.ajax({
+                url: "<?= base_url('admin/dashboard/live-stats') ?>",
+                type: "GET",
+                data: { id_kelas: idKelas },
+                success: function(response) {
+                    if ($('#hadirCount').length) {
+                        $('#hadirCount').text(response.stats.hadir);
+                        $('#sakitCount').text(response.stats.sakit);
+                        $('#izinCount').text(response.stats.izin);
+                        $('#alfaCount').text(response.stats.alfa);
+                        
+                        const alfaLabel = $('#alfaLabel');
+                        if (response.isAfterSchool) {
+                            alfaLabel.removeClass('text-muted').addClass('text-danger').html('<b>Alfa</b>');
+                        } else {
+                            alfaLabel.removeClass('text-danger').addClass('text-muted').html('<b>Belum Absen</b>');
+                        }
+                    }
+                }
+            });
+        }, 10000);
 
         $('#filterKelas').on('change', function () {
             const idKelas = $(this).val();

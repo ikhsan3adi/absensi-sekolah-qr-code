@@ -44,6 +44,19 @@ $routes->group('scan', function (RouteCollection $routes) {
    $routes->post('cek', 'Scan::cekKode');
 });
 
+// Perizinan Publik
+$routes->group('izin', function (RouteCollection $routes) {
+   $routes->get('', 'Perizinan::index');
+   $routes->post('submit', 'Perizinan::submit');
+   $routes->post('get-siswa', 'Perizinan::getSiswaByNis');
+});
+
+// Portal Cek Kehadiran Mandiri
+$routes->group('cek-kehadiran', function (RouteCollection $routes) {
+   $routes->get('', 'CekKehadiran::index');
+   $routes->post('view', 'CekKehadiran::view');
+});
+
 // ═══════════════════════════════════════════
 // ADMIN AREA — each resource has its own
 // permission filter via Shield PermissionFilter.
@@ -54,6 +67,26 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('', 'Admin\Dashboard::index', ['filter' => 'permission:dashboard.view-admin']);
    $routes->get('dashboard', 'Admin\Dashboard::index', ['filter' => 'permission:dashboard.view-admin']);
    $routes->post('dashboard/filter-data', 'Admin\Dashboard::filterData', ['filter' => 'permission:dashboard.view-admin']);
+
+   // ── Perizinan ──
+   $routes->group('perizinan', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'Perizinan::index');
+      $routes->post('list', 'Perizinan::list');
+      $routes->post('konfirmasi', 'Perizinan::konfirmasi');
+      $routes->delete('delete/(:any)', 'Perizinan::delete/$1');
+   });
+
+   // ── Hari Libur ──
+   $routes->group('holiday', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+      $routes->get('/', 'Holiday::index');
+      $routes->get('generate-weekend', 'Holiday::generateWeekend');
+      $routes->post('save', 'Holiday::save');
+      $routes->post('bulk-delete', 'Holiday::bulkDelete');
+      $routes->delete('delete/(:any)', 'Holiday::delete/$1');
+   });
+
+   // ── Audit Log ──
+   $routes->get('audit-log', 'Admin\Dashboard::auditLog');
 
    // ── Absensi Siswa (attendance.edit) ──
    $routes->group('absen-siswa', ['filter' => 'permission:attendance.edit'], function ($routes) {
@@ -194,6 +227,7 @@ $routes->group('admin', function (RouteCollection $routes) {
 $routes->group('teacher', ['filter' => 'permission:teacher.access'], function (RouteCollection $routes) {
    $routes->get('/', 'Teacher\Dashboard::index');
    $routes->get('dashboard', 'Teacher\Dashboard::index');
+   $routes->get('dashboard/live-stats', 'Teacher\Dashboard::getLiveStats');
    $routes->get('laporan', 'Teacher\Reports::index');
    $routes->post('laporan/generate', 'Teacher\Reports::generate');
    $routes->get('qr', 'Teacher\QRCode::index');
@@ -203,6 +237,10 @@ $routes->group('teacher', ['filter' => 'permission:teacher.access'], function (R
    $routes->post('attendance/get-list', 'Teacher\Dashboard::getAttendanceList');
    $routes->post('attendance/get-edit-modal', 'Teacher\Dashboard::getEditModal');
    $routes->post('attendance/update-single', 'Teacher\Dashboard::updateSingleAttendance');
+
+   // Perizinan
+   $routes->get('perizinan', 'Teacher\Perizinan::index');
+   $routes->post('perizinan/konfirmasi', 'Teacher\Perizinan::konfirmasi');
 });
 
 // ── Environment-specific routes ──

@@ -53,6 +53,9 @@ class Dashboard extends BaseController
       }
 
       $today = $now->toDateString();
+      
+      $jamPulangStandard = $this->generalSettings->jam_pulang_standard ?? '14:00:00';
+      $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
 
       // Get attendance trends using new methods
       $grafikKehadiranSiswa = $this->presensiSiswaModel->getAttendanceTrend();
@@ -98,9 +101,56 @@ class Dashboard extends BaseController
          'totalGuru' => $this->guruModel->countAllResults(),
 
          'petugas' => $this->petugasModel->getAllPetugas(),
+         
+         'topLateStudents' => $this->siswaModel->select('tb_siswa.*, tb_kelas.tingkat, tb_kelas.index_kelas, tb_jurusan.jurusan')
+            ->join('tb_kelas', 'tb_kelas.id_kelas = tb_siswa.id_kelas')
+            ->join('tb_jurusan', 'tb_jurusan.id = tb_kelas.id_jurusan')
+            ->where('poin_pelanggaran >', 0)
+            ->orderBy('poin_pelanggaran', 'DESC')
+            ->limit(5)
+            ->get()->getResultArray(),
+
+         'absenteeAlerts' => $this->presensiSiswaModel->getConsecutiveAbsences(3),
       ];
 
       return view('admin/dashboard', $data);
+   }
+
+   public function auditLog()
+   {
+      $auditLogModel = new \App\Models\AuditLogModel();
+      $data = [
+         'title' => 'Audit Log - Riwayat Perubahan',
+         'ctx' => 'audit-log',
+         'logs' => $auditLogModel->getLogs()
+      ];
+      return view('admin/audit_log', $data);
+   }
+
+   public function getLiveStats()
+   {
+      $now = Time::now();
+      $today = $now->toDateString();
+      $idKelas = $this->request->getGet('id_kelas');
+
+      $jumlahKehadiranSiswa = [
+         'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $idKelas)),
+         'sakit' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $idKelas)),
+         'izin' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $idKelas)),
+         'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $idKelas))
+      ];
+
+      $totalSiswa = $this->siswaModel->getSiswaCountByKelas($idKelas);
+      
+      $jamPulangStandard = $this->generalSettings->jam_pulang_standard ?? '14:00:00';
+      $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
+
+      return $this->response->setJSON([
+         'stats' => $jumlahKehadiranSiswa,
+         'totalSiswa' => $totalSiswa,
+         'isAfterSchool' => $isAfterSchool,
+         'lastUpdate' => $now->toTimeString()
+      ]);
    }
 
    public function filterData()

@@ -1,10 +1,10 @@
 <?= $this->extend('templates/starting_page_layout'); ?>
 
 <?= $this->section('navaction') ?>
-<!-- <a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
+<!--<a href="<?= base_url('/'); ?>" class="btn btn-primary pull-right pl-3">
     <i class="material-icons mr-2">qr_code</i>
     Scan QR
-</a> -->
+</a>-->
 <?= $this->endSection() ?>
 
 <?= $this->section('content'); ?>
@@ -71,6 +71,18 @@
                         <br>
 
                         <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
+
+                        <div class="text-center mt-3">
+                           <p class="mb-1">Atau ajukan ketidakhadiran:</p>
+                           <div class="d-flex flex-column">
+                              <a href="<?= base_url('izin') ?>" class="btn btn-info btn-block mb-2">
+                                 <i class="material-icons mr-2">event_available</i> Ajukan Izin / Sakit
+                              </a>
+                              <a href="<?= base_url('cek-kehadiran') ?>" class="btn btn-default btn-block">
+                                 <i class="material-icons mr-2">visibility</i> Cek Kehadiran Siswa
+                              </a>
+                           </div>
+                        </div>
 
                         <?php if (setting('Auth.allowMagicLinkLogins')): ?>
                            <p class="text-center mt-3">

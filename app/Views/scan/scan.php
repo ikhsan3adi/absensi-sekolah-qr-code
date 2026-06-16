@@ -16,10 +16,20 @@
       $dashUrl = '/scan';
    }
 ?>
+<a href="<?= base_url('/cek-kehadiran'); ?> " class="btn btn-default pull-right pl-3 mr-2">
+   <i class="material-icons mr-2">visibility</i>
+   Cek Kehadiran
+</a>
+
+<a href="<?= base_url('/izin'); ?> " class="btn btn-info pull-right pl-3 mr-2">
+   <i class="material-icons mr-2">event_available</i>
+   Ajukan Izin
+</a>
+
 <a href="<?= base_url($dashUrl); ?>" class="btn btn-primary pull-right pl-3">
-	   <i class="material-icons mr-2">dashboard</i>
-	   Dashboard
-	</a>
+   <i class="material-icons mr-2">dashboard</i>
+   Dashboard
+</a>
 
 <a href="<?= base_url('/logout'); ?> " class="btn btn-danger pull-right pl-3">
    <i class="material-icons mr-2">exit_to_app</i>

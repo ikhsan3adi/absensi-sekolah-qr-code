@@ -52,22 +52,27 @@
                             <p class="card-category"><?= date('d F Y'); ?></p>
                         </div>
                         <div class="card-body">
+                            <?php 
+                                $nowTime = \CodeIgniter\I18n\Time::now()->toTimeString();
+                                $standard = $generalSettings->jam_pulang_standard ?? '14:00:00';
+                                $isFinal = $nowTime > $standard;
+                            ?>
                             <div class="row text-center flex-nowrap">
                                 <div class="col-2">
                                     <h5 class="text-success text-nowrap"><b>Hadir</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['hadir_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="hadirCount"><?= $summary['hadir_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
                                     <h5 class="text-warning text-nowrap"><b>Sakit</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['sakit_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="sakitCount"><?= $summary['sakit_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
                                     <h5 class="text-info text-nowrap"><b>Izin</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['izin_hari_ini']; ?></h4>
+                                    <h4 class="text-nowrap" id="izinCount"><?= $summary['izin_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-2">
-                                    <h5 class="text-danger text-nowrap"><b>Alfa</b></h5>
-                                    <h4 class="text-nowrap"><?= $summary['alfa_hari_ini']; ?></h4>
+                                    <h5 class="text-<?= $isFinal ? 'danger' : 'default' ?> text-nowrap" id="alfaLabel"><b><?= $isFinal ? 'Alfa' : 'Belum Scan' ?></b></h5>
+                                    <h4 class="text-nowrap" id="alfaCount"><?= $summary['alfa_hari_ini']; ?></h4>
                                 </div>
                                 <div class="col-1">
                                     <div class="border-right mx-auto h-100" style="width: 0;"></div>
@@ -77,6 +82,68 @@
                                     <h4 class="text-nowrap"><?= $summary['total_siswa']; ?></h4>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title"><b>Top Keterlambatan Kelas</b></h4>
+                            <p class="card-category">Akumulasi menit keterlambatan</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-warning">
+                                    <th>NIS</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Poin</th>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($topLateStudents)): ?>
+                                        <tr>
+                                            <td colspan="3" class="text-center">Belum ada data.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <?php foreach ($topLateStudents as $ls): ?>
+                                        <tr>
+                                            <td><?= $ls['nis'] ?></td>
+                                            <td><b><?= $ls['nama_siswa'] ?></b></td>
+                                            <td><span class="badge badge-warning"><?= $ls['poin_pelanggaran'] ?></span></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title"><b>Peringatan Alfa 3 Hari+</b></h4>
+                            <p class="card-category">Siswa yang tidak hadir 3 hari beruntun</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-danger">
+                                    <th>Nama Siswa</th>
+                                    <th>Status</th>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($absenteeAlerts)): ?>
+                                        <tr>
+                                            <td colspan="2" class="text-center">Tidak ada peringatan.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <?php foreach ($absenteeAlerts as $aa): ?>
+                                        <tr>
+                                            <td><b><?= $aa['nama_siswa'] ?></b><br><small><?= $aa['nis'] ?></small></td>
+                                            <td><span class="badge badge-danger">Alfa <?= $aa['days_count'] ?> Hari</span></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -116,7 +183,8 @@
             hadir: { border: '#4caf50', bg: 'rgba(76, 175, 80, 1)' },
             sakit: { border: '#ff9800', bg: 'rgba(255, 152, 0, 1)' },
             izin: { border: '#00bcd4', bg: 'rgba(0, 188, 212, 1)' },
-            alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' }
+            alfa: { border: '#f44336', bg: 'rgba(244, 67, 54, 1)' },
+            belum_absen: { border: '#999', bg: 'rgba(153, 153, 153, 0.8)' }
         };
 
         function initTeacherCharts() {
@@ -126,7 +194,8 @@
                     hadir: <?= json_encode($grafikKehadiran['hadir']) ?>,
                     sakit: <?= json_encode($grafikKehadiran['sakit']) ?>,
                     izin: <?= json_encode($grafikKehadiran['izin']) ?>,
-                    alfa: <?= json_encode($grafikKehadiran['alfa']) ?>
+                    alfa: <?= json_encode($grafikKehadiran['alfa']) ?>,
+                    belum_absen: <?= json_encode($grafikKehadiran['belum_absen']) ?>
                 };
 
                 new Chart(ctx, {
@@ -151,6 +220,12 @@
                                 data: data.izin,
                                 borderColor: chartColors.izin.border,
                                 backgroundColor: chartColors.izin.bg
+                            },
+                            {
+                                label: 'Belum Absen',
+                                data: data.belum_absen,
+                                borderColor: chartColors.belum_absen.border,
+                                backgroundColor: chartColors.belum_absen.bg
                             },
                             {
                                 label: 'Alfa',
@@ -214,6 +289,29 @@
 
         $(document).ready(function () {
             initTeacherCharts();
+
+            // Fitur Live Monitoring (Update setiap 10 detik)
+            setInterval(function() {
+                $.ajax({
+                    url: "<?= base_url('teacher/dashboard/live-stats') ?>",
+                    type: "GET",
+                    success: function(response) {
+                        if ($('#hadirCount').length) {
+                            $('#hadirCount').text(response.stats.hadir);
+                            $('#sakitCount').text(response.stats.sakit);
+                            $('#izinCount').text(response.stats.izin);
+                            $('#alfaCount').text(response.stats.alfa);
+                            
+                            const alfaLabel = $('#alfaLabel');
+                            if (response.isAfterSchool) {
+                                alfaLabel.removeClass('text-default').addClass('text-danger').html('<b>Alfa</b>');
+                            } else {
+                                alfaLabel.removeClass('text-danger').addClass('text-default').html('<b>Belum Scan</b>');
+                            }
+                        }
+                    }
+                });
+            }, 10000);
         });
     </script>
 <?php endif; ?>

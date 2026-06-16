@@ -31,6 +31,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group mt-4">
+                                <label for="jam_masuk_limit">Batas Jam Masuk (Siswa dianggap terlambat setelah jam ini)</label>
+                                <input type="time" id="jam_masuk_limit" class="form-control" name="jam_masuk_limit"
+                                    value="<?= $generalSettings->jam_masuk_limit; ?>" required>
+                                <small class="text-muted">Format: HH:MM. Contoh: 07:15</small>
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <label for="jam_pulang_standard">Batas Jam Pulang (Siswa dianggap Alfa setelah jam ini)</label>
+                                <input type="time" id="jam_pulang_standard" class="form-control" name="jam_pulang_standard"
+                                    value="<?= $generalSettings->jam_pulang_standard; ?>" required>
+                                <small class="text-muted">Format: HH:MM. Contoh: 14:00</small>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mt-4">

@@ -143,10 +143,18 @@ class SiswaModel extends Model
          while (($row = fgetcsv($handle)) !== false) {
             if (empty($fields)) {
                $fields = $row;
+               // Remove BOM from the first element if present
+               if (isset($fields[0])) {
+                  $fields[0] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $fields[0]);
+               }
+               // Trim all fields
+               $fields = array_map('trim', $fields);
                continue;
             }
             foreach ($row as $k => $value) {
-               $array[$i][$fields[$k]] = $value;
+               if (isset($fields[$k])) {
+                  $array[$i][$fields[$k]] = trim($value);
+               }
             }
             $i++;
          }
@@ -179,20 +187,32 @@ class SiswaModel extends Model
          $i = 1;
          foreach ($array as $item) {
             if ($i == $index) {
+               $jk = strtolower(getCSVInputValue($item, 'jenis_kelamin'));
+               if (in_array($jk, ['l', 'laki-laki', 'laki laki', 'laki'])) {
+                  $jk = 'Laki-laki';
+               } elseif (in_array($jk, ['p', 'perempuan', 'wanita'])) {
+                  $jk = 'Perempuan';
+               } else {
+                  $jk = 'Laki-laki'; // Default jika tidak dikenal
+               }
+
                $data = array();
                $data['nis'] = getCSVInputValue($item, 'nis', 'int');
                $data['nama_siswa'] = getCSVInputValue($item, 'nama_siswa');
                $data['id_kelas'] = getCSVInputValue($item, 'id_kelas', 'int');
-               $data['jenis_kelamin'] = getCSVInputValue($item, 'jenis_kelamin');
+               $data['jenis_kelamin'] = $jk;
                $data['no_hp'] = getCSVInputValue($item, 'no_hp');
                $data['unique_code'] = generateToken();
 
-               $this->insert($data);
-               return $data;
+               if ($this->insert($data)) {
+                  return $data;
+               }
+               return false;
             }
             $i++;
          }
       }
+      return false;
    }
 
    public function getSiswa($id)

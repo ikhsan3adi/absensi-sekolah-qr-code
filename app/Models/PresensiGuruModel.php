@@ -92,10 +92,20 @@ class PresensiGuruModel extends Model implements PresensiInterface
       if ($idKehadiran == '4') {
          $result = $this->findAll();
 
+         $schoolConfigurations = new \Config\School();
+         $generalSettings = $schoolConfigurations::$generalSettings;
+         $jamPulangStandard = $generalSettings->jam_pulang_standard ?? '14:00:00';
+         
+         $now = Time::now();
+         $nowTime = $now->toTimeString();
+         $today = $now->toDateString();
+         $isAfterSchool = ($today > $tanggal) || ($today == $tanggal && $nowTime > $jamPulangStandard);
+
          $filteredResult = [];
 
          foreach ($result as $value) {
             if (!in_array($value['id_kehadiran'], ['1', '2', '3'])) {
+               $value['is_alfa_final'] = $isAfterSchool;
                array_push($filteredResult, $value);
             }
          }
@@ -109,20 +119,36 @@ class PresensiGuruModel extends Model implements PresensiInterface
 
    /**
     * Get attendance trend for last N days
-    * @return array ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []]
+    * @return array ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => [], 'belum_absen' => []]
     */
    public function getAttendanceTrend(int $days = 7): array
    {
       $now = Time::now();
-      $result = ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => []];
+      $result = ['hadir' => [], 'sakit' => [], 'izin' => [], 'alfa' => [], 'belum_absen' => []];
+
+      $schoolConfigurations = new \Config\School();
+      $generalSettings = $schoolConfigurations::$generalSettings;
+      $jamPulangStandard = $generalSettings->jam_pulang_standard ?? '14:00:00';
+      $nowTime = date('H:i:s');
 
       for ($i = $days - 1; $i >= 0; $i--) {
          $date = $now->subDays($i)->toDateString();
+         $isToday = ($date == $now->toDateString());
+         $isAfterSchool = (date('Y-m-d') > $date) || ($isToday && $now->toTimeString() > $jamPulangStandard);
 
          $result['hadir'][] = count($this->getPresensiByKehadiran('1', $date));
          $result['sakit'][] = count($this->getPresensiByKehadiran('2', $date));
          $result['izin'][] = count($this->getPresensiByKehadiran('3', $date));
-         $result['alfa'][] = count($this->getPresensiByKehadiran('4', $date));
+         
+         $notPresentCount = count($this->getPresensiByKehadiran('4', $date));
+         
+         if ($isAfterSchool) {
+            $result['alfa'][] = $notPresentCount;
+            $result['belum_absen'][] = 0;
+         } else {
+            $result['alfa'][] = 0;
+            $result['belum_absen'][] = $notPresentCount;
+         }
       }
 
       return $result;

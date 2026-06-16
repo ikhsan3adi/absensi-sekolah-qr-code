@@ -90,6 +90,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             'honeypot',
+            'session' => ['except' => ['login', 'izin', 'izin/*', 'cek-kehadiran', 'cek-kehadiran/*']]
             // 'csrf',
             // 'invalidchars',
         ],

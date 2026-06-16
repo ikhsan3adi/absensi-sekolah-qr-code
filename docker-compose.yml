@@ -10,9 +10,10 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+      TZ: Asia/Jakarta
+    working_dir: /var/www/html
     env_file:
       - .env.docker
-    working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
       # Map .env.docker as .env inside container so CI4 reads Docker config.
@@ -36,6 +37,7 @@ services:
     environment:
       SERVICE_NAME: db
       SERVICE_TAGS: dev
+      TZ: Asia/Jakarta
     env_file:
       - .env.docker
     volumes:
@@ -43,7 +45,11 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "mysql -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --ssl-mode=DISABLED -e 'SELECT 1'"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysql -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --ssl-mode=DISABLED -e 'SELECT 1'",
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -58,6 +64,15 @@ services:
       PMA_PORT: 3306
     ports:
       - "8081:80"
+    networks:
+      - app-network
+
+  adminer:
+    image: adminer
+    container_name: absensi-adminer
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
     networks:
       - app-network
 

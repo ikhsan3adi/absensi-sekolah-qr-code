@@ -37,6 +37,15 @@ class Scan extends BaseController
 
    public function cekKode()
    {
+      // Cek apakah hari ini libur
+      $holidayModel = new \App\Models\HariLiburModel();
+      $today = date('Y-m-d');
+      $holiday = $holidayModel->where('tanggal', $today)->first();
+
+      if ($holiday) {
+         return $this->showErrorView("Hari ini sistem presensi dinonaktifkan karena: " . $holiday['keterangan']);
+      }
+
       // ambil variabel POST
       $uniqueCode = $this->request->getVar('unique_code');
       $waktuAbsen = $this->request->getVar('waktu');
@@ -124,8 +133,21 @@ class Scan extends BaseController
                return $this->showErrorView('Anda sudah absen hari ini', $data);
             }
 
-            $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas);
+            $menitKeterlambatan = 0;
+            $jamMasukLimit = $this->generalSettings->jam_masuk_limit ?? null;
+
+            if ($jamMasukLimit && $time > $jamMasukLimit) {
+               $limit = Time::parse($date . ' ' . $jamMasukLimit);
+               $current = Time::parse($date . ' ' . $time);
+               $diff = $current->difference($limit);
+               $menitKeterlambatan = abs($diff->getMinutes());
+            }
+
+            $this->presensiSiswaModel->absenMasuk($idSiswa, $date, $time, $idKelas, $menitKeterlambatan);
             $messageString = 'Siswa ' . $result['nama_siswa'] . ' dengan NIS ' . $result['nis'] . $messageString;
+            if ($menitKeterlambatan > 0) {
+               $messageString .= " (Terlambat $menitKeterlambatan menit)";
+            }
             $data['presensi'] = $this->presensiSiswaModel->getPresensiByIdSiswaTanggal($idSiswa, $date);
 
             break;

@@ -79,8 +79,49 @@ class Dashboard extends BaseController
         $data['dateRange'] = $dateRange;
         $data['grafikKehadiran'] = $grafikKehadiran;
 
+        // Get top late students in this class
+        $data['topLateStudents'] = $this->siswaModel->where('id_kelas', $kelas['id_kelas'])
+            ->where('poin_pelanggaran >', 0)
+            ->orderBy('poin_pelanggaran', 'DESC')
+            ->limit(5)
+            ->findAll();
+
+        $data['absenteeAlerts'] = $this->presensiSiswaModel->getConsecutiveAbsences(3, $kelas['id_kelas']);
+
         return view('teacher/dashboard', $data);
     }
+
+    public function getLiveStats()
+    {
+        $user = user();
+        $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
+        
+        if (empty($kelas)) {
+            return $this->response->setJSON(['error' => 'No class assigned']);
+        }
+
+        $now = \CodeIgniter\I18n\Time::now();
+        $today = $now->toDateString();
+
+        $summary = [
+            'hadir' => count($this->presensiSiswaModel->getPresensiByKehadiran('1', $today, $kelas['id_kelas'])),
+            'sakit' => count($this->presensiSiswaModel->getPresensiByKehadiran('2', $today, $kelas['id_kelas'])),
+            'izin' => count($this->presensiSiswaModel->getPresensiByKehadiran('3', $today, $kelas['id_kelas'])),
+            'alfa' => count($this->presensiSiswaModel->getPresensiByKehadiran('4', $today, $kelas['id_kelas']))
+        ];
+
+        $schoolConfigurations = new \Config\School();
+        $generalSettings = $schoolConfigurations::$generalSettings;
+        $jamPulangStandard = $generalSettings->jam_pulang_standard ?? '14:00:00';
+        $isAfterSchool = $now->toTimeString() > $jamPulangStandard;
+
+        return $this->response->setJSON([
+            'stats' => $summary,
+            'isAfterSchool' => $isAfterSchool,
+            'lastUpdate' => $now->toTimeString()
+        ]);
+    }
+
     /**
      * Show attendance management page for the Wali Kelas.
      */
@@ -150,6 +191,7 @@ class Dashboard extends BaseController
 
         // Check if attendance exists
         $cek = $this->presensiSiswaModel->cekAbsen($idSiswa, $tanggal);
+        $oldData = $cek ? $this->presensiSiswaModel->find($cek) : null;
 
         // Update or Insert (updatePresensi handles logic if first arg is ID or null/false)
         /* 
@@ -170,6 +212,17 @@ class Dashboard extends BaseController
 
         $response['nama_siswa'] = $this->siswaModel->getSiswaById($idSiswa)['nama_siswa'];
         $response['status'] = $result ? true : false;
+
+        if ($result) {
+            $auditLogModel = new \App\Models\AuditLogModel();
+            $newData = [
+                'id_kehadiran' => $idKehadiran,
+                'jam_masuk' => $jamMasuk,
+                'jam_keluar' => $jamKeluar,
+                'keterangan' => $keterangan
+            ];
+            $auditLogModel->log("Wali Kelas Ubah Kehadiran: {$response['nama_siswa']}", "tb_presensi_siswa", $cek ?: null, $oldData, $newData);
+        }
 
         return $this->response->setJSON($response);
     }

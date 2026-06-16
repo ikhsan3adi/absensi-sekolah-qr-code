@@ -6,6 +6,7 @@
    <meta name="theme-color" content="#9c27b0">
    <?= csrf_meta(); ?>
 
+   <link rel="manifest" href="<?= base_url('manifest.json') ?>">
    <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url('assets/img/apple-icon.png'); ?>">
    <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png'); ?>">
 
