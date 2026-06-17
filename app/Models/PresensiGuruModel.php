@@ -134,7 +134,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
       for ($i = $days - 1; $i >= 0; $i--) {
          $date = $now->subDays($i)->toDateString();
 
-         if (!isWorkingDay($date) || $holidayModel->isHoliday($date)) {
+         if ($holidayModel->isHoliday($date)) {
             $result['hadir'][] = 0;
             $result['sakit'][] = 0;
             $result['izin'][] = 0;
