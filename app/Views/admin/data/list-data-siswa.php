@@ -49,6 +49,11 @@
                            class="btn btn-success p-2">
                            <i class="material-icons">qr_code</i>
                         </a>
+                        <a title="Cetak QR Code"
+                           href="<?= base_url('admin/qr/siswa/print-single/' . $value['id_siswa']); ?>"
+                           class="btn btn-info p-2" target="_blank">
+                           <i class="material-icons">print</i>
+                        </a>
                      </div>
                   </td>
                </tr>

@@ -339,14 +339,195 @@ class QRGenerator extends BaseController
       return self::UPLOADS_PATH . DIRECTORY_SEPARATOR . "qr-siswa/{$unique_code}.png";
    }
 
-   protected function getKelasJurusanSlug(string $idKelas)
-   {
-      $kelas = (new KelasModel)->getKelas($idKelas);
-      ;
-      if ($kelas) {
-         return url_title($kelas->kelas, lowercase: true);
-      } else {
-         return false;
-      }
-   }
+    protected function getKelasJurusanSlug(string $idKelas)
+    {
+       $kelas = (new KelasModel)->getKelas($idKelas);
+       ;
+       if ($kelas) {
+          return url_title($kelas->kelas, lowercase: true);
+       } else {
+          return false;
+       }
+    }
+
+    public function printQrSiswa($idKelas = null)
+    {
+       $siswaModel = new SiswaModel();
+       $kelasModel = new KelasModel();
+       $slugCache = [];
+
+       if ($idKelas) {
+          $kelas = $kelasModel->getKelas($idKelas);
+          if (!$kelas) {
+             session()->setFlashdata(['msg' => 'Kelas tidak ditemukan', 'error' => true]);
+             return redirect()->back();
+           }
+          $siswaList = $siswaModel->getSiswaByKelas($idKelas);
+       } else {
+          $kelas = null;
+          $siswaList = $siswaModel->getAllSiswaWithKelas();
+       }
+
+       $items = [];
+       foreach ($siswaList as $siswa) {
+          $idKelasSiswa = $siswa['id_kelas'];
+          if (!isset($slugCache[$idKelasSiswa])) {
+             $slugCache[$idKelasSiswa] = $this->getKelasJurusanSlug($idKelasSiswa) ?? 'tmp';
+          }
+          $kelasSlug = $slugCache[$idKelasSiswa];
+          $this->qrCodeFilePath = self::UPLOADS_PATH . "qr-siswa/$kelasSlug/";
+          if (!file_exists($this->qrCodeFilePath)) {
+             mkdir($this->qrCodeFilePath, recursive: true);
+          }
+          $this->qrCode->setForegroundColor($this->foregroundColor);
+          $this->label->setTextColor($this->foregroundColor);
+          $filePath = $this->generate(
+             nama: $siswa['nama_siswa'],
+             nomor: $siswa['nis'],
+             unique_code: $siswa['unique_code'],
+          );
+
+          $filename = url_title($siswa['nama_siswa'], lowercase: true) . '_' . url_title($siswa['nis'], lowercase: true) . '.png';
+          $items[] = [
+             'nama' => $siswa['nama_siswa'],
+             'nomor' => $siswa['nis'],
+             'nomor_label' => 'NIS',
+             'kelas' => $siswa['kelas'] ?? ($kelas->kelas ?? ''),
+             'qr_url' => base_url("uploads/qr-siswa/$kelasSlug/$filename"),
+          ];
+       }
+
+       $groupInfo = $idKelas && $kelas ? 'Kelas : ' . $kelas->kelas : 'Semua Kelas';
+       if ($idKelas && $kelas) {
+          $groupInfo .= ' - ' . count($items) . ' Siswa';
+       } else {
+          $groupInfo .= ' - ' . count($items) . ' Siswa';
+       }
+
+       $data = [
+          'title' => 'Cetak QR Siswa',
+          'type' => 'siswa',
+          'groupInfo' => $groupInfo,
+          'items' => $items,
+       ];
+
+       return view('admin/generate-qr/print-qr', $data);
+    }
+
+    public function printQrSiswaSingle($id)
+    {
+       $siswa = (new SiswaModel())->find($id);
+       if (!$siswa) {
+          session()->setFlashdata(['msg' => 'Siswa tidak ditemukan', 'error' => true]);
+          return redirect()->back();
+       }
+
+       $kelasSlug = $this->getKelasJurusanSlug($siswa['id_kelas']) ?? 'tmp';
+       $this->qrCodeFilePath = self::UPLOADS_PATH . "qr-siswa/$kelasSlug/";
+       if (!file_exists($this->qrCodeFilePath)) {
+          mkdir($this->qrCodeFilePath, recursive: true);
+       }
+       $this->qrCode->setForegroundColor($this->foregroundColor);
+       $this->label->setTextColor($this->foregroundColor);
+       $this->generate(
+          nama: $siswa['nama_siswa'],
+          nomor: $siswa['nis'],
+          unique_code: $siswa['unique_code'],
+       );
+
+       $filename = url_title($siswa['nama_siswa'], lowercase: true) . '_' . url_title($siswa['nis'], lowercase: true) . '.png';
+       $items[] = [
+          'nama' => $siswa['nama_siswa'],
+          'nomor' => $siswa['nis'],
+          'nomor_label' => 'NIS',
+          'kelas' => '',
+          'qr_url' => base_url("uploads/qr-siswa/$kelasSlug/$filename"),
+       ];
+
+       $data = [
+          'title' => 'Cetak QR - ' . $siswa['nama_siswa'],
+          'type' => 'siswa',
+          'groupInfo' => $siswa['nama_siswa'] . ' (NIS: ' . $siswa['nis'] . ')',
+          'items' => $items,
+       ];
+
+       return view('admin/generate-qr/print-qr', $data);
+    }
+
+    public function printQrGuruSingle($id)
+    {
+       $guru = (new GuruModel())->find($id);
+       if (!$guru) {
+          session()->setFlashdata(['msg' => 'Data tidak ditemukan', 'error' => true]);
+          return redirect()->back();
+       }
+
+       $this->qrCode->setForegroundColor($this->foregroundColor2);
+       $this->label->setTextColor($this->foregroundColor2);
+       $this->qrCodeFilePath = self::UPLOADS_PATH . 'qr-guru/';
+       if (!file_exists($this->qrCodeFilePath)) {
+          mkdir($this->qrCodeFilePath, recursive: true);
+       }
+       $this->generate(
+          nama: $guru['nama_guru'],
+          nomor: $guru['nuptk'],
+          unique_code: $guru['unique_code'],
+       );
+
+       $filename = url_title($guru['nama_guru'], lowercase: true) . '_' . url_title($guru['nuptk'], lowercase: true) . '.png';
+       $items[] = [
+          'nama' => $guru['nama_guru'],
+          'nomor' => $guru['nuptk'],
+          'nomor_label' => 'NUPTK',
+          'kelas' => '',
+          'qr_url' => base_url('uploads/qr-guru/' . $filename),
+       ];
+
+       $data = [
+          'title' => 'Cetak QR - ' . $guru['nama_guru'],
+          'type' => 'guru',
+          'groupInfo' => $guru['nama_guru'] . ' (NUPTK: ' . $guru['nuptk'] . ')',
+          'items' => $items,
+       ];
+
+       return view('admin/generate-qr/print-qr', $data);
+    }
+
+    public function printQrGuru()
+    {
+       $guruList = (new GuruModel())->getAllGuru();
+
+       $items = [];
+       foreach ($guruList as $guru) {
+          $this->qrCode->setForegroundColor($this->foregroundColor2);
+          $this->label->setTextColor($this->foregroundColor2);
+          $this->qrCodeFilePath = self::UPLOADS_PATH . 'qr-guru/';
+          if (!file_exists($this->qrCodeFilePath)) {
+             mkdir($this->qrCodeFilePath, recursive: true);
+          }
+          $filePath = $this->generate(
+             nama: $guru['nama_guru'],
+             nomor: $guru['nuptk'],
+             unique_code: $guru['unique_code'],
+          );
+
+          $filename = url_title($guru['nama_guru'], lowercase: true) . '_' . url_title($guru['nuptk'], lowercase: true) . '.png';
+          $items[] = [
+             'nama' => $guru['nama_guru'],
+             'nomor' => $guru['nuptk'],
+             'nomor_label' => 'NUPTK',
+             'kelas' => '',
+             'qr_url' => base_url('uploads/qr-guru/' . $filename),
+          ];
+       }
+
+       $data = [
+          'title' => 'Cetak QR Guru',
+          'type' => 'guru',
+          'groupInfo' => 'Semua Guru - ' . count($items) . ' Guru',
+          'items' => $items,
+       ];
+
+       return view('admin/generate-qr/print-qr', $data);
+    }
 }

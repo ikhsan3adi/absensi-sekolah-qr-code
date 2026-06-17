@@ -48,39 +48,30 @@
                       <a href="<?= base_url('admin/siswa'); ?>">Lihat data</a>
                     </p>
                     <div class="row px-2">
-                      <div class="col-12 col-xl-6 px-1">
-                        <button onclick="generateAllQrSiswa()" class="btn btn-primary p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">qr_code</i>
-                            </div>
-                            <div>
-                              <h4 class="d-inline font-weight-bold">Generate All</h4>
-                              <div id="progressSiswa" class="d-none mt-2">
-                                <span id="progressTextSiswa"></span>
-                                <i id="progressSelesaiSiswa" class="material-icons d-none" class="d-none">check</i>
-                                <div class="progress progress-siswa">
-                                  <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white"
-                                    style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
-                                    aria-valuemax=""></div>
-                                </div>
-                              </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <button onclick="generateAllQrSiswa()" class="btn btn-primary btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">qr_code</i>
+                          <span class="align-middle">Generate All</span>
+                          <div id="progressSiswa" class="d-none mt-1 small">
+                            <span id="progressTextSiswa"></span>
+                            <i id="progressSelesaiSiswa" class="material-icons d-none" style="font-size: 16px;">check</i>
+                            <div class="progress progress-siswa" style="height: 3px;">
+                              <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white"
+                                style="width: 0%;" role="progressbar"></div>
                             </div>
                           </div>
                         </button>
                       </div>
-                      <div class="col-12 col-xl-6 px-1">
-                        <a href="<?= base_url('admin/qr/siswa/download'); ?>" class="btn btn-primary p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">cloud_download</i>
-                            </div>
-                            <div>
-                              <div class="text-start">
-                                <h4 class="d-inline font-weight-bold">Download All</h4>
-                              </div>
-                            </div>
-                          </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('admin/qr/siswa/download'); ?>" class="btn btn-primary btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">cloud_download</i>
+                          <span class="align-middle">Download All</span>
+                        </a>
+                      </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('admin/qr/siswa/print'); ?>" class="btn btn-primary btn-block p-2 font-weight-bold" target="_blank">
+                          <i class="material-icons align-middle" style="font-size: 20px;">print</i>
+                          <span class="align-middle">Cetak All</span>
                         </a>
                       </div>
                     </div>
@@ -98,43 +89,33 @@
                       </select>
                       <b class="text-danger mt-2" id="textErrorKelas"></b>
                       <div class="row px-2">
-                        <div class="col-12 col-xl-6 px-1">
+                        <div class="col-12 col-md-6 col-xl-4 px-1 mb-2 mb-xl-0">
                           <button type="button" onclick="generateQrSiswaByKelas()"
-                            class="btn btn-primary p-2 px-md-4 w-100">
-                            <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                              <div>
-                                <i class="material-icons" style="font-size: 24px;">qr_code</i>
-                              </div>
-                              <div>
-                                <div class="text-start">
-                                  <h6 class="d-inline">Generate per kelas</h6>
-                                </div>
-                                <div id="progressKelas" class="d-none">
-                                  <span id="progressTextKelas"></span>
-                                  <i id="progressSelesaiKelas" class="material-icons d-none" class="d-none">check</i>
-                                  <div class="progress progress-siswa d-none" id="progressBarBgKelas">
-                                    <div id="progressBarKelas" class="progress-bar my-progress-bar bg-white"
-                                      style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
-                                      aria-valuemax=""></div>
-                                  </div>
-                                </div>
+                            class="btn btn-primary btn-block p-2 font-weight-bold">
+                            <i class="material-icons align-middle" style="font-size: 20px;">qr_code</i>
+                            <span class="align-middle">Generate per kelas</span>
+                            <div id="progressKelas" class="d-none mt-1 small">
+                              <span id="progressTextKelas"></span>
+                              <i id="progressSelesaiKelas" class="material-icons d-none" style="font-size: 16px;">check</i>
+                              <div class="progress progress-siswa" style="height: 3px;">
+                                <div id="progressBarKelas" class="progress-bar my-progress-bar bg-white"
+                                  style="width: 0%;" role="progressbar"></div>
                               </div>
                             </div>
                           </button>
                         </div>
-                        <div class="col-12 col-xl-6 px-1">
-                          <button type="submit" class="btn btn-primary p-2 px-md-4 w-100">
-                            <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                              <div>
-                                <i class="material-icons" style="font-size: 24px;">cloud_download</i>
-                              </div>
-                              <div>
-                                <div class="text-start">
-                                  <h6 class="d-inline">Download Per Kelas</h6>
-                                </div>
-                              </div>
-                            </div>
+                        <div class="col-12 col-md-6 col-xl-4 px-1 mb-2 mb-xl-0">
+                          <button type="submit" class="btn btn-primary btn-block p-2 font-weight-bold">
+                            <i class="material-icons align-middle" style="font-size: 20px;">cloud_download</i>
+                            <span class="align-middle">Download Per Kelas</span>
                           </button>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-4 px-1 mb-2 mb-xl-0">
+                          <a id="printKelasLink" href="#"
+                            class="btn btn-primary btn-block p-2 font-weight-bold" target="_blank">
+                            <i class="material-icons align-middle" style="font-size: 20px;">print</i>
+                            <span class="align-middle">Cetak Per Kelas</span>
+                          </a>
                         </div>
                       </div>
                     </form>
@@ -155,41 +136,30 @@
                       <a href="<?= base_url('admin/guru'); ?>" class="text-success">Lihat data</a>
                     </p>
                     <div class="row px-2">
-                      <div class="col-12 col-xl-6 px-1">
-                        <button onclick="generateAllQrGuru()" class="btn btn-success p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">qr_code</i>
-                            </div>
-                            <div>
-                              <h4 class="d-inline font-weight-bold">Generate All</h4>
-                              <div>
-                                <div id="progressGuru" class="d-none mt-2">
-                                  <span id="progressTextGuru"></span>
-                                  <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
-                                  <div class="progress progress-guru">
-                                    <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white"
-                                      style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin=""
-                                      aria-valuemax=""></div>
-                                  </div>
-                                </div>
-                              </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <button onclick="generateAllQrGuru()" class="btn btn-success btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">qr_code</i>
+                          <span class="align-middle">Generate All</span>
+                          <div id="progressGuru" class="d-none mt-1 small">
+                            <span id="progressTextGuru"></span>
+                            <i id="progressSelesaiGuru" class="material-icons d-none" style="font-size: 16px;">check</i>
+                            <div class="progress progress-guru" style="height: 3px;">
+                              <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white"
+                                style="width: 0%;" role="progressbar"></div>
                             </div>
                           </div>
                         </button>
                       </div>
-                      <div class="col-12 col-xl-6 px-1">
-                        <a href="<?= base_url('admin/qr/guru/download'); ?>" class="btn btn-success p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">cloud_download</i>
-                            </div>
-                            <div>
-                              <div class="text-start">
-                                <h4 class="d-inline font-weight-bold">Download All</h4>
-                              </div>
-                            </div>
-                          </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('admin/qr/guru/download'); ?>" class="btn btn-success btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">cloud_download</i>
+                          <span class="align-middle">Download All</span>
+                        </a>
+                      </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('admin/qr/guru/print'); ?>" class="btn btn-success btn-block p-2 font-weight-bold" target="_blank">
+                          <i class="material-icons align-middle" style="font-size: 20px;">print</i>
+                          <span class="align-middle">Cetak All</span>
                         </a>
                       </div>
                     </div>
@@ -351,6 +321,15 @@
       }
     });
   }
+
+  $('#kelasSelect').on('change', function() {
+    var idKelas = $(this).val();
+    if (idKelas) {
+      $('#printKelasLink').attr('href', '<?= base_url('admin/qr/siswa/print'); ?>/' + idKelas);
+    } else {
+      $('#printKelasLink').attr('href', '#');
+    }
+  });
 
   function generateAllQrGuru() {
     var i = 1;
