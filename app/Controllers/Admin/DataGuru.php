@@ -248,16 +248,24 @@ class DataGuru extends BaseController
       $txtFileName = inputPost('txtFileName');
       $index = inputPost('index');
       $guru = $this->guruModel->importCSVItem($txtFileName, $index);
-      if (!empty($guru)) {
+
+      if (!empty($guru) && !isset($guru['status'])) {
          $data = [
             'result' => 1,
             'guru' => $guru,
             'index' => $index
          ];
          echo json_encode($data);
+      } elseif (isset($guru['status']) && $guru['status'] === 'duplicate') {
+         echo json_encode([
+            'result' => 2,
+            'message' => $guru['message'],
+            'index' => $index
+         ]);
       } else {
          $data = [
             'result' => 0,
+            'message' => $guru['message'] ?? 'Gagal import data',
             'index' => $index
          ];
          echo json_encode($data);
