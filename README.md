@@ -43,6 +43,7 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
   - Generate QR code untuk siswa di kelasnya
   - Generate laporan kehadiran khusus untuk kelas yang diampu
 - **QR Code generator & downloader.** Petugas yang sudah login akan men-generate dan/atau mendownload qr code setiap siswa/guru. Setiap siswa akan diberikan QR code unik yang terkait dengan identitas siswa. QR code ini akan digunakan saat proses absensi.
+- **Cetak QR Code.** Petugas dapat mencetak QR code siswa/guru dalam bentuk kartu dengan layout grid 4 kolom. Pencetakan dapat dilakukan per kelas, per guru, atau per individu (satu per satu).
 - **Ubah data absen siswa/guru.** Petugas dapat mengubah data absensi setiap siswa/guru. Misalnya mengubah data kehadiran dari `tanpa keterangan` menjadi `sakit` atau `izin`.
 - **Tambah, Ubah, Hapus(CRUD) data siswa/guru.**
 - **Tambah, Ubah, Hapus(CRUD) data kelas.**
@@ -58,6 +59,7 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 - **Cek Kehadiran Mandiri.** Portal publik (`/cek-kehadiran`) untuk mengecek riwayat kehadiran siswa tanpa perlu login.
 - **Sistem Poin Keterlambatan.** Sistem otomatis menghitung menit keterlambatan berdasarkan batas jam masuk dan mengakumulasikan poin pelanggaran ke profil siswa. Menampilkan top 5 siswa terlambat di dashboard.
 - **Manajemen Hari Libur.** Admin dapat menandai hari libur (tanggal tunggal atau rentang). Fitur auto-generator untuk menandai seluruh weekend dalam satu bulan. Sistem scanner menolak presensi pada tanggal libur.
+- **Pengaturan Hari Kerja.** Admin dapat mengkonfigurasi hari kerja sekolah (Senin-Sabtu) melalui menu Pengaturan. Sistem secara otomatis menandai hari di luar hari kerja sebagai libur dan menolak presensi pada hari tersebut.
 - **Pembedaan Status "Belum Scan" vs "Alfa".** Sistem membedakan siswa yang belum datang (Belum Scan) dengan yang bolos (Alfa). Status Alfa baru diberikan setelah melewati batas jam pulang.
 - **Peringatan Ketidakhadiran Beruntun.** Dashboard menampilkan siswa yang tidak hadir 3+ hari berturut-turut tanpa keterangan untuk deteksi dini.
 - **Live Monitoring.** Dashboard admin dan wali kelas menampilkan data real-time dengan polling periodik.
@@ -109,6 +111,8 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 |        ![Dashboard Wali Kelas](./screenshots/dashboard-wali-kelas-1.9.10.png)        | ![Manajemen Kehadiran Kelas](./screenshots/wali-kelas-kehadiran-1.9.10.png)  |
 | :----------------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
 | Dashboard khusus untuk guru wali kelas dengan statistik kehadiran siswa di kelasnya. | Wali kelas dapat melihat dan mengelola kehadiran siswa di kelas yang diampu. |
+
+> Dan masih banyak fitur lainnya...
 
 ---
 
@@ -335,7 +339,7 @@ Setelah login sebagai wali kelas, Anda dapat:
 
 Aplikasi mendukung import data secara massal menggunakan file CSV:
 
-- **Import Data Siswa** - Buka menu Data Siswa > Import CSV. Download template [csv_guru_template.csv](./public/assets/file/csv_siswa_template.csv) dan upload setelah diisi. Contoh [csv_siswa_example.csv](./public/assets/file/csv_siswa_example.csv)
+- **Import Data Siswa** - Buka menu Data Siswa > Import CSV. Download template [csv_siswa_template.csv](./public/assets/file/csv_siswa_template.csv) dan upload setelah diisi. Contoh [csv_siswa_example.csv](./public/assets/file/csv_siswa_example.csv)
   > Pastikan id kelas cocok dengan data kelas yang ada di database
 
 - **Import Data Guru** - Buka menu Data Guru > Import CSV. Download template [csv_guru_template.csv](./public/assets/file/csv_guru_template.csv) dan upload setelah diisi.
@@ -355,6 +359,11 @@ Aplikasi mendukung import data secara massal menggunakan file CSV:
   > Direkomendasikan untuk impor jurusan dahulu lalu impor kelas
 
 **Catatan:** Gunakan encoding UTF-8 dan delimiter koma (,). Sistem akan mengabaikan data duplikat.
+
+**Fitur Validasi Import CSV:**
+- **Cek Duplikat NIS/NIP**: Sistem mendeteksi dan menolak import jika NIS (siswa) atau NIP (guru) sudah terdaftar di database
+- **Validasi Jenis Kelamin**: Sistem mendeteksi dan menolak baris dengan nilai jenis kelamin yang tidak valid
+- **Penanganan BOM**: File CSV dengan BOM (Byte Order Mark) otomatis dibersihkan saat upload
 
 ### Konfigurasi
 

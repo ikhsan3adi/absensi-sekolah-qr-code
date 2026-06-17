@@ -90,6 +90,10 @@ Migration adalah cara version control untuk database. File migration berada di `
     - Membuat tabel `audit_logs` (log aktivitas sistem)
     - Kolom: id, user_id, action, resource, resource_id, old_values (JSON), new_values (JSON), ip_address, user_agent, created_at
 
+15. **2026-06-17-000001_AddWorkingDays.php**
+    - Menambah kolom `hari_kerja` ke tabel `general_settings`
+    - Menyimpan konfigurasi hari kerja sebagai string angka hari (1=Senin..7=Minggu), default `1,2,3,4,5` (Senin-Jumat)
+
 ## Migrasi Auth Library
 
 Aplikasi ini sebelumnya menggunakan **MythAuth** untuk autentikasi dan otorisasi. Telah dimigrasi ke **CodeIgniter Shield**.
@@ -238,6 +242,7 @@ Migration akan dijalankan berdasarkan urutan timestamp berikut:
 12. AddJamPulangStandard        (kolom batas_jam_pulang)
 13. AddGuruToPerizinan          (kolom nip di tb_perizinan)
 14. CreateAuditLogsTable        (audit_logs)
+15. AddWorkingDays              (kolom hari_kerja di general_settings)
 ```
 
 ## Cara Penggunaan
@@ -447,4 +452,4 @@ Jika mengalami masalah:
 
 ---
 
-**Last Updated**: 2026-06-12
+**Last Updated**: 2026-06-17
