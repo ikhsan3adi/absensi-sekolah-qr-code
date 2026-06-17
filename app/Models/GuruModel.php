@@ -76,9 +76,9 @@ class GuruModel extends Model
             if (empty($fields)) {
                $fields = $row;
                // Remove BOM from the first element if present
-               if (isset($fields[0])) {
-                  $fields[0] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $fields[0]);
-               }
+                if (isset($fields[0])) {
+                   $fields[0] = preg_replace('/^\xEF\xBB\xBF/', '', $fields[0]);
+                }
                // Trim all fields
                $fields = array_map('trim', $fields);
                continue;
@@ -119,36 +119,39 @@ class GuruModel extends Model
          $i = 1;
          foreach ($array as $item) {
             if ($i == $index) {
-               $nuptk = getCSVInputValue($item, 'nuptk');
-               $nama = getCSVInputValue($item, 'nama_guru');
-               $noHp = getCSVInputValue($item, 'no_hp');
+               $data = array();
+               $data['nuptk'] = getCSVInputValue($item, 'nuptk');
+               $data['nama_guru'] = getCSVInputValue($item, 'nama_guru');
+               $data['alamat'] = getCSVInputValue($item, 'alamat');
+               $data['no_hp'] = getCSVInputValue($item, 'no_hp');
+               $data['unique_code'] = sha1($data['nama_guru'] . md5($data['nuptk'] . $data['nama_guru'] . $data['no_hp'])) . substr(sha1($data['nuptk'] . rand(0, 100)), 0, 24);
+
+               if (empty($data['nuptk']) || empty($data['nama_guru'])) {
+                  return ['status' => 'error', 'message' => 'NUPTK dan Nama Guru wajib diisi'];
+               }
+
+               $nuptkExists = $this->where('nuptk', $data['nuptk'])->countAllResults();
+               if ($nuptkExists > 0) {
+                  return ['status' => 'duplicate', 'message' => 'NUPTK ' . $data['nuptk'] . ' sudah terdaftar'];
+               }
 
                $jk = strtolower(getCSVInputValue($item, 'jenis_kelamin'));
                if (in_array($jk, ['l', 'laki-laki', 'laki laki', 'laki'])) {
-                  $jk = 'Laki-laki';
+                  $data['jenis_kelamin'] = 'Laki-laki';
                } elseif (in_array($jk, ['p', 'perempuan', 'wanita'])) {
-                  $jk = 'Perempuan';
+                  $data['jenis_kelamin'] = 'Perempuan';
                } else {
-                  $jk = 'Laki-laki'; // Default jika tidak dikenal
+                  return ['status' => 'error', 'message' => 'Jenis kelamin tidak dikenal: ' . $jk];
                }
-
-               $data = array();
-               $data['nuptk'] = $nuptk;
-               $data['nama_guru'] = $nama;
-               $data['jenis_kelamin'] = $jk;
-               $data['alamat'] = getCSVInputValue($item, 'alamat');
-               $data['no_hp'] = $noHp;
-               // Logic from createGuru
-               $data['unique_code'] = sha1($nama . md5($nuptk . $nama . $noHp)) . substr(sha1($nuptk . rand(0, 100)), 0, 24);
 
                if ($this->insert($data)) {
                   return $data;
                }
-               return false;
+               return ['status' => 'error', 'message' => 'Gagal menyimpan data'];
             }
             $i++;
          }
       }
-      return false;
+      return ['status' => 'error', 'message' => 'Data CSV tidak ditemukan'];
    }
 }

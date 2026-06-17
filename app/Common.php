@@ -290,7 +290,7 @@ if (!function_exists('getCSVInputValue')) {
     function getCSVInputValue($array, $key, $dataType = 'string')
     {
         if (!empty($array)) {
-            if (!empty($array[$key])) {
+            if (isset($array[$key]) && $array[$key] !== '') {
                 return $array[$key];
             }
         }

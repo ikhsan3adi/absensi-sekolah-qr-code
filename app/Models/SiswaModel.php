@@ -143,10 +143,10 @@ class SiswaModel extends Model
          while (($row = fgetcsv($handle)) !== false) {
             if (empty($fields)) {
                $fields = $row;
-               // Remove BOM from the first element if present
-               if (isset($fields[0])) {
-                  $fields[0] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $fields[0]);
-               }
+                // Remove BOM from the first element if present
+                if (isset($fields[0])) {
+                   $fields[0] = preg_replace('/^\xEF\xBB\xBF/', '', $fields[0]);
+                }
                // Trim all fields
                $fields = array_map('trim', $fields);
                continue;
@@ -187,32 +187,47 @@ class SiswaModel extends Model
          $i = 1;
          foreach ($array as $item) {
             if ($i == $index) {
-               $jk = strtolower(getCSVInputValue($item, 'jenis_kelamin'));
-               if (in_array($jk, ['l', 'laki-laki', 'laki laki', 'laki'])) {
-                  $jk = 'Laki-laki';
-               } elseif (in_array($jk, ['p', 'perempuan', 'wanita'])) {
-                  $jk = 'Perempuan';
-               } else {
-                  $jk = 'Laki-laki'; // Default jika tidak dikenal
-               }
-
                $data = array();
-               $data['nis'] = getCSVInputValue($item, 'nis', 'int');
+               $data['nis'] = getCSVInputValue($item, 'nis');
                $data['nama_siswa'] = getCSVInputValue($item, 'nama_siswa');
-               $data['id_kelas'] = getCSVInputValue($item, 'id_kelas', 'int');
-               $data['jenis_kelamin'] = $jk;
+               $data['id_kelas'] = getCSVInputValue($item, 'id_kelas');
                $data['no_hp'] = getCSVInputValue($item, 'no_hp');
                $data['unique_code'] = generateToken();
+
+               if (empty($data['nis']) || empty($data['nama_siswa']) || empty($data['id_kelas'])) {
+                  return ['status' => 'error', 'message' => 'NIS, Nama, dan Kelas wajib diisi'];
+               }
+
+               $kelasExists = $this->db->table('tb_kelas')
+                  ->where('id_kelas', $data['id_kelas'])
+                  ->countAllResults();
+               if (!$kelasExists) {
+                  return ['status' => 'error', 'message' => 'ID Kelas ' . $data['id_kelas'] . ' tidak ditemukan'];
+               }
+
+               $nisExists = $this->where('nis', $data['nis'])->countAllResults();
+               if ($nisExists > 0) {
+                  return ['status' => 'duplicate', 'message' => 'NIS ' . $data['nis'] . ' sudah terdaftar'];
+               }
+
+               $jk = strtolower(getCSVInputValue($item, 'jenis_kelamin'));
+               if (in_array($jk, ['l', 'laki-laki', 'laki laki', 'laki'])) {
+                  $data['jenis_kelamin'] = 'Laki-laki';
+               } elseif (in_array($jk, ['p', 'perempuan', 'wanita'])) {
+                  $data['jenis_kelamin'] = 'Perempuan';
+               } else {
+                  return ['status' => 'error', 'message' => 'Jenis kelamin tidak dikenal: ' . $jk];
+               }
 
                if ($this->insert($data)) {
                   return $data;
                }
-               return false;
+               return ['status' => 'error', 'message' => 'Gagal menyimpan data'];
             }
             $i++;
          }
       }
-      return false;
+      return ['status' => 'error', 'message' => 'Data CSV tidak ditemukan'];
    }
 
    public function getSiswa($id)

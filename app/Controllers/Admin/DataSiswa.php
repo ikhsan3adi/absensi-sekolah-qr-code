@@ -295,16 +295,24 @@ class DataSiswa extends BaseController
       $txtFileName = inputPost('txtFileName');
       $index = inputPost('index');
       $siswa = $this->siswaModel->importCSVItem($txtFileName, $index);
-      if (!empty($siswa)) {
+
+      if (!empty($siswa) && !isset($siswa['status'])) {
          $data = [
             'result' => 1,
             'siswa' => $siswa,
             'index' => $index
          ];
          echo json_encode($data);
+      } elseif (isset($siswa['status']) && $siswa['status'] === 'duplicate') {
+         echo json_encode([
+            'result' => 2,
+            'message' => $siswa['message'],
+            'index' => $index
+         ]);
       } else {
          $data = [
             'result' => 0,
+            'message' => $siswa['message'] ?? 'Gagal import data',
             'index' => $index
          ];
          echo json_encode($data);
