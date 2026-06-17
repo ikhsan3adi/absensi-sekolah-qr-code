@@ -44,20 +44,21 @@ class Holiday extends BaseController
 
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
-            $dayOfWeek = date('w', strtotime($date)); // 0 (Sun) to 6 (Sat)
 
-            if ($dayOfWeek == 0 || $dayOfWeek == 6) { // Minggu atau Sabtu
+            if (!isWorkingDay($date)) {
                 if (!$this->holidayModel->where('tanggal', $date)->first()) {
+                    $dayOfWeek = date('w', strtotime($date));
+                    $dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
                     $this->holidayModel->insert([
                         'tanggal' => $date,
-                        'keterangan' => $dayOfWeek == 0 ? 'Hari Minggu' : 'Hari Sabtu'
+                        'keterangan' => 'Hari ' . $dayNames[$dayOfWeek]
                     ]);
                     $count++;
                 }
             }
         }
 
-        return redirect()->to(base_url('admin/holiday'))->with('success', "$count hari akhir pekan berhasil ditambahkan untuk bulan ini.");
+        return redirect()->to(base_url('admin/holiday'))->with('success', "$count hari non-kerja berhasil ditambahkan untuk bulan ini.");
     }
 
     public function save()

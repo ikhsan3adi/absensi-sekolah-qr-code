@@ -45,6 +45,29 @@
                                 <small class="text-muted">Format: HH:MM. Contoh: 14:00</small>
                             </div>
 
+                            <div class="form-group mt-4">
+                                <label>Hari Kerja</label>
+                                <div class="row">
+                                    <?php
+                                    $hariList = ['1' => 'Senin', '2' => 'Selasa', '3' => 'Rabu', '4' => 'Kamis', '5' => "Jum'at", '6' => 'Sabtu', '7' => 'Minggu'];
+                                    $hariKerja = !empty($generalSettings->hari_kerja) ? explode(',', $generalSettings->hari_kerja) : ['1','2','3','4','5'];
+                                    foreach ($hariList as $val => $label):
+                                        $checked = in_array($val, $hariKerja) ? 'checked' : '';
+                                    ?>
+                                    <div class="col-md-3 col-6 mb-2">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="hari_kerja[]" value="<?= $val ?>" <?= $checked ?>>
+                                                <?= $label ?>
+                                                <span class="form-check-sign"><span class="check"></span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <small class="text-muted">Pilih hari yang merupakan hari kerja di sekolah.</small>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mt-4">

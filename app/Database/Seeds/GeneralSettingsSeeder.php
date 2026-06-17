@@ -14,6 +14,7 @@ class GeneralSettingsSeeder extends Seeder
             'school_year' => '2024/2025',
             'copyright'   => '© 2025 All rights reserved.',
             'logo'        => null,
+            'hari_kerja'  => '1,2,3,4,5',
         ];
 
         // Check if settings already exist

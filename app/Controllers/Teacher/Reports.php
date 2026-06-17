@@ -76,7 +76,7 @@ class Reports extends BaseController
         $dataAbsen = [];
 
         foreach ($period as $value) {
-            if (!($value->format('D') == 'Sat' || $value->format('D') == 'Sun')) {
+            if (isWorkingDay($value->format('Y-m-d'))) {
                 $lewat = Time::parse($value->format('Y-m-d'))->isAfter(Time::today());
                 $absenByTanggal = $this->presensiSiswaModel->getPresensiByKelasTanggal($idKelas, $value->format('Y-m-d'));
                 $absenByTanggal['lewat'] = $lewat;
