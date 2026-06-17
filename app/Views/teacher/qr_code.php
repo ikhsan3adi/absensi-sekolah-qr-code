@@ -39,38 +39,30 @@
                     <h4 class="text-primary"><b>Data Siswa</b></h4>
                     <p>Total jumlah siswa : <b><?= count($siswa); ?></b></p>
                     <div class="row px-2">
-                      <div class="col-12 col-xl-4 px-1">
-                        <button onclick="generateAllQrSiswa()" class="btn btn-primary p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">qr_code</i>
-                            </div>
-                            <div>
-                              <h4 class="d-inline font-weight-bold">Generate All</h4>
-                              <div id="progressSiswa" class="d-none mt-2">
-                                <span id="progressTextSiswa"></span>
-                                <i id="progressSelesaiSiswa" class="material-icons d-none">check</i>
-                                <div class="progress progress-siswa">
-                                  <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax="">
-                                  </div>
-                                </div>
-                              </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <button onclick="generateAllQrSiswa()" class="btn btn-primary btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">qr_code</i>
+                          <span class="align-middle">Generate All</span>
+                          <div id="progressSiswa" class="d-none mt-1 small">
+                            <span id="progressTextSiswa"></span>
+                            <i id="progressSelesaiSiswa" class="material-icons d-none" style="font-size: 16px;">check</i>
+                            <div class="progress progress-siswa" style="height: 3px;">
+                              <div id="progressBarSiswa" class="progress-bar my-progress-bar bg-white"
+                                style="width: 0%;" role="progressbar"></div>
                             </div>
                           </div>
                         </button>
                       </div>
-                      <div class="col-12 col-xl-4 px-1">
-                        <a href="<?= base_url('teacher/qr/download'); ?>" class="btn btn-success p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center h-100" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">cloud_download</i>
-                            </div>
-                            <div>
-                              <div class="text-start">
-                                <h4 class="d-inline font-weight-bold">Download All (.zip)</h4>
-                              </div>
-                            </div>
-                          </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('teacher/qr/download'); ?>" class="btn btn-success btn-block p-2 font-weight-bold">
+                          <i class="material-icons align-middle" style="font-size: 20px;">cloud_download</i>
+                          <span class="align-middle">Download All (.zip)</span>
+                        </a>
+                      </div>
+                      <div class="col-12 col-xl-4 px-1 mb-2 mb-xl-0">
+                        <a href="<?= base_url('teacher/qr/print'); ?>" class="btn btn-primary btn-block p-2 font-weight-bold" target="_blank">
+                          <i class="material-icons align-middle" style="font-size: 20px;">print</i>
+                          <span class="align-middle">Cetak QR</span>
                         </a>
                       </div>
                     </div>
@@ -93,6 +85,9 @@
                               <td class="text-center">
                                 <a href="<?= base_url('admin/qr/siswa/' . $s['id_siswa'] . '/download'); ?>" class="btn btn-info btn-sm">
                                   <i class="material-icons">download</i> Download QR
+                                </a>
+                                <a href="<?= base_url('admin/qr/siswa/print-single/' . $s['id_siswa']); ?>" class="btn btn-primary btn-sm" target="_blank">
+                                  <i class="material-icons">print</i> Cetak
                                 </a>
                               </td>
                             </tr>

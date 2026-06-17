@@ -172,15 +172,20 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->post('guru', 'Admin\QRGenerator::generateQrGuru');
    });
 
-   // ── QR Download (qr.generate) ──
-   $routes->group('qr', ['filter' => 'permission:qr.generate'], function ($routes) {
-      $routes->get('siswa/download', 'Admin\QRGenerator::downloadAllQrSiswa');
-      $routes->get('siswa/(:any)/download', 'Admin\QRGenerator::downloadQrSiswa/$1');
-      $routes->get('siswa/(:any)/view', 'Admin\QRGenerator::viewQrSiswa/$1');
-      $routes->get('guru/download', 'Admin\QRGenerator::downloadAllQrGuru');
-      $routes->get('guru/(:any)/download', 'Admin\QRGenerator::downloadQrGuru/$1');
-      $routes->get('guru/(:any)/view', 'Admin\QRGenerator::viewQrGuru/$1');
-   });
+    // ── QR Download & Print (qr.generate) ──
+    $routes->group('qr', ['filter' => 'permission:qr.generate'], function ($routes) {
+       $routes->get('siswa/download', 'Admin\QRGenerator::downloadAllQrSiswa');
+       $routes->get('siswa/(:any)/download', 'Admin\QRGenerator::downloadQrSiswa/$1');
+       $routes->get('siswa/(:any)/view', 'Admin\QRGenerator::viewQrSiswa/$1');
+       $routes->get('siswa/print', 'Admin\QRGenerator::printQrSiswa');
+       $routes->get('siswa/print/(:any)', 'Admin\QRGenerator::printQrSiswa/$1');
+       $routes->get('siswa/print-single/(:any)', 'Admin\QRGenerator::printQrSiswaSingle/$1');
+       $routes->get('guru/download', 'Admin\QRGenerator::downloadAllQrGuru');
+       $routes->get('guru/(:any)/download', 'Admin\QRGenerator::downloadQrGuru/$1');
+       $routes->get('guru/(:any)/view', 'Admin\QRGenerator::viewQrGuru/$1');
+       $routes->get('guru/print', 'Admin\QRGenerator::printQrGuru');
+       $routes->get('guru/print-single/(:any)', 'Admin\QRGenerator::printQrGuruSingle/$1');
+    });
 
    // ── Laporan (attendance.view) ──
    $routes->group('laporan', ['filter' => 'permission:attendance.view'], function ($routes) {
@@ -230,8 +235,9 @@ $routes->group('teacher', ['filter' => 'permission:teacher.access'], function (R
    $routes->get('dashboard/live-stats', 'Teacher\Dashboard::getLiveStats');
    $routes->get('laporan', 'Teacher\Reports::index');
    $routes->post('laporan/generate', 'Teacher\Reports::generate');
-   $routes->get('qr', 'Teacher\QRCode::index');
-   $routes->get('qr/download', 'Teacher\QRCode::download');
+    $routes->get('qr', 'Teacher\QRCode::index');
+    $routes->get('qr/download', 'Teacher\QRCode::download');
+    $routes->get('qr/print', 'Teacher\QRCode::print');
    $routes->get('attendance', 'Teacher\Dashboard::attendance');
    $routes->get('attendance/(:any)', 'Teacher\Dashboard::attendance/$1');
    $routes->post('attendance/get-list', 'Teacher\Dashboard::getAttendanceList');

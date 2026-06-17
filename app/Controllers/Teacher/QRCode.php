@@ -64,4 +64,23 @@ class QRCode extends BaseController
 
         return $qrGenerator->downloadAllQrSiswa();
     }
+
+    public function print()
+    {
+        $user = user();
+        if (!is_guru()) {
+            return redirect()->to('admin')->with('error', 'Anda bukan Guru.');
+        }
+
+        $kelas = $this->kelasModel->getKelasByWali($user->id_guru);
+
+        if (empty($kelas)) {
+            return redirect()->to('teacher/dashboard')->with('error', 'Kelas belum ditugaskan.');
+        }
+
+        $qrGenerator = new QRGenerator();
+        $qrGenerator->initController($this->request, $this->response, service('logger'));
+
+        return $qrGenerator->printQrSiswa($kelas['id_kelas']);
+    }
 }
