@@ -178,6 +178,7 @@
     <script src="<?= base_url('assets/js/plugins/chartjs/chart.umd.min.js') ?>"></script>
     <script>
         const chartLabels = <?= json_encode($dateRange) ?>;
+        const chartLabelColors = <?= json_encode($chartLabelColors) ?>;
 
         const chartColors = {
             hadir: { border: '#4caf50', bg: 'rgba(76, 175, 80, 1)' },
@@ -279,7 +280,10 @@
                             },
                             x: {
                                 stacked: false,
-                                grid: { display: false }
+                                grid: { display: false },
+                                ticks: {
+                                    color: chartLabelColors
+                                }
                             }
                         }
                     }
