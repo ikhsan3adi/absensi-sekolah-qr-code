@@ -129,10 +129,20 @@ class PresensiGuruModel extends Model implements PresensiInterface
       $schoolConfigurations = new \Config\School();
       $generalSettings = $schoolConfigurations::$generalSettings;
       $jamPulangStandard = $generalSettings->jam_pulang_standard ?? '14:00:00';
-      $nowTime = date('H:i:s');
+      $holidayModel = new \App\Models\HariLiburModel();
 
       for ($i = $days - 1; $i >= 0; $i--) {
          $date = $now->subDays($i)->toDateString();
+
+         if ($holidayModel->isHoliday($date)) {
+            $result['hadir'][] = 0;
+            $result['sakit'][] = 0;
+            $result['izin'][] = 0;
+            $result['alfa'][] = 0;
+            $result['belum_absen'][] = 0;
+            continue;
+         }
+
          $isToday = ($date == $now->toDateString());
          $isAfterSchool = (date('Y-m-d') > $date) || ($isToday && $now->toTimeString() > $jamPulangStandard);
 

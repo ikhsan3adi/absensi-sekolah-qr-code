@@ -17,11 +17,13 @@ class GeneralSettingsModel extends BaseModel
    //input values
    public function inputValues()
    {
+      $hariKerja = inputPost('hari_kerja');
       return [
          'school_name' => inputPost('school_name'),
          'school_year' => inputPost('school_year'),
          'jam_masuk_limit' => inputPost('jam_masuk_limit'),
          'jam_pulang_standard' => inputPost('jam_pulang_standard'),
+         'hari_kerja' => is_array($hariKerja) ? implode(',', $hariKerja) : '1,2,3,4,5',
          'copyright' => inputPost('copyright'),
       ];
    }

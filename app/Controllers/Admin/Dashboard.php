@@ -42,7 +42,11 @@ class Dashboard extends BaseController
       $now = Time::now();
 
       $dateRange = [];
+      $chartLabelColors = [];
+      $holidayModel = new \App\Models\HariLiburModel();
       for ($i = 6; $i >= 0; $i--) {
+         $date = $now->subDays($i)->toDateString();
+         $isHoliday = $holidayModel->isHoliday($date);
          if ($i == 0) {
             $formattedDate = "Hari ini";
          } else {
@@ -50,6 +54,7 @@ class Dashboard extends BaseController
             $formattedDate = "{$t->getDay()} " . substr($t->toFormattedDateString(), 0, 3);
          }
          array_push($dateRange, $formattedDate);
+         array_push($chartLabelColors, $isHoliday ? '#f44336' : '#333');
       }
 
       $today = $now->toDateString();
@@ -78,6 +83,7 @@ class Dashboard extends BaseController
          'jurusan' => $this->jurusanModel->getDataJurusan(),
 
          'dateRange' => $dateRange,
+         'chartLabelColors' => $chartLabelColors,
          'dateNow' => $now->toLocalizedString('d MMMM Y'),
 
          'grafikKehadiranSiswa' => $grafikKehadiranSiswa,

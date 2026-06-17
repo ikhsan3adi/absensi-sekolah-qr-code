@@ -49,7 +49,7 @@
                         </div>
                         <div>
                             <a href="<?= base_url('admin/holiday/generate-weekend') ?>" class="btn btn-white btn-sm text-info mr-2">
-                                <i class="material-icons">calendar_today</i> Generate Sabtu & Minggu
+                                <i class="material-icons">calendar_today</i> Generate Hari Non-Kerja
                             </a>
                         </div>
                     </div>

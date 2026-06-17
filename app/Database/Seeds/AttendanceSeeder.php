@@ -22,9 +22,8 @@ class AttendanceSeeder extends Seeder
     for ($i = 0; $i < $daysToSeed; $i++) {
       $date = $now->subDays($i)->toDateString();
 
-      // Skip weekends (optional, but realistic)
-      $dayOfWeek = date('N', strtotime($date));
-      if ($dayOfWeek >= 6)
+      // Skip non-working days based on general_settings
+      if (!isWorkingDay($date))
         continue;
 
       // Seed Siswa
