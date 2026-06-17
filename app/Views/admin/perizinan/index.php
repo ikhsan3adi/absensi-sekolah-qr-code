@@ -11,6 +11,16 @@
                             <h4 class="card-title"><?= $title ?></h4>
                             <p class="card-category">Kelola pengajuan izin dan sakit siswa</p>
                         </div>
+                        <div class="ml-auto col-auto row">
+                           <div class="col-12 col-sm-auto nav nav-tabs">
+                              <div class="nav-item">
+                                 <a class="nav-link" href="<?= base_url('/izin'); ?>">
+                                    <i class="material-icons">add</i> Ajukan Izin / Sakit
+                                    <div class="ripple-container"></div>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
                         <button type="button" class="btn btn-white btn-round btn-just-icon" onclick="location.reload()" title="Refresh Data">
                             <i class="material-icons text-primary">refresh</i>
                         </button>

@@ -48,7 +48,7 @@ if ($user && is_guru()) {
    $hasTeacherSection = true;
    $menuItems = array_merge($menuItems, [
       ['title' => 'Dashboard Wali Kelas', 'url' => 'teacher/dashboard', 'icon' => 'dashboard', 'context' => 'teacher-dashboard'],
-      ['title' => 'Pengajuan Izin',       'url' => 'teacher/perizinan',  'icon' => 'event_available', 'context' => 'teacher-perizinan'],
+      ['title' => 'Pengajuan Izin',       'url' => 'teacher/perizinan',  'icon' => 'mail', 'context' => 'teacher-perizinan'],
       ['title' => 'Laporan Kelas',         'url' => 'teacher/laporan',   'icon' => 'print',      'context' => 'teacher-laporan'],
       ['title' => 'QR Code Siswa',         'url' => 'teacher/qr',         'icon' => 'qr_code',    'context' => 'teacher-qr'],
       ['title' => 'Manajemen Kehadiran',   'url' => 'teacher/attendance', 'icon' => 'event_note', 'context' => 'teacher-attendance'],
@@ -60,7 +60,7 @@ $adminMenus = [
    ['title' => 'Dashboard',            'url' => 'admin/dashboard',         'icon' => 'dashboard',  'context' => 'admin-dashboard',    'perm' => 'admin.access'],
    ['title' => 'Absensi Siswa',        'url' => 'admin/absen-siswa',       'icon' => 'checklist',  'context' => 'absen-siswa',        'perm' => 'attendance.edit'],
    ['title' => 'Absensi Guru',         'url' => 'admin/absen-guru',        'icon' => 'checklist',  'context' => 'absen-guru',         'perm' => 'attendance.edit'],
-   ['title' => 'Data Perizinan',       'url' => 'admin/perizinan',          'icon' => 'event_available', 'context' => 'perizinan',     'perm' => 'attendance.edit'],
+   ['title' => 'Data Perizinan',       'url' => 'admin/perizinan',          'icon' => 'mail', 'context' => 'perizinan',     'perm' => 'attendance.edit'],
    ['title' => 'Hari Libur',           'url' => 'admin/holiday',            'icon' => 'event_busy', 'context' => 'holiday',            'perm' => 'settings.manage'],
    ['title' => 'Data Siswa',           'url' => 'admin/siswa',             'icon' => 'person',     'context' => 'siswa',             'perm' => 'students.manage'],
    ['title' => 'Data Guru',            'url' => 'admin/guru',              'icon' => 'person_4',   'context' => 'guru',              'perm' => 'teachers.manage'],
