@@ -144,7 +144,9 @@
                     if (objSub.result == 1) {
                         $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-success">&nbsp;' + objSub.index + '.&nbsp;' + objSub.guru.nuptk + '.&nbsp; - ' + objSub.guru.nama_guru + '</li>');
                     } else {
-                        $("#csv_uploaded_files").prepend('<li class="list-group-item list-group-item-danger">&nbsp;' + objSub.index + '.</li>');
+                        var msg = objSub.message ? objSub.message : '(Gagal)';
+                        var cssClass = objSub.result == 2 ? 'list-group-item-warning' : 'list-group-item-danger';
+                        $("#csv_uploaded_files").prepend('<li class="list-group-item ' + cssClass + '">&nbsp;' + objSub.index + '. ' + msg + '</li>');
                     }
                     if (objSub.index == numberOfItems) {
                         $("#csv_upload_spinner .text-csv-importing").hide();
