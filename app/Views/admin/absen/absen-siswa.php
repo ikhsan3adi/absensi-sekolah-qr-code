@@ -23,7 +23,7 @@
                            $namaKelas = $value['kelas'];
                            ?>
                            <div class="col-sm-6 col-lg-4">
-                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100 px-1">
+                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100 px-1" title="Wali Kelas: <?= $value['nama_wali_kelas'] ?? '-'; ?>">
                                  <?= $namaKelas; ?>
                               </button>
                            </div>
