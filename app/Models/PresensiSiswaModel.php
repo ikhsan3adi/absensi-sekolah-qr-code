@@ -252,6 +252,12 @@ class PresensiSiswaModel extends Model implements PresensiInterface
       $flaggedStudents = [];
 
       foreach ($students as $student) {
+         // Skip siswa baru yang belum pernah absen sama sekali (misal via import CSV)
+         $totalPresensi = $this->where('id_siswa', $student['id_siswa'])->countAllResults();
+         if ($totalPresensi === 0) {
+            continue;
+         }
+
          $absentCount = 0;
          foreach ($dateStrings as $date) {
             $presensi = $this->where([
