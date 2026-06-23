@@ -67,34 +67,34 @@
                       </div>
                     </div>
                     <hr>
-                    <div class="table-responsive mt-4">
-                      <table class="table table-hover">
-                        <thead class="text-primary">
-                          <th><b>No</b></th>
-                          <th><b>NIS</b></th>
-                          <th><b>Nama Siswa</b></th>
-                          <th class="text-center"><b>Aksi</b></th>
-                        </thead>
-                        <tbody>
-                          <?php $i = 1;
-                          foreach ($siswa as $s): ?>
-                            <tr>
-                              <td><?= $i++; ?></td>
-                              <td><?= $s['nis']; ?></td>
-                              <td><?= $s['nama_siswa']; ?></td>
-                              <td class="text-center">
-                                <a href="<?= base_url('admin/qr/siswa/' . $s['id_siswa'] . '/download'); ?>" class="btn btn-info btn-sm">
-                                  <i class="material-icons">download</i> Download QR
-                                </a>
-                                <a href="<?= base_url('admin/qr/siswa/print-single/' . $s['id_siswa']); ?>" class="btn btn-primary btn-sm" target="_blank">
-                                  <i class="material-icons">print</i> Cetak
-                                </a>
-                              </td>
-                            </tr>
-                          <?php endforeach; ?>
-                        </tbody>
-                      </table>
-                    </div>
+                      <div class="table-responsive mt-4">
+                        <table id="tableSiswa" class="table table-hover">
+                          <thead class="text-primary">
+                            <th><b>No</b></th>
+                            <th><b>NIS</b></th>
+                            <th><b>Nama Siswa</b></th>
+                            <th class="text-center"><b>Aksi</b></th>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1;
+                            foreach ($siswa as $s): ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $s['nis']; ?></td>
+                                <td><?= $s['nama_siswa']; ?></td>
+                                <td class="text-center">
+                                  <a href="<?= base_url('admin/qr/siswa/' . $s['id_siswa'] . '/download'); ?>" class="btn btn-info btn-sm">
+                                    <i class="material-icons">download</i> Download QR
+                                  </a>
+                                  <a href="<?= base_url('admin/qr/siswa/print-single/' . $s['id_siswa']); ?>" class="btn btn-primary btn-sm" target="_blank">
+                                    <i class="material-icons">print</i> Cetak
+                                  </a>
+                                </td>
+                              </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                        </table>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -109,6 +109,12 @@
 
 <?= $this->section('scripts') ?>
 <script>
+  $(document).ready(function() {
+    $('#tableSiswa').DataTable({
+      columnDefs: [{ orderable: false, targets: [0, -1] }]
+    });
+  });
+
   const dataSiswa = [
     <?php foreach ($siswa as $value) {
       echo "{

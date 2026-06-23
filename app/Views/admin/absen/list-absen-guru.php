@@ -1,7 +1,7 @@
 <?php use App\Libraries\enums\UserRole; ?>
 <div id="dataSiswa" class="card-body table-responsive pb-5">
    <?php if (!empty($data)): ?>
-      <table class="table table-hover">
+      <table id="tableAbsenGuru" class="table table-hover">
          <thead class="text-success">
             <th><b>No.</b></th>
             <th><b>NUPTK</b></th>
@@ -47,6 +47,7 @@
             endforeach ?>
          </tbody>
       </table>
+      <script>$(document).ready(function(){$('#tableAbsenGuru').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
       <?php
    else:
       ?>

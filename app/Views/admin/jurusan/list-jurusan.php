@@ -1,5 +1,5 @@
 <div class="card-body table-responsive">
-  <table class="table table-hover">
+  <table id="tableJurusan" class="table table-hover">
     <thead class="text-primary">
       <th><b>No</b></th>
       <th><b>Jurusan</b></th>
@@ -24,4 +24,5 @@
       endforeach; ?>
     </tbody>
   </table>
+  <script>$(document).ready(function(){$('#tableJurusan').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
 </div>

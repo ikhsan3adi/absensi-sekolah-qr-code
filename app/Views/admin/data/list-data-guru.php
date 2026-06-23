@@ -1,6 +1,6 @@
 <div class="card-body table-responsive">
    <?php if (!$empty) : ?>
-      <table class="table table-hover">
+      <table id="tableGuru" class="table table-hover">
          <thead class="text-success">
             <th><b>No</b></th>
             <th><b>NUPTK</b></th>
@@ -45,6 +45,7 @@
             endforeach; ?>
          </tbody>
       </table>
+      <script>$(document).ready(function(){$('#tableGuru').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
    <?php else : ?>
       <div class="row">
          <div class="col">
