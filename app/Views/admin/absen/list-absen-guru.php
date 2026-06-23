@@ -47,7 +47,7 @@
             endforeach ?>
          </tbody>
       </table>
-      <script>$(document).ready(function(){$('#tableAbsenGuru').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
+      <script>$(document).ready(function(){$('#tableAbsenGuru').DataTable({columnDefs:[{orderable:false,targets:[-1]}]});});</script>
       <?php
    else:
       ?>

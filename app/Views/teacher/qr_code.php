@@ -111,7 +111,7 @@
 <script>
   $(document).ready(function() {
     $('#tableSiswa').DataTable({
-      columnDefs: [{ orderable: false, targets: [0, -1] }]
+      columnDefs: [{ orderable: false, targets: [-1] }]
     });
   });
 

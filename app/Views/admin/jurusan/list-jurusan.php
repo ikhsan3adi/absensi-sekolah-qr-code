@@ -24,5 +24,5 @@
       endforeach; ?>
     </tbody>
   </table>
-  <script>$(document).ready(function(){$('#tableJurusan').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
+  <script>$(document).ready(function(){$('#tableJurusan').DataTable({columnDefs:[{orderable:false,targets:[-1]}]});});</script>
 </div>
