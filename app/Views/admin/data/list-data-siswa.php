@@ -1,6 +1,6 @@
 <div class="card-body table-responsive">
    <?php if (!$empty): ?>
-      <table class="table table-hover">
+      <table id="tableSiswa" class="table table-hover">
          <thead class="text-primary">
             <th width="20"><input type="checkbox" class="checkbox-table" id="checkAll"></th>
             <th><b>No</b></th>
@@ -61,6 +61,7 @@
             endforeach; ?>
          </tbody>
       </table>
+      <script>$(document).ready(function(){$('#tableSiswa').DataTable({columnDefs:[{orderable:false,targets:[0,-1]}]});});</script>
    <?php else: ?>
       <div class="row">
          <div class="col">

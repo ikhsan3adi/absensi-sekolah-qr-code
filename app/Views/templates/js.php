@@ -15,6 +15,26 @@ $assetVersion = '1.0.0';
 <script src="<?= base_url('assets/js/plugins/file-uploader/js/jquery.dm-uploader.min.js?v=' . $assetVersion); ?>"></script>
 <script src="<?= base_url('assets/js/plugins/file-uploader/js/ui.js?v=' . $assetVersion); ?>"></script>
 <script src="<?= base_url('assets/js/custom.js?v=' . $assetVersion) ?>" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script>
+  $.extend( $.fn.dataTable.defaults, {
+    pageLength: 25,
+    language: {
+      search: "Cari:",
+      lengthMenu: "Tampilkan _MENU_ data",
+      info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+      infoEmpty: "Tidak ada data",
+      infoFiltered: "(difilter dari _MAX_ total data)",
+      zeroRecords: "Data tidak ditemukan",
+      paginate: {
+        first: "Pertama",
+        last: "Terakhir",
+        next: "Selanjutnya",
+        previous: "Sebelumnya"
+      }
+    }
+  });
+</script>
 
 <script>
   if ('serviceWorker' in navigator) {

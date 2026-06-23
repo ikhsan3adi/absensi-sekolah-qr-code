@@ -43,7 +43,7 @@ class KelasModel extends BaseModel
 
    public function getDataKelas()
    {
-      return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
+      return $this->builder->select('tb_kelas.*, tb_jurusan.jurusan, tb_guru.nama_guru as nama_wali_kelas, tb_guru.nuptk as nuptk_wali_kelas, CONCAT(tb_kelas.tingkat, " ", tb_jurusan.jurusan, " ", tb_kelas.index_kelas) as kelas')
          ->join('tb_jurusan', 'tb_kelas.id_jurusan = tb_jurusan.id')
          ->join('tb_guru', 'tb_kelas.id_wali_kelas = tb_guru.id_guru', 'left')
          ->orderBy('tb_kelas.id_jurusan')

@@ -86,7 +86,7 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table id="tableHoliday" class="table table-hover">
                                     <thead class="text-info">
                                         <th width="40">
                                             <div class="form-check">
@@ -139,6 +139,13 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#tableHoliday').DataTable({
+            columnDefs: [{ orderable: false, targets: [0, -1] }],
+            order: [[2, 'desc']]
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const checkAll = document.getElementById('checkAll');
         const checkboxes = document.querySelectorAll('.holiday-checkbox');

@@ -21,7 +21,7 @@
                                             </button>
                                         </div>
                                         <div class="card-body">                            <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table id="tablePerizinan" class="table table-hover">
                                     <thead class="text-primary">
                                         <th>No</th>
                                         <th>Siswa</th>
@@ -97,6 +97,13 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#tablePerizinan').DataTable({
+            columnDefs: [{ orderable: false, targets: [-1] }],
+            order: [[2, 'desc']]
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const btns = document.querySelectorAll('.btn-konfirmasi');
         btns.forEach(btn => {

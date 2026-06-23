@@ -59,7 +59,7 @@
                     <option value="">--Pilih Wali Kelas--</option>
                     <?php foreach ($guru as $value): ?>
                       <option value="<?= $value['id_guru']; ?>" <?= $kelas->id_wali_kelas == $value['id_guru'] ? 'selected' : ''; ?>>
-                        <?= $value['nama_guru']; ?>
+                        <?= $value['nama_guru']; ?> - <?= $value['nuptk']; ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
