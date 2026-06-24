@@ -91,7 +91,7 @@ class Filters extends BaseFilters
         'before' => [
             'honeypot',
             'session' => ['except' => ['login', 'izin', 'izin/*', 'cek-kehadiran', 'cek-kehadiran/*']],
-            'csrf',
+            'csrf' => ['except' => ['scan', 'scan/*', 'cek-kehadiran', 'cek-kehadiran/*']],
             // 'invalidchars',
         ],
         'after' => [
