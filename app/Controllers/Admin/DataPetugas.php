@@ -131,6 +131,10 @@ class DataPetugas extends BaseController
 
    public function formEditPetugas($id)
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       $petugas = $this->petugasModel->getPetugasById($id);
 
       if (empty($petugas)) {
@@ -150,6 +154,10 @@ class DataPetugas extends BaseController
 
    public function updatePetugas()
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       $idPetugas = $this->request->getVar('id');
 
       $petugasLama = $this->petugasModel->getPetugasById($idPetugas);
@@ -210,6 +218,10 @@ class DataPetugas extends BaseController
 
    public function delete($id)
    {
+      if (!is_superadmin()) {
+         return redirect()->to('admin');
+      }
+
       $result = $this->petugasModel->delete($id);
 
       if ($result) {
