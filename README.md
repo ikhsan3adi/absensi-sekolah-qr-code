@@ -1,6 +1,6 @@
 # Aplikasi Web Sistem Absensi Sekolah Berbasis `QR Code` <br> (+ Dukungan RFID)
 
-<a href="https://trendshift.io/repositories/11254" target="_blank" title="24 July 2024">
+<a href="https://trendshift.io/repositories/11254" target="_blank" title="PHP | 24 July 2024">
   <img src="https://trendshift.io/api/badge/repositories/11254" alt="ikhsan3adi%2Fabsensi-sekolah-qr-code | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
 </a>
 
@@ -75,8 +75,8 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 > - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
 > - [ZXing JS QR Code Scanner](https://github.com/zxing-js/library)
 > - [Chart.js](https://www.chartjs.org/)
-- [SweetAlert](https://sweetalert2.github.io/)
-- [DataTables](https://datatables.net/)
+> - [SweetAlert](https://sweetalert2.github.io/)
+> - [DataTables](https://datatables.net/)
 >
 > ---
 >
