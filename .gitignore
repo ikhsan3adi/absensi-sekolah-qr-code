@@ -133,3 +133,7 @@ nb-configuration.xml
 
 *.zip
 bash.exe.stackdump
+
+.trae
+venv-face
+writable/faces/*

@@ -74,6 +74,11 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                            <span class="toggle"></span>
                            <b class="text-dark">RFID</b>
                         </label>
+                        <label class="ml-2">
+                           <input type="checkbox" id="toggleWajah">
+                           <span class="toggle"></span>
+                           <b class="text-dark">Scan Wajah</b>
+                        </label>
                      </div>
 
                      <div id="cameraSection">
@@ -113,6 +118,38 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
                      </div>
                   </div>
 
+                  <!-- ═══ FACE SCAN SECTION ═══ -->
+                  <div id="faceSection" class="px-4 pb-3" style="display: none;">
+                     <div class="text-center mb-2">
+                        <span class="badge badge-pill badge-info" id="faceBadge">
+                           <i class="material-icons" style="font-size: 14px; vertical-align: middle;">face</i>
+                           <span id="faceStatusText">Kamera wajah: Memuat...</span>
+                        </span>
+                     </div>
+                     <div class="text-center">
+                        <div style="position: relative; display: inline-block; width: 100%; max-width: 420px;">
+                           <video id="faceVideo" autoplay playsinline muted
+                              style="width:100%; border-radius:12px; border:2px solid #9c27b0; background:#000;"></video>
+                           <canvas id="faceCanvas" style="display:none;"></canvas>
+                           <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                              width:160px;height:200px;border:2px dashed rgba(156,39,176,0.6);
+                              border-radius:50%;pointer-events:none;"></div>
+                        </div>
+                     </div>
+                     <div class="text-center mt-3">
+                        <button id="btnCaptureFace" class="btn btn-lg"
+                           style="background:linear-gradient(135deg,#9c27b0,#673ab7);color:#fff;
+                                  border-radius:50px;padding:10px 36px;
+                                  box-shadow:0 4px 15px rgba(156,39,176,0.4);transition:all .2s;">
+                           <i class="material-icons mr-1" style="vertical-align:middle;">camera</i>
+                           <span id="btnFaceLabel">Scan Wajah Sekarang</span>
+                        </button>
+                     </div>
+                     <small class="text-muted d-block text-center mt-2">
+                        Posisikan wajah di dalam lingkaran, lalu klik tombol di atas.
+                     </small>
+                  </div>
+
                   <div id="hasilScan" class="px-5 pb-4 pt-1"></div>
                   <br>
                </div>
@@ -150,6 +187,16 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
 
 <?= $this->section('scripts') ?>
 <script type="text/javascript" src="<?= base_url('assets/js/plugins/zxing/zxing.min.js') ?>"></script>
+
+<!-- TTS Konfigurasi (dari .env) -->
+<script>
+   window.ttsApiBase  = <?= json_encode(rtrim(getenv('TTS_API_BASE') ?: 'http://localhost:8085', '/')); ?>;
+   window.ttsVoice    = <?= json_encode(getenv('TTS_VOICE') ?: 'female'); ?>;
+   window.ttsRate     = <?= json_encode(getenv('TTS_RATE') ?: '+0%'); ?>;
+   window.ttsLanguage = 'indonesian';
+</script>
+<script type="text/javascript" src="<?= base_url('assets/js/tts.js') ?>"></script>
+
 <script type="text/javascript">
    let selectedDeviceId = null;
    let audio = new Audio("<?= base_url('assets/audio/beep.mp3'); ?>");
@@ -181,6 +228,98 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
       } else {
          $('#rfidSection').slideUp();
       }
+   });
+
+   // ═══ FACE SCAN LOGIC ═══
+   let faceStream = null;
+
+   $(document).on('change', '#toggleWajah', function () {
+      if (this.checked) {
+         $('#faceSection').slideDown();
+         startFaceCamera();
+      } else {
+         stopFaceCamera();
+         $('#faceSection').slideUp();
+      }
+   });
+
+   function startFaceCamera() {
+      const video = document.getElementById('faceVideo');
+      $('#faceStatusText').text('Kamera wajah: Memuat...');
+      $('#faceBadge').removeClass('badge-success badge-danger').addClass('badge-info');
+
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } })
+         .then(function (stream) {
+            faceStream = stream;
+            video.srcObject = stream;
+            $('#faceStatusText').text('Kamera wajah: Siap');
+            $('#faceBadge').removeClass('badge-info badge-danger').addClass('badge-success');
+         })
+         .catch(function (err) {
+            console.error('Face camera error:', err);
+            $('#faceStatusText').text('Kamera tidak dapat diakses!');
+            $('#faceBadge').removeClass('badge-info badge-success').addClass('badge-danger');
+         });
+   }
+
+   function stopFaceCamera() {
+      const video = document.getElementById('faceVideo');
+      if (faceStream) {
+         faceStream.getTracks().forEach(t => t.stop());
+         faceStream = null;
+      }
+      video.srcObject = null;
+      $('#faceStatusText').text('Kamera wajah: Memuat...');
+      $('#faceBadge').removeClass('badge-success badge-danger').addClass('badge-info');
+   }
+
+   $('#btnCaptureFace').on('click', function () {
+      const video  = document.getElementById('faceVideo');
+      const canvas = document.getElementById('faceCanvas');
+
+      if (!faceStream || !video.videoWidth) {
+         alert('Kamera belum siap. Harap tunggu sebentar.');
+         return;
+      }
+
+      // Capture frame
+      canvas.width  = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+      // UI: loading state
+      const btn = $('#btnCaptureFace');
+      btn.prop('disabled', true);
+      $('#btnFaceLabel').text('Memproses...');
+      $('#faceBadge').removeClass('badge-success badge-danger').addClass('badge-info');
+      $('#faceStatusText').text('Mengenali wajah...');
+
+      $.ajax({
+         url: '<?= base_url("scan/face"); ?>',
+         type: 'POST',
+         data: setAjaxData({
+            'face_encoding': dataUrl,
+            'waktu': '<?= strtolower($waktu); ?>'
+         }),
+success: function (response) {
+             audio.play();
+             $('#hasilScan').html(response);
+             announceAbsensiFromResponse();
+             $('html, body').animate({ scrollTop: $('#hasilScan').offset().top }, 500);
+             $('#faceStatusText').text('Kamera wajah: Siap');
+             $('#faceBadge').removeClass('badge-info badge-danger').addClass('badge-success');
+          },
+         error: function (xhr) {
+            $('#hasilScan').html(xhr.responseText || 'Terjadi kesalahan.');
+            $('#faceStatusText').text('Gagal mengenali wajah');
+            $('#faceBadge').removeClass('badge-info badge-success').addClass('badge-danger');
+         },
+         complete: function () {
+            btn.prop('disabled', false);
+            $('#btnFaceLabel').text('Scan Wajah Sekarang');
+         }
+      });
    });
 
    const previewParent = document.getElementById('previewParent');
@@ -265,15 +404,15 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
             'unique_code': code,
             'waktu': '<?= strtolower($waktu); ?>'
          }),
-         success: function (response, status, xhr) {
-            audio.play();
-            console.log(response);
-            $('#hasilScan').html(response);
-
-            $('html, body').animate({
-               scrollTop: $("#hasilScan").offset().top
-            }, 500);
-         },
+success: function (response, status, xhr) {
+             audio.play();
+             console.log(response);
+             $('#hasilScan').html(response);
+             announceAbsensiFromResponse();
+             $('html, body').animate({
+                scrollTop: $("#hasilScan").offset().top
+             }, 500);
+          },
          error: function (xhr, status, thrown) {
             console.log(thrown);
             $('#hasilScan').html(thrown);
@@ -283,9 +422,20 @@ $waktu == 'Masuk' ? $oppBtn = 'pulang' : $oppBtn = 'masuk';
 
    function clearData() {
       $('#hasilScan').html('');
-   }
+}
 
-   // RFID Listener
+    function announceAbsensiFromResponse() {
+       var wrapper = $('#hasilScan').find('.absen-result-wrapper');
+       if (wrapper.length) {
+          var nama  = wrapper.data('tts-name');
+          var waktu = wrapper.data('tts-waktu');
+          if (nama && typeof speakAbsensi === 'function') {
+             speakAbsensi(nama, waktu);
+          }
+       }
+    }
+
+    // RFID Listener
    $('#rfidInput').on('keypress', function (e) {
       if (e.which == 13) {
          let code = $(this).val().trim();

@@ -84,6 +84,7 @@ class AuthGroups extends ShieldAuthGroups
         'settings.manage'       => 'Dapat mengelola pengaturan aplikasi',
         'backup.manage'         => 'Dapat melakukan backup dan restore',
         'teacher.access'        => 'Dapat mengakses dashboard wali kelas',
+        'camera.manage'         => 'Dapat mengelola data camera capture wajah',
     ];
 
     /**
@@ -107,6 +108,7 @@ class AuthGroups extends ShieldAuthGroups
             'settings.*',
             'backup.*',
             'teacher.*',
+            'camera.*',
         ],
         'admin' => [
             'dashboard.view-admin',

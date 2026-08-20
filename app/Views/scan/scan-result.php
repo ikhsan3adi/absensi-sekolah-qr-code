@@ -5,6 +5,9 @@ use App\Libraries\enums\TipeUser;
 switch ($type) {
    case TipeUser::Siswa:
       ?>
+      <div class="absen-result-wrapper"
+           data-tts-name="<?= esc($data['nama_siswa']); ?>"
+           data-tts-waktu="<?= esc($waktu); ?>">
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
       <div class="row w-100">
          <div class="col">
@@ -17,10 +20,14 @@ switch ($type) {
              <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
          </div>
       </div>
+      </div>
       <?php break;
 
    case TipeUser::Guru:
       ?>
+      <div class="absen-result-wrapper"
+           data-tts-name="<?= esc($data['nama_guru']); ?>"
+           data-tts-waktu="<?= esc($waktu); ?>">
       <h3 class="text-success">Absen <?= $waktu; ?> berhasil</h3>
       <div class="row w-100">
          <div class="col">
@@ -32,6 +39,7 @@ switch ($type) {
              <p>Jam masuk : <b class="text-info"><?= $presensi['jam_masuk'] ?? '-'; ?></b></p>
              <p>Jam pulang : <b class="text-info"><?= $presensi['jam_keluar'] ?? '-'; ?></b></p>
          </div>
+      </div>
       </div>
       <?php break;
 

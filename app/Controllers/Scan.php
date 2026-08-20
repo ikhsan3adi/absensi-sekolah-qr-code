@@ -236,6 +236,96 @@ class Scan extends BaseController
       return view('scan/scan-result', $data);
    }
 
+   /**
+    * Verify wajah via Python face-recognition service (localhost:5000/verify-face)
+    * Menerima POST: face_encoding (base64 data URL), waktu (masuk|pulang)
+    * Service mengembalikan: {status: 'success', name: '<unique_code>'} atau error
+    */
+   public function verifyFace()
+   {
+      // Cek apakah hari ini libur
+      $holidayModel = new \App\Models\HariLiburModel();
+      $today = date('Y-m-d');
+      $holiday = $holidayModel->where('tanggal', $today)->first();
+
+      if ($holiday) {
+         return $this->showErrorView("Hari ini sistem presensi dinonaktifkan karena: " . $holiday['keterangan']);
+      }
+
+      $faceEncoding = $this->request->getVar('face_encoding');
+      $waktuAbsen   = $this->request->getVar('waktu');
+
+      if (empty($faceEncoding)) {
+         return $this->showErrorView('Data gambar wajah tidak ditemukan.');
+      }
+
+      // ── Kirim ke Python face-recognition service ──
+      $faceApiBase = rtrim(getenv('FACE_API_URL') ?: 'http://localhost:5000', '/');
+      $faceApiUrl  = str_ends_with($faceApiBase, '/verify-face') ? $faceApiBase : ($faceApiBase . '/verify-face');
+
+      $ch = curl_init($faceApiUrl);
+      curl_setopt_array($ch, [
+         CURLOPT_RETURNTRANSFER => true,
+         CURLOPT_POST           => true,
+         CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+         CURLOPT_POSTFIELDS     => json_encode(['face_encoding' => $faceEncoding]),
+         CURLOPT_TIMEOUT        => 15,
+      ]);
+      $raw      = curl_exec($ch);
+      $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $curlErr  = curl_error($ch);
+      curl_close($ch);
+
+      if ($raw === false) {
+        return $this->showErrorView('Face recognition service tidak dapat dihubungi' . ($curlErr ? ': ' . $curlErr : ''));
+      }
+
+      $apiResult = json_decode($raw, true);
+      if (!is_array($apiResult)) {
+        return $this->showErrorView('Respons dari face recognition service tidak valid.');
+      }
+
+      if ($httpCode !== 200 || ($apiResult['status'] ?? '') !== 'success') {
+         $errMsg = $apiResult['message'] ?? 'Wajah tidak dikenali.';
+         return $this->showErrorView($errMsg);
+      }
+
+      // ── Nama file wajah = unique_code siswa/guru ──
+      $uniqueCode = $apiResult['name'] ?? '';
+
+      if (empty($uniqueCode)) {
+         return $this->showErrorView('Respons service tidak valid.');
+      }
+
+      // ── Cari data di database ──
+      $status = false;
+      $type   = TipeUser::Siswa;
+      $result = $this->siswaModel->cekSiswa($uniqueCode);
+
+      if (empty($result)) {
+         $result = $this->guruModel->cekGuru($uniqueCode);
+         if (!empty($result)) {
+            $status = true;
+            $type   = TipeUser::Guru;
+         }
+      } else {
+         $status = true;
+      }
+
+      if (!$status) {
+         return $this->showErrorView('Data tidak ditemukan untuk wajah yang terdeteksi (kode: ' . $uniqueCode . ')');
+      }
+
+      switch ($waktuAbsen) {
+         case 'masuk':
+            return $this->absenMasuk($type, $result);
+         case 'pulang':
+            return $this->absenPulang($type, $result);
+         default:
+            return $this->showErrorView('Waktu absen tidak valid.');
+      }
+   }
+
    public function showErrorView(string $msg = 'no error message', $data = NULL)
    {
       $errdata = $data ?? [];

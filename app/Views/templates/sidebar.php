@@ -70,7 +70,8 @@ $adminMenus = [
    ['title' => 'Data Petugas',          'url' => 'admin/petugas',           'icon' => 'computer',   'context' => 'petugas',           'perm' => 'petugas.manage'],
    ['title' => 'Pengaturan',            'url' => 'admin/general-settings',  'icon' => 'settings',   'context' => 'general_settings',  'perm' => 'settings.manage'],
    ['title' => 'Audit Log',             'url' => 'admin/audit-log',         'icon' => 'history',    'context' => 'audit-log',         'perm' => 'admin.access'],
-   ['title' => 'Backup & Restore',      'url' => 'admin/backup',            'icon' => 'backup',     'context' => 'backup',            'perm' => 'backup.manage'],
+   ['title' => 'Backup & Restore',      'url' => 'admin/backup',            'icon' => 'backup',        'context' => 'backup',            'perm' => 'backup.manage'],
+   ['title' => 'Camera Capture',         'url' => 'admin/camera-capture',    'icon' => 'photo_camera',  'context' => 'camera-capture',    'perm' => 'camera.manage'],
 ];
 
 $adminItems = [];

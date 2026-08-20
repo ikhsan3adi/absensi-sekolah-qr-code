@@ -1,4 +1,4 @@
-# Aplikasi Web Sistem Absensi Sekolah Berbasis `QR Code` <br> (+ Dukungan RFID)
+# Aplikasi Web Sistem Absensi Sekolah Berbasis `QR Code` (+ Dukungan RFID)
 
 <a href="https://trendshift.io/repositories/11254" target="_blank" title="PHP | 24 July 2024">
   <img src="https://trendshift.io/api/badge/repositories/11254" alt="ikhsan3adi%2Fabsensi-sekolah-qr-code | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
@@ -81,6 +81,10 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 > ---
 >
 > - [Fonnte](https://fonnte.com/) - WhatsApp API untuk mengirim pesan notifikasi
+>
+> ---
+>
+> - [Face Recognition](https://github.com/ageitgey/face_recognition) - Fiture tambahan untuk Absensi Siswa/ Guru via Wajah
 
 ## Pratinjau
 
@@ -91,18 +95,17 @@ Aplikasi Web Sistem Absensi Sekolah adalah sebuah proyek yang bertujuan untuk me
 |                        <img src="./screenshots/new-scanner-1.9.10.png" height="320px" alt="RFID Scanner"> <br> (NEW) QR Code + RFID                         |
 | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |                                    ![Hasil Scan Absensi](./screenshots/absen.jpg) <br> Hasil Presensi Masuk/Pulang (OLD)                                    |
-| <img src="./screenshots/notif-wa.png" width="320px" alt="Notifikasi WA"> <br> Notifikasi otomatis dikirim ke nomor HP siswa/guru setelah berhasil presensi. |  |
+| <img src="./screenshots/notif-wa.png" width="320px" alt="Notifikasi WA"> <br> Notifikasi otomatis dikirim ke nomor HP siswa/guru setelah berhasil presensi. |
 
 ---
 
 ### Dashboard Admin
 
-|  ![Dashboard Admin](./screenshots/admin-dashboard-1.9.10.png) <br> Dashboard Utama   |                         ![Absen Siswa](./screenshots/absen-siswa-1.9.10.png) <br> Absensi Siswa                         |        ![Absen Guru](./screenshots/absen-guru-1.9.10.png) <br> Absensi Guru        |
-| :----------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
-|     ![Generate Laporan](./screenshots/laporan-1.9.10.png) <br> Generate Laporan      |                         ![CRUD Data Siswa](./screenshots/data-siswa-1.9.10.png) <br> Data Siswa                         |        ![CRUD Data Guru](./screenshots/data-guru-1.9.10.png) <br> Data Guru        |
-|      ![Generate QR](./screenshots/generate-qr-1.9.10.png) <br> Generate QR Code      | ![Data Kelas & Jurusan](./screenshots/kelas-jurusan-1.9.10.png) <br> Data kelas, jurusan, dan **penugasan Wali Kelas**. | ![Backup & Restore](./screenshots/backup-restore-1.9.10.png) <br> Backup & Restore |
-| ![Ubah Data Kehadiran](./screenshots/ubah-kehadiran.jpeg) <br> Edit Status Kehadiran |                           ![Login Petugas](./screenshots/login-1.9.10.png) <br> Login Petugas                           |         ![Pengaturan](./screenshots/pengaturan-1.9.10.png) <br> Pengaturan         |
-
+|  ![Dashboard Admin](./screenshots/admin-dashboard-1.9.10.png) Dashboard Utama   |                         ![Absen Siswa](./screenshots/absen-siswa-1.9.10.png) Absensi Siswa                         |        ![Absen Guru](./screenshots/absen-guru-1.9.10.png) Absensi Guru        |
+| :-----------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
+|     ![Generate Laporan](./screenshots/laporan-1.9.10.png) Generate Laporan      |                         ![CRUD Data Siswa](./screenshots/data-siswa-1.9.10.png) Data Siswa                         |        ![CRUD Data Guru](./screenshots/data-guru-1.9.10.png) Data Guru        |
+|      ![Generate QR](./screenshots/generate-qr-1.9.10.png) Generate QR Code      | ![Data Kelas & Jurusan](./screenshots/kelas-jurusan-1.9.10.png) Data kelas, jurusan, dan **penugasan Wali Kelas**. | ![Backup & Restore](./screenshots/backup-restore-1.9.10.png) Backup & Restore |
+| ![Ubah Data Kehadiran](./screenshots/ubah-kehadiran.jpeg) Edit Status Kehadiran |                           ![Login Petugas](./screenshots/login-1.9.10.png) Login Petugas                           |         ![Pengaturan](./screenshots/pengaturan-1.9.10.png) Pengaturan         |
 
 ---
 
@@ -154,13 +157,10 @@ composer install
 #### 3. Konfigurasi Environment
 
 - Jika belum ada file `.env`, copy dari `.env.example`:
-
   ```bash
   cp .env.example .env
   ```
-
 - Edit file `.env` dan sesuaikan konfigurasi database:
-
   ```env
   database.default.hostname = localhost
   database.default.database = db_absensi
@@ -182,7 +182,10 @@ CREATE DATABASE db_absensi;
 Migration akan membuat semua struktur tabel yang diperlukan:
 
 ```bash
-php spark migrate --all
+# All Migration!
+php spark migrate
+# If Single File Migration
+php spark migrate:file "app\Database\Migrations\2025-11-19-204424_LogActivity.php"
 ```
 
 **Tabel yang akan dibuat:**
@@ -243,7 +246,7 @@ Password: superadmin
 Email: adminsuper@gmail.com
 ```
 
-> [!CAUTION]
+> \[!CAUTION]
 >
 > Segera ubah password default setelah login pertama kali!
 
@@ -262,17 +265,59 @@ Halaman berikut dapat diakses tanpa autentikasi:
 
 > **Untuk panduan lengkap tentang migration dan seeder**, lihat [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
+#### 10. Setup Python Face Recognition
+
+> **Penting:** Gunakan **Python 3.12** (bukan 3.13+). Library `dlib-bin` hanya tersedia sebagai pre-compiled wheel hingga Python 3.12.
+
+**Langkah setup (sekali saja):**
+
+```bash
+# 1. Buat virtual environment dengan Python 3.12
+py -3.12 -m venv venv-face
+
+# 2. Install semua dependensi
+venv-face\Scripts\pip install -r requirements.txt
+
+# 3. Install face_recognition (tanpa dependency check)
+venv-face\Scripts\pip install --no-deps face_recognition==1.3.0
+
+# 4. Install setuptools (dibutuhkan oleh face_recognition_models)
+venv-face\Scripts\pip install setuptools
+```
+
+**Jalankan server:**
+
+```bash
+# Development
+venv-face\Scripts\python face_api.py
+
+# Atau gunakan flask run
+venv-face\Scripts\python -m flask --app face_api run --host 0.0.0.0 --port 5000
+
+# Production
+venv-face\Scripts\gunicorn -w 4 -b 0.0.0.0:5000 face_api:app
+```
+
+#### 11. Setup Text to Speech
+
+```bash
+# server tts: https://github.com/rsuppersahabatan/Edge-TTS-API
+# TTS_API_BASE=http://localhost:8085
+TTS_VOICE=male
+TTS_RATE=-3%
+```
+
 ### Daftar Groups & Permissions
 
 Role pengguna dikelola menggunakan **CodeIgniter Shield groups**. Tiap user bisa memiliki lebih dari satu group.
 
-| Group | Title | Hak Akses |
-|-------|-------|-----------|
-| `superadmin` | Super Admin | Akses penuh semua fitur |
-| `admin` | Staf Petugas | Kelola absensi, generate QR & laporan |
-| `kepsek` | Kepala Sekolah | Melihat laporan absensi |
-| `scanner` | Scanner | Hanya scan QR Code |
-| `guru` | Guru / Wali Kelas | Kelola presensi siswanya, review pengajuan izin |
+| Group        | Title             | Hak Akses                                       |
+| ------------ | ----------------- | ----------------------------------------------- |
+| `superadmin` | Super Admin       | Akses penuh semua fitur                         |
+| `admin`      | Staf Petugas      | Kelola absensi, generate QR & laporan           |
+| `kepsek`     | Kepala Sekolah    | Melihat laporan absensi                         |
+| `scanner`    | Scanner           | Hanya scan QR Code                              |
+| `guru`       | Guru / Wali Kelas | Kelola presensi siswanya, review pengajuan izin |
 
 User dengan group `guru` secara otomatis mendapatkan akses ke dashboard wali kelas.
 Untuk menjadi wali kelas, guru harus ditugaskan ke kelas melalui fitur "Edit Kelas" di menu admin.
@@ -342,7 +387,6 @@ Aplikasi mendukung import data secara massal menggunakan file CSV:
 
 - **Import Data Siswa** - Buka menu Data Siswa > Import CSV. Download template [csv_siswa_template.csv](./public/assets/file/csv_siswa_template.csv) dan upload setelah diisi. Contoh [csv_siswa_example.csv](./public/assets/file/csv_siswa_example.csv)
   > Pastikan id kelas cocok dengan data kelas yang ada di database
-
 - **Import Data Guru** - Buka menu Data Guru > Import CSV. Download template [csv_guru_template.csv](./public/assets/file/csv_guru_template.csv) dan upload setelah diisi.
   > Perhatikan untuk impor data guru & siswa:
   >
@@ -353,7 +397,6 @@ Aplikasi mendukung import data secara massal menggunakan file CSV:
   > ```
   >
   > Sistem otomatis menormalisasi variasi input jenis kelamin. Nilai seperti `L`, `P`, `laki-laki`, `laki`, `perempuan`, `cewe` akan dikenali dan dikonversi ke nilai database yang benar.
-
 - **Import Data Jurusan dan Kelas** - Buka menu Kelas & Jurusan > Jurusan > Import (Jurusan/Kelas). Download template [csv_jurusan_template.csv](./public/assets/file/csv_jurusan_template.csv) atau [csv_kelas_template.csv](./public/assets/file/csv_kelas_template.csv) dan upload setelah diisi.
   > Penting untuk memastikan kolom jurusan pada csv kelas harus **SUDAH ADA** dan **$PERSIS \space SAMA$** dengan yang ada di database jurusan.
   >
@@ -362,38 +405,33 @@ Aplikasi mendukung import data secara massal menggunakan file CSV:
 **Catatan:** Gunakan encoding UTF-8 dan delimiter koma (,). Sistem akan mengabaikan data duplikat.
 
 **Fitur Validasi Import CSV:**
+
 - **Cek Duplikat NIS/NIP**: Sistem mendeteksi dan menolak import jika NIS (siswa) atau NIP (guru) sudah terdaftar di database
 - **Validasi Jenis Kelamin**: Sistem mendeteksi dan menolak baris dengan nilai jenis kelamin yang tidak valid
 - **Penanganan BOM**: File CSV dengan BOM (Byte Order Mark) otomatis dibersihkan saat upload
 
 ### Konfigurasi
 
-> [!IMPORTANT]
+> \[!IMPORTANT]
 >
 > - Konfigurasi file `.env` untuk mengatur base url(terutama jika melakukan hosting), koneksi database dan pengaturan lainnya sesuai dengan lingkungan pengembangan Anda.
 > - Untuk mengaktifkan **notifikasi WhatsApp**, pertama-tama ubah variabel `.env` berikut dari `false` menjadi `true`.
->
 >   ```sh
 >   # .env
 >   # WA_NOTIFICATION=false # sebelum
 >   WA_NOTIFICATION=true
 >   ```
->
 >   Lalu masukkan token WhatsApp API.
->
 >   ```sh
 >   # .env
 >   WA_NOTIFICATION=true
 >   WHATSAPP_PROVIDER=Fonnte
 >   WHATSAPP_TOKEN=XXXXXXXXXXXXXXXXX # ganti dengan token anda
 >   ```
->
->   _**Untuk mendapatkan token, daftar di website [fonnte](https://md.fonnte.com/new/register.php) terlebih dahulu. Lalu daftarkan device anda dan [dapatkan token Fonnte Whatsapp API](https://docs.fonnte.com/token-api-key/)**_
->
+>   _**Untuk mendapatkan token, daftar di website**_ _**[fonnte](https://md.fonnte.com/new/register.php)**_ _**terlebih dahulu. Lalu daftarkan device anda dan**_ _**[dapatkan token Fonnte Whatsapp API](https://docs.fonnte.com/token-api-key/)**_
 > - Untuk mengubah konfigurasi nama sekolah, tahun ajaran logo sekolah dll sudah disediakan pengaturan (khusus untuk superadmin).
 > - Logo Sekolah Rekomendasi 100x100px atau 1:1 dan berformat PNG/JPG.
 > - Jika ingin mengubah email, username & password dari superadmin, **sebelum melakukan seed database**, buka file `app\Database\Migrations\2023-08-18-000004_AddSuperadmin.php` lalu ubah & sesuaikan kode berikut:
->
 >   ```php
 >   // INSERT INITIAL SUPERADMIN
 >   $email = 'adminsuper@gmail.com';
