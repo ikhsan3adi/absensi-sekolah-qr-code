@@ -49,7 +49,7 @@ class CreateAuditLogsTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->createTable('tb_audit_logs');
+        $this->forge->createTable('tb_audit_logs', true);
     }
 
     public function down()

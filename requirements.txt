@@ -1,0 +1,20 @@
+# Dependencies untuk face_api.py (service Flask face recognition).
+#
+# CATATAN: paket `face_recognition` sengaja TIDAK dicantumkan di sini.
+# Metadata-nya mewajibkan distribusi `dlib`, yang di-build dari source
+# (butuh cmake + ~15 menit compile). Dockerfile.face-api memasang
+# `dlib-bin` (wheel siap pakai, modul Python-nya tetap bernama `dlib`)
+# lalu menginstal face_recognition dengan --no-deps.
+#
+# Instalasi manual di luar Docker:
+#   pip install -r requirements.txt
+#   pip install --no-deps face_recognition==1.3.0
+
+flask==3.0.3
+gunicorn==22.0.0
+numpy==1.26.4
+Pillow==10.4.0
+click==8.1.7
+opencv-python-headless==4.10.0.84
+dlib-bin>=19.24.2
+face-recognition-models==0.3.0

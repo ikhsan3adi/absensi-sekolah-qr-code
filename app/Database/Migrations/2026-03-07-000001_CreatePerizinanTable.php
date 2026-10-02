@@ -61,7 +61,7 @@ class CreatePerizinanTable extends Migration
 
         $this->forge->addKey('id_perizinan', true);
         $this->forge->addForeignKey('id_siswa', 'tb_siswa', 'id_siswa', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('tb_perizinan');
+        $this->forge->createTable('tb_perizinan', true);
     }
 
     public function down()

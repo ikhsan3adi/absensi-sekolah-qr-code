@@ -32,7 +32,7 @@ class CreateHariLiburTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->createTable('tb_hari_libur');
+        $this->forge->createTable('tb_hari_libur', true);
     }
 
     public function down()

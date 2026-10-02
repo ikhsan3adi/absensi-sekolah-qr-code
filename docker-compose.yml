@@ -11,6 +11,8 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
       TZ: Asia/Jakarta
+      # Alamat service face recognition (dipanggil antar container lewat nama service)
+      FACE_API_URL: http://face-api:5000
     working_dir: /var/www/html
     env_file:
       - .env.docker
@@ -26,6 +28,39 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  face-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.face-api
+    image: absensi-face-api
+    container_name: absensi-face-api
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: face-api
+      SERVICE_TAGS: dev
+      TZ: Asia/Jakarta
+      # Folder wajah terdaftar, relatif terhadap working_dir
+      KNOWN_FACES_DIR: writable/faces
+    working_dir: /app
+    volumes:
+      # Bind-mount agar perubahan script & data wajah tidak perlu rebuild image.
+      - ./face_api.py:/app/face_api.py:ro
+      - ./writable/faces:/app/writable/faces
+    networks:
+      - app-network
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python -c \"import socket; socket.create_connection(('127.0.0.1', 5000), 3).close()\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   db:
     image: mysql:8.0
