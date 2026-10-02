@@ -80,6 +80,11 @@ foreach ($adminMenus as $m) {
    }
 }
 
+// perbaikan bug pada sidebar
+if (is_guru()) {
+   $adminItems = [];
+}
+
 if ($adminItems !== []) {
    $hasAdminSection = true;
 }
