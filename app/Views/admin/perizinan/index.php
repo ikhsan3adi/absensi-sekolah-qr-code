@@ -69,8 +69,8 @@
                                             </td>
                                             <td><?= $p['alasan'] ?></td>
                                             <td>
-                                                <a href="<?= base_url('uploads/perizinan/' . $p['bukti']) ?>" target="_blank">
-                                                    <img src="<?= base_url('uploads/perizinan/' . $p['bukti']) ?>" width="50" class="img-thumbnail">
+                                                <a href="<?= base_url('admin/perizinan/bukti/' . rawurlencode($p['bukti'])) ?>" target="_blank">
+                                                    <img src="<?= base_url('admin/perizinan/bukti/' . rawurlencode($p['bukti'])) ?>" width="50" class="img-thumbnail">
                                                 </a>
                                             </td>
                                             <td>

@@ -84,6 +84,9 @@ class AuthGroups extends ShieldAuthGroups
         'settings.manage'       => 'Dapat mengelola pengaturan aplikasi',
         'backup.manage'         => 'Dapat melakukan backup dan restore',
         'teacher.access'        => 'Dapat mengakses dashboard wali kelas',
+        'permits.manage'        => 'Dapat mengelola data perizinan',
+        'holiday.manage'        => 'Dapat mengelola hari libur',
+        'audit.view'            => 'Dapat melihat audit log',
     ];
 
     /**
@@ -107,6 +110,9 @@ class AuthGroups extends ShieldAuthGroups
             'settings.*',
             'backup.*',
             'teacher.*',
+            'permits.manage',
+            'holiday.manage',
+            'audit.view',
         ],
         'admin' => [
             'dashboard.view-admin',
@@ -114,6 +120,7 @@ class AuthGroups extends ShieldAuthGroups
             'attendance.edit',
             'attendance.view',
             'qr.generate',
+            'permits.manage',
         ],
         'kepsek' => [
             'dashboard.view-admin',
