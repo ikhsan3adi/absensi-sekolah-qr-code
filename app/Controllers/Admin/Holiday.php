@@ -16,8 +16,8 @@ class Holiday extends BaseController
 
     public function index()
     {
-        if (!is_superadmin()) {
-            return redirect()->to('admin');
+        if ($denied = $this->denyUnlessPermitted()) {
+            return $denied;
         }
 
         $month = request()->getGet('month') ?? date('m');
@@ -36,6 +36,10 @@ class Holiday extends BaseController
 
     public function generateWeekend()
     {
+        if ($denied = $this->denyUnlessPermitted()) {
+            return $denied;
+        }
+
         $month = date('m');
         $year = date('Y');
         
@@ -63,6 +67,10 @@ class Holiday extends BaseController
 
     public function save()
     {
+        if ($denied = $this->denyUnlessPermitted()) {
+            return $denied;
+        }
+
         $tanggal_mulai = request()->getPost('tanggal_mulai');
         $tanggal_selesai = request()->getPost('tanggal_selesai');
         $keterangan = request()->getPost('keterangan');
@@ -101,12 +109,20 @@ class Holiday extends BaseController
 
     public function delete($id)
     {
+        if ($denied = $this->denyUnlessPermitted()) {
+            return $denied;
+        }
+
         $this->holidayModel->delete($id);
         return redirect()->to(base_url('admin/holiday'))->with('success', 'Hari libur berhasil dihapus.');
     }
 
     public function bulkDelete()
     {
+        if ($denied = $this->denyUnlessPermitted()) {
+            return $denied;
+        }
+
         $ids = request()->getPost('holiday_ids');
         if (empty($ids)) {
             return redirect()->back()->with('error', 'Pilih hari libur yang ingin dihapus.');
@@ -114,5 +130,16 @@ class Holiday extends BaseController
 
         $this->holidayModel->whereIn('id', $ids)->delete();
         return redirect()->to(base_url('admin/holiday'))->with('success', count($ids) . ' hari libur berhasil dihapus.');
+    }
+
+    private function denyUnlessPermitted()
+    {
+        helper('user_helper');
+        $user = user();
+        if ($user !== null && $user->can('holiday.manage')) {
+            return null;
+        }
+
+        return $this->response->setStatusCode(403)->setBody('Forbidden');
     }
 }

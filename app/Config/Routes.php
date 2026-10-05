@@ -69,16 +69,20 @@ $routes->group('admin', function (RouteCollection $routes) {
    $routes->get('dashboard/live-stats', 'Admin\Dashboard::getLiveStats', ['filter' => 'permission:dashboard.view-admin']);
    $routes->post('dashboard/filter-data', 'Admin\Dashboard::filterData', ['filter' => 'permission:dashboard.view-admin']);
 
-   // ── Perizinan ──
-   $routes->group('perizinan', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+   // ── Perizinan (permits.manage) ──
+   $routes->group('perizinan', ['namespace' => 'App\Controllers\Admin', 'filter' => 'permission:permits.manage'], function ($routes) {
       $routes->get('/', 'Perizinan::index');
-      $routes->post('list', 'Perizinan::list');
       $routes->post('konfirmasi', 'Perizinan::konfirmasi');
       $routes->delete('delete/(:any)', 'Perizinan::delete/$1');
    });
 
-   // ── Hari Libur ──
-   $routes->group('holiday', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+   // ── Bukti Perizinan (permits.manage ATAU guru wali kelas) ──
+   $routes->group('perizinan/bukti', ['namespace' => 'App\Controllers\Admin', 'filter' => 'permission:permits.manage,teacher.access'], function ($routes) {
+      $routes->get('(:segment)', 'Perizinan::bukti/$1');
+   });
+
+   // ── Hari Libur (holiday.manage) ──
+   $routes->group('holiday', ['namespace' => 'App\Controllers\Admin', 'filter' => 'permission:holiday.manage'], function ($routes) {
       $routes->get('/', 'Holiday::index');
       $routes->get('generate-weekend', 'Holiday::generateWeekend');
       $routes->post('save', 'Holiday::save');
@@ -86,8 +90,8 @@ $routes->group('admin', function (RouteCollection $routes) {
       $routes->delete('delete/(:any)', 'Holiday::delete/$1');
    });
 
-   // ── Audit Log ──
-   $routes->get('audit-log', 'Admin\Dashboard::auditLog');
+   // ── Audit Log (audit.view) ──
+   $routes->get('audit-log', 'Admin\Dashboard::auditLog', ['filter' => 'permission:audit.view']);
 
    // ── Absensi Siswa (attendance.edit) ──
    $routes->group('absen-siswa', ['filter' => 'permission:attendance.edit'], function ($routes) {

@@ -60,8 +60,8 @@ $adminMenus = [
    ['title' => 'Dashboard',            'url' => 'admin/dashboard',         'icon' => 'dashboard',  'context' => 'admin-dashboard',    'perm' => 'admin.access'],
    ['title' => 'Absensi Siswa',        'url' => 'admin/absen-siswa',       'icon' => 'checklist',  'context' => 'absen-siswa',        'perm' => 'attendance.edit'],
    ['title' => 'Absensi Guru',         'url' => 'admin/absen-guru',        'icon' => 'checklist',  'context' => 'absen-guru',         'perm' => 'attendance.edit'],
-   ['title' => 'Data Perizinan',       'url' => 'admin/perizinan',          'icon' => 'mail', 'context' => 'perizinan',     'perm' => 'attendance.edit'],
-   ['title' => 'Hari Libur',           'url' => 'admin/holiday',            'icon' => 'event_busy', 'context' => 'holiday',            'perm' => 'settings.manage'],
+   ['title' => 'Data Perizinan',       'url' => 'admin/perizinan',          'icon' => 'mail', 'context' => 'perizinan',     'perm' => 'permits.manage'],
+   ['title' => 'Hari Libur',           'url' => 'admin/holiday',            'icon' => 'event_busy', 'context' => 'holiday',            'perm' => 'holiday.manage'],
    ['title' => 'Data Siswa',           'url' => 'admin/siswa',             'icon' => 'person',     'context' => 'siswa',             'perm' => 'students.manage'],
    ['title' => 'Data Guru',            'url' => 'admin/guru',              'icon' => 'person_4',   'context' => 'guru',              'perm' => 'teachers.manage'],
    ['title' => 'Data Kelas & Jurusan', 'url' => 'admin/kelas',             'icon' => 'school',     'context' => 'kelas',             'perm' => 'classes.manage'],
@@ -69,7 +69,7 @@ $adminMenus = [
    ['title' => 'Generate Laporan',      'url' => 'admin/laporan',           'icon' => 'print',      'context' => 'laporan',           'perm' => 'attendance.view'],
    ['title' => 'Data Petugas',          'url' => 'admin/petugas',           'icon' => 'computer',   'context' => 'petugas',           'perm' => 'petugas.manage'],
    ['title' => 'Pengaturan',            'url' => 'admin/general-settings',  'icon' => 'settings',   'context' => 'general_settings',  'perm' => 'settings.manage'],
-   ['title' => 'Audit Log',             'url' => 'admin/audit-log',         'icon' => 'history',    'context' => 'audit-log',         'perm' => 'admin.access'],
+   ['title' => 'Audit Log',             'url' => 'admin/audit-log',         'icon' => 'history',    'context' => 'audit-log',         'perm' => 'audit.view'],
    ['title' => 'Backup & Restore',      'url' => 'admin/backup',            'icon' => 'backup',     'context' => 'backup',            'perm' => 'backup.manage'],
 ];
 

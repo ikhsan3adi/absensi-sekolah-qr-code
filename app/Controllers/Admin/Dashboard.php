@@ -124,6 +124,12 @@ class Dashboard extends BaseController
 
    public function auditLog()
    {
+      helper('user_helper');
+      $user = user();
+      if ($user === null || ! $user->can('audit.view')) {
+         return $this->response->setStatusCode(403)->setBody('Forbidden');
+      }
+
       $auditLogModel = new \App\Models\AuditLogModel();
       $data = [
          'title' => 'Audit Log - Riwayat Perubahan',
