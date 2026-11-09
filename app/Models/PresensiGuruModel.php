@@ -68,7 +68,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
          ->select('*')
          ->join(
             "(SELECT id_presensi, id_guru AS id_guru_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_guru) tb_presensi_guru",
-            "tb_guru.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = '$tanggal'",
+            "tb_guru.id_guru = tb_presensi_guru.id_guru_presensi AND tb_presensi_guru.tanggal = " . $this->db->escape($tanggal),
             'left'
          )
          ->join(
@@ -85,7 +85,7 @@ class PresensiGuruModel extends Model implements PresensiInterface
    {
       $this->join(
          'tb_guru',
-         "tb_presensi_guru.id_guru = tb_guru.id_guru AND tb_presensi_guru.tanggal = '$tanggal'",
+         "tb_presensi_guru.id_guru = tb_guru.id_guru AND tb_presensi_guru.tanggal = " . $this->db->escape($tanggal),
          'right'
       );
 

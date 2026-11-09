@@ -409,4 +409,31 @@ final class PresensiGuruModelTest extends CIUnitTestCase
         
         $this->assertIsArray($result);
     }
+
+    public function testGetPresensiByTanggalDoesNotAllowSqlInjection(): void
+    {
+        $this->model->absenMasuk($this->testGuruId, '2024-01-02', '07:00:00');
+
+        $result = $this->model->getPresensiByTanggal("2024-01-01' OR 1=1 -- ");
+
+        $row = null;
+        foreach ($result as $value) {
+            if ((int) $value['id_guru'] === (int) $this->testGuruId) {
+                $row = $value;
+                break;
+            }
+        }
+
+        $this->assertNotNull($row);
+        $this->assertNull($row['id_presensi']);
+    }
+
+    public function testGetPresensiByKehadiranDoesNotAllowSqlInjection(): void
+    {
+        $this->model->absenMasuk($this->testGuruId, '2024-01-02', '07:00:00');
+
+        $result = $this->model->getPresensiByKehadiran('1', "2024-01-01' OR 1=1 -- ");
+
+        $this->assertNotContains((int) $this->testGuruId, array_map('intval', array_column($result, 'id_guru')));
+    }
 }

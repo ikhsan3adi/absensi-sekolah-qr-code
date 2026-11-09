@@ -80,7 +80,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
          ->select('*')
          ->join(
             "(SELECT id_presensi, id_siswa AS id_siswa_presensi, tanggal, jam_masuk, jam_keluar, id_kehadiran, keterangan FROM tb_presensi_siswa)tb_presensi_siswa",
-            "tb_siswa.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = '$tanggal'",
+            "tb_siswa.id_siswa = tb_presensi_siswa.id_siswa_presensi AND tb_presensi_siswa.tanggal = " . $this->db->escape($tanggal),
             'left'
          )
          ->join(
@@ -98,7 +98,7 @@ class PresensiSiswaModel extends Model implements PresensiInterface
    {
       $this->join(
          'tb_siswa',
-         "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = '$tanggal'",
+         "tb_presensi_siswa.id_siswa = tb_siswa.id_siswa AND tb_presensi_siswa.tanggal = " . $this->db->escape($tanggal),
          'right'
       );
 

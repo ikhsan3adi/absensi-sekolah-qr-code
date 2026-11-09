@@ -159,6 +159,10 @@ class Dashboard extends BaseController
         $namaKelas = $this->request->getVar('kelas'); // Just passed back to view
         $tanggal = $this->request->getVar('tanggal');
 
+        if (! is_string($tanggal) || ! $this->isValidDate($tanggal)) {
+            return $this->response->setStatusCode(400)->setBody('Tanggal tidak valid.');
+        }
+
         $result = $this->presensiSiswaModel->getPresensiByKelasTanggal($idKelas, $tanggal);
         $lewat = Time::parse($tanggal)->isAfter(Time::today());
 

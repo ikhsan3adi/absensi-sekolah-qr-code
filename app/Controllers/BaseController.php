@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\I18n\Time;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -64,5 +65,18 @@ abstract class BaseController extends Controller
       // Passing global variable to views
       $view = \Config\Services::renderer();
       $view->setData(['generalSettings' => $this->generalSettings]);
+   }
+
+   protected function isValidDate(string $date): bool
+   {
+      if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) !== 1) {
+         return false;
+      }
+
+      try {
+         return Time::createFromFormat('Y-m-d', $date)->format('Y-m-d') === $date;
+      } catch (\Throwable) {
+         return false;
+      }
    }
 }

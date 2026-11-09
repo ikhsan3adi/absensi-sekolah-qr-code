@@ -56,6 +56,10 @@ class DataAbsenSiswa extends BaseController
       $idKelas = $this->request->getVar('id_kelas');
       $tanggal = $this->request->getVar('tanggal');
 
+      if (! is_string($tanggal) || ! $this->isValidDate($tanggal)) {
+         return $this->response->setStatusCode(400)->setBody('Tanggal tidak valid.');
+      }
+
       $lewat = Time::parse($tanggal)->isAfter(Time::today());
 
       $result = $this->presensiSiswa->getPresensiByKelasTanggal($idKelas, $tanggal);

@@ -41,6 +41,10 @@ class DataAbsenGuru extends BaseController
       // ambil variabel POST
       $tanggal = $this->request->getVar('tanggal');
 
+      if (! is_string($tanggal) || ! $this->isValidDate($tanggal)) {
+         return $this->response->setStatusCode(400)->setBody('Tanggal tidak valid.');
+      }
+
       $lewat = Time::parse($tanggal)->isAfter(Time::today());
 
       $result = $this->presensiGuru->getPresensiByTanggal($tanggal);
