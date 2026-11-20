@@ -3,8 +3,10 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Libraries\PhotoRestore;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use ZipArchive;
 
 class Backup extends BaseController
@@ -114,28 +116,67 @@ class Backup extends BaseController
             return redirect()->back()->with('error', $file->getErrorString());
         }
 
-        $extension = $file->getClientExtension();
+        $extension = strtolower($file->getClientExtension());
         if ($extension !== 'zip') {
             return redirect()->back()->with('error', 'Format file harus .zip');
         }
 
-        $zip = new ZipArchive();
-        if ($zip->open($file->getTempName()) === TRUE) {
-            // Delete existing files before extracting
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $filename = $zip->getNameIndex($i);
-                $targetPath = self::UPLOADS_PATH . $filename;
+        try {
+            $restore = new PhotoRestore(self::UPLOADS_PATH);
+            $result  = $restore->restore($file->getTempName());
+        } catch (RuntimeException $e) {
+            $this->logPhotoRestore($file->getClientName(), [], [], [], [], $e->getMessage());
 
-                if (file_exists($targetPath) && !is_dir($targetPath)) {
-                    @unlink($targetPath);
-                }
-            }
+            return redirect()->back()->with('error', 'File backup ditolak. Periksa audit log untuk detailnya.');
+        }
 
-            $zip->extractTo(self::UPLOADS_PATH);
-            $zip->close();
-            return redirect()->back()->with('success', 'Foto berhasil direstore.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal mengekstrak file zip.');
+        $this->logPhotoRestore(
+            $file->getClientName(),
+            $result['deleted'],
+            $result['extracted'],
+            $result['failed_delete'],
+            $result['failed_extract']
+        );
+
+        if ($result['failed_delete'] !== [] || $result['failed_extract'] !== []) {
+            return redirect()->back()->with('error', 'Sebagian foto gagal direstore. Periksa audit log untuk detailnya.');
+        }
+
+        return redirect()->back()->with('success', 'Foto berhasil direstore.');
+    }
+
+    /**
+     * @param list<string> $deleted
+     * @param list<string> $extracted
+     * @param list<string> $failedDelete
+     * @param list<string> $failedExtract
+     */
+    private function logPhotoRestore(
+        string $clientName,
+        array $deleted,
+        array $extracted,
+        array $failedDelete,
+        array $failedExtract,
+        ?string $error = null
+    ): void {
+        try {
+            $auditLog = new \App\Models\AuditLogModel();
+            $auditLog->log(
+                'Restore Foto',
+                null,
+                null,
+                null,
+                [
+                    'file'           => $clientName,
+                    'deleted'        => $deleted,
+                    'extracted'      => $extracted,
+                    'failed_delete'  => $failedDelete,
+                    'failed_extract' => $failedExtract,
+                    'error'          => $error,
+                ]
+            );
+        } catch (\Throwable $e) {
+            log_message('error', 'Gagal menulis audit log restore foto: {message}', ['message' => $e->getMessage()]);
         }
     }
 }
